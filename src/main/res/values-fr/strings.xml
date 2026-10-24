@@ -64,7 +64,7 @@
     <string name="ok">OK</string>
     <string name="crash_report_title">%1$s a planté</string>
     <string name="crash_report_message">En utilisant votre compte XMPP pour envoyer des rapports de crash, vous aidez le développement de %1$s.</string>
-    <string name="send_now">Envoyer</string>
+    <string name="send_now">Envoyer maintenant</string>
     <string name="send_never">Ne plus demander</string>
     <string name="problem_connecting_to_account">Impossible de se connecter au compte</string>
     <string name="problem_connecting_to_accounts">Impossible de se connecter à plusieurs comptes</string>
@@ -508,7 +508,7 @@
     <string name="presence_online">En ligne</string>
     <string name="presence_away">Absent</string>
     <string name="presence_xa">Non disponible</string>
-    <string name="presence_dnd">Occupé</string>
+    <string name="presence_dnd">Ne pas déranger</string>
     <string name="secure_password_generated">Un mot de passe fort a été généré</string>
     <string name="device_does_not_support_battery_op">Les optimisations de batterie ne peuvent pas être désactivées sur votre appareil</string>
     <string name="registration_please_wait">Échec de l\'inscription : Réessayer plus tard</string>
@@ -536,7 +536,7 @@
     <string name="type_web">Navigateur web</string>
     <string name="type_console">Console</string>
     <string name="payment_required">Paiement requis</string>
-    <string name="missing_internet_permission">Autoriser à accéder à internet</string>
+    <string name="missing_internet_permission">La permission d\'accéder à internet est requise</string>
     <string name="me">Moi</string>
     <string name="contact_asks_for_presence_subscription">Le contact demande la notification de présence</string>
     <string name="allow">Autoriser</string>
@@ -634,7 +634,7 @@
     <string name="pref_validate_hostname_summary">Les certificats serveur qui comportent le nom de domaine validé sont considérés comme validés</string>
     <string name="certificate_does_not_contain_jid">Le certificat ne contient pas d\'adresse XMPP</string>
     <string name="server_info_partial">partiel</string>
-    <string name="copy_to_clipboard">Copier dans le presse-papier</string>
+    <string name="copy_to_clipboard">Copier</string>
     <string name="message_copied_to_clipboard">Message copié dans le presse-papier</string>
     <string name="message">Message</string>
     <string name="private_messages_are_disabled">Les messages privés sont désactivés</string>
@@ -1165,4 +1165,24 @@
     <string name="dismiss_as_owner">Retirer comme propriétaire</string>
     <string name="video_480p">Moyenne (480p)</string>
     <string name="video_1080p">Très haute (1080p)</string>
+    <string name="start_group_chat">Commencer une conversation de groupe</string>
+    <string name="delete_file_dialog_confirm">Êtes-vous certain de vouloir supprimer ce fichier ?</string>
+    <plurals name="delete_files_dialog">
+        <item quantity="one">Supprimer un fichier</item>
+        <item quantity="many">Supprimer %d fichiers</item>
+        <item quantity="other">Supprimer %d fichiers</item>
+    </plurals>
+    <plurals name="delete_files_dialog_msg">
+        <item quantity="one">Êtes-vous certain de vouloir supprimer ce fichier ?</item>
+        <item quantity="many">Êtes-vous certain de vouloir supprimer ces fichiers ?</item>
+        <item quantity="other">Êtes-vous certain de vouloir supprimer ces fichiers ?</item>
+    </plurals>
+    <string name="no_lan_permission">Donner à %1$s l\'accès au réseau local (appareils à proximité).</string>
+    <string name="presence_offline">Hors ligne</string>
+    <string name="send">Envoyer</string>
+    <string name="rtp_state_no_internet">Pas de connexion à internet</string>
+    <string name="pref_entity_time_summary">Partagez votre heure locale avec vos contacts pour voir la leur en retour.</string>
+    <string name="pref_entity_time">Partager l\'heure locale</string>
+    <string name="pref_sync_system_dnd_summary">Mettre automatiquement votre statut à \"Ne Pas Déranger\" quand Android est sur ce mode.</string>
+    <string name="pref_auto_send_recording_summary">Automatiquement envoyer les messages vocaux quand l\'enregistrement est fini.</string>
 </resources>
