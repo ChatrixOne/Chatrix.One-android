@@ -1166,11 +1166,11 @@
     <string name="video_480p">Moyenne (480p)</string>
     <string name="video_1080p">Très haute (1080p)</string>
     <string name="start_group_chat">Commencer une conversation de groupe</string>
-    <string name="delete_file_dialog_confirm">Êtes-vous certain de vouloir supprimer ce fichier ?</string>
+    <string name="delete_file_dialog_confirm">Êtes-vous sûr de vouloir supprimer ce fichier ?</string>
     <plurals name="delete_files_dialog">
-        <item quantity="one">Supprimer un fichier</item>
-        <item quantity="many">Supprimer %d fichiers</item>
-        <item quantity="other">Supprimer %d fichiers</item>
+        <item quantity="one">Suppression d’un fichier</item>
+        <item quantity="many">Suppression de %d fichiers</item>
+        <item quantity="other">Suppression de %d fichiers</item>
     </plurals>
     <plurals name="delete_files_dialog_msg">
         <item quantity="one">Êtes-vous certain de vouloir supprimer ce fichier ?</item>
@@ -1186,7 +1186,7 @@
     <string name="pref_sync_system_dnd_summary">Mettre automatiquement votre statut à \"Ne Pas Déranger\" quand Android est sur ce mode.</string>
     <string name="pref_auto_send_recording_summary">Automatiquement envoyer les messages vocaux quand l\'enregistrement est fini.</string>
     <string name="delete_file_dialog_shared">Ce fichier a été partagé dans d\'autres discussions.</string>
-    <string name="delete_file_dialog_copies">Ceci ne supprimera pas les copies de ce fichier qui sont stockées sur d\'autres appareils ou serveurs.</string>
+    <string name="delete_file_dialog_copies">Ceci ne supprimera pas les copies de ce fichier qui sont enregistrées sur d’autres appareils ou serveurs.</string>
     <string name="account_status_regis_invalid_captcha">CAPTCHA invalide</string>
     <string name="sheet_music">Partition musicale</string>
     <string name="its_time_for_contact">Il est ^1 pour ^2</string>
