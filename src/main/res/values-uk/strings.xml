@@ -1037,7 +1037,7 @@
     <string name="pref_category_sending">Надсилання</string>
     <string name="pref_category_receiving">Отримання</string>
     <string name="pref_automatic_download">Автоматичне завантаження</string>
-    <string name="appearance">Зовнішній вигляд</string>
+    <string name="appearance">Вигляд</string>
     <string name="pref_allow_screenshots">Дозволити знімки екрана</string>
     <string name="pref_category_e2ee">Наскрізне шифрування</string>
     <string name="pref_title_trust_system_ca_store">Центри сертифікації</string>
