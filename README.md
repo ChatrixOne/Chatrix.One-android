@@ -26,7 +26,7 @@ A free and open-source Jabber/XMPP client for Android. Easy to use, reliable, an
 * End-to-end encryption with [OMEMO](http://conversations.im/omemo/) or [OpenPGP](http://openpgp.org/about/)
 * Send and receive images and other kinds of files
 * Encrypted audio and video calls ([DTLS-SRTP](https://help.conversations.im))
-* Advanced machine-in-the-middle detection via channel binding (requires opt-in)
+* Advanced machine-in-the-middle detection via channel binding
 * Share your location
 * Send voice messages
 * Emoji reactions
