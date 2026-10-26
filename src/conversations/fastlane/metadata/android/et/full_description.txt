@@ -4,7 +4,7 @@ Avatud lähtekoodiga vaba ja tasuta Jabber/XMPP-i klient Androidile. Lihtsaltkas
 • Läbiv krüptimine kas OMEMO või OpenPGP abil
 • Võimalus saata ja vastu võtta pilte ja muid faile
 • Krüptitud hääl- ja videokõned (DTLS-SRTP)
-• Võimalik kolmanda osapoole vaheltründe tuvastus (kui eelnevalt valitud kanali sidumine on kasutusel)
+• Võimalik kolmanda osapoole vaheltründe tuvastus kanali sidumise alusel
 • Oma asukoha jagamine
 • Häälsõnumite saatmine
 • Reageerimine emojiga
