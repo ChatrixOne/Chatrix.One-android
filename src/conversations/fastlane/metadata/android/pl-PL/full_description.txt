@@ -4,7 +4,7 @@ Wolny i otwarty klient Jabber/XMPP dla Androida. Łatwy w użyciu, godny zaufa
 • Szyfrowanie od nadawcy do odbiorcy (E2EE) z użyciem OMEMO lub OpenPGP
 • Wysyłanie i odbieranie obrazków i innych rodzajów plików
 • Szyfrowane rozmowy głosowe i wideo (DTLS‐SRTP)
-• Zaawansowane wykrywanie ataku maszyny pośrodku poprzez przywiązywanie kanału (wymaga włączenia)
+• Zaawansowane wykrywanie ataku maszyny pośrodku poprzez przywiązywanie kanału
 • Udostępnianie Twojej lokalizacji
 • Wysyłanie wiadomości głosowych
 • Reakcji emoji
