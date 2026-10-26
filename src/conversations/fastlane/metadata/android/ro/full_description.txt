@@ -4,7 +4,7 @@ Un client Android cu sursă deschisă pentru Jabber/XMPP. Ușor de utilizat, fia
 * Criptare de la un capăt-la-altul (E2E) cu OMEMO sau OpenPGP
 * Trimite și primește imagini și alte tipuri de fișiere
 * Apeluri audio și video criptate (DTLS-SRTP)
-• Detectare avansată a atacurilor machine-in-the-middle detection cu ajutorul channel binding (dezactivat implicit)
+• Detectare avansată a atacurilor machine-in-the-middle detection cu ajutorul channel binding
 * Partajare locație
 * Trimitere mesaje vocale
 * Reacții cu emoticoane
