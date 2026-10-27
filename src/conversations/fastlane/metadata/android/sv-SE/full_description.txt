@@ -4,7 +4,7 @@ En fri och öppen Jabber/XMPP-klient för Android. Enkel att använda, pålitlig
 • Totalsträckskryptering med OMEMO eller OpenPGP
 • Skicka och ta emot bilder och andra typer av filer
 • Krypterade ljud- och videosamtal (DTLS-SRTP)
-• Avancerad machine-in-the-middle-detektering via kanalbindning (kräver aktivt val)
+• Avancerad machine-in-the-middle-detektering via kanalbindning
 • Dela din plats
 • Skicka röstmeddelanden
 • Emoji-reaktioner
