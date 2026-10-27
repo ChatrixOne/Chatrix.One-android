@@ -4,7 +4,7 @@ Ein freier und quelloffener Jabber/XMPP-Client für Android. Einfach zu bedienen
 • Ende-zu-Ende-Verschlüsselung mit OMEMO oder OpenPGP
 • Senden und Empfangen von Bildern und anderen Dateitypen
 • Verschlüsselte Audio- und Videoanrufe (DTLS-SRTP)
-• Erweiterte Machine-in-the-Middle-Erkennung über Channel Binding (Opt-in erforderlich)
+• Erweiterte Machine-in-the-Middle-Erkennung über Kanalbindung
 • Teilen des eigenen Standorts
 • Senden von Sprachnachrichten
 • Emoji-Reaktionen
