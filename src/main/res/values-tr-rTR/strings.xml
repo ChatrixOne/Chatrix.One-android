@@ -23,7 +23,7 @@
     <string name="title_activity_block_list">Listeyi blokla</string>
     <string name="just_now">şimdi</string>
     <string name="minute_ago">1 dakika önce</string>
-    <string name="minutes_ago">%d dakika önc</string>
+    <string name="minutes_ago">%d dakika önce</string>
     <plurals name="x_unread_conversations">
         <item quantity="one">%d okunmamış sohbet</item>
         <item quantity="other">%d okunmamış sohbet</item>
