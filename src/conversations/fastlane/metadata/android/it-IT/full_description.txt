@@ -4,7 +4,7 @@ Un client Jabber/XMPP gratuito e open source per Android. Facile da usare, affid
 • Crittografia end-to-end con OMEMO o OpenPGP
 • Invio e ricezione di immagini e altri tipi di file
 • Chiamate audio e video cifrate (DTLS-SRTP)
-• Rilevazione avanzata di machine-in-the-middle tramite il collegamento dei canali (richiede l'attivazione)
+• Rilevazione avanzata di machine-in-the-middle tramite il collegamento dei canali
 • Condivisione della posizione
 • Invio di messaggi vocali
 • Reazioni con emoji
