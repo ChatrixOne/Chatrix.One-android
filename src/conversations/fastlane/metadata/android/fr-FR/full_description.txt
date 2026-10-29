@@ -4,7 +4,7 @@ Un client Jabber/XMPP libre et open-source pour Android. Facile à utiliser, fia
 • Chiffrement de bout en bout avec OMEMO ou OpenPGP
 • Envoi et réception d'images et autres fichiers
 • Appels audio et vidéo chiffrés (DTLS-SRTP)
-• Détection avancée des attaques de type Homme-du-milieu via la liaison du salon (acceptation requise)
+• Détection avancée des attaques de type Homme-du-milieu via la liaison du salon
 • Partage de position
 • Envois de messages vocaux
 • Réactions emojis
