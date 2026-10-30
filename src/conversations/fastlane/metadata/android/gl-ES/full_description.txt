@@ -4,7 +4,7 @@ Un cliente Jabber/XMPP para android fácil de usar, fiable e con baixo consumo d
 * Cifraxe extremo-a-extremo, con OMEMO ou OpenPGP
 * Enviar e recibir imaxes e outros tipos de ficheiros
 * Chamadas de audio e vídeo cifradas (DTLS-SRTP)
-* Detección avanzada de máquina interposta na ligazón de canles (require activación)
+* Detección avanzada de máquina interposta na ligazón de canles
 * Compartir a localización
 * Enviar mensaxes de voz
 * Reaccións con emojis
