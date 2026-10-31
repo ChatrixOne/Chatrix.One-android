@@ -65,6 +65,7 @@ public class MediaAdapter extends ListAdapter<Attachment, MediaAdapter.MediaView
                     .add("application/pdf")
                     .add("text/x-tex")
                     .add("text/plain")
+                    .add("text/markdown")
                     .addAll(MimeUtils.WORD_DOCUMENT_MIMES)
                     .build();
 
