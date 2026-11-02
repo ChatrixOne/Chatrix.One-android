@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Chatrix.One: Material 3 surface containers (light) -->
+    <color name="chatrix_light_surfaceContainerLowest">#FFFFFF</color>
+    <color name="chatrix_light_surfaceContainerLow">#FBFCFE</color>
+    <color name="chatrix_light_surfaceContainer">#F7F9FC</color>
+    <color name="chatrix_light_surfaceContainerHigh">#E9EEF4</color>
+    <color name="chatrix_light_surfaceContainerHighest">#E1E7EF</color>
+    <color name="chatrix_light_surfaceBright">#F7F9FC</color>
+    <color name="chatrix_light_surfaceDim">#DCE2EA</color>
+    <!-- dark -->
+    <color name="chatrix_dark_surfaceContainerLowest">#06090D</color>
+    <color name="chatrix_dark_surfaceContainerLow">#0F1520</color>
+    <color name="chatrix_dark_surfaceContainer">#111826</color>
+    <color name="chatrix_dark_surfaceContainerHigh">#141C2E</color>
+    <color name="chatrix_dark_surfaceContainerHighest">#1B2438</color>
+    <color name="chatrix_dark_surfaceBright">#1B2438</color>
+    <color name="chatrix_dark_surfaceDim">#0A0E14</color>
+    <!-- launcher -->
+    <color name="chatrix_brand">#00A87A</color>
+    <color name="chatrix_brand_bright">#00C896</color>
+    <color name="chatrix_brand_deep">#007A59</color>
+</resources>

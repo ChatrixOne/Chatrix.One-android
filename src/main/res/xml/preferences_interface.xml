@@ -30,6 +30,40 @@
 
 
     </PreferenceCategory>
+    <PreferenceCategory android:title="@string/chatrix_pref_gestures">
+        <ListPreference
+            android:defaultValue="quote"
+            android:entries="@array/chatrix_action_entries"
+            android:entryValues="@array/chatrix_action_values"
+            android:icon="@drawable/ic_reply_24dp"
+            android:key="chatrix_swipe_left"
+            android:title="@string/chatrix_pref_swipe_left"
+            app:useSimpleSummaryProvider="true" />
+        <ListPreference
+            android:defaultValue="react"
+            android:entries="@array/chatrix_action_entries"
+            android:entryValues="@array/chatrix_action_values"
+            android:icon="@drawable/ic_add_reaction_24dp"
+            android:key="chatrix_swipe_right"
+            android:title="@string/chatrix_pref_swipe_right"
+            app:useSimpleSummaryProvider="true" />
+        <ListPreference
+            android:defaultValue="copy"
+            android:entries="@array/chatrix_action_entries"
+            android:entryValues="@array/chatrix_action_values"
+            android:icon="@drawable/ic_touch_app_24dp"
+            android:key="chatrix_double_tap"
+            android:title="@string/chatrix_pref_double_tap"
+            app:useSimpleSummaryProvider="true" />
+        <ListPreference
+            android:defaultValue="👍"
+            android:entries="@array/chatrix_emoji_values"
+            android:entryValues="@array/chatrix_emoji_values"
+            android:icon="@drawable/ic_add_reaction_24dp"
+            android:key="chatrix_quick_emoji"
+            android:title="@string/chatrix_pref_quick_emoji"
+            app:useSimpleSummaryProvider="true" />
+    </PreferenceCategory>
     <PreferenceCategory android:title="@string/pref_category_operating_system">
         <SwitchPreferenceCompat
             android:defaultValue="@bool/allow_screenshots"

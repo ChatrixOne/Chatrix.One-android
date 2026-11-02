@@ -105,7 +105,7 @@ public class RecordingActivity extends BaseActivity implements View.OnClickListe
         if (!startRecording()) {
             this.binding.shareButton.setEnabled(false);
             this.binding.timer.setTextAppearance(
-                    com.google.android.material.R.style.TextAppearance_Material3_BodyMedium);
+                    R.style.TextAppearance_Chatrix_BodyMedium);
             // TODO reset font family. make red?
             this.binding.timer.setText(R.string.unable_to_start_recording);
         }

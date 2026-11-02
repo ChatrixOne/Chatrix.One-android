@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="chatrix_pref_gestures">Message gestures</string>
+    <string name="chatrix_pref_swipe_left">Swipe left on a message</string>
+    <string name="chatrix_pref_swipe_right">Swipe right on a message</string>
+    <string name="chatrix_pref_double_tap">Double-tap on a message</string>
+    <string name="chatrix_pref_quick_emoji">Quick reaction emoji</string>
+    <string name="chatrix_action_quote">Quote</string>
+    <string name="chatrix_action_react">React with quick emoji</string>
+    <string name="chatrix_action_copy">Copy text</string>
+    <string name="chatrix_action_none">Do nothing</string>
+    <string-array name="chatrix_action_entries">
+        <item>@string/chatrix_action_quote</item>
+        <item>@string/chatrix_action_react</item>
+        <item>@string/chatrix_action_copy</item>
+        <item>@string/chatrix_action_none</item>
+    </string-array>
+    <string-array name="chatrix_action_values" translatable="false">
+        <item>quote</item>
+        <item>react</item>
+        <item>copy</item>
+        <item>none</item>
+    </string-array>
+    <string-array name="chatrix_emoji_values" translatable="false">
+        <item>👍</item>
+        <item>❤️</item>
+        <item>😂</item>
+        <item>😮</item>
+        <item>😢</item>
+        <item>🙏</item>
+    </string-array>
+</resources>

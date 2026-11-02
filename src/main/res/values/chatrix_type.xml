@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Chatrix.One typography: IBM Plex Sans, like chatrix.one -->
+<resources>
+    <style name="TextAppearance.Chatrix.DisplayLarge" parent="TextAppearance.Material3.DisplayLarge">
+        <item name="fontFamily">@font/ibm_plex_sans</item>
+        <item name="android:fontFamily">@font/ibm_plex_sans</item>
+        <item name="android:letterSpacing">-0.01</item>
+    </style>
+    <style name="TextAppearance.Chatrix.DisplayMedium" parent="TextAppearance.Material3.DisplayMedium">
+        <item name="fontFamily">@font/ibm_plex_sans</item>
+        <item name="android:fontFamily">@font/ibm_plex_sans</item>
+        <item name="android:letterSpacing">-0.01</item>
+    </style>
+    <style name="TextAppearance.Chatrix.DisplaySmall" parent="TextAppearance.Material3.DisplaySmall">
+        <item name="fontFamily">@font/ibm_plex_sans</item>
+        <item name="android:fontFamily">@font/ibm_plex_sans</item>
+        <item name="android:letterSpacing">-0.01</item>
+    </style>
+    <style name="TextAppearance.Chatrix.HeadlineLarge" parent="TextAppearance.Material3.HeadlineLarge">
+        <item name="fontFamily">@font/ibm_plex_sans</item>
+        <item name="android:fontFamily">@font/ibm_plex_sans</item>
+        <item name="android:letterSpacing">-0.01</item>
+    </style>
+    <style name="TextAppearance.Chatrix.HeadlineMedium" parent="TextAppearance.Material3.HeadlineMedium">
+        <item name="fontFamily">@font/ibm_plex_sans</item>
+        <item name="android:fontFamily">@font/ibm_plex_sans</item>
+        <item name="android:letterSpacing">-0.01</item>
+    </style>
+    <style name="TextAppearance.Chatrix.HeadlineSmall" parent="TextAppearance.Material3.HeadlineSmall">
+        <item name="fontFamily">@font/ibm_plex_sans</item>
+        <item name="android:fontFamily">@font/ibm_plex_sans</item>
+        <item name="android:letterSpacing">-0.01</item>
+    </style>
+    <style name="TextAppearance.Chatrix.TitleLarge" parent="TextAppearance.Material3.TitleLarge">
+        <item name="fontFamily">@font/ibm_plex_sans</item>
+        <item name="android:fontFamily">@font/ibm_plex_sans</item>
+    </style>
+    <style name="TextAppearance.Chatrix.TitleMedium" parent="TextAppearance.Material3.TitleMedium">
+        <item name="fontFamily">@font/ibm_plex_sans_medium_family</item>
+        <item name="android:fontFamily">@font/ibm_plex_sans_medium_family</item>
+    </style>
+    <style name="TextAppearance.Chatrix.TitleSmall" parent="TextAppearance.Material3.TitleSmall">
+        <item name="fontFamily">@font/ibm_plex_sans_medium_family</item>
+        <item name="android:fontFamily">@font/ibm_plex_sans_medium_family</item>
+    </style>
+    <style name="TextAppearance.Chatrix.BodyLarge" parent="TextAppearance.Material3.BodyLarge">
+        <item name="fontFamily">@font/ibm_plex_sans</item>
+        <item name="android:fontFamily">@font/ibm_plex_sans</item>
+    </style>
+    <style name="TextAppearance.Chatrix.BodyMedium" parent="TextAppearance.Material3.BodyMedium">
+        <item name="fontFamily">@font/ibm_plex_sans</item>
+        <item name="android:fontFamily">@font/ibm_plex_sans</item>
+    </style>
+    <style name="TextAppearance.Chatrix.BodySmall" parent="TextAppearance.Material3.BodySmall">
+        <item name="fontFamily">@font/ibm_plex_sans</item>
+        <item name="android:fontFamily">@font/ibm_plex_sans</item>
+    </style>
+    <style name="TextAppearance.Chatrix.LabelLarge" parent="TextAppearance.Material3.LabelLarge">
+        <item name="fontFamily">@font/ibm_plex_sans_medium_family</item>
+        <item name="android:fontFamily">@font/ibm_plex_sans_medium_family</item>
+    </style>
+    <style name="TextAppearance.Chatrix.LabelMedium" parent="TextAppearance.Material3.LabelMedium">
+        <item name="fontFamily">@font/ibm_plex_sans_medium_family</item>
+        <item name="android:fontFamily">@font/ibm_plex_sans_medium_family</item>
+    </style>
+    <style name="TextAppearance.Chatrix.LabelSmall" parent="TextAppearance.Material3.LabelSmall">
+        <item name="fontFamily">@font/ibm_plex_sans_medium_family</item>
+        <item name="android:fontFamily">@font/ibm_plex_sans_medium_family</item>
+    </style>
+</resources>

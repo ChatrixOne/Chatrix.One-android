@@ -131,7 +131,10 @@ import eu.siacs.conversations.ui.util.SendButtonTool;
 import eu.siacs.conversations.ui.util.ShareUtil;
 import eu.siacs.conversations.ui.util.ToolbarUtils;
 import eu.siacs.conversations.ui.util.ViewUtil;
+import eu.siacs.conversations.ui.chatrix.QuickActions;
+import eu.siacs.conversations.ui.chatrix.ReactionHeader;
 import eu.siacs.conversations.ui.widget.EditMessage;
+import eu.siacs.conversations.ui.widget.MessageListView;
 import eu.siacs.conversations.utils.AccountUtils;
 import eu.siacs.conversations.utils.CharSequences;
 import eu.siacs.conversations.utils.Compatibility;
@@ -1433,6 +1436,7 @@ public class ConversationFragment extends XmppFragment
         binding.messagesView.setAdapter(messageListAdapter);
 
         registerForContextMenu(binding.messagesView);
+        binding.messagesView.setGestureListener(new QuickGestureListener());
 
         this.binding.textInput.setCustomInsertionActionModeCallback(
                 new EditMessageActionModeCallback(this.binding.textInput));
@@ -1536,6 +1540,21 @@ public class ConversationFragment extends XmppFragment
                                     || t instanceof HttpDownloadConnection);
             requireActivity().getMenuInflater().inflate(R.menu.message_context, menu);
             menu.setHeaderTitle(R.string.message_options);
+            if (QuickActions.canReact(m)) {
+                menu.setHeaderView(
+                        ReactionHeader.create(
+                                requireContext(),
+                                m,
+                                emoji -> {
+                                    menu.close();
+                                    requireXmppActivity()
+                                            .sendReactions(m, QuickActions.toggle(m, emoji));
+                                },
+                                () -> {
+                                    menu.close();
+                                    addReaction(m);
+                                }));
+            }
             final MenuItem addReaction = menu.findItem(R.id.action_add_reaction);
             final MenuItem reportAndBlock = menu.findItem(R.id.action_report_and_block);
             final MenuItem openWith = menu.findItem(R.id.open_with);
@@ -2390,6 +2409,85 @@ public class ConversationFragment extends XmppFragment
             final var file =
                     requireXmppActivity().xmppConnectionService.getFileBackend().getFile(message);
             ViewUtil.view(requireContext(), file, message.getUuid());
+        }
+    }
+
+    // Chatrix.One: quick gestures on the message list
+    private @Nullable Message messageAt(final int position) {
+        synchronized (this.messageList) {
+            if (position < 0 || position >= this.messageList.size()) {
+                return null;
+            }
+            return this.messageList.get(position);
+        }
+    }
+
+    private QuickActions.Action actionFor(final MessageListView.Direction direction) {
+        return direction == MessageListView.Direction.LEFT
+                ? QuickActions.swipeLeft(requireContext())
+                : QuickActions.swipeRight(requireContext());
+    }
+
+    private boolean performQuickAction(final QuickActions.Action action, final Message message) {
+        if (message == null || !QuickActions.isAllowed(action, message)) {
+            return false;
+        }
+        switch (action) {
+            case QUOTE -> quoteMessage(message);
+            case COPY -> {
+                ShareUtil.copyToClipboard(requireXmppActivity(), message);
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                    // Android 13+ only shows its own clipboard preview on some devices
+                    Toast.makeText(
+                                    requireContext(),
+                                    R.string.message_copied_to_clipboard,
+                                    Toast.LENGTH_SHORT)
+                            .show();
+                }
+            }
+            case REACT ->
+                    requireXmppActivity()
+                            .sendReactions(
+                                    message,
+                                    QuickActions.toggle(
+                                            message, QuickActions.quickEmoji(requireContext())));
+            case NONE -> {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    private class QuickGestureListener implements MessageListView.GestureListener {
+
+        @Override
+        public android.graphics.drawable.Drawable getSwipeIcon(
+                final int position, final MessageListView.Direction direction) {
+            if (getActivity() == null) {
+                return null;
+            }
+            final var action = actionFor(direction);
+            if (!QuickActions.isAllowed(action, messageAt(position))) {
+                return null;
+            }
+            return QuickActions.icon(requireContext(), action);
+        }
+
+        @Override
+        public void onSwipe(final int position, final MessageListView.Direction direction) {
+            if (getActivity() == null) {
+                return;
+            }
+            performQuickAction(actionFor(direction), messageAt(position));
+        }
+
+        @Override
+        public boolean onDoubleTap(final int position) {
+            if (getActivity() == null) {
+                return false;
+            }
+            return performQuickAction(
+                    QuickActions.doubleTap(requireContext()), messageAt(position));
         }
     }
 

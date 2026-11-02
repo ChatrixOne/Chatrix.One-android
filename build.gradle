@@ -159,6 +159,12 @@ android {
 
         conversations {
             dimension = 'mode'
+            // Chatrix.One fork: own package id so it installs next to the original Conversations
+            applicationId = 'one.chatrix.app'
+            resValue('string', 'applicationId', applicationId)
+            def appName = "Chatrix.One"
+            resValue('string', 'app_name', appName)
+            buildConfigField('String', 'APP_NAME', "\"${appName}\"")
             buildConfigField('String', 'PRIVACY_POLICY', '"https://conversations.im/privacy.html"')
         }
 

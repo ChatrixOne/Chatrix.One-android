@@ -51,6 +51,34 @@
         <item name="colorOnSurfaceInverse">@color/md_theme_light_inverseOnSurface</item>
         <item name="colorSurfaceInverse">@color/md_theme_light_inverseSurface</item>
         <item name="colorPrimaryInverse">@color/md_theme_light_inversePrimary</item>
+        <!-- Chatrix.One -->
+        <item name="fontFamily">@font/ibm_plex_sans</item>
+        <item name="android:fontFamily">@font/ibm_plex_sans</item>
+        <item name="textAppearanceDisplayLarge">@style/TextAppearance.Chatrix.DisplayLarge</item>
+        <item name="textAppearanceDisplayMedium">@style/TextAppearance.Chatrix.DisplayMedium</item>
+        <item name="textAppearanceDisplaySmall">@style/TextAppearance.Chatrix.DisplaySmall</item>
+        <item name="textAppearanceHeadlineLarge">@style/TextAppearance.Chatrix.HeadlineLarge</item>
+        <item name="textAppearanceHeadlineMedium">@style/TextAppearance.Chatrix.HeadlineMedium</item>
+        <item name="textAppearanceHeadlineSmall">@style/TextAppearance.Chatrix.HeadlineSmall</item>
+        <item name="textAppearanceTitleLarge">@style/TextAppearance.Chatrix.TitleLarge</item>
+        <item name="textAppearanceTitleMedium">@style/TextAppearance.Chatrix.TitleMedium</item>
+        <item name="textAppearanceTitleSmall">@style/TextAppearance.Chatrix.TitleSmall</item>
+        <item name="textAppearanceBodyLarge">@style/TextAppearance.Chatrix.BodyLarge</item>
+        <item name="textAppearanceBodyMedium">@style/TextAppearance.Chatrix.BodyMedium</item>
+        <item name="textAppearanceBodySmall">@style/TextAppearance.Chatrix.BodySmall</item>
+        <item name="textAppearanceLabelLarge">@style/TextAppearance.Chatrix.LabelLarge</item>
+        <item name="textAppearanceLabelMedium">@style/TextAppearance.Chatrix.LabelMedium</item>
+        <item name="textAppearanceLabelSmall">@style/TextAppearance.Chatrix.LabelSmall</item>
+        <item name="colorSurfaceContainerLowest">@color/chatrix_light_surfaceContainerLowest</item>
+        <item name="colorSurfaceContainerLow">@color/chatrix_light_surfaceContainerLow</item>
+        <item name="colorSurfaceContainer">@color/chatrix_light_surfaceContainer</item>
+        <item name="colorSurfaceContainerHigh">@color/chatrix_light_surfaceContainerHigh</item>
+        <item name="colorSurfaceContainerHighest">@color/chatrix_light_surfaceContainerHighest</item>
+        <item name="colorSurfaceBright">@color/chatrix_light_surfaceBright</item>
+        <item name="colorSurfaceDim">@color/chatrix_light_surfaceDim</item>
+        <item name="shapeAppearanceCornerSmall">@style/ShapeAppearance.Chatrix.Small</item>
+        <item name="shapeAppearanceCornerMedium">@style/ShapeAppearance.Chatrix.Medium</item>
+        <item name="shapeAppearanceCornerLarge">@style/ShapeAppearance.Chatrix.Large</item>
         <item name="preferenceTheme">@style/MaterialPreferenceThemeOverlay</item>
     </style>
 
@@ -82,6 +110,34 @@
         <item name="colorOnSurfaceInverse">@color/md_theme_dark_inverseOnSurface</item>
         <item name="colorSurfaceInverse">@color/md_theme_dark_inverseSurface</item>
         <item name="colorPrimaryInverse">@color/md_theme_dark_inversePrimary</item>
+        <!-- Chatrix.One -->
+        <item name="fontFamily">@font/ibm_plex_sans</item>
+        <item name="android:fontFamily">@font/ibm_plex_sans</item>
+        <item name="textAppearanceDisplayLarge">@style/TextAppearance.Chatrix.DisplayLarge</item>
+        <item name="textAppearanceDisplayMedium">@style/TextAppearance.Chatrix.DisplayMedium</item>
+        <item name="textAppearanceDisplaySmall">@style/TextAppearance.Chatrix.DisplaySmall</item>
+        <item name="textAppearanceHeadlineLarge">@style/TextAppearance.Chatrix.HeadlineLarge</item>
+        <item name="textAppearanceHeadlineMedium">@style/TextAppearance.Chatrix.HeadlineMedium</item>
+        <item name="textAppearanceHeadlineSmall">@style/TextAppearance.Chatrix.HeadlineSmall</item>
+        <item name="textAppearanceTitleLarge">@style/TextAppearance.Chatrix.TitleLarge</item>
+        <item name="textAppearanceTitleMedium">@style/TextAppearance.Chatrix.TitleMedium</item>
+        <item name="textAppearanceTitleSmall">@style/TextAppearance.Chatrix.TitleSmall</item>
+        <item name="textAppearanceBodyLarge">@style/TextAppearance.Chatrix.BodyLarge</item>
+        <item name="textAppearanceBodyMedium">@style/TextAppearance.Chatrix.BodyMedium</item>
+        <item name="textAppearanceBodySmall">@style/TextAppearance.Chatrix.BodySmall</item>
+        <item name="textAppearanceLabelLarge">@style/TextAppearance.Chatrix.LabelLarge</item>
+        <item name="textAppearanceLabelMedium">@style/TextAppearance.Chatrix.LabelMedium</item>
+        <item name="textAppearanceLabelSmall">@style/TextAppearance.Chatrix.LabelSmall</item>
+        <item name="colorSurfaceContainerLowest">@color/chatrix_dark_surfaceContainerLowest</item>
+        <item name="colorSurfaceContainerLow">@color/chatrix_dark_surfaceContainerLow</item>
+        <item name="colorSurfaceContainer">@color/chatrix_dark_surfaceContainer</item>
+        <item name="colorSurfaceContainerHigh">@color/chatrix_dark_surfaceContainerHigh</item>
+        <item name="colorSurfaceContainerHighest">@color/chatrix_dark_surfaceContainerHighest</item>
+        <item name="colorSurfaceBright">@color/chatrix_dark_surfaceBright</item>
+        <item name="colorSurfaceDim">@color/chatrix_dark_surfaceDim</item>
+        <item name="shapeAppearanceCornerSmall">@style/ShapeAppearance.Chatrix.Small</item>
+        <item name="shapeAppearanceCornerMedium">@style/ShapeAppearance.Chatrix.Medium</item>
+        <item name="shapeAppearanceCornerLarge">@style/ShapeAppearance.Chatrix.Large</item>
         <item name="preferenceTheme">@style/MaterialPreferenceThemeOverlay</item>
     </style>
 
@@ -111,5 +167,15 @@
     <style name="ShapeAppearance.Circular" parent="ShapeAppearance.MaterialComponents.SmallComponent">
         <item name="cornerFamily">rounded</item>
         <item name="cornerSize">50%</item>
+    </style>
+
+    <style name="ShapeAppearance.Chatrix.Small" parent="ShapeAppearance.Material3.Corner.Small">
+        <item name="cornerSize">10dp</item>
+    </style>
+    <style name="ShapeAppearance.Chatrix.Medium" parent="ShapeAppearance.Material3.Corner.Medium">
+        <item name="cornerSize">16dp</item>
+    </style>
+    <style name="ShapeAppearance.Chatrix.Large" parent="ShapeAppearance.Material3.Corner.Large">
+        <item name="cornerSize">22dp</item>
     </style>
 </resources>
