@@ -40,6 +40,9 @@ public class MessageListView extends ListView {
 
         /** Return true if the double tap was consumed. */
         boolean onDoubleTap(int position);
+
+        /** Return true if a custom message menu was shown (instead of the system context menu). */
+        boolean onLongPress(int position);
     }
 
     private static final float THRESHOLD_DP = 64f;
@@ -106,10 +109,33 @@ public class MessageListView extends ListView {
     }
 
     @Override
+    public boolean showContextMenuForChild(View originalView) {
+        return handleLongPress(originalView) || super.showContextMenuForChild(originalView);
+    }
+
+    @Override
     public boolean showContextMenuForChild(View originalView, float x, float y) {
-        // Without coordinates Android shows the classic context menu dialog, which (unlike the
-        // anchored popup) displays our header with quick reactions.
-        return super.showContextMenuForChild(originalView);
+        // fall back to the classic (non anchored) context menu dialog
+        return handleLongPress(originalView) || super.showContextMenuForChild(originalView);
+    }
+
+    private boolean handleLongPress(final View originalView) {
+        final var listener = this.gestureListener;
+        if (listener == null) {
+            return false;
+        }
+        final int position = getPositionForView(originalView);
+        if (position == INVALID_POSITION) {
+            return false;
+        }
+        if (listener.onLongPress(position)) {
+            // cancel the touch sequence so lifting the finger does not also open a link
+            final MotionEvent cancel = MotionEvent.obtain(0, 0, MotionEvent.ACTION_CANCEL, 0f, 0f, 0);
+            dispatchTouchEvent(cancel);
+            cancel.recycle();
+            return true;
+        }
+        return false;
     }
 
     @Override

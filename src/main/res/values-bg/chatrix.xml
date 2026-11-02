@@ -9,4 +9,10 @@
     <string name="chatrix_action_react">Реакция с бързото емоджи</string>
     <string name="chatrix_action_copy">Копиране на текста</string>
     <string name="chatrix_action_none">Нищо</string>
+    <string name="chatrix_pref_chat_background">Фон на чата</string>
+    <string name="chatrix_background_glow">Chatrix сияние</string>
+    <string name="chatrix_background_plain">Обикновен</string>
+    <string name="chatrix_background_custom">Моя снимка…</string>
+    <string name="chatrix_background_failed">Тази снимка не може да се използва</string>
+    <string name="chatrix_about_fork">Chatrix.One е разклонение (fork) на Conversations — XMPP приложението на Daniel Gultsch (https://conversations.im).\n\nChatrix.One добавя собствен вид и бързи жестове за съобщенията. Моля, съобщавайте за проблеми с това приложение на Chatrix.One (https://chatrix.one), а не на разработчиците на Conversations.\n\nКакто Conversations, Chatrix.One е свободен софтуер под лиценза GNU General Public License v3.\n\n————————————————\n\n</string>
 </resources>

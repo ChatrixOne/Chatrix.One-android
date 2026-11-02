@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="use_conversations.im">Използвайте chatrix.one</string>
+    <string name="server_select_text">XMPP е мрежа за съобщения, независима от доставчик. Можете да ползвате приложението с всеки XMPP сървър.\nЗа Ваше удобство лесно можете да създадете профил в chatrix.one: безплатен, поверителен, без реклами и без проследяване.</string>
+    <string name="magic_create_text">Профилите в chatrix.one се създават през уебсайта.\nС профил в chatrix.one можете да общувате и с хора от други XMPP сървъри, като им дадете своя пълен XMPP адрес.</string>
+</resources>

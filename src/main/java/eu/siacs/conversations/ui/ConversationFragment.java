@@ -20,6 +20,7 @@ import android.content.Intent;
 import android.content.IntentSender.SendIntentException;
 import android.content.pm.PackageManager;
 import android.content.res.ColorStateList;
+import com.google.android.material.color.MaterialColors;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -1506,6 +1507,9 @@ public class ConversationFragment extends XmppFragment
             AdapterView.AdapterContextMenuInfo acmi = (AdapterContextMenuInfo) menuInfo;
             this.selectedMessage = this.messageList.get(acmi.position);
             populateContextMenu(menu);
+            if (menu.size() > 0) {
+                menu.setHeaderTitle(R.string.message_options);
+            }
         }
     }
 
@@ -1513,7 +1517,7 @@ public class ConversationFragment extends XmppFragment
         return ackModeration.isAfter(Instant.now());
     }
 
-    private void populateContextMenu(final ContextMenu menu) {
+    private void populateContextMenu(final Menu menu) {
         final Message m = this.selectedMessage;
         final Transferable t = m.getTransferable();
         if (m.getType() != Message.TYPE_STATUS && m.getType() != Message.TYPE_RTP_SESSION) {
@@ -1539,22 +1543,6 @@ public class ConversationFragment extends XmppFragment
                             && (t instanceof JingleFileTransferConnection
                                     || t instanceof HttpDownloadConnection);
             requireActivity().getMenuInflater().inflate(R.menu.message_context, menu);
-            menu.setHeaderTitle(R.string.message_options);
-            if (QuickActions.canReact(m)) {
-                menu.setHeaderView(
-                        ReactionHeader.create(
-                                requireContext(),
-                                m,
-                                emoji -> {
-                                    menu.close();
-                                    requireXmppActivity()
-                                            .sendReactions(m, QuickActions.toggle(m, emoji));
-                                },
-                                () -> {
-                                    menu.close();
-                                    addReaction(m);
-                                }));
-            }
             final MenuItem addReaction = menu.findItem(R.id.action_add_reaction);
             final MenuItem reportAndBlock = menu.findItem(R.id.action_report_and_block);
             final MenuItem openWith = menu.findItem(R.id.open_with);
@@ -2355,6 +2343,9 @@ public class ConversationFragment extends XmppFragment
         super.onResume();
         binding.messagesView.post(this::fireReadEvent);
         binding.textInput.setOnFocusChangeListener(this.textInputFocusListener);
+        // Chatrix.One: chat background (glow / plain / own picture), re-read in case it changed
+        binding.chatContainer.setBackground(
+                eu.siacs.conversations.ui.chatrix.ChatBackground.create(requireContext()));
     }
 
     @Override
@@ -2458,6 +2449,55 @@ public class ConversationFragment extends XmppFragment
         return true;
     }
 
+    /** Chatrix.One: message options as a rounded Material dialog with quick reactions on top. */
+    private void showMessageMenu(final Message message) {
+        this.selectedMessage = message;
+        final Menu menu = new PopupMenu(requireContext(), binding.messagesView).getMenu();
+        populateContextMenu(menu);
+        final List<MenuItem> items = new ArrayList<>();
+        for (int i = 0; i < menu.size(); ++i) {
+            final MenuItem item = menu.getItem(i);
+            if (item.isVisible()) {
+                items.add(item);
+            }
+        }
+        final boolean canReact = QuickActions.canReact(message);
+        if (items.isEmpty() && !canReact) {
+            return;
+        }
+        final CharSequence[] titles = new CharSequence[items.size()];
+        for (int i = 0; i < titles.length; ++i) {
+            titles[i] = items.get(i).getTitle();
+        }
+        final MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(requireContext());
+        final androidx.appcompat.app.AlertDialog[] dialog = new androidx.appcompat.app.AlertDialog[1];
+        if (canReact) {
+            builder.setCustomTitle(
+                    ReactionHeader.create(
+                            requireContext(),
+                            message,
+                            emoji -> {
+                                dialog[0].dismiss();
+                                requireXmppActivity()
+                                        .sendReactions(message, QuickActions.toggle(message, emoji));
+                            },
+                            () -> {
+                                dialog[0].dismiss();
+                                addReaction(message);
+                            }));
+        } else {
+            builder.setTitle(R.string.message_options);
+        }
+        builder.setItems(
+                titles,
+                (d, which) -> {
+                    this.selectedMessage = message;
+                    onContextItemSelected(items.get(which));
+                });
+        dialog[0] = builder.create();
+        dialog[0].show();
+    }
+
     private class QuickGestureListener implements MessageListView.GestureListener {
 
         @Override
@@ -2479,6 +2519,19 @@ public class ConversationFragment extends XmppFragment
                 return;
             }
             performQuickAction(actionFor(direction), messageAt(position));
+        }
+
+        @Override
+        public boolean onLongPress(final int position) {
+            if (getActivity() == null) {
+                return false;
+            }
+            final Message message = messageAt(position);
+            if (message == null) {
+                return false;
+            }
+            showMessageMenu(message);
+            return true;
         }
 
         @Override
@@ -3044,6 +3097,24 @@ public class ConversationFragment extends XmppFragment
     }
 
     private void setTextInputColors() {
+        // Chatrix.One: input is always a white/dark card with ink text and a green cursor
+        if (getActivity() != null) {
+            final var ink =
+                    MaterialColors.getColor(
+                            this.binding.textInput,
+                            com.google.android.material.R.attr.colorOnSurface);
+            final var mute =
+                    MaterialColors.getColor(
+                            this.binding.textInput,
+                            com.google.android.material.R.attr.colorOnSurfaceVariant);
+            this.binding.textInput.setTextColor(ink);
+            this.binding.textInputHint.setTextColor(mute);
+            this.binding.textInput.setHintTextColor(mute);
+            this.binding.attachButton.setIconTint(ColorStateList.valueOf(mute));
+            this.binding.inputLayout.setBackgroundTintList(null);
+            setTextCursorDrawable(this.binding.textInput, R.drawable.cursor_chatrix);
+            return;
+        }
         final var colorfulChatBubbles = this.inputSettings.colorfulChatBubbles();
         final var bubbleColor =
                 colorfulChatBubbles

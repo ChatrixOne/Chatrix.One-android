@@ -29,4 +29,20 @@
         <item>😢</item>
         <item>🙏</item>
     </string-array>
+    <string name="chatrix_pref_chat_background">Chat background</string>
+    <string name="chatrix_background_glow">Chatrix glow</string>
+    <string name="chatrix_background_plain">Plain</string>
+    <string name="chatrix_background_custom">My own picture…</string>
+    <string name="chatrix_background_failed">Could not use this picture</string>
+    <string-array name="chatrix_background_entries">
+        <item>@string/chatrix_background_glow</item>
+        <item>@string/chatrix_background_plain</item>
+        <item>@string/chatrix_background_custom</item>
+    </string-array>
+    <string-array name="chatrix_background_values" translatable="false">
+        <item>glow</item>
+        <item>plain</item>
+        <item>custom</item>
+    </string-array>
+    <string name="chatrix_about_fork">Chatrix.One is a fork of Conversations, the XMPP app made by Daniel Gultsch (https://conversations.im).\n\nChatrix.One adds its own look and quick message gestures. Please report problems with this app to Chatrix.One (https://chatrix.one), not to the Conversations developers.\n\nLike Conversations, Chatrix.One is free software under the GNU General Public License v3.\n\n————————————————\n\n</string>
 </resources>

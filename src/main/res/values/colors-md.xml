@@ -1,20 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <!-- scanner -->
-    <color name="scan_result_dots">#c04CAF50</color>
+    <color name="scan_result_dots">#c000A87A</color>
 
-    <color name="blue500">#ff2196f3</color>
+    <color name="blue500">#ff00A87A</color> <!-- Chatrix.One: my-location dot -->
 
-    <color name="light_green_500">#ff8BC34A</color>
-    <color name="light_green_600">#ff7CB342</color>
+    <color name="light_green_500">#ff00C896</color>
+    <color name="light_green_600">#ff00B386</color>
 
-    <color name="green_100">#ffC8E6C9</color>
-    <color name="green_200">#ffA5D6A7</color>
-    <color name="green_300">#ff81C784</color>
-    <color name="green_500">#ff4CAF50</color>
-    <color name="green_600">#ff43A047</color>
-    <color name="green_700">#ff388E3C</color>
-    <color name="green_800">#ff2E7D32</color>
+    <color name="green_100">#ffC6F3E2</color>
+    <color name="green_200">#ff9BE8CC</color>
+    <color name="green_300">#ff5FDDB4</color>
+    <color name="green_500">#ff00A87A</color>
+    <color name="green_600">#ff00936B</color>
+    <color name="green_700">#ff007A59</color>
+    <color name="green_800">#ff00664A</color>
 
     <color name="amber_100">#ffFFECB3</color>
     <color name="amber_200">#ffFFE082</color>

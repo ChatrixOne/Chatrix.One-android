@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Chatrix.One: default server texts (override upstream conversations.im wording) -->
+    <string name="use_conversations.im">Use chatrix.one</string>
+    <string name="server_select_text">XMPP is a provider-independent instant messaging network. You can use this app with whichever XMPP server you choose.\nFor your convenience we made it easy to create an account on chatrix.one: free, private, no ads and no tracking.</string>
+    <string name="magic_create_text">Accounts on chatrix.one are created on its website.\nWith a chatrix.one account you can also talk to people on other XMPP servers by giving them your full XMPP address.</string>
+</resources>

@@ -1,6 +1,12 @@
 package eu.siacs.conversations.ui.fragment.settings;
 
+import android.net.Uri;
 import android.os.Bundle;
+import android.widget.Toast;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.PickVisualMediaRequest;
+import androidx.activity.result.contract.ActivityResultContracts;
+import eu.siacs.conversations.ui.chatrix.ChatBackground;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.preference.ListPreference;
@@ -27,9 +33,63 @@ public class InterfaceSettingsFragment extends XmppPreferenceFragment {
                                     ac -> ac != null && ac.quickAction()),
                             AttachmentChoice::type));
 
+    // Chatrix.One: pick an own picture as chat background
+    private final ActivityResultLauncher<PickVisualMediaRequest> pickChatBackground =
+            registerForActivityResult(
+                    new ActivityResultContracts.PickVisualMedia(), this::onChatBackgroundPicked);
+
+    private void onChatBackgroundPicked(@Nullable final Uri uri) {
+        if (uri == null) {
+            return;
+        }
+        final var context = requireContext().getApplicationContext();
+        new Thread(
+                        () -> {
+                            final boolean ok = ChatBackground.save(context, uri);
+                            final var activity = getActivity();
+                            if (activity == null) {
+                                return;
+                            }
+                            activity.runOnUiThread(
+                                    () -> {
+                                        if (!ok) {
+                                            Toast.makeText(
+                                                            context,
+                                                            R.string.chatrix_background_failed,
+                                                            Toast.LENGTH_LONG)
+                                                    .show();
+                                            return;
+                                        }
+                                        final ListPreference background =
+                                                findPreference(ChatBackground.PREF_KEY);
+                                        if (background != null) {
+                                            background.setValue(ChatBackground.CUSTOM);
+                                        }
+                                    });
+                        })
+                .start();
+    }
+
     @Override
     public void onCreatePreferences(@Nullable Bundle savedInstanceState, @Nullable String rootKey) {
         setPreferencesFromResource(R.xml.preferences_interface, rootKey);
+        final ListPreference chatBackground = findPreference(ChatBackground.PREF_KEY);
+        if (chatBackground != null) {
+            chatBackground.setOnPreferenceChangeListener(
+                    (preference, newValue) -> {
+                        if (ChatBackground.CUSTOM.equals(newValue)) {
+                            // only switch to "own picture" once a picture was picked and saved
+                            pickChatBackground.launch(
+                                    new PickVisualMediaRequest.Builder()
+                                            .setMediaType(
+                                                    ActivityResultContracts.PickVisualMedia
+                                                            .ImageOnly.INSTANCE)
+                                            .build());
+                            return false;
+                        }
+                        return true;
+                    });
+        }
         final var themePreference = findPreference(AppSettings.THEME);
         final var dynamicColors = findPreference(AppSettings.DYNAMIC_COLORS);
         final ListPreference quickAction = findPreference(AppSettings.QUICK_ACTION);

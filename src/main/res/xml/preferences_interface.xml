@@ -16,6 +16,14 @@
             android:key="theme"
             android:title="@string/pref_light_dark_mode"
             app:useSimpleSummaryProvider="true" />
+        <ListPreference
+            android:defaultValue="glow"
+            android:entries="@array/chatrix_background_entries"
+            android:entryValues="@array/chatrix_background_values"
+            android:icon="@drawable/ic_photo_24dp"
+            android:key="chatrix_chat_background"
+            android:title="@string/chatrix_pref_chat_background"
+            app:useSimpleSummaryProvider="true" />
         <Preference
             android:icon="@drawable/ic_forum_24dp"
             app:fragment="eu.siacs.conversations.ui.fragment.settings.InterfaceBubblesSettingsFragment"

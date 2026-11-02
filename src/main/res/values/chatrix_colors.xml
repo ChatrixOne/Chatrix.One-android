@@ -20,4 +20,10 @@
     <color name="chatrix_brand">#00A87A</color>
     <color name="chatrix_brand_bright">#00C896</color>
     <color name="chatrix_brand_deep">#007A59</color>
+    <!-- logo / splash / inputs (night values in values-night/chatrix_colors.xml) -->
+    <color name="chatrix_logo">#00A87A</color>
+    <color name="chatrix_window_bg">#F0F4F8</color>
+    <color name="chatrix_card">#FFFFFF</color>
+    <color name="chatrix_line">#14000000</color>
+    <color name="chatrix_popup_bg">#FFFFFF</color>
 </resources>

@@ -35,8 +35,8 @@ public final class ReactionHeader {
         final LinearLayout row = new LinearLayout(context);
         row.setOrientation(LinearLayout.HORIZONTAL);
         row.setGravity(Gravity.CENTER);
-        final int padH = (int) (12 * density);
-        final int padV = (int) (14 * density);
+        final int padH = (int) (16 * density);
+        final int padV = (int) (22 * density);
         row.setPadding(padH, padV, padH, (int) (6 * density));
 
         for (final String emoji : QuickActions.MENU_EMOJIS) {

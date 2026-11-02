@@ -26,6 +26,7 @@
         </com.google.android.material.appbar.AppBarLayout>
 
         <RelativeLayout xmlns:tools="http://schemas.android.com/tools"
+            android:id="@+id/chat_container"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
@@ -84,8 +85,7 @@
                     android:layout_alignParentStart="true"
                     android:layout_centerVertical="true"
                     android:layout_toStartOf="@+id/textSendButton"
-                    android:background="@drawable/background_message_bubble"
-                    android:backgroundTint="?colorTertiaryContainer"
+                    android:background="@drawable/background_chatrix_input"
                     android:orientation="vertical"
                     android:paddingHorizontal="4dp">
 
@@ -106,7 +106,7 @@
                             android:layout_marginBottom="8sp"
                             android:maxLines="1"
                             android:textAppearance="?textAppearanceBodySmall"
-                            android:textColor="?colorOnTertiaryContainer"
+                            android:textColor="?colorOnSurface"
                             android:visibility="visible"
                             tools:text="@string/private_message_to" />
 
@@ -134,8 +134,8 @@
                             android:maxLines="8"
                             android:minHeight="32dp"
                             android:minLines="1"
-                            android:textColor="?colorOnTertiaryContainer"
-                            android:textColorHint="@color/hint_on_tertiary_container"
+                            android:textColor="?colorOnSurface"
+                            android:textColorHint="?colorOnSurfaceVariant"
                             android:textCursorDrawable="@drawable/cursor_on_tertiary_container">
 
                             <requestFocus />
@@ -153,7 +153,7 @@
                         android:contentDescription="@string/add_attachment"
                         app:icon="@drawable/ic_attach_file_24dp"
                         app:iconSize="24dp"
-                        app:iconTint="?colorOnTertiaryContainer" />
+                        app:iconTint="?colorOnSurfaceVariant" />
 
 
                 </RelativeLayout>

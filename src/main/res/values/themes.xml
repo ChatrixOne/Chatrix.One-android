@@ -76,6 +76,10 @@
         <item name="colorSurfaceContainerHighest">@color/chatrix_light_surfaceContainerHighest</item>
         <item name="colorSurfaceBright">@color/chatrix_light_surfaceBright</item>
         <item name="colorSurfaceDim">@color/chatrix_light_surfaceDim</item>
+        <item name="popupMenuStyle">@style/Widget.Chatrix.PopupMenu</item>
+        <item name="actionOverflowMenuStyle">@style/Widget.Chatrix.PopupMenu.Overflow</item>
+        <item name="listPopupWindowStyle">@style/Widget.Chatrix.PopupMenu.ListPopupWindow</item>
+        <item name="contextPopupMenuStyle">@style/Widget.Chatrix.PopupMenu.ContextMenu</item>
         <item name="shapeAppearanceCornerSmall">@style/ShapeAppearance.Chatrix.Small</item>
         <item name="shapeAppearanceCornerMedium">@style/ShapeAppearance.Chatrix.Medium</item>
         <item name="shapeAppearanceCornerLarge">@style/ShapeAppearance.Chatrix.Large</item>
@@ -135,6 +139,10 @@
         <item name="colorSurfaceContainerHighest">@color/chatrix_dark_surfaceContainerHighest</item>
         <item name="colorSurfaceBright">@color/chatrix_dark_surfaceBright</item>
         <item name="colorSurfaceDim">@color/chatrix_dark_surfaceDim</item>
+        <item name="popupMenuStyle">@style/Widget.Chatrix.PopupMenu</item>
+        <item name="actionOverflowMenuStyle">@style/Widget.Chatrix.PopupMenu.Overflow</item>
+        <item name="listPopupWindowStyle">@style/Widget.Chatrix.PopupMenu.ListPopupWindow</item>
+        <item name="contextPopupMenuStyle">@style/Widget.Chatrix.PopupMenu.ContextMenu</item>
         <item name="shapeAppearanceCornerSmall">@style/ShapeAppearance.Chatrix.Small</item>
         <item name="shapeAppearanceCornerMedium">@style/ShapeAppearance.Chatrix.Medium</item>
         <item name="shapeAppearanceCornerLarge">@style/ShapeAppearance.Chatrix.Large</item>
@@ -177,5 +185,21 @@
     </style>
     <style name="ShapeAppearance.Chatrix.Large" parent="ShapeAppearance.Material3.Corner.Large">
         <item name="cornerSize">22dp</item>
+    </style>
+    <style name="Widget.Chatrix.PopupMenu" parent="Widget.Material3.PopupMenu">
+        <item name="android:popupBackground">@drawable/background_chatrix_popup</item>
+        <item name="android:popupElevation">8dp</item>
+    </style>
+    <style name="Widget.Chatrix.PopupMenu.Overflow" parent="Widget.Material3.PopupMenu.Overflow">
+        <item name="android:popupBackground">@drawable/background_chatrix_popup</item>
+        <item name="android:popupElevation">8dp</item>
+    </style>
+    <style name="Widget.Chatrix.PopupMenu.ListPopupWindow" parent="Widget.Material3.PopupMenu.ListPopupWindow">
+        <item name="android:popupBackground">@drawable/background_chatrix_popup</item>
+        <item name="android:popupElevation">8dp</item>
+    </style>
+    <style name="Widget.Chatrix.PopupMenu.ContextMenu" parent="Widget.Material3.PopupMenu.ContextMenu">
+        <item name="android:popupBackground">@drawable/background_chatrix_popup</item>
+        <item name="android:popupElevation">8dp</item>
     </style>
 </resources>

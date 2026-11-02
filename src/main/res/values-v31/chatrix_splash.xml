@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Chatrix.One: Android 12+ system splash = green logo, no circle -->
+    <style name="Theme.Conversations3.SplashScreen" parent="@style/Theme.Conversations3">
+        <item name="android:windowBackground">@drawable/background_splash_screen</item>
+        <item name="android:windowLightStatusBar">true</item>
+        <item name="android:windowFullscreen">true</item>
+        <item name="android:windowSplashScreenBackground">@color/chatrix_window_bg</item>
+        <item name="android:windowSplashScreenAnimatedIcon">@drawable/ic_chatrix_splash</item>
+    </style>
+</resources>

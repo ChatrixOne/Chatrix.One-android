@@ -19,7 +19,9 @@ public class AboutActivity extends ActionBarActivity {
 
         final ActivityAboutBinding binding =
                 DataBindingUtil.setContentView(this, R.layout.activity_about);
-        final var text = new SpannableString(getString(R.string.pref_about_message));
+        final var text = new SpannableString(
+                        getString(R.string.chatrix_about_fork)
+                                + getString(R.string.pref_about_message));
         Linkify.addLinks(text);
         FixedURLSpan.fix(text);
         binding.about.setText(text);
