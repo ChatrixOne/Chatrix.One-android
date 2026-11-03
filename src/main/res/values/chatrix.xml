@@ -49,4 +49,9 @@
     <string name="chatrix_update_channel">App updates</string>
     <string name="chatrix_update_available">Chatrix.One %s is available</string>
     <string name="chatrix_update_tap">Tap to open the download page</string>
+    <string name="chatrix_welcome_title">Welcome to Chatrix.One</string>
+    <string name="chatrix_welcome_text">Free and private messaging on chatrix.one or any other XMPP server. No ads, no tracking.</string>
+    <string name="chatrix_create_account">Create a Chatrix.One account</string>
+    <string name="chatrix_use_other_provider">Use another XMPP provider</string>
+    <string name="chatrix_welcome_after_signup">Created your account on the website? Tap \"I already have an account\" and enter your new chatrix.one address and password.\n\nIf the website offered \"Accept invite using Chatrix.One\", that button finishes everything for you.</string>
 </resources>

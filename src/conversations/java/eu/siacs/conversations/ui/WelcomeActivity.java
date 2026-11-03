@@ -1,5 +1,6 @@
 package eu.siacs.conversations.ui;
 
+import android.view.View;
 import static eu.siacs.conversations.utils.PermissionUtils.allGranted;
 import static eu.siacs.conversations.utils.PermissionUtils.writeGranted;
 
@@ -85,10 +86,41 @@ public class WelcomeActivity extends QrCodeProcessingActivity
     @Override
     protected void onBackendConnected() {}
 
+    // Chatrix.One: accounts on chatrix.one are created on its invite website
+    private static final String CHATRIX_SIGNUP_URL = "https://chatrix.one/invites/";
+    private static final String STATE_SIGNUP_STARTED = "chatrix_signup_started";
+    private boolean chatrixSignupStarted = false;
+    private ActivityWelcomeBinding binding;
+
     @Override
     public void onStart() {
         super.onStart();
         new InstallReferrerUtils(this);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (binding != null) {
+            binding.chatrixSignupHint.setVisibility(
+                    chatrixSignupStarted ? View.VISIBLE : View.GONE);
+        }
+    }
+
+    @Override
+    protected void onSaveInstanceState(@NonNull final Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putBoolean(STATE_SIGNUP_STARTED, chatrixSignupStarted);
+    }
+
+    private void openChatrixSignup() {
+        try {
+            startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(CHATRIX_SIGNUP_URL)));
+            chatrixSignupStarted = true;
+        } catch (final ActivityNotFoundException e) {
+            Toast.makeText(this, R.string.no_application_found_to_open_link, Toast.LENGTH_LONG)
+                    .show();
+        }
     }
 
     @Override
@@ -110,8 +142,11 @@ public class WelcomeActivity extends QrCodeProcessingActivity
             setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         }
         super.onCreate(savedInstanceState);
-        ActivityWelcomeBinding binding =
-                DataBindingUtil.setContentView(this, R.layout.activity_welcome);
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_welcome);
+        chatrixSignupStarted =
+                savedInstanceState != null
+                        && savedInstanceState.getBoolean(STATE_SIGNUP_STARTED, false);
+        binding.registerChatrix.setOnClickListener(v -> openChatrixSignup());
         Activities.setStatusAndNavigationBarColors(this, binding.getRoot());
         setSupportActionBar(binding.toolbar);
         configureActionBar(getSupportActionBar(), false);
@@ -127,6 +162,11 @@ public class WelcomeActivity extends QrCodeProcessingActivity
                     final List<Account> accounts = xmppConnectionService.getAccounts();
                     Intent intent = new Intent(this, EditAccountActivity.class);
                     intent.putExtra(EditAccountActivity.EXTRA_FORCE_REGISTER, false);
+                    if (chatrixSignupStarted && accounts.isEmpty()) {
+                        intent.putExtra(
+                                EditAccountActivity.EXTRA_CHATRIX_DOMAIN,
+                                Config.MAGIC_CREATE_DOMAIN);
+                    }
                     if (accounts.size() == 1) {
                         intent.putExtra("jid", accounts.get(0).getJid().asBareJid().toString());
                         intent.putExtra("init", true);

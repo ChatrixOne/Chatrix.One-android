@@ -25,4 +25,9 @@
     <string name="chatrix_update_channel">Нови версии</string>
     <string name="chatrix_update_available">Налична е Chatrix.One %s</string>
     <string name="chatrix_update_tap">Докоснете, за да отворите страницата за изтегляне</string>
+    <string name="chatrix_welcome_title">Добре дошли в Chatrix.One</string>
+    <string name="chatrix_welcome_text">Безплатни и поверителни съобщения в chatrix.one или всеки друг XMPP сървър. Без реклами и проследяване.</string>
+    <string name="chatrix_create_account">Създаване на профил в Chatrix.One</string>
+    <string name="chatrix_use_other_provider">Друг XMPP доставчик</string>
+    <string name="chatrix_welcome_after_signup">Създадохте профил в сайта? Докоснете \"Вече имам профил\" и въведете новия си chatrix.one адрес и парола.\n\nАко сайтът предложи \"Accept invite using Chatrix.One\", този бутон довършва всичко вместо вас.</string>
 </resources>

@@ -1,5 +1,6 @@
 package eu.siacs.conversations.ui;
 
+import eu.siacs.conversations.ui.chatrix.ChatrixLayout;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
@@ -45,6 +46,7 @@ public class MagicCreateActivity extends XmppActivity implements TextWatcher {
         }
         super.onCreate(savedInstanceState);
         this.binding = DataBindingUtil.setContentView(this, R.layout.activity_magic_create);
+        ChatrixLayout.limitWidth((android.view.View) this.binding.linearLayout.getParent(), 560); // Chatrix.One: tablets
         Activities.setStatusAndNavigationBarColors(this, binding.getRoot());
         setSupportActionBar(this.binding.toolbar);
         configureActionBar(getSupportActionBar(), this.domain == null);

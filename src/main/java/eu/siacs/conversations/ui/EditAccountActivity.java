@@ -1,5 +1,6 @@
 package eu.siacs.conversations.ui;
 
+import eu.siacs.conversations.ui.chatrix.ChatrixLayout;
 import android.Manifest;
 import android.app.Activity;
 import android.content.ActivityNotFoundException;
@@ -118,6 +119,8 @@ public class EditAccountActivity extends OmemoActivity
 
     public static final String EXTRA_OPENED_FROM_NOTIFICATION = "opened_from_notification";
     public static final String EXTRA_FORCE_REGISTER = "force_register";
+    // Chatrix.One: pre-fill "@domain" in the address field after a web sign-up
+    public static final String EXTRA_CHATRIX_DOMAIN = "chatrix_domain";
 
     private static final int REQUEST_DATA_SAVER = 0xf244;
     private static final int REQUEST_CHANGE_STATUS = 0xee11;
@@ -777,6 +780,7 @@ public class EditAccountActivity extends OmemoActivity
             this.mSavedInstanceInit = savedInstanceState.getBoolean("initMode", false);
         }
         this.binding = DataBindingUtil.setContentView(this, R.layout.activity_edit_account);
+        ChatrixLayout.limitWidth(this.binding.accountMainLayout, 560); // Chatrix.One: tablets
         Activities.setStatusAndNavigationBarColors(this, binding.getRoot());
         setSupportActionBar(binding.toolbar);
         binding.accountJid.addTextChangedListener(this.mTextWatcher);
@@ -913,6 +917,15 @@ public class EditAccountActivity extends OmemoActivity
             Log.d(Config.LOGTAG, "force register=" + mForceRegister);
             this.mInitMode = init || this.jidToEdit == null;
             this.messageFingerprint = intent.getStringExtra("fingerprint");
+            final String chatrixDomain = intent.getStringExtra(EXTRA_CHATRIX_DOMAIN);
+            if (jidToEdit == null
+                    && chatrixDomain != null
+                    && binding.accountJid.getText() != null
+                    && binding.accountJid.getText().length() == 0) {
+                binding.accountJid.setText("@" + chatrixDomain);
+                binding.accountJid.setSelection(0);
+                binding.accountJid.requestFocus();
+            }
             if (!mInitMode) {
                 this.binding.accountRegisterNew.setVisibility(View.GONE);
                 setTitle(getString(R.string.account_details));
