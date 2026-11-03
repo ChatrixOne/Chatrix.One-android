@@ -732,6 +732,7 @@ public class Account extends AbstractEntity implements AvatarService.Avatar {
         STREAM_OPENING_ERROR,
         POLICY_VIOLATION,
         PAYMENT_REQUIRED,
+        ACCOUNT_SUSPENDED, // Chatrix.One: account disabled / banned by the server
         MISSING_INTERNET_PERMISSION(false),
         MISSING_LOCAL_NETWORK_PERMISSION(false);
 
@@ -796,6 +797,7 @@ public class Account extends AbstractEntity implements AvatarService.Avatar {
                 case STREAM_ERROR -> R.string.account_status_stream_error;
                 case STREAM_OPENING_ERROR -> R.string.account_status_stream_opening_error;
                 case PAYMENT_REQUIRED -> R.string.payment_required;
+                case ACCOUNT_SUSPENDED -> R.string.chatrix_account_suspended;
                 case SEE_OTHER_HOST -> R.string.reconnect_on_other_host;
                 case MISSING_INTERNET_PERMISSION -> R.string.missing_internet_permission;
                 case MISSING_LOCAL_NETWORK_PERMISSION -> R.string.missing_local_network_permission;

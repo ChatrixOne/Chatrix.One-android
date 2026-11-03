@@ -59,4 +59,5 @@
     <string name="chatrix_address_example">yourname@%s</string>
     <string name="chatrix_pref_crash_reports_summary">Nothing is ever sent in the background. After a crash, Chatrix.One shows you the report (app version, device model, time and the technical error details) and asks first. It is sent to the Chatrix.One team only if you confirm, as an XMPP message from your account or by email. Turn off to never be asked.</string>
     <string name="chatrix_crash_report_message">Chatrix.One closed unexpectedly. The report below contains the app version, device model, time and the technical error details. Send it to %s to help fix the problem? Nothing is sent unless you choose.</string>
+    <string name="chatrix_account_suspended">Account suspended by the server</string>
 </resources>

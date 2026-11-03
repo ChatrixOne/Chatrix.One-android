@@ -1084,8 +1084,15 @@ public class XmppConnection implements Runnable {
         } else if (errorCondition instanceof SaslError.TemporaryAuthFailure) {
             throw new StateChangingException(Account.State.TEMPORARY_AUTH_FAILURE);
         } else if (errorCondition instanceof SaslError.AccountDisabled) {
+            // Chatrix.One: "account disabled" means payment required only on conversations.im;
+            // everywhere else (e.g. a ban on chatrix.one) say that the account is suspended
+            final boolean paymentServer =
+                    "conversations.im".equals(account.getJid().getDomain().toString());
+            final Account.State disabledState =
+                    paymentServer ? Account.State.PAYMENT_REQUIRED : Account.State.ACCOUNT_SUSPENDED;
             if (Strings.isNullOrEmpty(text)) {
-                throw new StateChangingException(Account.State.UNAUTHORIZED);
+                throw new StateChangingException(
+                        paymentServer ? Account.State.UNAUTHORIZED : disabledState);
             }
             final Matcher matcher = Patterns.URI_HTTP.matcher(text);
             if (matcher.find()) {
@@ -1093,12 +1100,16 @@ public class XmppConnection implements Runnable {
                 try {
                     url = HttpUrl.get(text.substring(matcher.start(), matcher.end()));
                 } catch (final IllegalArgumentException e) {
-                    throw new StateChangingException(Account.State.UNAUTHORIZED);
+                    throw new StateChangingException(
+                            paymentServer ? Account.State.UNAUTHORIZED : disabledState);
                 }
                 if (url.isHttps()) {
                     this.redirectionUrl = url;
-                    throw new StateChangingException(Account.State.PAYMENT_REQUIRED);
+                    throw new StateChangingException(disabledState);
                 }
+            }
+            if (!paymentServer) {
+                throw new StateChangingException(disabledState);
             }
         }
         if (SaslMechanism.hashedToken(LoginInfo.mechanism(currentLoginInfo))) {

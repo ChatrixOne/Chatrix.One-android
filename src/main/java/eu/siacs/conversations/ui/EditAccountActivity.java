@@ -261,7 +261,9 @@ public class EditAccountActivity extends OmemoActivity
                                     && mAccount.getStatus() == Account.State.REGISTRATION_WEB;
                     final boolean openPaymentUrl =
                             mAccount != null
-                                    && mAccount.getStatus() == Account.State.PAYMENT_REQUIRED;
+                                    && (mAccount.getStatus() == Account.State.PAYMENT_REQUIRED
+                                            || mAccount.getStatus()
+                                                    == Account.State.ACCOUNT_SUSPENDED);
                     final boolean redirectionWorthyStatus = openPaymentUrl || openRegistrationUrl;
                     final HttpUrl url =
                             connection != null && redirectionWorthyStatus
@@ -711,8 +713,10 @@ public class EditAccountActivity extends OmemoActivity
                             mAccount == null ? null : mAccount.getXmppConnection();
                     HttpUrl url =
                             connection != null
-                                            && mAccount.getStatus()
-                                                    == Account.State.PAYMENT_REQUIRED
+                                            && (mAccount.getStatus()
+                                                            == Account.State.PAYMENT_REQUIRED
+                                                    || mAccount.getStatus()
+                                                            == Account.State.ACCOUNT_SUSPENDED)
                                     ? connection.getRedirectionUrl()
                                     : null;
                     if (url != null) {
