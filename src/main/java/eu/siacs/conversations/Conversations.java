@@ -95,6 +95,7 @@ public class Conversations extends Application {
         EmojiInitializationService.execute(getApplicationContext());
         ExceptionHelper.init(getApplicationContext());
         SettingsUtils.applyThemeSettings(this);
+        eu.siacs.conversations.ui.chatrix.UpdateCheckWorker.schedule(this); // Chatrix.One
     }
 
     private static void installSecurityProvider() {

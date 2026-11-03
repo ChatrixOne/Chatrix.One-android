@@ -7,10 +7,12 @@ import android.util.Log;
 import androidx.annotation.ArrayRes;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.preference.EditTextPreference;
 import androidx.preference.ListPreference;
 import androidx.preference.Preference;
 import androidx.preference.PreferenceFragmentCompat;
 
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.common.base.Function;
 import com.google.common.base.Strings;
 import com.google.common.primitives.Ints;
@@ -40,6 +42,58 @@ public abstract class XmppPreferenceFragment extends PreferenceFragmentCompat {
     }
 
     public void onBackendConnected() {}
+
+    /** Chatrix.One: show list choices in the same rounded Material dialog as the rest of the app. */
+    @Override
+    public void onDisplayPreferenceDialog(@NonNull final Preference preference) {
+        if (preference instanceof ListPreference listPreference
+                && listPreference.getEntries() != null
+                && listPreference.getEntryValues() != null) {
+            final int checked = listPreference.findIndexOfValue(listPreference.getValue());
+            new MaterialAlertDialogBuilder(requireContext())
+                    .setTitle(listPreference.getDialogTitle())
+                    .setSingleChoiceItems(
+                            listPreference.getEntries(),
+                            checked,
+                            (dialog, which) -> {
+                                final String value =
+                                        listPreference.getEntryValues()[which].toString();
+                                if (listPreference.callChangeListener(value)) {
+                                    listPreference.setValue(value);
+                                }
+                                dialog.dismiss();
+                            })
+                    .setNegativeButton(R.string.cancel, null)
+                    .show();
+            return;
+        }
+        if (preference instanceof EditTextPreference editTextPreference) {
+            final var input = new com.google.android.material.textfield.TextInputEditText(requireContext());
+            input.setText(editTextPreference.getText());
+            input.setSingleLine(true);
+            final var layout = new com.google.android.material.textfield.TextInputLayout(requireContext());
+            final int pad = (int) (24 * getResources().getDisplayMetrics().density);
+            layout.setPadding(pad, pad / 3, pad, 0);
+            layout.addView(input);
+            new MaterialAlertDialogBuilder(requireContext())
+                    .setTitle(editTextPreference.getDialogTitle())
+                    .setMessage(editTextPreference.getDialogMessage())
+                    .setView(layout)
+                    .setPositiveButton(
+                            R.string.ok,
+                            (dialog, which) -> {
+                                final String value =
+                                        input.getText() == null ? "" : input.getText().toString();
+                                if (editTextPreference.callChangeListener(value)) {
+                                    editTextPreference.setText(value);
+                                }
+                            })
+                    .setNegativeButton(R.string.cancel, null)
+                    .show();
+            return;
+        }
+        super.onDisplayPreferenceDialog(preference);
+    }
 
     @Override
     public void onResume() {

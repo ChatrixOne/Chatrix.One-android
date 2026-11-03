@@ -57,6 +57,12 @@
             android:key="send_crash_reports"
             android:summary="@string/pref_never_send_crash_summary"
             android:title="@string/pref_send_crash_reports" />
+        <SwitchPreferenceCompat
+            android:defaultValue="true"
+            android:icon="@drawable/ic_new_releases_24dp"
+            android:key="chatrix_update_check"
+            android:summary="@string/chatrix_pref_update_check_summary"
+            android:title="@string/chatrix_pref_update_check" />
 
     </PreferenceCategory>
 

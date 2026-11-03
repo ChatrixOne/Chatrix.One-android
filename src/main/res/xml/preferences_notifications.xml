@@ -77,4 +77,10 @@
         android:summary="@string/pref_keep_foreground_service_summary"
         android:title="@string/pref_keep_foreground_service" />
 
+    <Preference
+        android:icon="@drawable/ic_chatrix_connected_24dp"
+        android:key="chatrix_connection_notification"
+        android:summary="@string/chatrix_pref_connection_notification_summary"
+        android:title="@string/chatrix_pref_connection_notification" />
+
 </PreferenceScreen>

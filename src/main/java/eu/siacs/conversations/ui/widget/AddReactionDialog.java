@@ -43,9 +43,20 @@ public class AddReactionDialog {
                 return Joiner.on("").join(Lists.transform(emojis, Emoji::getEmoji));
             };
 
+    // Chatrix.One: open directly in "type an emoji" mode
+    private final boolean startWithKeyboard;
+
     public AddReactionDialog(final Message message, final Consumer<Collection<String>> callback) {
+        this(message, callback, false);
+    }
+
+    public AddReactionDialog(
+            final Message message,
+            final Consumer<Collection<String>> callback,
+            final boolean startWithKeyboard) {
         this.message = message;
         this.callback = callback;
+        this.startWithKeyboard = startWithKeyboard;
     }
 
     public AlertDialog create(final Activity activity) {
@@ -99,6 +110,9 @@ public class AddReactionDialog {
             viewBinding.more.setOnClickListener(new ActivityLauncher(dialog, message));
         }
         viewBinding.emojiTextInput.addTextChangedListener(new EmojiTextWatcher(viewBinding));
+        if (startWithKeyboard && !emojiChoiceRestricted) {
+            dialog.setOnShowListener(d -> viewBinding.keyboard.performClick());
+        }
         return dialog;
     }
 

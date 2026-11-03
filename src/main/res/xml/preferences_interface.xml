@@ -63,14 +63,10 @@
             android:key="chatrix_double_tap"
             android:title="@string/chatrix_pref_double_tap"
             app:useSimpleSummaryProvider="true" />
-        <ListPreference
-            android:defaultValue="👍"
-            android:entries="@array/chatrix_emoji_values"
-            android:entryValues="@array/chatrix_emoji_values"
+        <Preference
             android:icon="@drawable/ic_add_reaction_24dp"
             android:key="chatrix_quick_emoji"
-            android:title="@string/chatrix_pref_quick_emoji"
-            app:useSimpleSummaryProvider="true" />
+            android:title="@string/chatrix_pref_quick_emoji" />
     </PreferenceCategory>
     <PreferenceCategory android:title="@string/pref_category_operating_system">
         <SwitchPreferenceCompat

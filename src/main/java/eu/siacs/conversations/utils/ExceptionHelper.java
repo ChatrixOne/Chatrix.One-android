@@ -1,7 +1,11 @@
 package eu.siacs.conversations.utils;
 
+import android.content.ActivityNotFoundException;
 import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.common.base.Charsets;
@@ -44,10 +48,8 @@ public class ExceptionHelper {
         if (!appSettings.isSendCrashReports() || Config.BUG_REPORTS == null) {
             return false;
         }
+        // Chatrix.One: without an account the report can still be sent by email
         final Account account = AccountUtils.getFirstEnabled(service);
-        if (account == null) {
-            return false;
-        }
         final var file = new File(activity.getCacheDir(), FILENAME);
         if (!file.exists()) {
             return false;
@@ -68,19 +70,41 @@ public class ExceptionHelper {
         builder.setMessage(
                 activity.getString(
                         R.string.crash_report_message, activity.getString(R.string.app_name)));
-        builder.setPositiveButton(
-                activity.getText(R.string.send_now),
+        if (account != null) {
+            builder.setPositiveButton(
+                    activity.getText(R.string.send_now),
+                    (dialog, which) -> {
+                        Log.d(
+                                Config.LOGTAG,
+                                "using account="
+                                        + account.getJid().asBareJid()
+                                        + " to send in stack trace");
+                        Conversation conversation =
+                                service.findOrCreateConversation(
+                                        account, Config.BUG_REPORTS, false, true);
+                        Message message = new Message(conversation, report, Message.ENCRYPTION_NONE);
+                        service.sendMessage(message);
+                    });
+        }
+        builder.setNeutralButton(
+                R.string.chatrix_crash_send_email,
                 (dialog, which) -> {
-                    Log.d(
-                            Config.LOGTAG,
-                            "using account="
-                                    + account.getJid().asBareJid()
-                                    + " to send in stack trace");
-                    Conversation conversation =
-                            service.findOrCreateConversation(
-                                    account, Config.BUG_REPORTS, false, true);
-                    Message message = new Message(conversation, report, Message.ENCRYPTION_NONE);
-                    service.sendMessage(message);
+                    final Intent intent =
+                            new Intent(
+                                    Intent.ACTION_SENDTO,
+                                    Uri.parse("mailto:" + Config.BUG_REPORTS_EMAIL));
+                    intent.putExtra(
+                            Intent.EXTRA_SUBJECT,
+                            activity.getString(
+                                    R.string.crash_report_title,
+                                    activity.getString(R.string.app_name)));
+                    intent.putExtra(Intent.EXTRA_TEXT, report);
+                    try {
+                        activity.startActivity(intent);
+                    } catch (final ActivityNotFoundException e) {
+                        Toast.makeText(activity, R.string.no_application_found, Toast.LENGTH_LONG)
+                                .show();
+                    }
                 });
         builder.setNegativeButton(
                 activity.getText(R.string.send_never),

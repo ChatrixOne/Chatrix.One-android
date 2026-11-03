@@ -32,6 +32,7 @@ public final class QuickActions {
         QUOTE,
         REACT,
         COPY,
+        EDIT,
         NONE;
 
         static Action of(final String value) {
@@ -57,6 +58,7 @@ public final class QuickActions {
     public static final List<String> MENU_EMOJIS =
             Arrays.asList(
                     "👍", // 👍
+                    "👎", // 👎
                     "❤️", // ❤️
                     "😂", // 😂
                     "😮", // 😮
@@ -85,6 +87,12 @@ public final class QuickActions {
     public static String quickEmoji(final Context context) {
         final String emoji = prefs(context).getString(PREF_QUICK_EMOJI, DEFAULT_EMOJI);
         return emoji == null || emoji.isEmpty() ? DEFAULT_EMOJI : emoji;
+    }
+
+    public static void setQuickEmoji(final Context context, final String emoji) {
+        if (emoji != null && !emoji.isEmpty()) {
+            prefs(context).edit().putString(PREF_QUICK_EMOJI, emoji).apply();
+        }
     }
 
     /** Same pre-conditions the context menu applies before showing any option. */
@@ -144,11 +152,33 @@ public final class QuickActions {
         return m.getStatus() != Message.STATUS_SEND_FAILED && !m.isDeleted() && singleOrOccupantId;
     }
 
+    /** Same conditions as "Correct message" in the context menu: our own, correctable message. */
+    public static boolean canEdit(final Message m) {
+        if (!baseConditions(m)) {
+            return false;
+        }
+        if (!(m.getConversation() instanceof Conversation c)) {
+            return false;
+        }
+        final boolean showError =
+                m.getStatus() == Message.STATUS_SEND_FAILED
+                        && m.getErrorMessage() != null
+                        && !Message.ERROR_MESSAGE_CANCELLED.equals(m.getErrorMessage());
+        final boolean singleOrOccupantId =
+                c.getMode() == Conversational.MODE_SINGLE
+                        || (c.getMucOptions().occupantId() && c.getMucOptions().participating());
+        return !showError
+                && m.getStatus() != Message.STATUS_RECEIVED
+                && m.acceptMessageCorrection()
+                && singleOrOccupantId;
+    }
+
     public static boolean isAllowed(final Action action, final Message m) {
         return switch (action) {
             case QUOTE -> canQuote(m);
             case REACT -> canReact(m);
             case COPY -> canCopy(m);
+            case EDIT -> canEdit(m);
             case NONE -> false;
         };
     }
@@ -168,6 +198,7 @@ public final class QuickActions {
                 switch (action) {
                     case QUOTE -> ContextCompat.getDrawable(context, R.drawable.ic_reply_24dp);
                     case COPY -> ContextCompat.getDrawable(context, R.drawable.ic_chatrix_copy_24dp);
+                    case EDIT -> ContextCompat.getDrawable(context, R.drawable.ic_edit_24dp);
                     case REACT -> new EmojiDrawable(quickEmoji(context));
                     case NONE -> null;
                 };

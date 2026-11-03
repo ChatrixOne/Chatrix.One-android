@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Chatrix.One: "more" + "keyboard" row under the quick reactions, same look as dialog_add_reaction -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center"
+    android:orientation="horizontal">
+
+    <Button
+        android:id="@+id/chatrix_more_reactions"
+        style="?attr/materialIconButtonOutlinedStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="4dp"
+        android:contentDescription="@string/more_reactions"
+        app:icon="@drawable/ic_more_horiz_24dp" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/chatrix_keyboard_reaction"
+        style="?attr/materialIconButtonFilledStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="4dp"
+        android:contentDescription="@string/emoji_reactions"
+        app:icon="@drawable/ic_keyboard_24dp" />
+</LinearLayout>

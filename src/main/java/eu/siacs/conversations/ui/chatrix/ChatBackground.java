@@ -22,6 +22,7 @@ import androidx.exifinterface.media.ExifInterface;
 import androidx.preference.PreferenceManager;
 import eu.siacs.conversations.Config;
 import eu.siacs.conversations.R;
+import eu.siacs.conversations.entities.Conversation;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -46,18 +47,34 @@ public final class ChatBackground {
         return mode == null ? GLOW : mode;
     }
 
-    private static File file(final Context context) {
-        return new File(context.getFilesDir(), FILE_NAME);
+    /** The default picture (from settings) for a null uuid, else the picture of that chat. */
+    public static File file(final Context context, @Nullable final String conversationUuid) {
+        if (conversationUuid == null) {
+            return new File(context.getFilesDir(), FILE_NAME);
+        }
+        return new File(context.getFilesDir(), "chatrix_chat_background_" + conversationUuid + ".jpg");
     }
 
-    /** Returns the drawable for the current setting, or null for the plain theme background. */
+    /** Returns the drawable for the default setting, or null for the plain theme background. */
     @Nullable
     public static Drawable create(final Context context) {
-        final String mode = mode(context);
+        return create(context, null);
+    }
+
+    /**
+     * Returns the drawable for this chat: its own choice if it has one, otherwise the default
+     * from settings. Null means the plain theme background.
+     */
+    @Nullable
+    public static Drawable create(final Context context, @Nullable final Conversation conversation) {
+        final String own = conversation == null ? null : conversation.getChatrixBackground();
+        final boolean perChat = own != null;
+        final String mode = perChat ? own : mode(context);
         final int windowBg = ContextCompat.getColor(context, R.color.chatrix_window_bg);
         final int accent = ContextCompat.getColor(context, R.color.chatrix_logo);
         if (CUSTOM.equals(mode)) {
-            final Bitmap bitmap = load(context);
+            final Bitmap bitmap =
+                    load(file(context, perChat ? conversation.getUuid() : null));
             if (bitmap != null) {
                 return new PictureDrawable(bitmap, windowBg, isNight(context));
             }
@@ -77,8 +94,13 @@ public final class ChatBackground {
 
     /** Copies (and downsizes) the picked picture into private app storage. Run off the UI thread. */
     public static boolean save(final Context context, final Uri uri) {
+        return save(context, uri, file(context, null));
+    }
+
+    /** Same as {@link #save(Context, Uri)} but into the given file (e.g. a chat's own picture). */
+    public static boolean save(final Context context, final Uri uri, final File target) {
         final DisplayMetrics dm = context.getResources().getDisplayMetrics();
-        final int target = Math.max(dm.widthPixels, dm.heightPixels);
+        final int targetSize = Math.max(dm.widthPixels, dm.heightPixels);
         try {
             final BitmapFactory.Options bounds = new BitmapFactory.Options();
             bounds.inJustDecodeBounds = true;
@@ -89,7 +111,7 @@ public final class ChatBackground {
                 return false;
             }
             int sample = 1;
-            while (Math.min(bounds.outWidth, bounds.outHeight) / (sample * 2) >= target / 2) {
+            while (Math.min(bounds.outWidth, bounds.outHeight) / (sample * 2) >= targetSize / 2) {
                 sample *= 2;
             }
             final BitmapFactory.Options options = new BitmapFactory.Options();
@@ -115,11 +137,11 @@ public final class ChatBackground {
                         Bitmap.createBitmap(
                                 bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight(), matrix, true);
             }
-            final File tmp = new File(context.getFilesDir(), FILE_NAME + ".tmp");
+            final File tmp = new File(target.getParentFile(), target.getName() + ".tmp");
             try (OutputStream out = new FileOutputStream(tmp)) {
                 bitmap.compress(Bitmap.CompressFormat.JPEG, 88, out);
             }
-            return tmp.renameTo(file(context));
+            return tmp.renameTo(target);
         } catch (final IOException | SecurityException | OutOfMemoryError e) {
             Log.w(Config.LOGTAG, "could not save chat background", e);
             return false;
@@ -127,19 +149,20 @@ public final class ChatBackground {
     }
 
     @Nullable
-    private static Bitmap load(final Context context) {
-        final File file = file(context);
+    private static Bitmap load(final File file) {
         if (!file.exists()) {
             return null;
         }
         final long stamp = file.lastModified();
+        final String path = file.getAbsolutePath();
         synchronized (ChatBackground.class) {
-            if (cached != null && cachedStamp == stamp) {
+            if (cached != null && cachedStamp == stamp && path.equals(cachedPath)) {
                 return cached;
             }
             try {
-                cached = BitmapFactory.decodeFile(file.getAbsolutePath());
+                cached = BitmapFactory.decodeFile(path);
                 cachedStamp = stamp;
+                cachedPath = path;
                 return cached;
             } catch (final OutOfMemoryError e) {
                 return null;
@@ -149,6 +172,7 @@ public final class ChatBackground {
 
     private static Bitmap cached;
     private static long cachedStamp;
+    private static String cachedPath;
 
     /** Soft emerald glow, like the chat mock-up on chatrix.one. */
     private static final class GlowDrawable extends Drawable {

@@ -782,6 +782,15 @@ public class Conversation extends AbstractEntity
         this.attributes.pinnedOnTop = value;
     }
 
+    // Chatrix.One: per-chat background, null = default from settings
+    public String getChatrixBackground() {
+        return this.attributes.chatrixBackground;
+    }
+
+    public void setChatrixBackground(final String value) {
+        this.attributes.chatrixBackground = value;
+    }
+
     public int getNextEncryption() {
         if (OmemoSetting.isAlways()) {
             return suitableForOmemoByDefault(this)
@@ -1142,6 +1151,10 @@ public class Conversation extends AbstractEntity
 
         @SerializedName("accept_non_anonymous")
         private Boolean acceptNonAnonymous;
+
+        // Chatrix.One: per-chat background (null = use the default from settings)
+        @SerializedName("chatrix_background")
+        private String chatrixBackground;
 
         public static Attributes parse(final String json) {
             if (Strings.isNullOrEmpty(json)) {

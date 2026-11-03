@@ -914,7 +914,7 @@ public class NotificationService {
     }
 
     private void setNotificationColor(final Builder mBuilder) {
-        mBuilder.setColor(ContextCompat.getColor(mXmppConnectionService, R.color.green_600));
+        mBuilder.setColor(ContextCompat.getColor(mXmppConnectionService, R.color.chatrix_logo));
     }
 
     public void updateNotification() {
@@ -1835,7 +1835,10 @@ public class NotificationService {
         }
         mBuilder.setWhen(0)
                 .setPriority(Notification.PRIORITY_MIN)
-                .setSmallIcon(connected > 0 ? R.drawable.ic_link_24dp : R.drawable.ic_link_off_24dp)
+                .setSmallIcon(
+                        connected > 0
+                                ? R.drawable.ic_chatrix_connected_24dp
+                                : R.drawable.ic_chatrix_offline_24dp)
                 .setLocalOnly(true);
 
         if (Compatibility.twentySix()) {

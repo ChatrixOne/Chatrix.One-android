@@ -84,6 +84,12 @@
                 android:orderInCategory="73"
                 android:title="@string/add_to_favorites"
                 app:showAsAction="never" />
+            <!-- Chatrix.One: per-chat background -->
+            <item
+                android:id="@+id/action_chatrix_background"
+                android:orderInCategory="74"
+                android:title="@string/chatrix_pref_chat_background"
+                app:showAsAction="never" />
         </menu>
     </item>
 

@@ -7,8 +7,8 @@ import android.graphics.drawable.RippleDrawable;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.HapticFeedbackConstants;
+import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import com.google.android.material.color.MaterialColors;
@@ -26,23 +26,31 @@ public final class ReactionHeader {
             final Context context,
             final Message message,
             final Consumer<String> onEmoji,
-            final Runnable onMore) {
+            final Runnable onMore,
+            final Runnable onKeyboard) {
         final float density = context.getResources().getDisplayMetrics().density;
         final int accent =
                 MaterialColors.getColor(context, androidx.appcompat.R.attr.colorPrimary, 0xff00a87a);
         final Set<String> ours = message.getAggregatedReactions().ourReactions;
 
+        final LinearLayout header = new LinearLayout(context);
+        header.setOrientation(LinearLayout.VERTICAL);
+        header.setPadding(
+                (int) (12 * density), (int) (14 * density), (int) (12 * density), (int) (2 * density));
+
         final LinearLayout row = new LinearLayout(context);
         row.setOrientation(LinearLayout.HORIZONTAL);
         row.setGravity(Gravity.CENTER);
-        final int padH = (int) (16 * density);
-        final int padV = (int) (22 * density);
-        row.setPadding(padH, padV, padH, (int) (6 * density));
+        header.addView(
+                row,
+                new LinearLayout.LayoutParams(
+                        LinearLayout.LayoutParams.MATCH_PARENT,
+                        LinearLayout.LayoutParams.WRAP_CONTENT));
 
         for (final String emoji : QuickActions.MENU_EMOJIS) {
             final TextView tv = new TextView(context);
             tv.setText(emoji);
-            tv.setTextSize(TypedValue.COMPLEX_UNIT_SP, 24);
+            tv.setTextSize(TypedValue.COMPLEX_UNIT_SP, 22);
             tv.setGravity(Gravity.CENTER);
             tv.setContentDescription(emoji);
             tv.setBackground(circle(accent, ours.contains(emoji)));
@@ -54,20 +62,20 @@ public final class ReactionHeader {
             row.addView(tv, cell(density));
         }
 
-        final ImageView more = new ImageView(context);
-        more.setImageResource(R.drawable.ic_add_reaction_24dp);
-        more.setImageTintList(ColorStateList.valueOf(accent));
-        more.setScaleType(ImageView.ScaleType.CENTER);
-        more.setContentDescription(context.getString(R.string.add_reaction));
-        more.setBackground(circle(accent, false));
-        more.setOnClickListener(v -> onMore.run());
-        row.addView(more, cell(density));
-        return row;
+        // second line: same "more" + "keyboard" buttons as the Add reaction dialog
+        final View actions =
+                LayoutInflater.from(context).inflate(R.layout.chatrix_reaction_actions, header, false);
+        actions.findViewById(R.id.chatrix_more_reactions).setOnClickListener(v -> onMore.run());
+        actions.findViewById(R.id.chatrix_keyboard_reaction)
+                .setOnClickListener(v -> onKeyboard.run());
+        header.addView(actions);
+        return header;
     }
 
     private static LinearLayout.LayoutParams cell(final float density) {
-        final int size = (int) (40 * density);
-        final LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(0, size, 1f);
+        // fixed size cells packed in the centre instead of stretched across the dialog
+        final int size = (int) (38 * density);
+        final LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(size, size);
         lp.setMargins((int) (1 * density), 0, (int) (1 * density), 0);
         return lp;
     }

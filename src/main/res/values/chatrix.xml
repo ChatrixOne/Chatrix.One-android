@@ -8,29 +8,25 @@
     <string name="chatrix_action_quote">Quote</string>
     <string name="chatrix_action_react">React with quick emoji</string>
     <string name="chatrix_action_copy">Copy text</string>
+    <string name="chatrix_action_edit">Edit my message</string>
     <string name="chatrix_action_none">Do nothing</string>
     <string-array name="chatrix_action_entries">
         <item>@string/chatrix_action_quote</item>
         <item>@string/chatrix_action_react</item>
         <item>@string/chatrix_action_copy</item>
+        <item>@string/chatrix_action_edit</item>
         <item>@string/chatrix_action_none</item>
     </string-array>
     <string-array name="chatrix_action_values" translatable="false">
         <item>quote</item>
         <item>react</item>
         <item>copy</item>
+        <item>edit</item>
         <item>none</item>
     </string-array>
-    <string-array name="chatrix_emoji_values" translatable="false">
-        <item>👍</item>
-        <item>❤️</item>
-        <item>😂</item>
-        <item>😮</item>
-        <item>😢</item>
-        <item>🙏</item>
-    </string-array>
     <string name="chatrix_pref_chat_background">Chat background</string>
-    <string name="chatrix_background_glow">Chatrix glow</string>
+    <string name="chatrix_background_default">Default (from settings)</string>
+    <string name="chatrix_background_glow">Chatrix.One glow</string>
     <string name="chatrix_background_plain">Plain</string>
     <string name="chatrix_background_custom">My own picture…</string>
     <string name="chatrix_background_failed">Could not use this picture</string>
@@ -45,4 +41,12 @@
         <item>custom</item>
     </string-array>
     <string name="chatrix_about_fork">Chatrix.One is a fork of Conversations, the XMPP app made by Daniel Gultsch (https://conversations.im).\n\nChatrix.One adds its own look and quick message gestures. Please report problems with this app to Chatrix.One (https://chatrix.one), not to the Conversations developers.\n\nLike Conversations, Chatrix.One is free software under the GNU General Public License v3.\n\n————————————————\n\n</string>
+    <string name="chatrix_pref_connection_notification">Connection status notification</string>
+    <string name="chatrix_pref_connection_notification_summary">Chatrix.One keeps its own connection open, so Android shows a permanent notification. You can safely turn it off here: messages keep arriving and you still get a warning if the connection fails.</string>
+    <string name="chatrix_crash_send_email">Send by email</string>
+    <string name="chatrix_pref_update_check">Check for updates</string>
+    <string name="chatrix_pref_update_check_summary">Once a day, look at chatrix.eu for a newer Chatrix.One version and show a notification. Nothing is downloaded or installed and no personal data is sent. Not used when installed from F-Droid or another app store, or when Tor is on.</string>
+    <string name="chatrix_update_channel">App updates</string>
+    <string name="chatrix_update_available">Chatrix.One %s is available</string>
+    <string name="chatrix_update_tap">Tap to open the download page</string>
 </resources>

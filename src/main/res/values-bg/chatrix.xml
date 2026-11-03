@@ -8,11 +8,21 @@
     <string name="chatrix_action_quote">Цитиране</string>
     <string name="chatrix_action_react">Реакция с бързото емоджи</string>
     <string name="chatrix_action_copy">Копиране на текста</string>
+    <string name="chatrix_action_edit">Редактиране на мое съобщение</string>
     <string name="chatrix_action_none">Нищо</string>
     <string name="chatrix_pref_chat_background">Фон на чата</string>
-    <string name="chatrix_background_glow">Chatrix сияние</string>
+    <string name="chatrix_background_default">По подразбиране (от настройките)</string>
+    <string name="chatrix_background_glow">Chatrix.One сияние</string>
     <string name="chatrix_background_plain">Обикновен</string>
     <string name="chatrix_background_custom">Моя снимка…</string>
     <string name="chatrix_background_failed">Тази снимка не може да се използва</string>
     <string name="chatrix_about_fork">Chatrix.One е разклонение (fork) на Conversations — XMPP приложението на Daniel Gultsch (https://conversations.im).\n\nChatrix.One добавя собствен вид и бързи жестове за съобщенията. Моля, съобщавайте за проблеми с това приложение на Chatrix.One (https://chatrix.one), а не на разработчиците на Conversations.\n\nКакто Conversations, Chatrix.One е свободен софтуер под лиценза GNU General Public License v3.\n\n————————————————\n\n</string>
+    <string name="chatrix_pref_connection_notification">Известие за състоянието на връзката</string>
+    <string name="chatrix_pref_connection_notification_summary">Chatrix.One поддържа собствена връзка, затова Android показва постоянно известие. Можете спокойно да го изключите тук: съобщенията продължават да пристигат и пак ще получите предупреждение, ако връзката прекъсне.</string>
+    <string name="chatrix_crash_send_email">Изпращане по имейл</string>
+    <string name="chatrix_pref_update_check">Проверка за нова версия</string>
+    <string name="chatrix_pref_update_check_summary">Веднъж дневно проверява в chatrix.eu за нова версия на Chatrix.One и показва известие. Нищо не се изтегля и инсталира и не се изпращат лични данни. Не се използва, ако приложението е инсталирано от F-Droid или друг магазин, или ако е включен Tor.</string>
+    <string name="chatrix_update_channel">Нови версии</string>
+    <string name="chatrix_update_available">Налична е Chatrix.One %s</string>
+    <string name="chatrix_update_tap">Докоснете, за да отворите страницата за изтегляне</string>
 </resources>

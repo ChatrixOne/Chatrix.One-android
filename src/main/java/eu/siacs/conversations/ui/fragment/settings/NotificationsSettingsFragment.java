@@ -92,6 +92,27 @@ public class NotificationsSettingsFragment extends XmppPreferenceFragment {
             fullscreenNotification.setVisible(false);
         }
         callIntegration.setVisible(CallIntegration.selfManagedAvailable(requireContext()));
+        // Chatrix.One: one tap to the Android page of the "connected accounts" notification
+        final var connectionNotification = findPreference("chatrix_connection_notification");
+        if (connectionNotification != null) {
+            connectionNotification.setVisible(Compatibility.twentySix());
+            connectionNotification.setOnPreferenceClickListener(
+                    p -> {
+                        final var intent = new Intent(Settings.ACTION_CHANNEL_NOTIFICATION_SETTINGS);
+                        intent.putExtra(Settings.EXTRA_APP_PACKAGE, requireContext().getPackageName());
+                        intent.putExtra(Settings.EXTRA_CHANNEL_ID, "foreground");
+                        try {
+                            startActivity(intent);
+                        } catch (final ActivityNotFoundException e) {
+                            Toast.makeText(
+                                            requireContext(),
+                                            R.string.unsupported_operation,
+                                            Toast.LENGTH_SHORT)
+                                    .show();
+                        }
+                        return true;
+                    });
+        }
     }
 
     @Override

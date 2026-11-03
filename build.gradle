@@ -109,13 +109,14 @@ android {
 
     defaultConfig {
         minSdk = 23
-        versionCode = 42183
-        versionName = '2.21.0'
+        versionCode = 4218301 // Chatrix.One: upstream 42183, fork release 01
+        versionName = '2.21.0-cx1-1'
         applicationId = 'eu.siacs.conversations'
         resValue('string', 'applicationId', applicationId)
         def appName = "Conversations"
         resValue('string', 'app_name', appName)
         buildConfigField('String', 'APP_NAME', "\"${appName}\"")
+        buildConfigField('String', 'CHATRIX_UPDATE_URL', 'null')
     }
 
     splits {
@@ -166,6 +167,10 @@ android {
             resValue('string', 'app_name', appName)
             buildConfigField('String', 'APP_NAME', "\"${appName}\"")
             buildConfigField('String', 'PRIVACY_POLICY', '"https://chatrix.one/#privacy"')
+            // "new version available" notice; build with -PchatrixUpdateCheck=false to leave it out
+            def updateCheck = project.findProperty('chatrixUpdateCheck') != 'false'
+            buildConfigField('String', 'CHATRIX_UPDATE_URL',
+                    updateCheck ? '"https://chatrix.eu/download/version.json"' : 'null')
         }
 
         playstore {

@@ -134,6 +134,8 @@ import eu.siacs.conversations.ui.util.ToolbarUtils;
 import eu.siacs.conversations.ui.util.ViewUtil;
 import eu.siacs.conversations.ui.chatrix.QuickActions;
 import eu.siacs.conversations.ui.chatrix.ReactionHeader;
+import eu.siacs.conversations.ui.widget.AddReactionDialog;
+import android.widget.ArrayAdapter;
 import eu.siacs.conversations.ui.widget.EditMessage;
 import eu.siacs.conversations.ui.widget.MessageListView;
 import eu.siacs.conversations.utils.AccountUtils;
@@ -782,6 +784,9 @@ public class ConversationFragment extends XmppFragment
                         return true;
                     } else if (itemId == R.id.action_toggle_pinned) {
                         togglePinned();
+                        return true;
+                    } else if (itemId == R.id.action_chatrix_background) {
+                        chooseChatBackground();
                         return true;
                     } else {
                         return false;
@@ -1826,6 +1831,126 @@ public class ConversationFragment extends XmppFragment
         }
     }
 
+    // Chatrix.One: per-chat background (default from settings, glow, plain or own picture)
+    private final androidx.activity.result.ActivityResultLauncher<
+                    androidx.activity.result.PickVisualMediaRequest>
+            pickChatBackground =
+                    registerForActivityResult(
+                            new androidx.activity.result.contract.ActivityResultContracts
+                                    .PickVisualMedia(),
+                            this::onChatBackgroundPicked);
+    private Conversation chatBackgroundTarget;
+
+    private void applyChatBackground() {
+        if (binding == null) {
+            return;
+        }
+        binding.chatContainer.setBackground(
+                eu.siacs.conversations.ui.chatrix.ChatBackground.create(
+                        requireContext(), conversation));
+    }
+
+    private void chooseChatBackground() {
+        final var c = this.conversation;
+        if (c == null) {
+            return;
+        }
+        final String[] values = {
+            null,
+            eu.siacs.conversations.ui.chatrix.ChatBackground.GLOW,
+            eu.siacs.conversations.ui.chatrix.ChatBackground.PLAIN,
+            eu.siacs.conversations.ui.chatrix.ChatBackground.CUSTOM
+        };
+        final String[] labels = {
+            getString(R.string.chatrix_background_default),
+            getString(R.string.chatrix_background_glow),
+            getString(R.string.chatrix_background_plain),
+            getString(R.string.chatrix_background_custom)
+        };
+        int checked = 0;
+        for (int i = 1; i < values.length; ++i) {
+            if (values[i].equals(c.getChatrixBackground())) {
+                checked = i;
+            }
+        }
+        new MaterialAlertDialogBuilder(requireContext())
+                .setTitle(R.string.chatrix_pref_chat_background)
+                .setSingleChoiceItems(
+                        labels,
+                        checked,
+                        (dialog, which) -> {
+                            dialog.dismiss();
+                            if (eu.siacs.conversations.ui.chatrix.ChatBackground.CUSTOM.equals(
+                                    values[which])) {
+                                chatBackgroundTarget = c;
+                                pickChatBackground.launch(
+                                        new androidx.activity.result.PickVisualMediaRequest
+                                                        .Builder()
+                                                .setMediaType(
+                                                        androidx.activity.result.contract
+                                                                .ActivityResultContracts
+                                                                .PickVisualMedia.ImageOnly
+                                                                .INSTANCE)
+                                                .build());
+                            } else {
+                                setChatBackground(c, values[which]);
+                            }
+                        })
+                .setNegativeButton(R.string.cancel, null)
+                .show();
+    }
+
+    private void setChatBackground(final Conversation c, @Nullable final String value) {
+        if (value == null || !value.equals(eu.siacs.conversations.ui.chatrix.ChatBackground.CUSTOM)) {
+            //noinspection ResultOfMethodCallIgnored
+            eu.siacs.conversations.ui.chatrix.ChatBackground.file(requireContext(), c.getUuid())
+                    .delete();
+        }
+        c.setChatrixBackground(value);
+        requireXmppActivity().xmppConnectionService.updateConversation(c);
+        if (c == this.conversation) {
+            applyChatBackground();
+        }
+    }
+
+    private void onChatBackgroundPicked(@Nullable final Uri uri) {
+        final var c = this.chatBackgroundTarget;
+        this.chatBackgroundTarget = null;
+        if (uri == null || c == null) {
+            return;
+        }
+        final var context = requireContext().getApplicationContext();
+        new Thread(
+                        () -> {
+                            final boolean ok =
+                                    eu.siacs.conversations.ui.chatrix.ChatBackground.save(
+                                            context,
+                                            uri,
+                                            eu.siacs.conversations.ui.chatrix.ChatBackground.file(
+                                                    context, c.getUuid()));
+                            final var activity = getActivity();
+                            if (activity == null) {
+                                return;
+                            }
+                            activity.runOnUiThread(
+                                    () -> {
+                                        if (!ok) {
+                                            Toast.makeText(
+                                                            context,
+                                                            R.string.chatrix_background_failed,
+                                                            Toast.LENGTH_LONG)
+                                                    .show();
+                                        } else if (isAdded()) {
+                                            setChatBackground(
+                                                    c,
+                                                    eu.siacs.conversations.ui.chatrix
+                                                            .ChatBackground.CUSTOM);
+                                        }
+                                    });
+                        })
+                .start();
+    }
+
     private void togglePinned() {
         final boolean pinned = conversation.isPinnedOnTop();
         conversation.setPinnedOnTop(!pinned);
@@ -2343,9 +2468,8 @@ public class ConversationFragment extends XmppFragment
         super.onResume();
         binding.messagesView.post(this::fireReadEvent);
         binding.textInput.setOnFocusChangeListener(this.textInputFocusListener);
-        // Chatrix.One: chat background (glow / plain / own picture), re-read in case it changed
-        binding.chatContainer.setBackground(
-                eu.siacs.conversations.ui.chatrix.ChatBackground.create(requireContext()));
+        // Chatrix.One: chat background (per chat or default), re-read in case it changed
+        applyChatBackground();
     }
 
     @Override
@@ -2425,6 +2549,7 @@ public class ConversationFragment extends XmppFragment
         }
         switch (action) {
             case QUOTE -> quoteMessage(message);
+            case EDIT -> correctMessage(message);
             case COPY -> {
                 ShareUtil.copyToClipboard(requireXmppActivity(), message);
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
@@ -2483,13 +2608,29 @@ public class ConversationFragment extends XmppFragment
                             },
                             () -> {
                                 dialog[0].dismiss();
-                                addReaction(message);
+                                final Intent intent =
+                                        new Intent(requireContext(), AddReactionActivity.class);
+                                intent.putExtra("conversation", message.getConversation().getUuid());
+                                intent.putExtra("message", message.getUuid());
+                                startActivity(intent);
+                            },
+                            () -> {
+                                dialog[0].dismiss();
+                                new AddReactionDialog(
+                                                message,
+                                                reactions ->
+                                                        requireXmppActivity()
+                                                                .sendReactions(message, reactions),
+                                                true)
+                                        .create(requireActivity())
+                                        .show();
                             }));
         } else {
             builder.setTitle(R.string.message_options);
         }
-        builder.setItems(
-                titles,
+        // compact rows instead of the default 48dp+ list items
+        builder.setAdapter(
+                new ArrayAdapter<>(requireContext(), R.layout.chatrix_menu_item, titles),
                 (d, which) -> {
                     this.selectedMessage = message;
                     onContextItemSelected(items.get(which));
@@ -3050,6 +3191,7 @@ public class ConversationFragment extends XmppFragment
             this.binding.textInput.setText(CharSequences.EMPTY_STRING);
         }
         this.binding.textInput.setKeyboardListener(this);
+        applyChatBackground(); // Chatrix.One: this chat's own background
         this.messageListAdapter.updatePreferences();
         final var appSettings = new AppSettings(requireContext());
         this.inputSettings =

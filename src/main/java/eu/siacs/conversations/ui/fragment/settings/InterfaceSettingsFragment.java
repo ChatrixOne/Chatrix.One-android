@@ -7,6 +7,9 @@ import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.PickVisualMediaRequest;
 import androidx.activity.result.contract.ActivityResultContracts;
 import eu.siacs.conversations.ui.chatrix.ChatBackground;
+import eu.siacs.conversations.ui.chatrix.QuickActions;
+import eu.siacs.conversations.ui.AddReactionActivity;
+import android.content.Intent;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.preference.ListPreference;
@@ -73,6 +76,17 @@ public class InterfaceSettingsFragment extends XmppPreferenceFragment {
     @Override
     public void onCreatePreferences(@Nullable Bundle savedInstanceState, @Nullable String rootKey) {
         setPreferencesFromResource(R.xml.preferences_interface, rootKey);
+        // Chatrix.One: quick reaction emoji is chosen from the full emoji picker
+        final Preference quickEmoji = findPreference(QuickActions.PREF_QUICK_EMOJI);
+        if (quickEmoji != null) {
+            quickEmoji.setOnPreferenceClickListener(
+                    p -> {
+                        startActivity(
+                                new Intent(requireContext(), AddReactionActivity.class)
+                                        .putExtra(AddReactionActivity.EXTRA_PICK_QUICK_EMOJI, true));
+                        return true;
+                    });
+        }
         final ListPreference chatBackground = findPreference(ChatBackground.PREF_KEY);
         if (chatBackground != null) {
             chatBackground.setOnPreferenceChangeListener(
@@ -136,6 +150,10 @@ public class InterfaceSettingsFragment extends XmppPreferenceFragment {
     public void onStart() {
         super.onStart();
         requireActivity().setTitle(R.string.pref_title_interface);
+        final Preference quickEmoji = findPreference(QuickActions.PREF_QUICK_EMOJI);
+        if (quickEmoji != null) {
+            quickEmoji.setSummary(QuickActions.quickEmoji(requireContext()));
+        }
     }
 
     public SettingsActivity requireSettingsActivity() {
