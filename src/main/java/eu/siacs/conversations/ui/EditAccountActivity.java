@@ -119,8 +119,9 @@ public class EditAccountActivity extends OmemoActivity
 
     public static final String EXTRA_OPENED_FROM_NOTIFICATION = "opened_from_notification";
     public static final String EXTRA_FORCE_REGISTER = "force_register";
-    // Chatrix.One: pre-fill "@domain" in the address field after a web sign-up
+    // Chatrix.One: help after a web sign-up on chatrix.one
     public static final String EXTRA_CHATRIX_DOMAIN = "chatrix_domain";
+    public static final String EXTRA_CHATRIX_JID = "chatrix_jid";
 
     private static final int REQUEST_DATA_SAVER = 0xf244;
     private static final int REQUEST_CHANGE_STATUS = 0xee11;
@@ -918,13 +919,18 @@ public class EditAccountActivity extends OmemoActivity
             this.mInitMode = init || this.jidToEdit == null;
             this.messageFingerprint = intent.getStringExtra("fingerprint");
             final String chatrixDomain = intent.getStringExtra(EXTRA_CHATRIX_DOMAIN);
+            final String chatrixJid = intent.getStringExtra(EXTRA_CHATRIX_JID);
             if (jidToEdit == null
-                    && chatrixDomain != null
                     && binding.accountJid.getText() != null
                     && binding.accountJid.getText().length() == 0) {
-                binding.accountJid.setText("@" + chatrixDomain);
-                binding.accountJid.setSelection(0);
-                binding.accountJid.requestFocus();
+                if (chatrixJid != null) {
+                    // address comes from the sign-up page: only the password is left to type
+                    binding.accountJid.setText(chatrixJid);
+                    binding.accountPassword.requestFocus();
+                } else if (chatrixDomain != null) {
+                    binding.accountJidLayout.setPlaceholderText(
+                            getString(R.string.chatrix_address_example, chatrixDomain));
+                }
             }
             if (!mInitMode) {
                 this.binding.accountRegisterNew.setVisibility(View.GONE);

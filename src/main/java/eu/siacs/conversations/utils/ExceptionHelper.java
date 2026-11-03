@@ -67,9 +67,10 @@ public class ExceptionHelper {
         builder.setTitle(
                 activity.getString(
                         R.string.crash_report_title, activity.getString(R.string.app_name)));
+        // Chatrix.One: say exactly what would be sent and show it before anything happens
         builder.setMessage(
-                activity.getString(
-                        R.string.crash_report_message, activity.getString(R.string.app_name)));
+                activity.getString(R.string.chatrix_crash_report_message, Config.BUG_REPORTS_EMAIL));
+        builder.setView(reportView(activity, report));
         if (account != null) {
             builder.setPositiveButton(
                     activity.getText(R.string.send_now),
@@ -111,6 +112,29 @@ public class ExceptionHelper {
                 (dialog, which) -> appSettings.setSendCrashReports(false));
         builder.create().show();
         return true;
+    }
+
+    private static android.view.View reportView(final Context context, final String report) {
+        final float density = context.getResources().getDisplayMetrics().density;
+        final android.widget.TextView text = new android.widget.TextView(context);
+        text.setText(report);
+        text.setTextIsSelectable(true);
+        text.setTypeface(android.graphics.Typeface.MONOSPACE);
+        text.setTextSize(android.util.TypedValue.COMPLEX_UNIT_SP, 11);
+        final int pad = (int) (12 * density);
+        text.setPadding(pad, pad, pad, pad);
+        text.setBackgroundResource(R.drawable.background_chatrix_hint);
+        final android.widget.ScrollView scroll = new android.widget.ScrollView(context);
+        scroll.addView(text);
+        final android.widget.FrameLayout frame = new android.widget.FrameLayout(context);
+        final int side = (int) (24 * density);
+        frame.setPadding(side, (int) (8 * density), side, 0);
+        frame.addView(
+                scroll,
+                new android.widget.FrameLayout.LayoutParams(
+                        android.view.ViewGroup.LayoutParams.MATCH_PARENT,
+                        (int) (180 * density)));
+        return frame;
     }
 
     static void writeToStacktraceFile(final Context context, final String msg) {

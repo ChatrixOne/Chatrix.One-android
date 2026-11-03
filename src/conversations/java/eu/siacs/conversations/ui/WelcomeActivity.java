@@ -133,7 +133,26 @@ public class WelcomeActivity extends QrCodeProcessingActivity
         super.onNewIntent(intent);
         if (intent != null) {
             setIntent(intent);
+            openChatrixLogin(intent);
         }
+    }
+
+    /** Chatrix.One: chatrixone://login?jid=name@chatrix.one opens the login with the address. */
+    private void openChatrixLogin(final Intent intent) {
+        final Uri data = intent.getData();
+        if (data == null
+                || !"chatrixone".equals(data.getScheme())
+                || !"login".equals(data.getHost())) {
+            return;
+        }
+        final String jid = data.getQueryParameter("jid");
+        if (jid == null || jid.length() > 256 || !jid.matches("[^\\s@/]+@[^\\s@/]+")) {
+            return;
+        }
+        final Intent login = new Intent(this, EditAccountActivity.class);
+        login.putExtra(EditAccountActivity.EXTRA_FORCE_REGISTER, false);
+        login.putExtra(EditAccountActivity.EXTRA_CHATRIX_JID, jid);
+        startActivity(login);
     }
 
     @Override
@@ -147,6 +166,9 @@ public class WelcomeActivity extends QrCodeProcessingActivity
                 savedInstanceState != null
                         && savedInstanceState.getBoolean(STATE_SIGNUP_STARTED, false);
         binding.registerChatrix.setOnClickListener(v -> openChatrixSignup());
+        if (savedInstanceState == null && getIntent() != null) {
+            openChatrixLogin(getIntent());
+        }
         // Chatrix.One: choose the app language right on the first screen
         binding.languageButton.setText(
                 eu.siacs.conversations.ui.chatrix.AppLanguage.label(this));

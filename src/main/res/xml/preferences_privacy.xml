@@ -55,7 +55,7 @@
             android:defaultValue="@bool/send_crash_reports"
             android:icon="@drawable/ic_report_24dp"
             android:key="send_crash_reports"
-            android:summary="@string/pref_never_send_crash_summary"
+            android:summary="@string/chatrix_pref_crash_reports_summary"
             android:title="@string/pref_send_crash_reports" />
         <SwitchPreferenceCompat
             android:defaultValue="true"

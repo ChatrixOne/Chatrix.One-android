@@ -10,8 +10,19 @@
             android:theme="@style/Theme.Conversations3" />
         <activity
             android:name=".ui.WelcomeActivity"
+            android:exported="true"
             android:label="@string/app_name"
-            android:launchMode="singleTask" />
+            android:launchMode="singleTask">
+            <!-- Chatrix.One: "Open Chatrix.One" on the chatrix.one sign-up success page -->
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <data
+                    android:host="login"
+                    android:scheme="chatrixone" />
+            </intent-filter>
+        </activity>
         <activity
             android:name=".ui.PickServerActivity"
             android:enableOnBackInvokedCallback="false"
