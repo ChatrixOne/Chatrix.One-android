@@ -47,7 +47,7 @@ public class UpdateCheckWorker extends Worker {
 
     public static final String PREF_KEY = "chatrix_update_check";
     public static final String RELEASES_URL =
-            "https://github.com/MrEddX/Chatrix.One-android/releases";
+            "https://github.com/ChatrixOne/Chatrix.One-android/releases";
 
     private static final String PREF_LAST_NOTIFIED = "chatrix_update_last_notified";
     private static final String WORK_NAME = "chatrix_update_check";

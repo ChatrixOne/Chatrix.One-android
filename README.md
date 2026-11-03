@@ -3,7 +3,7 @@
 <p align="center">A friendly, private XMPP messenger for <a href="https://chatrix.one">chatrix.one</a> and any other Jabber/XMPP server.</p>
 
 <p align="center">
-  <a href="https://github.com/MrEddX/Chatrix.One-android/releases">Download the latest release</a>
+  <a href="https://github.com/ChatrixOne/Chatrix.One-android/releases">Download the latest release</a>
 </p>
 
 Chatrix.One is a fork of [Conversations](https://codeberg.org/iNPUTmice/Conversations), the
@@ -65,7 +65,7 @@ Chatrix.One contains no trackers, no analytics and no advertising, and uses no G
 The only network request the app makes on its own, apart from your XMPP server, is the optional
 update check: once a day it downloads the public file `https://chatrix.eu/download/version.json`
 and, if a newer version exists, shows a notification that opens the
-[releases page](https://github.com/MrEddX/Chatrix.One-android/releases). Nothing is downloaded or
+[releases page](https://github.com/ChatrixOne/Chatrix.One-android/releases). Nothing is downloaded or
 installed automatically and no identifiers are sent. The check is skipped when the app was
 installed from F-Droid or another app store, when Tor is enabled, and when you switch it off in
 *Settings → Privacy → Check for updates*. Builds made with `-PchatrixUpdateCheck=false` do not
