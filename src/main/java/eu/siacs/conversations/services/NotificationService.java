@@ -1253,7 +1253,7 @@ public class NotificationService {
         mBuilder.setGroupSummary(true);
         mBuilder.setGroup(MESSAGES_GROUP);
         mBuilder.setDeleteIntent(createDeleteIntent(null));
-        mBuilder.setSmallIcon(R.drawable.ic_app_icon_notification);
+        mBuilder.setSmallIcon(R.drawable.ic_chatrix_message_24dp);
         return mBuilder;
     }
 
@@ -1407,7 +1407,7 @@ public class NotificationService {
                             .getShortcutInfo(conversation.getMucOptions());
         }
         notificationBuilder.setWhen(conversation.getLatestMessage().getTimeSent());
-        notificationBuilder.setSmallIcon(R.drawable.ic_app_icon_notification);
+        notificationBuilder.setSmallIcon(R.drawable.ic_chatrix_message_24dp);
         notificationBuilder.setDeleteIntent(createDeleteIntent(conversation));
         notificationBuilder.setContentIntent(createContentIntent(conversation));
         if (channel.equals(MESSAGES_NOTIFICATION_CHANNEL) && info != null) {
