@@ -1,0 +1,18 @@
+Chatrix.One is a friendly, private messenger for chatrix.one and any other Jabber/XMPP server. It is based on Conversations by Daniel Gultsch and keeps all of its features, adding its own look and faster ways to work with messages.
+
+<b>What Chatrix.One adds</b>
+* Swipe left to quote, swipe right to react with your favourite emoji, double-tap to copy. Every gesture is configurable, including editing your own message.
+* Compact long-press menu with a reaction row, the full emoji picker and emoji typing.
+* Chatrix.One design with rounded Material 3 dialogs, chat backgrounds per chat and voice messages shown as waveforms.
+* Clear connection status icon and a one-tap way to hide the permanent notification.
+* Crash reports only after asking, via XMPP or email.
+
+<b>Everything from Conversations</b>
+* End-to-end encryption with OMEMO or OpenPGP
+* Encrypted audio and video calls
+* Send and receive images, files, voice messages and locations
+* Private group chats and public channels
+* Emoji reactions, read markers, message correction
+* Multiple accounts, works with every modern XMPP server
+
+Chatrix.One contains no trackers, no advertising and uses no Google services. It installs next to Conversations, and you can move your chats with a Conversations backup.

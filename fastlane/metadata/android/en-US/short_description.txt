@@ -1,0 +1,1 @@
+Friendly, private XMPP messenger with quick message gestures
