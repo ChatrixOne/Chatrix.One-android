@@ -44,28 +44,13 @@
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintWidth_max="440dp">
 
-                    <com.google.android.material.button.MaterialButtonToggleGroup
-                        android:id="@+id/language_toggle"
+                    <Button
+                        android:id="@+id/language_button"
+                        style="@style/Widget.Material3.Button.TonalButton.Icon"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="32dp"
-                        app:selectionRequired="true"
-                        app:singleSelection="true">
-
-                        <Button
-                            android:id="@+id/language_en"
-                            style="@style/Widget.Material3.Button.OutlinedButton"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="English" />
-
-                        <Button
-                            android:id="@+id/language_bg"
-                            style="@style/Widget.Material3.Button.OutlinedButton"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Български" />
-                    </com.google.android.material.button.MaterialButtonToggleGroup>
+                        app:icon="@drawable/ic_chatrix_language_24dp" />
 
                     <ImageView
                         android:layout_width="wrap_content"

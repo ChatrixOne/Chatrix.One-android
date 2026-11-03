@@ -148,21 +148,10 @@ public class WelcomeActivity extends QrCodeProcessingActivity
                         && savedInstanceState.getBoolean(STATE_SIGNUP_STARTED, false);
         binding.registerChatrix.setOnClickListener(v -> openChatrixSignup());
         // Chatrix.One: choose the app language right on the first screen
-        binding.languageToggle.check(
-                eu.siacs.conversations.ui.chatrix.AppLanguage.BULGARIAN.equals(
-                                eu.siacs.conversations.ui.chatrix.AppLanguage.effective())
-                        ? R.id.language_bg
-                        : R.id.language_en);
-        binding.languageToggle.addOnButtonCheckedListener(
-                (group, checkedId, isChecked) -> {
-                    if (!isChecked) {
-                        return;
-                    }
-                    eu.siacs.conversations.ui.chatrix.AppLanguage.set(
-                            checkedId == R.id.language_bg
-                                    ? eu.siacs.conversations.ui.chatrix.AppLanguage.BULGARIAN
-                                    : eu.siacs.conversations.ui.chatrix.AppLanguage.ENGLISH);
-                });
+        binding.languageButton.setText(
+                eu.siacs.conversations.ui.chatrix.AppLanguage.label(this));
+        binding.languageButton.setOnClickListener(
+                v -> eu.siacs.conversations.ui.chatrix.AppLanguage.showPicker(this));
         Activities.setStatusAndNavigationBarColors(this, binding.getRoot());
         setSupportActionBar(binding.toolbar);
         configureActionBar(getSupportActionBar(), false);

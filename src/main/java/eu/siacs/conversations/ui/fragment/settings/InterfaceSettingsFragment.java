@@ -79,11 +79,18 @@ public class InterfaceSettingsFragment extends XmppPreferenceFragment {
         // Chatrix.One: app language (stored by AndroidX, not in our preferences)
         final ListPreference language = findPreference("chatrix_language");
         if (language != null) {
-            language.setValue(eu.siacs.conversations.ui.chatrix.AppLanguage.chosen());
+            final var values = eu.siacs.conversations.ui.chatrix.AppLanguage.values(requireContext());
+            language.setEntryValues(values.toArray(new CharSequence[0]));
+            language.setEntries(
+                    eu.siacs.conversations.ui.chatrix.AppLanguage.entries(
+                            requireContext(), values));
+            language.setValue(
+                    eu.siacs.conversations.ui.chatrix.AppLanguage.chosen(requireContext()));
             language.setSummary(language.getEntry());
             language.setOnPreferenceChangeListener(
                     (preference, newValue) -> {
-                        eu.siacs.conversations.ui.chatrix.AppLanguage.set((String) newValue);
+                        eu.siacs.conversations.ui.chatrix.AppLanguage.set(
+                                requireContext(), (String) newValue);
                         return true;
                     });
         }

@@ -55,15 +55,5 @@
     <string name="chatrix_use_other_provider">Use another XMPP provider</string>
     <string name="chatrix_welcome_after_signup">Created your account on the website? Tap \"I already have an account\" and enter your new chatrix.one address and password.\n\nIf the website offered \"Accept invite using Chatrix.One\", that button finishes everything for you.</string>
     <string name="chatrix_pref_language">Language</string>
-    <string name="chatrix_language_system">Phone language</string>
-    <string-array name="chatrix_language_entries">
-        <item>@string/chatrix_language_system</item>
-        <item>English</item>
-        <item>Български</item>
-    </string-array>
-    <string-array name="chatrix_language_values" translatable="false">
-        <item></item>
-        <item>en</item>
-        <item>bg</item>
-    </string-array>
+    <string name="chatrix_language_device">Device language</string>
 </resources>
