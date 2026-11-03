@@ -76,6 +76,17 @@ public class InterfaceSettingsFragment extends XmppPreferenceFragment {
     @Override
     public void onCreatePreferences(@Nullable Bundle savedInstanceState, @Nullable String rootKey) {
         setPreferencesFromResource(R.xml.preferences_interface, rootKey);
+        // Chatrix.One: app language (stored by AndroidX, not in our preferences)
+        final ListPreference language = findPreference("chatrix_language");
+        if (language != null) {
+            language.setValue(eu.siacs.conversations.ui.chatrix.AppLanguage.chosen());
+            language.setSummary(language.getEntry());
+            language.setOnPreferenceChangeListener(
+                    (preference, newValue) -> {
+                        eu.siacs.conversations.ui.chatrix.AppLanguage.set((String) newValue);
+                        return true;
+                    });
+        }
         // Chatrix.One: quick reaction emoji is chosen from the full emoji picker
         final Preference quickEmoji = findPreference(QuickActions.PREF_QUICK_EMOJI);
         if (quickEmoji != null) {

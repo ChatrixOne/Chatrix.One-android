@@ -2,6 +2,13 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <PreferenceCategory android:title="@string/appearance">
+        <ListPreference
+            android:entries="@array/chatrix_language_entries"
+            android:entryValues="@array/chatrix_language_values"
+            android:icon="@drawable/ic_chatrix_language_24dp"
+            android:key="chatrix_language"
+            android:persistent="false"
+            android:title="@string/chatrix_pref_language" />
         <SwitchPreferenceCompat
             android:defaultValue="@bool/dynamic_colors"
             android:icon="@drawable/ic_palette_24dp"

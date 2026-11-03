@@ -30,4 +30,6 @@
     <string name="chatrix_create_account">Създаване на профил в Chatrix.One</string>
     <string name="chatrix_use_other_provider">Друг XMPP доставчик</string>
     <string name="chatrix_welcome_after_signup">Създадохте профил в сайта? Докоснете \"Вече имам профил\" и въведете новия си chatrix.one адрес и парола.\n\nАко сайтът предложи \"Accept invite using Chatrix.One\", този бутон довършва всичко вместо вас.</string>
+    <string name="chatrix_pref_language">Език</string>
+    <string name="chatrix_language_system">Езикът на телефона</string>
 </resources>
