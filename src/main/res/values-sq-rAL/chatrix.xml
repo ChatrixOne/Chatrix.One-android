@@ -32,6 +32,7 @@
     <string name="chatrix_welcome_after_signup">E krijuat llogarinë në sajt? Prekni \"Kam tashmë një llogari\" dhe jepni adresën tuaj të re chatrix.one dhe fjalëkalimin.\n\nNëse sajti ofroi \"Accept invite using Chatrix.One\", ai buton i kryen të gjitha për ju.</string>
     <string name="chatrix_pref_language">Gjuha</string>
     <string name="chatrix_language_device">Gjuha e pajisjes</string>
+    <string name="chatrix_language_note">Tekstet që Chatrix.One i shton aplikacionit janë shkruar në anglisht dhe bullgarisht nga ekipi i Chatrix.One. Në të gjitha gjuhët e tjera janë përkthyer automatikisht, ndaj disa mund të tingëllojnë paksa të çuditshme. Gjithçka tjetër vjen nga përkthimet e Conversations. Faleminderit për mirëkuptimin!</string>
     <string name="chatrix_address_example">emrijuaj@%s</string>
     <string name="chatrix_pref_crash_reports_summary">Asgjë nuk dërgohet kurrë në prapaskenë. Pas një vithisjeje, Chatrix.One ju shfaq raportin (versioni i aplikacionit, modeli i pajisjes, ora dhe hollësitë teknike të gabimit) dhe pyet më parë. I dërgohet ekipit Chatrix.One vetëm nëse e ripohoni, si mesazh XMPP nga llogaria juaj ose me email. Çaktivizojeni që të mos pyeteni kurrë.</string>
     <string name="chatrix_crash_report_message">Chatrix.One u mbyll papritur. Raporti më poshtë përmban versionin e aplikacionit, modelin e pajisjes, orën dhe hollësitë teknike të gabimit. Ta dërgojmë te %s për të ndihmuar në ndreqjen e problemit? Asgjë nuk dërgohet pa zgjedhjen tuaj.</string>

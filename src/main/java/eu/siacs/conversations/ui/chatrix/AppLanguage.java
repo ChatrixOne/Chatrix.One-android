@@ -2,9 +2,15 @@ package eu.siacs.conversations.ui.chatrix;
 
 import android.content.Context;
 import android.content.res.XmlResourceParser;
+import android.graphics.Color;
 import android.util.Log;
+import android.view.View;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.core.os.LocaleListCompat;
+import androidx.core.widget.TextViewCompat;
+import com.google.android.material.color.MaterialColors;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import eu.siacs.conversations.Config;
 import eu.siacs.conversations.R;
@@ -110,12 +116,15 @@ public final class AppLanguage {
                 : names(available(context)).get(tag);
     }
 
-    /** Shows the language list in a Material dialog and applies the choice. */
+    /**
+     * Shows the language list in a Material dialog and applies the choice. Below the title, a
+     * short note says which translations were made automatically.
+     */
     public static void showPicker(final Context context) {
         final List<String> values = values(context);
         final int checked = Math.max(0, values.indexOf(chosen(context)));
         new MaterialAlertDialogBuilder(context)
-                .setTitle(R.string.chatrix_pref_language)
+                .setCustomTitle(title(context))
                 .setSingleChoiceItems(
                         entries(context, values),
                         checked,
@@ -125,6 +134,34 @@ public final class AppLanguage {
                         })
                 .setNegativeButton(R.string.cancel, null)
                 .show();
+    }
+
+    /** Dialog title "Language" with the machine translation note under it. */
+    private static View title(final Context context) {
+        final int pad = Math.round(24 * context.getResources().getDisplayMetrics().density);
+        final LinearLayout layout = new LinearLayout(context);
+        layout.setOrientation(LinearLayout.VERTICAL);
+        layout.setPadding(pad, pad, pad, pad / 2);
+        final TextView title = new TextView(context);
+        TextViewCompat.setTextAppearance(
+                title, com.google.android.material.R.style.TextAppearance_Material3_HeadlineSmall);
+        title.setTextColor(
+                MaterialColors.getColor(
+                        context, com.google.android.material.R.attr.colorOnSurface, Color.BLACK));
+        title.setText(R.string.chatrix_pref_language);
+        final TextView note = new TextView(context);
+        TextViewCompat.setTextAppearance(
+                note, com.google.android.material.R.style.TextAppearance_Material3_BodySmall);
+        note.setTextColor(
+                MaterialColors.getColor(
+                        context,
+                        com.google.android.material.R.attr.colorOnSurfaceVariant,
+                        Color.GRAY));
+        note.setText(R.string.chatrix_language_note);
+        note.setPadding(0, pad / 3, 0, 0);
+        layout.addView(title);
+        layout.addView(note);
+        return layout;
     }
 
     private static Map<String, String> names(final List<String> tags) {

@@ -32,6 +32,7 @@
     <string name="chatrix_welcome_after_signup">Hesabınızı web sitesinde mi oluşturdunuz? \"Zaten bir hesabım var\" seçeneğine dokunun ve yeni chatrix.one adresinizi ve parolanızı girin.\n\nWeb sitesi \"Accept invite using Chatrix.One\" seçeneğini sunduysa, o düğme her şeyi sizin yerinize yapar.</string>
     <string name="chatrix_pref_language">Dil</string>
     <string name="chatrix_language_device">Cihaz dili</string>
+    <string name="chatrix_language_note">Chatrix.One\'ın uygulamaya eklediği metinler Chatrix.One ekibi tarafından İngilizce ve Bulgarca yazıldı. Diğer tüm dillerde otomatik olarak çevrildiler, bu yüzden bazıları biraz alışılmadık gelebilir. Geri kalan her şey Conversations çevirilerinden gelir. Anlayışınız için teşekkürler!</string>
     <string name="chatrix_address_example">adiniz@%s</string>
     <string name="chatrix_pref_crash_reports_summary">Arka planda asla hiçbir şey gönderilmez. Bir çökmeden sonra Chatrix.One size raporu (uygulama sürümü, cihaz modeli, saat ve hatanın teknik ayrıntıları) gösterir ve önce sorar. Rapor yalnızca onaylarsanız, hesabınızdan XMPP mesajı olarak veya e-postayla Chatrix.One ekibine gönderilir. Hiç sorulmaması için kapatın.</string>
     <string name="chatrix_crash_report_message">Chatrix.One beklenmedik şekilde kapandı. Aşağıdaki rapor uygulama sürümünü, cihaz modelini, saati ve hatanın teknik ayrıntılarını içerir. Sorunun giderilmesine yardım etmek için %s adresine gönderilsin mi? Siz seçmedikçe hiçbir şey gönderilmez.</string>

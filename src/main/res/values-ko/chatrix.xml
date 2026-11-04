@@ -32,6 +32,7 @@
     <string name="chatrix_welcome_after_signup">웹사이트에서 계정을 만드셨나요? \"I already have an account\"을(를) 탭하고 새 chatrix.one 주소와 비밀번호를 입력하세요.\n\n사이트에서 \"Accept invite using Chatrix.One\"을 제공했다면 그 버튼이 모든 것을 처리해 줍니다.</string>
     <string name="chatrix_pref_language">언어</string>
     <string name="chatrix_language_device">기기 언어</string>
+    <string name="chatrix_language_note">Chatrix.One이 앱에 추가한 문구는 Chatrix.One 팀이 영어와 불가리아어로 작성했습니다. 다른 모든 언어에서는 자동 번역되어 일부 표현이 조금 어색할 수 있습니다. 그 밖의 모든 문구는 Conversations 번역을 사용합니다. 양해해 주셔서 감사합니다!</string>
     <string name="chatrix_address_example">yourname@%s</string>
     <string name="chatrix_pref_crash_reports_summary">백그라운드에서는 아무것도 보내지 않습니다. 앱이 비정상 종료되면 Chatrix.One이 보고서(앱 버전, 기기 모델, 시간, 오류의 기술적 세부 정보)를 보여 주고 먼저 묻습니다. 확인한 경우에만 내 계정의 XMPP 메시지 또는 이메일로 Chatrix.One 팀에 전송됩니다. 다시는 묻지 않게 하려면 끄세요.</string>
     <string name="chatrix_crash_report_message">Chatrix.One이 예기치 않게 종료되었습니다. 아래 보고서에는 앱 버전, 기기 모델, 시간, 오류의 기술적 세부 정보가 포함되어 있습니다. 문제 해결을 돕기 위해 %s(으)로 보낼까요? 선택하지 않으면 아무것도 전송되지 않습니다.</string>

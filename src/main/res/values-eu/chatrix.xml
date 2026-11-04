@@ -32,6 +32,7 @@
     <string name="chatrix_welcome_after_signup">Webgunean sortu duzu kontua? Ukitu \"Badaukat kontu bat dagoeneko\" eta idatzi zure chatrix.one helbide berria eta pasahitza.\n\nWebguneak \"Accept invite using Chatrix.One\" eskaini badizu, botoi horrek dena egiten du zure ordez.</string>
     <string name="chatrix_pref_language">Hizkuntza</string>
     <string name="chatrix_language_device">Gailuaren hizkuntza</string>
+    <string name="chatrix_language_note">Chatrix.One-k aplikazioari gehitzen dizkion testuak Chatrix.One taldeak idatzi ditu ingelesez eta bulgarieraz. Gainerako hizkuntza guztietan automatikoki itzuli dira, eta horietako batzuk arraro samarrak irudi daitezke. Beste guztia Conversations-en itzulpenetatik dator. Eskerrik asko ulertzeagatik!</string>
     <string name="chatrix_address_example">zureizena@%s</string>
     <string name="chatrix_pref_crash_reports_summary">Ez da inoiz ezer bidaltzen atzeko planoan. Huts egin ondoren, Chatrix.One-k txostena erakusten dizu (aplikazioaren bertsioa, gailuaren modeloa, ordua eta errorearen xehetasun teknikoak) eta lehenik galdetzen dizu. Berresten baduzu bakarrik bidaltzen zaio Chatrix.One taldeari, zure kontutik XMPP mezu gisa edo posta elektronikoz. Desaktibatu inoiz ez galdetzeko.</string>
     <string name="chatrix_crash_report_message">Chatrix.One ustekabean itxi da. Beheko txostenak aplikazioaren bertsioa, gailuaren modeloa, ordua eta errorearen xehetasun teknikoak ditu. %s helbidera bidali arazoa konpontzen laguntzeko? Ez da ezer bidaltzen zuk aukeratu ezean.</string>

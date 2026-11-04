@@ -32,6 +32,7 @@
     <string name="chatrix_welcome_after_signup">Sudah membuat akun di situs web? Ketuk \"I already have an account\" lalu masukkan alamat chatrix.one baru dan kata sandi Anda.\n\nJika situs menawarkan \"Accept invite using Chatrix.One\", tombol itu menyelesaikan semuanya untuk Anda.</string>
     <string name="chatrix_pref_language">Bahasa</string>
     <string name="chatrix_language_device">Bahasa perangkat</string>
+    <string name="chatrix_language_note">Teks yang ditambahkan Chatrix.One ke aplikasi ditulis dalam bahasa Inggris dan Bulgaria oleh tim Chatrix.One. Dalam semua bahasa lain, teks tersebut diterjemahkan secara otomatis, jadi beberapa mungkin terdengar sedikit janggal. Selebihnya berasal dari terjemahan Conversations. Terima kasih atas pengertian Anda!</string>
     <string name="chatrix_address_example">namaanda@%s</string>
     <string name="chatrix_pref_crash_reports_summary">Tidak ada yang pernah dikirim di latar belakang. Setelah aplikasi mogok, Chatrix.One menampilkan laporan (versi aplikasi, model perangkat, waktu, dan detail teknis kesalahan) dan bertanya terlebih dahulu. Laporan hanya dikirim ke tim Chatrix.One jika Anda mengonfirmasi, sebagai pesan XMPP dari akun Anda atau lewat email. Matikan agar tidak pernah ditanya.</string>
     <string name="chatrix_crash_report_message">Chatrix.One tertutup secara tidak terduga. Laporan di bawah berisi versi aplikasi, model perangkat, waktu, dan detail teknis kesalahan. Kirim ke %s untuk membantu memperbaiki masalah? Tidak ada yang dikirim kecuali Anda memilihnya.</string>

@@ -32,6 +32,7 @@
     <string name="chatrix_welcome_after_signup">Has creat el compte al web? Toca \"Ja tinc un compte\" i introdueix la teva nova adreça de chatrix.one i la contrasenya.\n\nSi el web t\'ha ofert \"Accept invite using Chatrix.One\", aquest botó ho fa tot per tu.</string>
     <string name="chatrix_pref_language">Idioma</string>
     <string name="chatrix_language_device">Idioma del dispositiu</string>
+    <string name="chatrix_language_note">Els textos que Chatrix.One afegeix a l\'aplicació els ha escrit en anglès i búlgar l\'equip de Chatrix.One. En tots els altres idiomes s\'han traduït automàticament, així que alguns poden sonar una mica estranys. Tota la resta prové de les traduccions de Conversations. Gràcies per la comprensió!</string>
     <string name="chatrix_address_example">elteunom@%s</string>
     <string name="chatrix_pref_crash_reports_summary">Mai no s\'envia res en segon pla. Després d\'una fallada, Chatrix.One et mostra l\'informe (versió de l\'aplicació, model del dispositiu, hora i detalls tècnics de l\'error) i et pregunta primer. Només s\'envia a l\'equip de Chatrix.One si ho confirmes, com a missatge XMPP des del teu compte o per correu. Desactiva-ho perquè no se\'t pregunti mai.</string>
     <string name="chatrix_crash_report_message">Chatrix.One s\'ha tancat inesperadament. L\'informe següent conté la versió de l\'aplicació, el model del dispositiu, l\'hora i els detalls tècnics de l\'error. Vols enviar-lo a %s per ajudar a solucionar el problema? No s\'envia res si no ho tries.</string>

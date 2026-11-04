@@ -32,6 +32,7 @@
     <string name="chatrix_welcome_after_signup">Đã tạo tài khoản trên trang web? Chạm vào \"Tôi đã có một tài khoản rồi\" và nhập địa chỉ chatrix.one mới cùng mật khẩu của bạn.\n\nNếu trang web có nút \"Accept invite using Chatrix.One\", nút đó sẽ hoàn tất mọi thứ cho bạn.</string>
     <string name="chatrix_pref_language">Ngôn ngữ</string>
     <string name="chatrix_language_device">Ngôn ngữ của thiết bị</string>
+    <string name="chatrix_language_note">Các nội dung mà Chatrix.One bổ sung vào ứng dụng do nhóm Chatrix.One viết bằng tiếng Anh và tiếng Bulgaria. Ở tất cả các ngôn ngữ khác, chúng được dịch tự động nên một số câu có thể nghe hơi lạ. Phần còn lại lấy từ bản dịch của Conversations. Cảm ơn bạn đã thông cảm!</string>
     <string name="chatrix_address_example">tencuaban@%s</string>
     <string name="chatrix_pref_crash_reports_summary">Không bao giờ gửi gì trong nền. Sau khi gặp sự cố, Chatrix.One cho bạn xem báo cáo (phiên bản ứng dụng, mẫu thiết bị, thời gian và chi tiết kỹ thuật của lỗi) và hỏi trước. Báo cáo chỉ được gửi tới nhóm Chatrix.One nếu bạn xác nhận, dưới dạng tin nhắn XMPP từ tài khoản của bạn hoặc qua email. Tắt để không bao giờ bị hỏi.</string>
     <string name="chatrix_crash_report_message">Chatrix.One đã đóng đột ngột. Báo cáo bên dưới gồm phiên bản ứng dụng, mẫu thiết bị, thời gian và chi tiết kỹ thuật của lỗi. Gửi tới %s để giúp khắc phục sự cố? Không có gì được gửi nếu bạn không chọn.</string>

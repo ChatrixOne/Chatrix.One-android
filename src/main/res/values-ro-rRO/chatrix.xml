@@ -32,6 +32,7 @@
     <string name="chatrix_welcome_after_signup">Ați creat contul pe site? Atingeți „Eu am deja un cont” și introduceți noua adresă chatrix.one și parola.\n\nDacă site-ul a oferit „Accept invite using Chatrix.One”, acel buton face totul în locul dumneavoastră.</string>
     <string name="chatrix_pref_language">Limbă</string>
     <string name="chatrix_language_device">Limba dispozitivului</string>
+    <string name="chatrix_language_note">Textele pe care Chatrix.One le adaugă în aplicație au fost scrise în engleză și bulgară de echipa Chatrix.One. În toate celelalte limbi au fost traduse automat, așa că unele pot suna puțin neobișnuit. Restul provine din traducerile Conversations. Vă mulțumim pentru înțelegere!</string>
     <string name="chatrix_address_example">numele@%s</string>
     <string name="chatrix_pref_crash_reports_summary">Nu se trimite niciodată nimic în fundal. După o eroare fatală, Chatrix.One vă arată raportul (versiunea aplicației, modelul dispozitivului, ora și detaliile tehnice ale erorii) și întreabă mai întâi. Se trimite echipei Chatrix.One doar dacă confirmați, ca mesaj XMPP din contul dumneavoastră sau prin e-mail. Dezactivați pentru a nu fi întrebat niciodată.</string>
     <string name="chatrix_crash_report_message">Chatrix.One s-a închis neașteptat. Raportul de mai jos conține versiunea aplicației, modelul dispozitivului, ora și detaliile tehnice ale erorii. Îl trimiteți la %s pentru a ajuta la rezolvarea problemei? Nu se trimite nimic fără alegerea dumneavoastră.</string>

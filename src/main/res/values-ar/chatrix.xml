@@ -32,6 +32,7 @@
     <string name="chatrix_welcome_after_signup">أنشأت حسابك على الموقع؟ انقر على \"لدي حساب\" وأدخل عنوانك الجديد على chatrix.one وكلمة المرور.\n\nإذا عرض الموقع زر \"Accept invite using Chatrix.One\"، فهذا الزر يُكمل كل شيء نيابةً عنك.</string>
     <string name="chatrix_pref_language">اللغة</string>
     <string name="chatrix_language_device">لغة الجهاز</string>
+    <string name="chatrix_language_note">كتب فريق Chatrix.One النصوص التي يضيفها Chatrix.One إلى التطبيق باللغتين الإنجليزية والبلغارية. أما في جميع اللغات الأخرى فقد تُرجمت آليًا، لذا قد يبدو بعضها غير مألوف قليلًا. وكل ما عدا ذلك مأخوذ من ترجمات Conversations. شكرًا لتفهمك!</string>
     <string name="chatrix_address_example">yourname@%s</string>
     <string name="chatrix_pref_crash_reports_summary">لا يُرسل أي شيء في الخلفية أبدًا. بعد حدوث عطل، يعرض عليك Chatrix.One التقرير (إصدار التطبيق، طراز الجهاز، الوقت والتفاصيل التقنية للخطأ) ويسألك أولًا. لا يُرسل إلى فريق Chatrix.One إلا إذا أكدت، كرسالة XMPP من حسابك أو بالبريد الإلكتروني. أوقفه كي لا تُسأل أبدًا.</string>
     <string name="chatrix_crash_report_message">أُغلق Chatrix.One بشكل غير متوقع. يحتوي التقرير أدناه على إصدار التطبيق وطراز الجهاز والوقت والتفاصيل التقنية للخطأ. هل تريد إرساله إلى %s للمساعدة في حل المشكلة؟ لن يُرسل أي شيء ما لم تختر ذلك.</string>

@@ -32,6 +32,7 @@
     <string name="chatrix_welcome_after_signup">יצרתם חשבון באתר? הקישו על \"I already have an account\" והזינו את כתובת ה-chatrix.one החדשה ואת הסיסמה.\n\nאם האתר הציע \"Accept invite using Chatrix.One\", הכפתור הזה משלים הכול בשבילכם.</string>
     <string name="chatrix_pref_language">שפה</string>
     <string name="chatrix_language_device">שפת המכשיר</string>
+    <string name="chatrix_language_note">הטקסטים ש-Chatrix.One מוסיף לאפליקציה נכתבו באנגלית ובבולגרית על ידי צוות Chatrix.One. בכל שאר השפות הם תורגמו אוטומטית, ולכן חלקם עשויים להישמע מעט לא שגרתיים. כל השאר מגיע מהתרגומים של Conversations. תודה על ההבנה!</string>
     <string name="chatrix_address_example">yourname@%s</string>
     <string name="chatrix_pref_crash_reports_summary">שום דבר לא נשלח ברקע אף פעם. לאחר קריסה, Chatrix.One מציג לכם את הדוח (גרסת האפליקציה, דגם המכשיר, השעה ופרטי השגיאה הטכניים) ושואל קודם. הוא נשלח לצוות Chatrix.One רק אם תאשרו, כהודעת XMPP מהחשבון שלכם או בדוא\"ל. כבו כדי שלא תישאלו לעולם.</string>
     <string name="chatrix_crash_report_message">Chatrix.One נסגר באופן בלתי צפוי. הדוח שלהלן כולל את גרסת האפליקציה, דגם המכשיר, השעה ופרטי השגיאה הטכניים. לשלוח אותו אל %s כדי לעזור לתקן את הבעיה? שום דבר לא נשלח בלי שתבחרו בכך.</string>

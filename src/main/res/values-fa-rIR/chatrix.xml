@@ -32,6 +32,7 @@
     <string name="chatrix_welcome_after_signup">حسابتان را در وب‌سایت ساختید؟ روی «من خودم حساب دارم» ضربه بزنید و نشانی تازهٔ chatrix.one و گذرواژهٔ خود را وارد کنید.\n\nاگر وب‌سایت گزینهٔ «Accept invite using Chatrix.One» را پیشنهاد داد، همان دکمه همه‌چیز را برایتان انجام می‌دهد.</string>
     <string name="chatrix_pref_language">زبان</string>
     <string name="chatrix_language_device">زبان دستگاه</string>
+    <string name="chatrix_language_note">متن‌هایی که Chatrix.One به برنامه می‌افزاید را تیم Chatrix.One به انگلیسی و بلغاری نوشته است. در همهٔ زبان‌های دیگر این متن‌ها به‌صورت خودکار ترجمه شده‌اند، پس ممکن است برخی کمی نامأنوس به نظر برسند. بقیهٔ متن‌ها از ترجمه‌های Conversations است. از درک شما سپاسگزاریم!</string>
     <string name="chatrix_address_example">yourname@%s</string>
     <string name="chatrix_pref_crash_reports_summary">هرگز چیزی در پس‌زمینه فرستاده نمی‌شود. پس از از کار افتادن، Chatrix.One گزارش را (نسخهٔ برنامه، مدل دستگاه، زمان و جزئیات فنی خطا) به شما نشان می‌دهد و اول می‌پرسد. فقط در صورت تأیید شما، به صورت پیام XMPP از حسابتان یا با ایمیل، برای تیم Chatrix.One فرستاده می‌شود. برای اینکه هرگز پرسیده نشود، خاموشش کنید.</string>
     <string name="chatrix_crash_report_message">Chatrix.One به‌طور غیرمنتظره بسته شد. گزارش زیر شامل نسخهٔ برنامه، مدل دستگاه، زمان و جزئیات فنی خطاست. برای کمک به رفع مشکل به %s فرستاده شود؟ تا خودتان انتخاب نکنید چیزی فرستاده نمی‌شود.</string>

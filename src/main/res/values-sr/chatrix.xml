@@ -32,6 +32,7 @@
     <string name="chatrix_welcome_after_signup">Направили сте налог на сајту? Додирните \"Већ имам налог\" и унесите своју нову chatrix.one адресу и лозинку.\n\nАко је сајт понудио \"Accept invite using Chatrix.One\", то дугме све заврши уместо вас.</string>
     <string name="chatrix_pref_language">Језик</string>
     <string name="chatrix_language_device">Језик уређаја</string>
+    <string name="chatrix_language_note">Текстове које Chatrix.One додаје апликацији написао је тим Chatrix.One на енглеском и бугарском. На свим осталим језицима преведени су аутоматски, па неки могу да звуче помало необично. Све остало потиче из превода апликације Conversations. Хвала на разумевању!</string>
     <string name="chatrix_address_example">име@%s</string>
     <string name="chatrix_pref_crash_reports_summary">Ништа се никада не шаље у позадини. После пада Chatrix.One вам покаже извештај (верзија апликације, модел уређаја, време и технички детаљи грешке) и прво пита. Шаље се тиму Chatrix.One само ако потврдите, као XMPP порука са вашег налога или е-поштом. Искључите да никада не будете питани.</string>
     <string name="chatrix_crash_report_message">Chatrix.One се неочекивано затворио. Извештај испод садржи верзију апликације, модел уређаја, време и техничке детаље грешке. Послати га на %s да би се проблем решио? Ништа се не шаље ако то не изаберете.</string>

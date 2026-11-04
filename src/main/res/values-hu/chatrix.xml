@@ -32,6 +32,7 @@
     <string name="chatrix_welcome_after_signup">Létrehozta a fiókot a weboldalon? Koppintson a „Már van fiókom” gombra, és adja meg az új chatrix.one címét és jelszavát.\n\nHa a weboldal felajánlotta az „Accept invite using Chatrix.One” lehetőséget, az a gomb mindent elintéz Ön helyett.</string>
     <string name="chatrix_pref_language">Nyelv</string>
     <string name="chatrix_language_device">Az eszköz nyelve</string>
+    <string name="chatrix_language_note">A Chatrix.One által az alkalmazáshoz adott szövegeket a Chatrix.One csapata írta angolul és bolgárul. Minden más nyelven gépi fordítással készültek, ezért néhány kissé szokatlanul hangozhat. Minden más a Conversations fordításaiból származik. Köszönjük a megértést!</string>
     <string name="chatrix_address_example">nev@%s</string>
     <string name="chatrix_pref_crash_reports_summary">A háttérben soha nem kerül elküldésre semmi. Összeomlás után a Chatrix.One megmutatja a jelentést (alkalmazásverzió, eszközmodell, időpont és a hiba műszaki részletei), és először rákérdez. Csak akkor kerül a Chatrix.One csapatához, ha megerősíti, XMPP-üzenetként a fiókjából vagy e-mailben. Kapcsolja ki, ha soha nem szeretné, hogy rákérdezzen.</string>
     <string name="chatrix_crash_report_message">A Chatrix.One váratlanul bezárult. Az alábbi jelentés tartalmazza az alkalmazás verzióját, az eszköz modelljét, az időpontot és a hiba műszaki részleteit. Elküldi a(z) %s címre, hogy segítsen a hiba javításában? Semmi nem kerül elküldésre, ha nem így dönt.</string>

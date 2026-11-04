@@ -32,6 +32,7 @@
     <string name="chatrix_welcome_after_signup">Account aangemaakt op de website? Tik op \"Ik heb al een account\" en vul je nieuwe chatrix.one-adres en wachtwoord in.\n\nAls de website \"Accept invite using Chatrix.One\" aanbood, regelt die knop alles voor je.</string>
     <string name="chatrix_pref_language">Taal</string>
     <string name="chatrix_language_device">Taal van het apparaat</string>
+    <string name="chatrix_language_note">De teksten die Chatrix.One aan de app toevoegt, zijn in het Engels en Bulgaars geschreven door het Chatrix.One-team. In alle andere talen zijn ze automatisch vertaald, dus sommige klinken misschien wat ongewoon. Al het andere komt uit de vertalingen van Conversations. Bedankt voor je begrip!</string>
     <string name="chatrix_address_example">jouwnaam@%s</string>
     <string name="chatrix_pref_crash_reports_summary">Er wordt nooit iets op de achtergrond verstuurd. Na een crash toont Chatrix.One je het rapport (appversie, apparaatmodel, tijd en technische foutdetails) en vraagt het eerst. Het wordt alleen naar het Chatrix.One-team gestuurd als je bevestigt, als XMPP-bericht vanaf je account of per e-mail. Zet uit om het nooit gevraagd te worden.</string>
     <string name="chatrix_crash_report_message">Chatrix.One is onverwacht gesloten. Het rapport hieronder bevat de appversie, het apparaatmodel, de tijd en de technische foutdetails. Naar %s sturen om het probleem te helpen oplossen? Er wordt niets verstuurd tenzij je dat kiest.</string>

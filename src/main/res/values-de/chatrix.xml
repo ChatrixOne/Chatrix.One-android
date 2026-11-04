@@ -32,6 +32,7 @@
     <string name="chatrix_welcome_after_signup">Konto auf der Website erstellt? Tippe auf \"Ich habe bereits ein Konto\" und gib deine neue chatrix.one-Adresse und dein Passwort ein.\n\nWenn die Website \"Accept invite using Chatrix.One\" angeboten hat, erledigt dieser Button alles für dich.</string>
     <string name="chatrix_pref_language">Sprache</string>
     <string name="chatrix_language_device">Gerätesprache</string>
+    <string name="chatrix_language_note">Die Texte, die Chatrix.One der App hinzufügt, hat das Chatrix.One-Team auf Englisch und Bulgarisch geschrieben. In allen anderen Sprachen wurden sie automatisch übersetzt, daher klingen manche vielleicht etwas ungewohnt. Alles andere stammt aus den Übersetzungen von Conversations. Danke für dein Verständnis!</string>
     <string name="chatrix_address_example">deinname@%s</string>
     <string name="chatrix_pref_crash_reports_summary">Im Hintergrund wird nie etwas gesendet. Nach einem Absturz zeigt dir Chatrix.One den Bericht (App-Version, Gerätemodell, Uhrzeit und die technischen Fehlerdetails) und fragt zuerst. Er wird nur nach deiner Bestätigung an das Chatrix.One-Team gesendet, als XMPP-Nachricht von deinem Konto oder per E-Mail. Ausschalten, um nie gefragt zu werden.</string>
     <string name="chatrix_crash_report_message">Chatrix.One wurde unerwartet beendet. Der Bericht unten enthält die App-Version, das Gerätemodell, die Uhrzeit und die technischen Fehlerdetails. An %s senden, um das Problem zu beheben? Ohne deine Auswahl wird nichts gesendet.</string>

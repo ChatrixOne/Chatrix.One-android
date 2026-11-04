@@ -32,6 +32,7 @@
     <string name="chatrix_welcome_after_signup">Kōnto zrobiōne na strōnie? Tyknij \"Już mōm kōnto\" i wpisz swoja nowo adresa chatrix.one i hasło.\n\nJak strōna dała \"Accept invite using Chatrix.One\", tyn knefel zrobi wszyjsko za ciebie.</string>
     <string name="chatrix_pref_language">Godka</string>
     <string name="chatrix_language_device">Godka urzōndzynio</string>
+    <string name="chatrix_language_note">Teksty, kere Chatrix.One przidowo do aplikacyje, napisoł zespōł Chatrix.One po angielsku i po bułgarsku. We wszyjskich inkszych godkach sōm przełożōne automatycznie, bez tōż niekere mogōm brzmieć trocha dziwnie. Wszyjsko inksze pochodzi z przekładōw Conversations. Dziynkujymy za zrozumiynie!</string>
     <string name="chatrix_address_example">twojemiano@%s</string>
     <string name="chatrix_pref_crash_reports_summary">Nic niy je posyłane w tle. Po awaryji Chatrix.One pokazuje ci raport (wersyjo aplikacyje, model urzōndzynio, czas i techniczne szczegōły błyndu) i nojprzōd pyto. Idzie do zespołu Chatrix.One ino, jak to potwierdzisz, jako wiadōmość XMPP z twojigo kōnta abo mailym. Zastaw, coby nigdy niy być pytanym.</string>
     <string name="chatrix_crash_report_message">Chatrix.One niyspodziywanie sie zawar. Raport niżyj mo wersyjo aplikacyje, model urzōndzynio, czas i techniczne szczegōły błyndu. Posłać go do %s, coby pōmōc rozwiōnzać problym? Nic niy pōjdzie bez twojigo wyboru.</string>

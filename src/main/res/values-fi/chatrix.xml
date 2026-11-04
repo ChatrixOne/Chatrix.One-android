@@ -32,6 +32,7 @@
     <string name="chatrix_welcome_after_signup">Loitko tilin verkkosivulla? Napauta \"Minulla on jo tili\" ja anna uusi chatrix.one-osoitteesi ja salasanasi.\n\nJos sivusto tarjosi painiketta \"Accept invite using Chatrix.One\", se hoitaa kaiken puolestasi.</string>
     <string name="chatrix_pref_language">Kieli</string>
     <string name="chatrix_language_device">Laitteen kieli</string>
+    <string name="chatrix_language_note">Chatrix.Onen sovellukseen lisäämät tekstit on kirjoittanut englanniksi ja bulgariaksi Chatrix.One-tiimi. Kaikilla muilla kielillä ne on käännetty automaattisesti, joten jotkin voivat kuulostaa hieman oudoilta. Kaikki muu on peräisin Conversationsin käännöksistä. Kiitos ymmärryksestäsi!</string>
     <string name="chatrix_address_example">nimesi@%s</string>
     <string name="chatrix_pref_crash_reports_summary">Mitään ei koskaan lähetetä taustalla. Kaatumisen jälkeen Chatrix.One näyttää sinulle raportin (sovelluksen versio, laitemalli, aika ja virheen tekniset tiedot) ja kysyy ensin. Se lähetetään Chatrix.One-tiimille vain, jos vahvistat, XMPP-viestinä tililtäsi tai sähköpostilla. Poista käytöstä, jos et halua kysymystä koskaan.</string>
     <string name="chatrix_crash_report_message">Chatrix.One sulkeutui odottamatta. Alla oleva raportti sisältää sovelluksen version, laitemallin, ajan ja virheen tekniset tiedot. Lähetetäänkö se osoitteeseen %s ongelman korjaamiseksi? Mitään ei lähetetä, ellet itse valitse niin.</string>

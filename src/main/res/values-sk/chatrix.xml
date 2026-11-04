@@ -32,6 +32,7 @@
     <string name="chatrix_welcome_after_signup">Vytvorili ste si konto na webe? Ťuknite na \"I already have an account\" a zadajte svoju novú adresu chatrix.one a heslo.\n\nAk web ponúkol \"Accept invite using Chatrix.One\", toto tlačidlo všetko dokončí za vás.</string>
     <string name="chatrix_pref_language">Jazyk</string>
     <string name="chatrix_language_device">Jazyk zariadenia</string>
+    <string name="chatrix_language_note">Texty, ktoré Chatrix.One pridáva do aplikácie, napísal tím Chatrix.One po anglicky a po bulharsky. Vo všetkých ostatných jazykoch boli preložené automaticky, preto niektoré môžu znieť trochu nezvyčajne. Všetko ostatné pochádza z prekladov Conversations. Ďakujeme za pochopenie!</string>
     <string name="chatrix_address_example">vasemeno@%s</string>
     <string name="chatrix_pref_crash_reports_summary">Na pozadí sa nikdy nič neodosiela. Po páde vám Chatrix.One ukáže hlásenie (verzia aplikácie, model zariadenia, čas a technické podrobnosti chyby) a najprv sa opýta. Tímu Chatrix.One sa odošle, len ak to potvrdíte, ako XMPP správa z vášho konta alebo e-mailom. Vypnite, ak sa nechcete nikdy pýtať.</string>
     <string name="chatrix_crash_report_message">Chatrix.One sa neočakávane zavrel. Hlásenie nižšie obsahuje verziu aplikácie, model zariadenia, čas a technické podrobnosti chyby. Odoslať ho na %s a pomôcť tak problém vyriešiť? Bez vášho výberu sa nič neodošle.</string>

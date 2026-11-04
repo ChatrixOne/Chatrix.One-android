@@ -87,10 +87,11 @@ public class InterfaceSettingsFragment extends XmppPreferenceFragment {
             language.setValue(
                     eu.siacs.conversations.ui.chatrix.AppLanguage.chosen(requireContext()));
             language.setSummary(language.getEntry());
-            language.setOnPreferenceChangeListener(
-                    (preference, newValue) -> {
-                        eu.siacs.conversations.ui.chatrix.AppLanguage.set(
-                                requireContext(), (String) newValue);
+            // same dialog as on the welcome screen, with the note about machine translation
+            language.setOnPreferenceClickListener(
+                    preference -> {
+                        eu.siacs.conversations.ui.chatrix.AppLanguage.showPicker(
+                                requireContext());
                         return true;
                     });
         }

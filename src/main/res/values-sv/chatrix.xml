@@ -32,6 +32,7 @@
     <string name="chatrix_welcome_after_signup">Skapade du kontot på webbplatsen? Tryck på \"Jag har redan ett konto\" och ange din nya chatrix.one-adress och ditt lösenord.\n\nOm webbplatsen erbjöd \"Accept invite using Chatrix.One\" ordnar den knappen allt åt dig.</string>
     <string name="chatrix_pref_language">Språk</string>
     <string name="chatrix_language_device">Enhetens språk</string>
+    <string name="chatrix_language_note">Texterna som Chatrix.One lägger till i appen är skrivna på engelska och bulgariska av Chatrix.One-teamet. På alla andra språk har de översatts automatiskt, så en del kan låta lite ovanliga. Allt annat kommer från översättningarna av Conversations. Tack för din förståelse!</string>
     <string name="chatrix_address_example">dittnamn@%s</string>
     <string name="chatrix_pref_crash_reports_summary">Inget skickas någonsin i bakgrunden. Efter en krasch visar Chatrix.One rapporten (appversion, enhetsmodell, tid och teknisk felinformation) och frågar först. Den skickas till Chatrix.One-teamet bara om du bekräftar, som XMPP-meddelande från ditt konto eller via e-post. Stäng av för att aldrig bli tillfrågad.</string>
     <string name="chatrix_crash_report_message">Chatrix.One stängdes oväntat. Rapporten nedan innehåller appversion, enhetsmodell, tid och teknisk felinformation. Skicka den till %s för att hjälpa till att lösa problemet? Inget skickas om du inte väljer det.</string>

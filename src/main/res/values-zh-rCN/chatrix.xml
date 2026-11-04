@@ -32,6 +32,7 @@
     <string name="chatrix_welcome_after_signup">已在网站上创建账号？点按“我已有账号”，然后输入你的新 chatrix.one 地址和密码。\n\n如果网站提供了“Accept invite using Chatrix.One”，点那个按钮即可自动完成所有步骤。</string>
     <string name="chatrix_pref_language">语言</string>
     <string name="chatrix_language_device">设备语言</string>
+    <string name="chatrix_language_note">Chatrix.One 为应用新增的文字由 Chatrix.One 团队用英语和保加利亚语撰写。在其他所有语言中，这些文字均为自动翻译，因此部分内容读起来可能略显生硬。其余内容均来自 Conversations 的翻译。感谢你的理解！</string>
     <string name="chatrix_address_example">yourname@%s</string>
     <string name="chatrix_pref_crash_reports_summary">绝不会在后台发送任何内容。崩溃后，Chatrix.One 会向你显示报告（应用版本、设备型号、时间和错误的技术细节）并先询问你。只有在你确认后，才会以你账号发出的 XMPP 消息或电子邮件发送给 Chatrix.One 团队。关闭后将不再询问。</string>
     <string name="chatrix_crash_report_message">Chatrix.One 意外关闭。下方报告包含应用版本、设备型号、时间和错误的技术细节。是否发送到 %s 以帮助修复问题？除非你选择，否则不会发送任何内容。</string>
