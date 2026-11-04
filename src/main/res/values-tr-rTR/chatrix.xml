@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="chatrix_pref_gestures">Mesaj hareketleri</string>
+    <string name="chatrix_pref_swipe_left">Sola kaydırma</string>
+    <string name="chatrix_pref_swipe_right">Sağa kaydırma</string>
+    <string name="chatrix_pref_double_tap">Çift dokunma</string>
+    <string name="chatrix_pref_quick_emoji">Hızlı tepki emojisi</string>
+    <string name="chatrix_action_quote">Alıntıla</string>
+    <string name="chatrix_action_react">Hızlı emojiyle tepki ver</string>
+    <string name="chatrix_action_copy">Metni kopyala</string>
+    <string name="chatrix_action_edit">Mesajımı düzenle</string>
+    <string name="chatrix_action_none">Hiçbir şey yapma</string>
+    <string name="chatrix_pref_chat_background">Sohbet arka planı</string>
+    <string name="chatrix_background_default">Varsayılan (ayarlardan)</string>
+    <string name="chatrix_background_glow">Chatrix.One ışıltısı</string>
+    <string name="chatrix_background_plain">Düz</string>
+    <string name="chatrix_background_custom">Kendi resmim…</string>
+    <string name="chatrix_background_failed">Bu resim kullanılamıyor</string>
+    <string name="chatrix_about_fork">Chatrix.One, Daniel Gultsch\'un geliştirdiği XMPP uygulaması Conversations\'ın bir çatalıdır (https://conversations.im).\n\nChatrix.One kendi görünümünü ve hızlı mesaj hareketlerini ekler. Bu uygulamayla ilgili sorunları Conversations geliştiricilerine değil, Chatrix.One\'a (https://chatrix.one) bildirin.\n\nConversations gibi Chatrix.One da GNU General Public License v3 lisanslı özgür yazılımdır.\n\n————————————————\n\n</string>
+    <string name="chatrix_pref_connection_notification">Bağlantı durumu bildirimi</string>
+    <string name="chatrix_pref_connection_notification_summary">Chatrix.One kendi bağlantısını açık tutar, bu yüzden Android kalıcı bir bildirim gösterir. Bunu burada gönül rahatlığıyla kapatabilirsiniz: mesajlar gelmeye devam eder ve bağlantı koparsa yine de uyarı alırsınız.</string>
+    <string name="chatrix_crash_send_email">E-postayla gönder</string>
+    <string name="chatrix_pref_update_check">Güncellemeleri denetle</string>
+    <string name="chatrix_pref_update_check_summary">Günde bir kez chatrix.eu üzerinde Chatrix.One\'ın yeni bir sürümü olup olmadığına bakar ve bildirim gösterir. Hiçbir şey indirilmez ya da kurulmaz ve kişisel veri gönderilmez. Uygulama F-Droid\'den veya başka bir mağazadan kurulduysa ya da Tor açıksa kullanılmaz.</string>
+    <string name="chatrix_update_channel">Uygulama güncellemeleri</string>
+    <string name="chatrix_update_available">Chatrix.One %s kullanıma hazır</string>
+    <string name="chatrix_update_tap">İndirme sayfasını açmak için dokunun</string>
+    <string name="chatrix_welcome_title">Chatrix.One\'a hoş geldiniz</string>
+    <string name="chatrix_welcome_text">chatrix.one veya başka herhangi bir XMPP sunucusunda özgür ve gizli mesajlaşma. Reklam yok, izleme yok.</string>
+    <string name="chatrix_create_account">Chatrix.One hesabı oluştur</string>
+    <string name="chatrix_use_other_provider">Başka bir XMPP sağlayıcısı kullan</string>
+    <string name="chatrix_welcome_after_signup">Hesabınızı web sitesinde mi oluşturdunuz? \"Zaten bir hesabım var\" seçeneğine dokunun ve yeni chatrix.one adresinizi ve parolanızı girin.\n\nWeb sitesi \"Accept invite using Chatrix.One\" seçeneğini sunduysa, o düğme her şeyi sizin yerinize yapar.</string>
+    <string name="chatrix_pref_language">Dil</string>
+    <string name="chatrix_language_device">Cihaz dili</string>
+    <string name="chatrix_address_example">adiniz@%s</string>
+    <string name="chatrix_pref_crash_reports_summary">Arka planda asla hiçbir şey gönderilmez. Bir çökmeden sonra Chatrix.One size raporu (uygulama sürümü, cihaz modeli, saat ve hatanın teknik ayrıntıları) gösterir ve önce sorar. Rapor yalnızca onaylarsanız, hesabınızdan XMPP mesajı olarak veya e-postayla Chatrix.One ekibine gönderilir. Hiç sorulmaması için kapatın.</string>
+    <string name="chatrix_crash_report_message">Chatrix.One beklenmedik şekilde kapandı. Aşağıdaki rapor uygulama sürümünü, cihaz modelini, saati ve hatanın teknik ayrıntılarını içerir. Sorunun giderilmesine yardım etmek için %s adresine gönderilsin mi? Siz seçmedikçe hiçbir şey gönderilmez.</string>
+    <string name="chatrix_account_suspended">Hesap sunucu tarafından askıya alındı</string>
+</resources>

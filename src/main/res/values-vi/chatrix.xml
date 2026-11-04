@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="chatrix_pref_gestures">Cử chỉ trên tin nhắn</string>
+    <string name="chatrix_pref_swipe_left">Vuốt sang trái</string>
+    <string name="chatrix_pref_swipe_right">Vuốt sang phải</string>
+    <string name="chatrix_pref_double_tap">Chạm hai lần</string>
+    <string name="chatrix_pref_quick_emoji">Emoji phản ứng nhanh</string>
+    <string name="chatrix_action_quote">Trích dẫn</string>
+    <string name="chatrix_action_react">Phản ứng bằng emoji nhanh</string>
+    <string name="chatrix_action_copy">Sao chép văn bản</string>
+    <string name="chatrix_action_edit">Sửa tin nhắn của tôi</string>
+    <string name="chatrix_action_none">Không làm gì</string>
+    <string name="chatrix_pref_chat_background">Hình nền trò chuyện</string>
+    <string name="chatrix_background_default">Mặc định (theo cài đặt)</string>
+    <string name="chatrix_background_glow">Ánh sáng Chatrix.One</string>
+    <string name="chatrix_background_plain">Trơn</string>
+    <string name="chatrix_background_custom">Ảnh của tôi…</string>
+    <string name="chatrix_background_failed">Không thể dùng ảnh này</string>
+    <string name="chatrix_about_fork">Chatrix.One là một bản fork của Conversations, ứng dụng XMPP do Daniel Gultsch tạo ra (https://conversations.im).\n\nChatrix.One thêm giao diện riêng và các cử chỉ nhanh cho tin nhắn. Vui lòng báo lỗi của ứng dụng này cho Chatrix.One (https://chatrix.one), không phải cho các nhà phát triển Conversations.\n\nGiống như Conversations, Chatrix.One là phần mềm tự do theo giấy phép GNU General Public License v3.\n\n————————————————\n\n</string>
+    <string name="chatrix_pref_connection_notification">Thông báo trạng thái kết nối</string>
+    <string name="chatrix_pref_connection_notification_summary">Chatrix.One duy trì kết nối riêng nên Android hiển thị một thông báo cố định. Bạn có thể yên tâm tắt nó ở đây: tin nhắn vẫn tiếp tục đến và bạn vẫn nhận được cảnh báo nếu kết nối bị lỗi.</string>
+    <string name="chatrix_crash_send_email">Gửi qua email</string>
+    <string name="chatrix_pref_update_check">Kiểm tra cập nhật</string>
+    <string name="chatrix_pref_update_check_summary">Mỗi ngày một lần, kiểm tra trên chatrix.eu xem có phiên bản Chatrix.One mới hơn không và hiển thị thông báo. Không tải xuống hay cài đặt gì và không gửi dữ liệu cá nhân. Không dùng khi ứng dụng được cài từ F-Droid hoặc cửa hàng khác, hoặc khi Tor đang bật.</string>
+    <string name="chatrix_update_channel">Cập nhật ứng dụng</string>
+    <string name="chatrix_update_available">Đã có Chatrix.One %s</string>
+    <string name="chatrix_update_tap">Chạm để mở trang tải xuống</string>
+    <string name="chatrix_welcome_title">Chào mừng đến với Chatrix.One</string>
+    <string name="chatrix_welcome_text">Nhắn tin tự do và riêng tư trên chatrix.one hoặc bất kỳ máy chủ XMPP nào khác. Không quảng cáo, không theo dõi.</string>
+    <string name="chatrix_create_account">Tạo tài khoản Chatrix.One</string>
+    <string name="chatrix_use_other_provider">Dùng nhà cung cấp XMPP khác</string>
+    <string name="chatrix_welcome_after_signup">Đã tạo tài khoản trên trang web? Chạm vào \"Tôi đã có một tài khoản rồi\" và nhập địa chỉ chatrix.one mới cùng mật khẩu của bạn.\n\nNếu trang web có nút \"Accept invite using Chatrix.One\", nút đó sẽ hoàn tất mọi thứ cho bạn.</string>
+    <string name="chatrix_pref_language">Ngôn ngữ</string>
+    <string name="chatrix_language_device">Ngôn ngữ của thiết bị</string>
+    <string name="chatrix_address_example">tencuaban@%s</string>
+    <string name="chatrix_pref_crash_reports_summary">Không bao giờ gửi gì trong nền. Sau khi gặp sự cố, Chatrix.One cho bạn xem báo cáo (phiên bản ứng dụng, mẫu thiết bị, thời gian và chi tiết kỹ thuật của lỗi) và hỏi trước. Báo cáo chỉ được gửi tới nhóm Chatrix.One nếu bạn xác nhận, dưới dạng tin nhắn XMPP từ tài khoản của bạn hoặc qua email. Tắt để không bao giờ bị hỏi.</string>
+    <string name="chatrix_crash_report_message">Chatrix.One đã đóng đột ngột. Báo cáo bên dưới gồm phiên bản ứng dụng, mẫu thiết bị, thời gian và chi tiết kỹ thuật của lỗi. Gửi tới %s để giúp khắc phục sự cố? Không có gì được gửi nếu bạn không chọn.</string>
+    <string name="chatrix_account_suspended">Tài khoản đã bị máy chủ tạm khóa</string>
+</resources>

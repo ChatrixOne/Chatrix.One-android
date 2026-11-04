@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="chatrix_pref_gestures">Geste na porukama</string>
+    <string name="chatrix_pref_swipe_left">Povlačenje ulijevo</string>
+    <string name="chatrix_pref_swipe_right">Povlačenje udesno</string>
+    <string name="chatrix_pref_double_tap">Dvostruki dodir</string>
+    <string name="chatrix_pref_quick_emoji">Emoji brze reakcije</string>
+    <string name="chatrix_action_quote">Citiraj</string>
+    <string name="chatrix_action_react">Reagiraj brzim emojijem</string>
+    <string name="chatrix_action_copy">Kopiraj tekst</string>
+    <string name="chatrix_action_edit">Uredi moju poruku</string>
+    <string name="chatrix_action_none">Ne radi ništa</string>
+    <string name="chatrix_pref_chat_background">Pozadina razgovora</string>
+    <string name="chatrix_background_default">Zadano (iz postavki)</string>
+    <string name="chatrix_background_glow">Chatrix.One sjaj</string>
+    <string name="chatrix_background_plain">Jednobojna</string>
+    <string name="chatrix_background_custom">Moja slika…</string>
+    <string name="chatrix_background_failed">Ova se slika ne može koristiti</string>
+    <string name="chatrix_about_fork">Chatrix.One je fork aplikacije Conversations, XMPP aplikacije koju je napravio Daniel Gultsch (https://conversations.im).\n\nChatrix.One dodaje vlastiti izgled i brze geste na porukama. Probleme s ovom aplikacijom prijavite Chatrix.One (https://chatrix.one), a ne razvijateljima Conversationsa.\n\nKao i Conversations, Chatrix.One je slobodni softver pod licencom GNU General Public License v3.\n\n————————————————\n\n</string>
+    <string name="chatrix_pref_connection_notification">Obavijest o stanju veze</string>
+    <string name="chatrix_pref_connection_notification_summary">Chatrix.One održava vlastitu vezu, zato Android prikazuje stalnu obavijest. Ovdje je možete slobodno isključiti: poruke i dalje stižu, a upozorenje ćete dobiti ako veza prestane raditi.</string>
+    <string name="chatrix_crash_send_email">Pošalji e-poštom</string>
+    <string name="chatrix_pref_update_check">Provjeri ažuriranja</string>
+    <string name="chatrix_pref_update_check_summary">Jednom dnevno provjeriti na chatrix.eu postoji li novija verzija Chatrix.One i prikazati obavijest. Ništa se ne preuzima ni instalira i ne šalju se osobni podaci. Ne koristi se ako je aplikacija instalirana iz F-Droida ili druge trgovine ili ako je uključen Tor.</string>
+    <string name="chatrix_update_channel">Ažuriranja aplikacije</string>
+    <string name="chatrix_update_available">Dostupan je Chatrix.One %s</string>
+    <string name="chatrix_update_tap">Dodirnite za otvaranje stranice za preuzimanje</string>
+    <string name="chatrix_welcome_title">Dobro došli u Chatrix.One</string>
+    <string name="chatrix_welcome_text">Slobodne i privatne poruke na chatrix.one ili bilo kojem drugom XMPP poslužitelju. Bez oglasa i praćenja.</string>
+    <string name="chatrix_create_account">Izradi Chatrix.One račun</string>
+    <string name="chatrix_use_other_provider">Koristi drugog XMPP pružatelja</string>
+    <string name="chatrix_welcome_after_signup">Izradili ste račun na web-stranici? Dodirnite \"I already have an account\" i unesite svoju novu chatrix.one adresu i lozinku.\n\nAko je stranica ponudila \"Accept invite using Chatrix.One\", taj gumb sve obavi umjesto vas.</string>
+    <string name="chatrix_pref_language">Jezik</string>
+    <string name="chatrix_language_device">Jezik uređaja</string>
+    <string name="chatrix_address_example">vaseime@%s</string>
+    <string name="chatrix_pref_crash_reports_summary">Ništa se nikad ne šalje u pozadini. Nakon rušenja Chatrix.One vam pokaže izvještaj (verzija aplikacije, model uređaja, vrijeme i tehnički detalji pogreške) i prvo pita. Šalje se timu Chatrix.One samo ako potvrdite, kao XMPP poruka s vašeg računa ili e-poštom. Isključite da nikad ne budete pitani.</string>
+    <string name="chatrix_crash_report_message">Chatrix.One se neočekivano zatvorio. Izvještaj ispod sadrži verziju aplikacije, model uređaja, vrijeme i tehničke detalje pogreške. Poslati ga na %s kako bi se problem riješio? Ništa se ne šalje ako to ne odaberete.</string>
+    <string name="chatrix_account_suspended">Poslužitelj je suspendirao račun</string>
+</resources>

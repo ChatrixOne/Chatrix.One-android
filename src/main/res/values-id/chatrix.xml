@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="chatrix_pref_gestures">Gestur pesan</string>
+    <string name="chatrix_pref_swipe_left">Geser ke kiri</string>
+    <string name="chatrix_pref_swipe_right">Geser ke kanan</string>
+    <string name="chatrix_pref_double_tap">Ketuk dua kali</string>
+    <string name="chatrix_pref_quick_emoji">Emoji reaksi cepat</string>
+    <string name="chatrix_action_quote">Kutip</string>
+    <string name="chatrix_action_react">Beri reaksi dengan emoji cepat</string>
+    <string name="chatrix_action_copy">Salin teks</string>
+    <string name="chatrix_action_edit">Edit pesan saya</string>
+    <string name="chatrix_action_none">Tidak melakukan apa pun</string>
+    <string name="chatrix_pref_chat_background">Latar belakang obrolan</string>
+    <string name="chatrix_background_default">Bawaan (dari pengaturan)</string>
+    <string name="chatrix_background_glow">Cahaya Chatrix.One</string>
+    <string name="chatrix_background_plain">Polos</string>
+    <string name="chatrix_background_custom">Gambar saya sendiri…</string>
+    <string name="chatrix_background_failed">Gambar ini tidak dapat digunakan</string>
+    <string name="chatrix_about_fork">Chatrix.One adalah fork dari Conversations, aplikasi XMPP buatan Daniel Gultsch (https://conversations.im).\n\nChatrix.One menambahkan tampilan sendiri dan gestur cepat untuk pesan. Laporkan masalah aplikasi ini ke Chatrix.One (https://chatrix.one), bukan ke pengembang Conversations.\n\nSeperti Conversations, Chatrix.One adalah perangkat lunak bebas di bawah GNU General Public License v3.\n\n————————————————\n\n</string>
+    <string name="chatrix_pref_connection_notification">Notifikasi status koneksi</string>
+    <string name="chatrix_pref_connection_notification_summary">Chatrix.One menjaga koneksinya sendiri tetap terbuka, sehingga Android menampilkan notifikasi permanen. Anda bisa mematikannya di sini dengan aman: pesan tetap masuk dan Anda tetap mendapat peringatan jika koneksi gagal.</string>
+    <string name="chatrix_crash_send_email">Kirim lewat email</string>
+    <string name="chatrix_pref_update_check">Periksa pembaruan</string>
+    <string name="chatrix_pref_update_check_summary">Sekali sehari, periksa di chatrix.eu apakah ada versi Chatrix.One yang lebih baru dan tampilkan notifikasi. Tidak ada yang diunduh atau dipasang dan tidak ada data pribadi yang dikirim. Tidak digunakan jika aplikasi dipasang dari F-Droid atau toko aplikasi lain, atau saat Tor aktif.</string>
+    <string name="chatrix_update_channel">Pembaruan aplikasi</string>
+    <string name="chatrix_update_available">Chatrix.One %s tersedia</string>
+    <string name="chatrix_update_tap">Ketuk untuk membuka halaman unduhan</string>
+    <string name="chatrix_welcome_title">Selamat datang di Chatrix.One</string>
+    <string name="chatrix_welcome_text">Perpesanan bebas dan pribadi di chatrix.one atau server XMPP lain. Tanpa iklan, tanpa pelacakan.</string>
+    <string name="chatrix_create_account">Buat akun Chatrix.One</string>
+    <string name="chatrix_use_other_provider">Gunakan penyedia XMPP lain</string>
+    <string name="chatrix_welcome_after_signup">Sudah membuat akun di situs web? Ketuk \"I already have an account\" lalu masukkan alamat chatrix.one baru dan kata sandi Anda.\n\nJika situs menawarkan \"Accept invite using Chatrix.One\", tombol itu menyelesaikan semuanya untuk Anda.</string>
+    <string name="chatrix_pref_language">Bahasa</string>
+    <string name="chatrix_language_device">Bahasa perangkat</string>
+    <string name="chatrix_address_example">namaanda@%s</string>
+    <string name="chatrix_pref_crash_reports_summary">Tidak ada yang pernah dikirim di latar belakang. Setelah aplikasi mogok, Chatrix.One menampilkan laporan (versi aplikasi, model perangkat, waktu, dan detail teknis kesalahan) dan bertanya terlebih dahulu. Laporan hanya dikirim ke tim Chatrix.One jika Anda mengonfirmasi, sebagai pesan XMPP dari akun Anda atau lewat email. Matikan agar tidak pernah ditanya.</string>
+    <string name="chatrix_crash_report_message">Chatrix.One tertutup secara tidak terduga. Laporan di bawah berisi versi aplikasi, model perangkat, waktu, dan detail teknis kesalahan. Kirim ke %s untuk membantu memperbaiki masalah? Tidak ada yang dikirim kecuali Anda memilihnya.</string>
+    <string name="chatrix_account_suspended">Akun ditangguhkan oleh server</string>
+</resources>

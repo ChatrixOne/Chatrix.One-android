@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="chatrix_pref_gestures">消息手势</string>
+    <string name="chatrix_pref_swipe_left">向左滑动</string>
+    <string name="chatrix_pref_swipe_right">向右滑动</string>
+    <string name="chatrix_pref_double_tap">双击</string>
+    <string name="chatrix_pref_quick_emoji">快速回应表情</string>
+    <string name="chatrix_action_quote">引用</string>
+    <string name="chatrix_action_react">用快速表情回应</string>
+    <string name="chatrix_action_copy">复制文本</string>
+    <string name="chatrix_action_edit">编辑我的消息</string>
+    <string name="chatrix_action_none">不执行操作</string>
+    <string name="chatrix_pref_chat_background">聊天背景</string>
+    <string name="chatrix_background_default">默认（来自设置）</string>
+    <string name="chatrix_background_glow">Chatrix.One 光晕</string>
+    <string name="chatrix_background_plain">纯色</string>
+    <string name="chatrix_background_custom">我自己的图片…</string>
+    <string name="chatrix_background_failed">无法使用此图片</string>
+    <string name="chatrix_about_fork">Chatrix.One 是 Conversations 的分支，Conversations 是 Daniel Gultsch 开发的 XMPP 应用（https://conversations.im）。\n\nChatrix.One 增加了自己的外观和快速消息手势。请将此应用的问题报告给 Chatrix.One（https://chatrix.one），而不是 Conversations 的开发者。\n\n与 Conversations 一样，Chatrix.One 是基于 GNU General Public License v3 的自由软件。\n\n————————————————\n\n</string>
+    <string name="chatrix_pref_connection_notification">连接状态通知</string>
+    <string name="chatrix_pref_connection_notification_summary">Chatrix.One 会保持自己的连接，因此 Android 会显示常驻通知。你可以放心在这里关闭它：消息会照常送达，连接失败时你仍会收到警告。</string>
+    <string name="chatrix_crash_send_email">通过电子邮件发送</string>
+    <string name="chatrix_pref_update_check">检查更新</string>
+    <string name="chatrix_pref_update_check_summary">每天一次在 chatrix.eu 上检查是否有更新的 Chatrix.One 版本并显示通知。不会下载或安装任何内容，也不会发送个人数据。从 F-Droid 或其他应用商店安装，或开启 Tor 时不会使用。</string>
+    <string name="chatrix_update_channel">应用更新</string>
+    <string name="chatrix_update_available">Chatrix.One %s 已可用</string>
+    <string name="chatrix_update_tap">点按打开下载页面</string>
+    <string name="chatrix_welcome_title">欢迎使用 Chatrix.One</string>
+    <string name="chatrix_welcome_text">在 chatrix.one 或任何其他 XMPP 服务器上自由、私密地收发消息。无广告，无跟踪。</string>
+    <string name="chatrix_create_account">创建 Chatrix.One 账号</string>
+    <string name="chatrix_use_other_provider">使用其他 XMPP 服务商</string>
+    <string name="chatrix_welcome_after_signup">已在网站上创建账号？点按“我已有账号”，然后输入你的新 chatrix.one 地址和密码。\n\n如果网站提供了“Accept invite using Chatrix.One”，点那个按钮即可自动完成所有步骤。</string>
+    <string name="chatrix_pref_language">语言</string>
+    <string name="chatrix_language_device">设备语言</string>
+    <string name="chatrix_address_example">yourname@%s</string>
+    <string name="chatrix_pref_crash_reports_summary">绝不会在后台发送任何内容。崩溃后，Chatrix.One 会向你显示报告（应用版本、设备型号、时间和错误的技术细节）并先询问你。只有在你确认后，才会以你账号发出的 XMPP 消息或电子邮件发送给 Chatrix.One 团队。关闭后将不再询问。</string>
+    <string name="chatrix_crash_report_message">Chatrix.One 意外关闭。下方报告包含应用版本、设备型号、时间和错误的技术细节。是否发送到 %s 以帮助修复问题？除非你选择，否则不会发送任何内容。</string>
+    <string name="chatrix_account_suspended">账号已被服务器停用</string>
+</resources>

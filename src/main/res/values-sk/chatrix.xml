@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="chatrix_pref_gestures">Gestá pri správach</string>
+    <string name="chatrix_pref_swipe_left">Potiahnutie doľava</string>
+    <string name="chatrix_pref_swipe_right">Potiahnutie doprava</string>
+    <string name="chatrix_pref_double_tap">Dvojité ťuknutie</string>
+    <string name="chatrix_pref_quick_emoji">Emoji rýchlej reakcie</string>
+    <string name="chatrix_action_quote">Citovať</string>
+    <string name="chatrix_action_react">Reagovať rýchlym emoji</string>
+    <string name="chatrix_action_copy">Kopírovať text</string>
+    <string name="chatrix_action_edit">Upraviť moju správu</string>
+    <string name="chatrix_action_none">Nerobiť nič</string>
+    <string name="chatrix_pref_chat_background">Pozadie četu</string>
+    <string name="chatrix_background_default">Predvolené (z nastavení)</string>
+    <string name="chatrix_background_glow">Žiara Chatrix.One</string>
+    <string name="chatrix_background_plain">Jednofarebné</string>
+    <string name="chatrix_background_custom">Vlastný obrázok…</string>
+    <string name="chatrix_background_failed">Tento obrázok nie je možné použiť</string>
+    <string name="chatrix_about_fork">Chatrix.One je fork aplikácie Conversations, XMPP aplikácie od Daniela Gultscha (https://conversations.im).\n\nChatrix.One pridáva vlastný vzhľad a rýchle gestá pri správach. Problémy s touto aplikáciou hláste Chatrix.One (https://chatrix.one), nie vývojárom Conversations.\n\nRovnako ako Conversations je Chatrix.One slobodný softvér pod licenciou GNU General Public License v3.\n\n————————————————\n\n</string>
+    <string name="chatrix_pref_connection_notification">Upozornenie na stav pripojenia</string>
+    <string name="chatrix_pref_connection_notification_summary">Chatrix.One udržiava vlastné pripojenie, preto Android zobrazuje trvalé upozornenie. Tu ho môžete pokojne vypnúť: správy budú naďalej prichádzať a pri výpadku pripojenia dostanete varovanie.</string>
+    <string name="chatrix_crash_send_email">Odoslať e-mailom</string>
+    <string name="chatrix_pref_update_check">Kontrolovať aktualizácie</string>
+    <string name="chatrix_pref_update_check_summary">Raz denne skontrolovať na chatrix.eu, či je k dispozícii novšia verzia Chatrix.One, a zobraziť upozornenie. Nič sa nesťahuje ani neinštaluje a neodosielajú sa žiadne osobné údaje. Nepoužíva sa pri inštalácii z F-Droidu alebo iného obchodu ani so zapnutým Torom.</string>
+    <string name="chatrix_update_channel">Aktualizácie aplikácie</string>
+    <string name="chatrix_update_available">Je k dispozícii Chatrix.One %s</string>
+    <string name="chatrix_update_tap">Ťuknutím otvoríte stránku na stiahnutie</string>
+    <string name="chatrix_welcome_title">Vitajte v Chatrix.One</string>
+    <string name="chatrix_welcome_text">Slobodné a súkromné správy na chatrix.one alebo akomkoľvek inom XMPP serveri. Bez reklám a sledovania.</string>
+    <string name="chatrix_create_account">Vytvoriť konto Chatrix.One</string>
+    <string name="chatrix_use_other_provider">Použiť iného poskytovateľa XMPP</string>
+    <string name="chatrix_welcome_after_signup">Vytvorili ste si konto na webe? Ťuknite na \"I already have an account\" a zadajte svoju novú adresu chatrix.one a heslo.\n\nAk web ponúkol \"Accept invite using Chatrix.One\", toto tlačidlo všetko dokončí za vás.</string>
+    <string name="chatrix_pref_language">Jazyk</string>
+    <string name="chatrix_language_device">Jazyk zariadenia</string>
+    <string name="chatrix_address_example">vasemeno@%s</string>
+    <string name="chatrix_pref_crash_reports_summary">Na pozadí sa nikdy nič neodosiela. Po páde vám Chatrix.One ukáže hlásenie (verzia aplikácie, model zariadenia, čas a technické podrobnosti chyby) a najprv sa opýta. Tímu Chatrix.One sa odošle, len ak to potvrdíte, ako XMPP správa z vášho konta alebo e-mailom. Vypnite, ak sa nechcete nikdy pýtať.</string>
+    <string name="chatrix_crash_report_message">Chatrix.One sa neočakávane zavrel. Hlásenie nižšie obsahuje verziu aplikácie, model zariadenia, čas a technické podrobnosti chyby. Odoslať ho na %s a pomôcť tak problém vyriešiť? Bez vášho výberu sa nič neodošle.</string>
+    <string name="chatrix_account_suspended">Konto bolo serverom pozastavené</string>
+</resources>

@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="chatrix_pref_gestures">Üzenetkezelő mozdulatok</string>
+    <string name="chatrix_pref_swipe_left">Húzás balra</string>
+    <string name="chatrix_pref_swipe_right">Húzás jobbra</string>
+    <string name="chatrix_pref_double_tap">Dupla koppintás</string>
+    <string name="chatrix_pref_quick_emoji">Gyorsreakció emoji</string>
+    <string name="chatrix_action_quote">Idézés</string>
+    <string name="chatrix_action_react">Reagálás a gyors emojival</string>
+    <string name="chatrix_action_copy">Szöveg másolása</string>
+    <string name="chatrix_action_edit">Saját üzenet szerkesztése</string>
+    <string name="chatrix_action_none">Ne történjen semmi</string>
+    <string name="chatrix_pref_chat_background">Csevegés háttere</string>
+    <string name="chatrix_background_default">Alapértelmezett (a beállításokból)</string>
+    <string name="chatrix_background_glow">Chatrix.One ragyogás</string>
+    <string name="chatrix_background_plain">Egyszínű</string>
+    <string name="chatrix_background_custom">Saját kép…</string>
+    <string name="chatrix_background_failed">Ez a kép nem használható</string>
+    <string name="chatrix_about_fork">A Chatrix.One a Conversations forkja, amely Daniel Gultsch XMPP-alkalmazása (https://conversations.im).\n\nA Chatrix.One saját megjelenést és gyors üzenetkezelő mozdulatokat ad hozzá. Az alkalmazással kapcsolatos hibákat a Chatrix.One felé jelezze (https://chatrix.one), ne a Conversations fejlesztőinek.\n\nA Conversationshöz hasonlóan a Chatrix.One is szabad szoftver a GNU General Public License v3 alatt.\n\n————————————————\n\n</string>
+    <string name="chatrix_pref_connection_notification">Kapcsolat állapotáról szóló értesítés</string>
+    <string name="chatrix_pref_connection_notification_summary">A Chatrix.One saját kapcsolatot tart nyitva, ezért az Android állandó értesítést jelenít meg. Itt nyugodtan kikapcsolhatja: az üzenetek továbbra is megérkeznek, és a kapcsolat megszakadásakor továbbra is kap figyelmeztetést.</string>
+    <string name="chatrix_crash_send_email">Küldés e-mailben</string>
+    <string name="chatrix_pref_update_check">Frissítések keresése</string>
+    <string name="chatrix_pref_update_check_summary">Naponta egyszer megnézi a chatrix.eu oldalon, van-e újabb Chatrix.One-verzió, és értesítést jelenít meg. Semmi nem töltődik le és nem települ, és személyes adat sem kerül elküldésre. Nem működik, ha az alkalmazást F-Droidról vagy más áruházból telepítették, illetve ha a Tor be van kapcsolva.</string>
+    <string name="chatrix_update_channel">Alkalmazásfrissítések</string>
+    <string name="chatrix_update_available">Elérhető a Chatrix.One %s</string>
+    <string name="chatrix_update_tap">Koppintson a letöltési oldal megnyitásához</string>
+    <string name="chatrix_welcome_title">Üdvözli a Chatrix.One</string>
+    <string name="chatrix_welcome_text">Szabad és privát üzenetküldés a chatrix.one vagy bármely más XMPP-kiszolgáló használatával. Reklámok és követés nélkül.</string>
+    <string name="chatrix_create_account">Chatrix.One-fiók létrehozása</string>
+    <string name="chatrix_use_other_provider">Másik XMPP-szolgáltató használata</string>
+    <string name="chatrix_welcome_after_signup">Létrehozta a fiókot a weboldalon? Koppintson a „Már van fiókom” gombra, és adja meg az új chatrix.one címét és jelszavát.\n\nHa a weboldal felajánlotta az „Accept invite using Chatrix.One” lehetőséget, az a gomb mindent elintéz Ön helyett.</string>
+    <string name="chatrix_pref_language">Nyelv</string>
+    <string name="chatrix_language_device">Az eszköz nyelve</string>
+    <string name="chatrix_address_example">nev@%s</string>
+    <string name="chatrix_pref_crash_reports_summary">A háttérben soha nem kerül elküldésre semmi. Összeomlás után a Chatrix.One megmutatja a jelentést (alkalmazásverzió, eszközmodell, időpont és a hiba műszaki részletei), és először rákérdez. Csak akkor kerül a Chatrix.One csapatához, ha megerősíti, XMPP-üzenetként a fiókjából vagy e-mailben. Kapcsolja ki, ha soha nem szeretné, hogy rákérdezzen.</string>
+    <string name="chatrix_crash_report_message">A Chatrix.One váratlanul bezárult. Az alábbi jelentés tartalmazza az alkalmazás verzióját, az eszköz modelljét, az időpontot és a hiba műszaki részleteit. Elküldi a(z) %s címre, hogy segítsen a hiba javításában? Semmi nem kerül elküldésre, ha nem így dönt.</string>
+    <string name="chatrix_account_suspended">A kiszolgáló felfüggesztette a fiókot</string>
+</resources>

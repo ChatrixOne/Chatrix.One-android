@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="chatrix_pref_gestures">Gesty na wiadōmościach</string>
+    <string name="chatrix_pref_swipe_left">Przesuniyncie na lewo</string>
+    <string name="chatrix_pref_swipe_right">Przesuniyncie na prawo</string>
+    <string name="chatrix_pref_double_tap">Dwa razy tyknōńć</string>
+    <string name="chatrix_pref_quick_emoji">Emoji gibkij reakcyje</string>
+    <string name="chatrix_action_quote">Cytuj</string>
+    <string name="chatrix_action_react">Reaguj gibkim emoji</string>
+    <string name="chatrix_action_copy">Kopiuj tekst</string>
+    <string name="chatrix_action_edit">Edytuj moja wiadōmość</string>
+    <string name="chatrix_action_none">Nic niy rōb</string>
+    <string name="chatrix_pref_chat_background">Tło czatu</string>
+    <string name="chatrix_background_default">Wychodzowe (ze sztelōnkōw)</string>
+    <string name="chatrix_background_glow">Świycynie Chatrix.One</string>
+    <string name="chatrix_background_plain">Jednolite</string>
+    <string name="chatrix_background_custom">Swōj ôbrazek…</string>
+    <string name="chatrix_background_failed">Niy idzie użyć tego ôbrazka</string>
+    <string name="chatrix_about_fork">Chatrix.One to fork Conversations, aplikacyje XMPP, kero zrobiōł Daniel Gultsch (https://conversations.im).\n\nChatrix.One przidowo swōj wyglōnd i gibke gesty na wiadōmościach. Problymy z tōm aplikacyjōm zgłoszej do Chatrix.One (https://chatrix.one), a niy do twōrcōw Conversations.\n\nTak jak Conversations, Chatrix.One je wolnym ôprogramowaniym na licyncyji GNU General Public License v3.\n\n————————————————\n\n</string>
+    <string name="chatrix_pref_connection_notification">Powiadōmiynie ô stanie połōnczynio</string>
+    <string name="chatrix_pref_connection_notification_summary">Chatrix.One trzimie swoje połōnczynie, bez tōż Android pokazuje stałe powiadōmiynie. Możesz go tukej bezpiecznie zastawić: wiadōmości dalij bydōm prziłazić, a i tak dostaniesz ôstrzeżynie, jak połōnczynie zawiedzie.</string>
+    <string name="chatrix_crash_send_email">Poślij mailym</string>
+    <string name="chatrix_pref_update_check">Sprawdzej aktualizacyje</string>
+    <string name="chatrix_pref_update_check_summary">Roz za dziyń sprawdzo na chatrix.eu, eli je nowszo wersyjo Chatrix.One, i pokazuje powiadōmiynie. Nic niy je ściōngane ani instalowane i niy sōm posyłane żodne dane ôsobowe. Niy działo, jak aplikacyjo je zainstalowano z F-Droid abo inkszego sklepu, abo jak je załōnczōny Tor.</string>
+    <string name="chatrix_update_channel">Aktualizacyje aplikacyje</string>
+    <string name="chatrix_update_available">Je dostympny Chatrix.One %s</string>
+    <string name="chatrix_update_tap">Tyknij, coby ôtworzić strōna ściōngania</string>
+    <string name="chatrix_welcome_title">Witej w Chatrix.One</string>
+    <string name="chatrix_welcome_text">Wolny i prywatny kōmunikator na chatrix.one abo kożdym inkszym serwerze XMPP. Bez reklamōw i śledzynio.</string>
+    <string name="chatrix_create_account">Zrōb kōnto Chatrix.One</string>
+    <string name="chatrix_use_other_provider">Użyj inkszego dostawcy XMPP</string>
+    <string name="chatrix_welcome_after_signup">Kōnto zrobiōne na strōnie? Tyknij \"Już mōm kōnto\" i wpisz swoja nowo adresa chatrix.one i hasło.\n\nJak strōna dała \"Accept invite using Chatrix.One\", tyn knefel zrobi wszyjsko za ciebie.</string>
+    <string name="chatrix_pref_language">Godka</string>
+    <string name="chatrix_language_device">Godka urzōndzynio</string>
+    <string name="chatrix_address_example">twojemiano@%s</string>
+    <string name="chatrix_pref_crash_reports_summary">Nic niy je posyłane w tle. Po awaryji Chatrix.One pokazuje ci raport (wersyjo aplikacyje, model urzōndzynio, czas i techniczne szczegōły błyndu) i nojprzōd pyto. Idzie do zespołu Chatrix.One ino, jak to potwierdzisz, jako wiadōmość XMPP z twojigo kōnta abo mailym. Zastaw, coby nigdy niy być pytanym.</string>
+    <string name="chatrix_crash_report_message">Chatrix.One niyspodziywanie sie zawar. Raport niżyj mo wersyjo aplikacyje, model urzōndzynio, czas i techniczne szczegōły błyndu. Posłać go do %s, coby pōmōc rozwiōnzać problym? Nic niy pōjdzie bez twojigo wyboru.</string>
+    <string name="chatrix_account_suspended">Kōnto zawiyszōne bez serwer</string>
+</resources>

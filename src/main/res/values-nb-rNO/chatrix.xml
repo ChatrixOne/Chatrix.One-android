@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="chatrix_pref_gestures">Bevegelser på meldinger</string>
+    <string name="chatrix_pref_swipe_left">Sveip til venstre</string>
+    <string name="chatrix_pref_swipe_right">Sveip til høyre</string>
+    <string name="chatrix_pref_double_tap">Dobbelttrykk</string>
+    <string name="chatrix_pref_quick_emoji">Hurtigreaksjon med emoji</string>
+    <string name="chatrix_action_quote">Siter</string>
+    <string name="chatrix_action_react">Reager med hurtig-emoji</string>
+    <string name="chatrix_action_copy">Kopier tekst</string>
+    <string name="chatrix_action_edit">Rediger meldingen min</string>
+    <string name="chatrix_action_none">Ikke gjør noe</string>
+    <string name="chatrix_pref_chat_background">Samtalebakgrunn</string>
+    <string name="chatrix_background_default">Standard (fra innstillinger)</string>
+    <string name="chatrix_background_glow">Chatrix.One-glød</string>
+    <string name="chatrix_background_plain">Ensfarget</string>
+    <string name="chatrix_background_custom">Mitt eget bilde…</string>
+    <string name="chatrix_background_failed">Bildet kan ikke brukes</string>
+    <string name="chatrix_about_fork">Chatrix.One er en fork av Conversations, XMPP-appen laget av Daniel Gultsch (https://conversations.im).\n\nChatrix.One legger til sitt eget utseende og raske bevegelser på meldinger. Rapporter problemer med denne appen til Chatrix.One (https://chatrix.one), ikke til utviklerne av Conversations.\n\nSom Conversations er Chatrix.One fri programvare under GNU General Public License v3.\n\n————————————————\n\n</string>
+    <string name="chatrix_pref_connection_notification">Varsel om tilkoblingsstatus</string>
+    <string name="chatrix_pref_connection_notification_summary">Chatrix.One holder sin egen tilkobling åpen, derfor viser Android et permanent varsel. Du kan trygt slå det av her: meldinger fortsetter å komme, og du får fortsatt en advarsel hvis tilkoblingen svikter.</string>
+    <string name="chatrix_crash_send_email">Send med e-post</string>
+    <string name="chatrix_pref_update_check">Se etter oppdateringer</string>
+    <string name="chatrix_pref_update_check_summary">Én gang om dagen se etter en nyere Chatrix.One-versjon på chatrix.eu og vise et varsel. Ingenting lastes ned eller installeres, og ingen personopplysninger sendes. Brukes ikke når appen er installert fra F-Droid eller en annen appbutikk, eller når Tor er på.</string>
+    <string name="chatrix_update_channel">Appoppdateringer</string>
+    <string name="chatrix_update_available">Chatrix.One %s er tilgjengelig</string>
+    <string name="chatrix_update_tap">Trykk for å åpne nedlastingssiden</string>
+    <string name="chatrix_welcome_title">Velkommen til Chatrix.One</string>
+    <string name="chatrix_welcome_text">Frie og private meldinger på chatrix.one eller en hvilken som helst annen XMPP-server. Ingen reklame, ingen sporing.</string>
+    <string name="chatrix_create_account">Opprett en Chatrix.One-konto</string>
+    <string name="chatrix_use_other_provider">Bruk en annen XMPP-leverandør</string>
+    <string name="chatrix_welcome_after_signup">Opprettet du kontoen på nettsiden? Trykk på \"I already have an account\" og skriv inn den nye chatrix.one-adressen og passordet ditt.\n\nHvis nettsiden tilbød \"Accept invite using Chatrix.One\", ordner den knappen alt for deg.</string>
+    <string name="chatrix_pref_language">Språk</string>
+    <string name="chatrix_language_device">Enhetens språk</string>
+    <string name="chatrix_address_example">dittnavn@%s</string>
+    <string name="chatrix_pref_crash_reports_summary">Ingenting sendes noen gang i bakgrunnen. Etter et krasj viser Chatrix.One deg rapporten (appversjon, enhetsmodell, tidspunkt og de tekniske feildetaljene) og spør først. Den sendes bare til Chatrix.One-teamet hvis du bekrefter, som XMPP-melding fra kontoen din eller med e-post. Slå av for aldri å bli spurt.</string>
+    <string name="chatrix_crash_report_message">Chatrix.One ble lukket uventet. Rapporten nedenfor inneholder appversjon, enhetsmodell, tidspunkt og de tekniske feildetaljene. Sende den til %s for å hjelpe med å løse problemet? Ingenting sendes med mindre du velger det.</string>
+    <string name="chatrix_account_suspended">Kontoen er suspendert av serveren</string>
+</resources>

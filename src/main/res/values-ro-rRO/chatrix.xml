@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="chatrix_pref_gestures">Gesturi pe mesaje</string>
+    <string name="chatrix_pref_swipe_left">Glisare la stânga</string>
+    <string name="chatrix_pref_swipe_right">Glisare la dreapta</string>
+    <string name="chatrix_pref_double_tap">Atingere dublă</string>
+    <string name="chatrix_pref_quick_emoji">Emoji pentru reacție rapidă</string>
+    <string name="chatrix_action_quote">Citează</string>
+    <string name="chatrix_action_react">Reacționează cu emoji-ul rapid</string>
+    <string name="chatrix_action_copy">Copiază textul</string>
+    <string name="chatrix_action_edit">Editează mesajul meu</string>
+    <string name="chatrix_action_none">Nu face nimic</string>
+    <string name="chatrix_pref_chat_background">Fundalul conversației</string>
+    <string name="chatrix_background_default">Implicit (din setări)</string>
+    <string name="chatrix_background_glow">Strălucire Chatrix.One</string>
+    <string name="chatrix_background_plain">Simplu</string>
+    <string name="chatrix_background_custom">Imaginea mea…</string>
+    <string name="chatrix_background_failed">Această imagine nu poate fi folosită</string>
+    <string name="chatrix_about_fork">Chatrix.One este un fork al Conversations, aplicația XMPP creată de Daniel Gultsch (https://conversations.im).\n\nChatrix.One adaugă un aspect propriu și gesturi rapide pe mesaje. Vă rugăm să raportați problemele acestei aplicații către Chatrix.One (https://chatrix.one), nu către dezvoltatorii Conversations.\n\nLa fel ca Conversations, Chatrix.One este software liber sub licența GNU General Public License v3.\n\n————————————————\n\n</string>
+    <string name="chatrix_pref_connection_notification">Notificare despre starea conexiunii</string>
+    <string name="chatrix_pref_connection_notification_summary">Chatrix.One își menține propria conexiune deschisă, de aceea Android afișează o notificare permanentă. O puteți dezactiva aici fără grijă: mesajele continuă să sosească și veți primi în continuare un avertisment dacă se întrerupe conexiunea.</string>
+    <string name="chatrix_crash_send_email">Trimite prin e-mail</string>
+    <string name="chatrix_pref_update_check">Caută actualizări</string>
+    <string name="chatrix_pref_update_check_summary">O dată pe zi, verifică pe chatrix.eu dacă există o versiune mai nouă a Chatrix.One și afișează o notificare. Nu se descarcă și nu se instalează nimic și nu se trimit date personale. Nu se folosește dacă aplicația a fost instalată din F-Droid sau alt magazin ori dacă Tor este pornit.</string>
+    <string name="chatrix_update_channel">Actualizări ale aplicației</string>
+    <string name="chatrix_update_available">Chatrix.One %s este disponibil</string>
+    <string name="chatrix_update_tap">Atingeți pentru a deschide pagina de descărcare</string>
+    <string name="chatrix_welcome_title">Bun venit la Chatrix.One</string>
+    <string name="chatrix_welcome_text">Mesagerie liberă și privată pe chatrix.one sau pe orice alt server XMPP. Fără reclame, fără urmărire.</string>
+    <string name="chatrix_create_account">Creează un cont Chatrix.One</string>
+    <string name="chatrix_use_other_provider">Folosește alt furnizor XMPP</string>
+    <string name="chatrix_welcome_after_signup">Ați creat contul pe site? Atingeți „Eu am deja un cont” și introduceți noua adresă chatrix.one și parola.\n\nDacă site-ul a oferit „Accept invite using Chatrix.One”, acel buton face totul în locul dumneavoastră.</string>
+    <string name="chatrix_pref_language">Limbă</string>
+    <string name="chatrix_language_device">Limba dispozitivului</string>
+    <string name="chatrix_address_example">numele@%s</string>
+    <string name="chatrix_pref_crash_reports_summary">Nu se trimite niciodată nimic în fundal. După o eroare fatală, Chatrix.One vă arată raportul (versiunea aplicației, modelul dispozitivului, ora și detaliile tehnice ale erorii) și întreabă mai întâi. Se trimite echipei Chatrix.One doar dacă confirmați, ca mesaj XMPP din contul dumneavoastră sau prin e-mail. Dezactivați pentru a nu fi întrebat niciodată.</string>
+    <string name="chatrix_crash_report_message">Chatrix.One s-a închis neașteptat. Raportul de mai jos conține versiunea aplicației, modelul dispozitivului, ora și detaliile tehnice ale erorii. Îl trimiteți la %s pentru a ajuta la rezolvarea problemei? Nu se trimite nimic fără alegerea dumneavoastră.</string>
+    <string name="chatrix_account_suspended">Cont suspendat de server</string>
+</resources>

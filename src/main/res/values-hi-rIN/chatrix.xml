@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="chatrix_pref_gestures">संदेश जेस्चर</string>
+    <string name="chatrix_pref_swipe_left">बाईं ओर स्वाइप करें</string>
+    <string name="chatrix_pref_swipe_right">दाईं ओर स्वाइप करें</string>
+    <string name="chatrix_pref_double_tap">दो बार टैप करें</string>
+    <string name="chatrix_pref_quick_emoji">त्वरित प्रतिक्रिया इमोजी</string>
+    <string name="chatrix_action_quote">उद्धरण दें</string>
+    <string name="chatrix_action_react">त्वरित इमोजी से प्रतिक्रिया दें</string>
+    <string name="chatrix_action_copy">टेक्स्ट कॉपी करें</string>
+    <string name="chatrix_action_edit">मेरा संदेश संपादित करें</string>
+    <string name="chatrix_action_none">कुछ न करें</string>
+    <string name="chatrix_pref_chat_background">चैट पृष्ठभूमि</string>
+    <string name="chatrix_background_default">डिफ़ॉल्ट (सेटिंग्स से)</string>
+    <string name="chatrix_background_glow">Chatrix.One चमक</string>
+    <string name="chatrix_background_plain">सादा</string>
+    <string name="chatrix_background_custom">मेरी अपनी तस्वीर…</string>
+    <string name="chatrix_background_failed">इस तस्वीर का उपयोग नहीं हो सका</string>
+    <string name="chatrix_about_fork">Chatrix.One, Conversations का एक फ़ोर्क है, जो Daniel Gultsch द्वारा बनाया गया XMPP ऐप है (https://conversations.im)।\n\nChatrix.One अपना रूप-रंग और संदेशों के लिए त्वरित जेस्चर जोड़ता है। कृपया इस ऐप की समस्याओं की रिपोर्ट Chatrix.One (https://chatrix.one) को करें, Conversations के डेवलपर्स को नहीं।\n\nConversations की तरह, Chatrix.One भी GNU General Public License v3 के तहत मुक्त सॉफ़्टवेयर है।\n\n————————————————\n\n</string>
+    <string name="chatrix_pref_connection_notification">कनेक्शन स्थिति सूचना</string>
+    <string name="chatrix_pref_connection_notification_summary">Chatrix.One अपना कनेक्शन खुला रखता है, इसलिए Android एक स्थायी सूचना दिखाता है। आप इसे यहाँ बेझिझक बंद कर सकते हैं: संदेश आते रहेंगे और कनेक्शन विफल होने पर आपको फिर भी चेतावनी मिलेगी।</string>
+    <string name="chatrix_crash_send_email">ईमेल से भेजें</string>
+    <string name="chatrix_pref_update_check">अपडेट जाँचें</string>
+    <string name="chatrix_pref_update_check_summary">दिन में एक बार chatrix.eu पर Chatrix.One के नए संस्करण की जाँच करें और सूचना दिखाएँ। कुछ भी डाउनलोड या इंस्टॉल नहीं होता और कोई व्यक्तिगत डेटा नहीं भेजा जाता। F-Droid या किसी अन्य ऐप स्टोर से इंस्टॉल करने पर या Tor चालू होने पर इसका उपयोग नहीं होता।</string>
+    <string name="chatrix_update_channel">ऐप अपडेट</string>
+    <string name="chatrix_update_available">Chatrix.One %s उपलब्ध है</string>
+    <string name="chatrix_update_tap">डाउनलोड पेज खोलने के लिए टैप करें</string>
+    <string name="chatrix_welcome_title">Chatrix.One में आपका स्वागत है</string>
+    <string name="chatrix_welcome_text">chatrix.one या किसी भी अन्य XMPP सर्वर पर मुक्त और निजी संदेश। न विज्ञापन, न ट्रैकिंग।</string>
+    <string name="chatrix_create_account">Chatrix.One खाता बनाएँ</string>
+    <string name="chatrix_use_other_provider">किसी अन्य XMPP प्रदाता का उपयोग करें</string>
+    <string name="chatrix_welcome_after_signup">वेबसाइट पर अपना खाता बना लिया? \"I already have an account\" पर टैप करें और अपना नया chatrix.one पता और पासवर्ड दर्ज करें।\n\nयदि वेबसाइट ने \"Accept invite using Chatrix.One\" दिखाया था, तो वह बटन आपके लिए सब कुछ पूरा कर देता है।</string>
+    <string name="chatrix_pref_language">भाषा</string>
+    <string name="chatrix_language_device">डिवाइस की भाषा</string>
+    <string name="chatrix_address_example">yourname@%s</string>
+    <string name="chatrix_pref_crash_reports_summary">पृष्ठभूमि में कभी कुछ नहीं भेजा जाता। क्रैश के बाद Chatrix.One आपको रिपोर्ट (ऐप संस्करण, डिवाइस मॉडल, समय और त्रुटि का तकनीकी विवरण) दिखाता है और पहले पूछता है। यह Chatrix.One टीम को तभी भेजी जाती है जब आप पुष्टि करें, आपके खाते से XMPP संदेश के रूप में या ईमेल से। कभी न पूछे जाने के लिए बंद करें।</string>
+    <string name="chatrix_crash_report_message">Chatrix.One अचानक बंद हो गया। नीचे दी गई रिपोर्ट में ऐप संस्करण, डिवाइस मॉडल, समय और त्रुटि का तकनीकी विवरण है। समस्या ठीक करने में मदद के लिए इसे %s पर भेजें? जब तक आप न चुनें, कुछ नहीं भेजा जाता।</string>
+    <string name="chatrix_account_suspended">सर्वर ने खाता निलंबित कर दिया है</string>
+</resources>

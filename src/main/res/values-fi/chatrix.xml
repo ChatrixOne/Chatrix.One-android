@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="chatrix_pref_gestures">Viestieleet</string>
+    <string name="chatrix_pref_swipe_left">Pyyhkäisy vasemmalle</string>
+    <string name="chatrix_pref_swipe_right">Pyyhkäisy oikealle</string>
+    <string name="chatrix_pref_double_tap">Kaksoisnapautus</string>
+    <string name="chatrix_pref_quick_emoji">Pikareaktion emoji</string>
+    <string name="chatrix_action_quote">Lainaa</string>
+    <string name="chatrix_action_react">Reagoi pikaemojilla</string>
+    <string name="chatrix_action_copy">Kopioi teksti</string>
+    <string name="chatrix_action_edit">Muokkaa omaa viestiä</string>
+    <string name="chatrix_action_none">Älä tee mitään</string>
+    <string name="chatrix_pref_chat_background">Keskustelun tausta</string>
+    <string name="chatrix_background_default">Oletus (asetuksista)</string>
+    <string name="chatrix_background_glow">Chatrix.One-hehku</string>
+    <string name="chatrix_background_plain">Yksivärinen</string>
+    <string name="chatrix_background_custom">Oma kuva…</string>
+    <string name="chatrix_background_failed">Tätä kuvaa ei voi käyttää</string>
+    <string name="chatrix_about_fork">Chatrix.One on Conversationsin fork. Conversations on Daniel Gultschin tekemä XMPP-sovellus (https://conversations.im).\n\nChatrix.One tuo oman ulkoasun ja nopeat viestieleet. Ilmoita tämän sovelluksen ongelmista Chatrix.Onelle (https://chatrix.one), älä Conversationsin kehittäjille.\n\nConversationsin tavoin Chatrix.One on vapaata ohjelmistoa GNU General Public License v3 -lisenssillä.\n\n————————————————\n\n</string>
+    <string name="chatrix_pref_connection_notification">Yhteyden tilan ilmoitus</string>
+    <string name="chatrix_pref_connection_notification_summary">Chatrix.One pitää oman yhteytensä auki, joten Android näyttää pysyvän ilmoituksen. Voit huoletta poistaa sen käytöstä tästä: viestit tulevat edelleen perille ja saat silti varoituksen, jos yhteys katkeaa.</string>
+    <string name="chatrix_crash_send_email">Lähetä sähköpostilla</string>
+    <string name="chatrix_pref_update_check">Tarkista päivitykset</string>
+    <string name="chatrix_pref_update_check_summary">Kerran päivässä tarkistetaan chatrix.eu-sivustolta, onko Chatrix.Onesta uudempi versio, ja näytetään ilmoitus. Mitään ei ladata eikä asenneta, eikä henkilötietoja lähetetä. Ei käytössä, jos sovellus on asennettu F-Droidista tai muusta sovelluskaupasta tai jos Tor on päällä.</string>
+    <string name="chatrix_update_channel">Sovelluspäivitykset</string>
+    <string name="chatrix_update_available">Chatrix.One %s on saatavilla</string>
+    <string name="chatrix_update_tap">Avaa lataussivu napauttamalla</string>
+    <string name="chatrix_welcome_title">Tervetuloa Chatrix.Oneen</string>
+    <string name="chatrix_welcome_text">Vapaata ja yksityistä viestintää chatrix.one-palvelussa tai millä tahansa muulla XMPP-palvelimella. Ei mainoksia, ei seurantaa.</string>
+    <string name="chatrix_create_account">Luo Chatrix.One-tili</string>
+    <string name="chatrix_use_other_provider">Käytä toista XMPP-palveluntarjoajaa</string>
+    <string name="chatrix_welcome_after_signup">Loitko tilin verkkosivulla? Napauta \"Minulla on jo tili\" ja anna uusi chatrix.one-osoitteesi ja salasanasi.\n\nJos sivusto tarjosi painiketta \"Accept invite using Chatrix.One\", se hoitaa kaiken puolestasi.</string>
+    <string name="chatrix_pref_language">Kieli</string>
+    <string name="chatrix_language_device">Laitteen kieli</string>
+    <string name="chatrix_address_example">nimesi@%s</string>
+    <string name="chatrix_pref_crash_reports_summary">Mitään ei koskaan lähetetä taustalla. Kaatumisen jälkeen Chatrix.One näyttää sinulle raportin (sovelluksen versio, laitemalli, aika ja virheen tekniset tiedot) ja kysyy ensin. Se lähetetään Chatrix.One-tiimille vain, jos vahvistat, XMPP-viestinä tililtäsi tai sähköpostilla. Poista käytöstä, jos et halua kysymystä koskaan.</string>
+    <string name="chatrix_crash_report_message">Chatrix.One sulkeutui odottamatta. Alla oleva raportti sisältää sovelluksen version, laitemallin, ajan ja virheen tekniset tiedot. Lähetetäänkö se osoitteeseen %s ongelman korjaamiseksi? Mitään ei lähetetä, ellet itse valitse niin.</string>
+    <string name="chatrix_account_suspended">Palvelin on jäädyttänyt tilin</string>
+</resources>

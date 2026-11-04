@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="chatrix_pref_gestures">Χειρονομίες στα μηνύματα</string>
+    <string name="chatrix_pref_swipe_left">Σάρωση προς τα αριστερά</string>
+    <string name="chatrix_pref_swipe_right">Σάρωση προς τα δεξιά</string>
+    <string name="chatrix_pref_double_tap">Διπλό πάτημα</string>
+    <string name="chatrix_pref_quick_emoji">Emoji γρήγορης αντίδρασης</string>
+    <string name="chatrix_action_quote">Παράθεση</string>
+    <string name="chatrix_action_react">Αντίδραση με το γρήγορο emoji</string>
+    <string name="chatrix_action_copy">Αντιγραφή κειμένου</string>
+    <string name="chatrix_action_edit">Επεξεργασία του μηνύματός μου</string>
+    <string name="chatrix_action_none">Καμία ενέργεια</string>
+    <string name="chatrix_pref_chat_background">Φόντο συνομιλίας</string>
+    <string name="chatrix_background_default">Προεπιλογή (από τις ρυθμίσεις)</string>
+    <string name="chatrix_background_glow">Λάμψη Chatrix.One</string>
+    <string name="chatrix_background_plain">Απλό</string>
+    <string name="chatrix_background_custom">Δική μου εικόνα…</string>
+    <string name="chatrix_background_failed">Δεν είναι δυνατή η χρήση αυτής της εικόνας</string>
+    <string name="chatrix_about_fork">Το Chatrix.One είναι fork του Conversations, της εφαρμογής XMPP του Daniel Gultsch (https://conversations.im).\n\nΤο Chatrix.One προσθέτει δική του εμφάνιση και γρήγορες χειρονομίες στα μηνύματα. Αναφέρετε τα προβλήματα αυτής της εφαρμογής στο Chatrix.One (https://chatrix.one) και όχι στους προγραμματιστές του Conversations.\n\nΌπως και το Conversations, το Chatrix.One είναι ελεύθερο λογισμικό με την άδεια GNU General Public License v3.\n\n————————————————\n\n</string>
+    <string name="chatrix_pref_connection_notification">Ειδοποίηση κατάστασης σύνδεσης</string>
+    <string name="chatrix_pref_connection_notification_summary">Το Chatrix.One διατηρεί δική του σύνδεση, γι\' αυτό το Android δείχνει μόνιμη ειδοποίηση. Μπορείτε να την απενεργοποιήσετε εδώ με ασφάλεια: τα μηνύματα συνεχίζουν να φτάνουν και θα λάβετε ειδοποίηση αν η σύνδεση αποτύχει.</string>
+    <string name="chatrix_crash_send_email">Αποστολή με email</string>
+    <string name="chatrix_pref_update_check">Έλεγχος για ενημερώσεις</string>
+    <string name="chatrix_pref_update_check_summary">Μία φορά την ημέρα ελέγχει στο chatrix.eu αν υπάρχει νεότερη έκδοση του Chatrix.One και εμφανίζει ειδοποίηση. Τίποτα δεν κατεβαίνει ή εγκαθίσταται και δεν αποστέλλονται προσωπικά δεδομένα. Δεν χρησιμοποιείται όταν η εφαρμογή εγκαταστάθηκε από το F-Droid ή άλλο κατάστημα ή όταν είναι ενεργό το Tor.</string>
+    <string name="chatrix_update_channel">Ενημερώσεις εφαρμογής</string>
+    <string name="chatrix_update_available">Το Chatrix.One %s είναι διαθέσιμο</string>
+    <string name="chatrix_update_tap">Πατήστε για να ανοίξει η σελίδα λήψης</string>
+    <string name="chatrix_welcome_title">Καλώς ήρθατε στο Chatrix.One</string>
+    <string name="chatrix_welcome_text">Ελεύθερα και ιδιωτικά μηνύματα στο chatrix.one ή σε οποιονδήποτε άλλο διακομιστή XMPP. Χωρίς διαφημίσεις και παρακολούθηση.</string>
+    <string name="chatrix_create_account">Δημιουργία λογαριασμού Chatrix.One</string>
+    <string name="chatrix_use_other_provider">Χρήση άλλου παρόχου XMPP</string>
+    <string name="chatrix_welcome_after_signup">Δημιουργήσατε λογαριασμό στον ιστότοπο; Πατήστε «Έχω ήδη λογαριασμό» και εισαγάγετε τη νέα σας διεύθυνση chatrix.one και τον κωδικό πρόσβασης.\n\nΑν ο ιστότοπος πρότεινε «Accept invite using Chatrix.One», αυτό το κουμπί τα ολοκληρώνει όλα για εσάς.</string>
+    <string name="chatrix_pref_language">Γλώσσα</string>
+    <string name="chatrix_language_device">Γλώσσα συσκευής</string>
+    <string name="chatrix_address_example">όνομα@%s</string>
+    <string name="chatrix_pref_crash_reports_summary">Τίποτα δεν αποστέλλεται ποτέ στο παρασκήνιο. Μετά από κατάρρευση, το Chatrix.One σας δείχνει την αναφορά (έκδοση εφαρμογής, μοντέλο συσκευής, ώρα και τεχνικές λεπτομέρειες του σφάλματος) και ρωτά πρώτα. Αποστέλλεται στην ομάδα του Chatrix.One μόνο αν επιβεβαιώσετε, ως μήνυμα XMPP από τον λογαριασμό σας ή με email. Απενεργοποιήστε για να μην ερωτηθείτε ποτέ.</string>
+    <string name="chatrix_crash_report_message">Το Chatrix.One έκλεισε απρόσμενα. Η παρακάτω αναφορά περιέχει την έκδοση της εφαρμογής, το μοντέλο της συσκευής, την ώρα και τις τεχνικές λεπτομέρειες του σφάλματος. Να σταλεί στο %s για να βοηθήσει στη διόρθωση του προβλήματος; Τίποτα δεν αποστέλλεται χωρίς τη δική σας επιλογή.</string>
+    <string name="chatrix_account_suspended">Ο λογαριασμός ανεστάλη από τον διακομιστή</string>
+</resources>

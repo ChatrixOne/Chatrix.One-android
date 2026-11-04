@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="chatrix_pref_gestures">Xestos nas mensaxes</string>
+    <string name="chatrix_pref_swipe_left">Esvarar á esquerda</string>
+    <string name="chatrix_pref_swipe_right">Esvarar á dereita</string>
+    <string name="chatrix_pref_double_tap">Dobre toque</string>
+    <string name="chatrix_pref_quick_emoji">Emoji de reacción rápida</string>
+    <string name="chatrix_action_quote">Citar</string>
+    <string name="chatrix_action_react">Reaccionar co emoji rápido</string>
+    <string name="chatrix_action_copy">Copiar o texto</string>
+    <string name="chatrix_action_edit">Editar a miña mensaxe</string>
+    <string name="chatrix_action_none">Non facer nada</string>
+    <string name="chatrix_pref_chat_background">Fondo da conversa</string>
+    <string name="chatrix_background_default">Predeterminado (da configuración)</string>
+    <string name="chatrix_background_glow">Brillo Chatrix.One</string>
+    <string name="chatrix_background_plain">Liso</string>
+    <string name="chatrix_background_custom">A miña imaxe…</string>
+    <string name="chatrix_background_failed">Non se pode usar esta imaxe</string>
+    <string name="chatrix_about_fork">Chatrix.One é un fork de Conversations, a app XMPP creada por Daniel Gultsch (https://conversations.im).\n\nChatrix.One engade un aspecto propio e xestos rápidos para as mensaxes. Informa dos problemas desta app a Chatrix.One (https://chatrix.one), non ás persoas que desenvolven Conversations.\n\nComo Conversations, Chatrix.One é software libre baixo a GNU General Public License v3.\n\n————————————————\n\n</string>
+    <string name="chatrix_pref_connection_notification">Notificación do estado da conexión</string>
+    <string name="chatrix_pref_connection_notification_summary">Chatrix.One mantén aberta a súa propia conexión, por iso Android mostra unha notificación permanente. Podes desactivala aquí sen problema: as mensaxes seguen chegando e recibirás igualmente un aviso se falla a conexión.</string>
+    <string name="chatrix_crash_send_email">Enviar por correo</string>
+    <string name="chatrix_pref_update_check">Buscar actualizacións</string>
+    <string name="chatrix_pref_update_check_summary">Unha vez ao día, comprobar en chatrix.eu se hai unha versión nova de Chatrix.One e mostrar unha notificación. Non se descarga nin instala nada e non se envían datos persoais. Non se usa se a app se instalou desde F-Droid ou outra tenda, ou se Tor está activado.</string>
+    <string name="chatrix_update_channel">Actualizacións da app</string>
+    <string name="chatrix_update_available">Chatrix.One %s está dispoñible</string>
+    <string name="chatrix_update_tap">Toca para abrir a páxina de descarga</string>
+    <string name="chatrix_welcome_title">Benvida a Chatrix.One</string>
+    <string name="chatrix_welcome_text">Mensaxería libre e privada en chatrix.one ou en calquera outro servidor XMPP. Sen anuncios nin rastrexo.</string>
+    <string name="chatrix_create_account">Crear unha conta de Chatrix.One</string>
+    <string name="chatrix_use_other_provider">Usar outro provedor XMPP</string>
+    <string name="chatrix_welcome_after_signup">Creaches a conta na web? Toca \"Xa teño unha conta\" e escribe o teu novo enderezo de chatrix.one e o contrasinal.\n\nSe a web che ofreceu \"Accept invite using Chatrix.One\", ese botón faino todo por ti.</string>
+    <string name="chatrix_pref_language">Idioma</string>
+    <string name="chatrix_language_device">Idioma do dispositivo</string>
+    <string name="chatrix_address_example">oteunome@%s</string>
+    <string name="chatrix_pref_crash_reports_summary">Nunca se envía nada en segundo plano. Despois dun peche inesperado, Chatrix.One amósache o informe (versión da app, modelo do dispositivo, hora e detalles técnicos do erro) e pregunta primeiro. Só se envía ao equipo de Chatrix.One se o confirmas, como mensaxe XMPP desde a túa conta ou por correo. Desactívao para que non se che pregunte nunca.</string>
+    <string name="chatrix_crash_report_message">Chatrix.One pechouse inesperadamente. O informe de abaixo contén a versión da app, o modelo do dispositivo, a hora e os detalles técnicos do erro. Enviarllo a %s para axudar a solucionar o problema? Non se envía nada se non o escolles.</string>
+    <string name="chatrix_account_suspended">Conta suspendida polo servidor</string>
+</resources>

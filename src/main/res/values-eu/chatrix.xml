@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="chatrix_pref_gestures">Mezuetako keinuak</string>
+    <string name="chatrix_pref_swipe_left">Pasatu ezkerrera</string>
+    <string name="chatrix_pref_swipe_right">Pasatu eskuinera</string>
+    <string name="chatrix_pref_double_tap">Ukitu bi aldiz</string>
+    <string name="chatrix_pref_quick_emoji">Erreakzio azkarreko emojia</string>
+    <string name="chatrix_action_quote">Aipatu</string>
+    <string name="chatrix_action_react">Erreakzionatu emoji azkarrarekin</string>
+    <string name="chatrix_action_copy">Kopiatu testua</string>
+    <string name="chatrix_action_edit">Editatu nire mezua</string>
+    <string name="chatrix_action_none">Ez egin ezer</string>
+    <string name="chatrix_pref_chat_background">Txataren atzeko planoa</string>
+    <string name="chatrix_background_default">Lehenetsia (ezarpenetatik)</string>
+    <string name="chatrix_background_glow">Chatrix.One distira</string>
+    <string name="chatrix_background_plain">Arrunta</string>
+    <string name="chatrix_background_custom">Nire irudia…</string>
+    <string name="chatrix_background_failed">Ezin da irudi hau erabili</string>
+    <string name="chatrix_about_fork">Chatrix.One Conversations-en fork bat da, Daniel Gultsch-ek egindako XMPP aplikazioarena (https://conversations.im).\n\nChatrix.One-k itxura propioa eta mezuetarako keinu azkarrak gehitzen ditu. Aplikazio honen arazoen berri eman Chatrix.One-ri (https://chatrix.one), ez Conversations-en garatzaileei.\n\nConversations bezala, Chatrix.One software librea da GNU General Public License v3 lizentziapean.\n\n————————————————\n\n</string>
+    <string name="chatrix_pref_connection_notification">Konexio-egoeraren jakinarazpena</string>
+    <string name="chatrix_pref_connection_notification_summary">Chatrix.One-k bere konexioa irekita mantentzen du, eta horregatik Android-ek jakinarazpen iraunkor bat erakusten du. Hemen desaktiba dezakezu arazorik gabe: mezuak iristen jarraituko dute eta konexioak huts egiten badu abisua jasoko duzu.</string>
+    <string name="chatrix_crash_send_email">Bidali posta elektronikoz</string>
+    <string name="chatrix_pref_update_check">Bilatu eguneraketak</string>
+    <string name="chatrix_pref_update_check_summary">Egunean behin, begiratu chatrix.eu-n Chatrix.One-ren bertsio berriagorik dagoen eta erakutsi jakinarazpen bat. Ez da ezer deskargatzen edo instalatzen eta ez da datu pertsonalik bidaltzen. Ez da erabiltzen F-Droid-etik edo beste denda batetik instalatu bada, edo Tor aktibatuta badago.</string>
+    <string name="chatrix_update_channel">Aplikazioaren eguneraketak</string>
+    <string name="chatrix_update_available">Chatrix.One %s eskuragarri dago</string>
+    <string name="chatrix_update_tap">Ukitu deskarga-orria irekitzeko</string>
+    <string name="chatrix_welcome_title">Ongi etorri Chatrix.One-ra</string>
+    <string name="chatrix_welcome_text">Mezularitza librea eta pribatua chatrix.one-n edo beste edozein XMPP zerbitzaritan. Iragarkirik eta jarraipenik gabe.</string>
+    <string name="chatrix_create_account">Sortu Chatrix.One kontu bat</string>
+    <string name="chatrix_use_other_provider">Erabili beste XMPP hornitzaile bat</string>
+    <string name="chatrix_welcome_after_signup">Webgunean sortu duzu kontua? Ukitu \"Badaukat kontu bat dagoeneko\" eta idatzi zure chatrix.one helbide berria eta pasahitza.\n\nWebguneak \"Accept invite using Chatrix.One\" eskaini badizu, botoi horrek dena egiten du zure ordez.</string>
+    <string name="chatrix_pref_language">Hizkuntza</string>
+    <string name="chatrix_language_device">Gailuaren hizkuntza</string>
+    <string name="chatrix_address_example">zureizena@%s</string>
+    <string name="chatrix_pref_crash_reports_summary">Ez da inoiz ezer bidaltzen atzeko planoan. Huts egin ondoren, Chatrix.One-k txostena erakusten dizu (aplikazioaren bertsioa, gailuaren modeloa, ordua eta errorearen xehetasun teknikoak) eta lehenik galdetzen dizu. Berresten baduzu bakarrik bidaltzen zaio Chatrix.One taldeari, zure kontutik XMPP mezu gisa edo posta elektronikoz. Desaktibatu inoiz ez galdetzeko.</string>
+    <string name="chatrix_crash_report_message">Chatrix.One ustekabean itxi da. Beheko txostenak aplikazioaren bertsioa, gailuaren modeloa, ordua eta errorearen xehetasun teknikoak ditu. %s helbidera bidali arazoa konpontzen laguntzeko? Ez da ezer bidaltzen zuk aukeratu ezean.</string>
+    <string name="chatrix_account_suspended">Zerbitzariak kontua eten du</string>
+</resources>
