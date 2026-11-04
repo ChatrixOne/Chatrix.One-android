@@ -2579,14 +2579,16 @@ public class ConversationFragment extends XmppFragment
         this.selectedMessage = message;
         final Menu menu = new PopupMenu(requireContext(), binding.messagesView).getMenu();
         populateContextMenu(menu);
+        final boolean canReact = QuickActions.canReact(message);
         final List<MenuItem> items = new ArrayList<>();
         for (int i = 0; i < menu.size(); ++i) {
             final MenuItem item = menu.getItem(i);
-            if (item.isVisible()) {
+            // "Add reaction…" is covered by the emoji row and its "..." button
+            if (item.isVisible()
+                    && !(canReact && item.getItemId() == R.id.action_add_reaction)) {
                 items.add(item);
             }
         }
-        final boolean canReact = QuickActions.canReact(message);
         if (items.isEmpty() && !canReact) {
             return;
         }
