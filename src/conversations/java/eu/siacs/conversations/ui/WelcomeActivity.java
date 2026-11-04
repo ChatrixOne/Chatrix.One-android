@@ -86,8 +86,11 @@ public class WelcomeActivity extends QrCodeProcessingActivity
     @Override
     protected void onBackendConnected() {}
 
-    // Chatrix.One: accounts on chatrix.one are created on its invite website
-    private static final String CHATRIX_SIGNUP_URL = "https://chatrix.one/invites/";
+    // Chatrix.One: accounts on chatrix.one are created on its invite website.
+    // app=1 tells the hCaptcha gate the person already has the app, so it
+    // opens the sign-up form and not the app list with downloads.
+    private static final String CHATRIX_SIGNUP_URL =
+            "https://chatrix.one/invites/_challenge?app=1";
     private static final String STATE_SIGNUP_STARTED = "chatrix_signup_started";
     private boolean chatrixSignupStarted = false;
     private ActivityWelcomeBinding binding;
