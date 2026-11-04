@@ -179,6 +179,9 @@ public class XmppConnectionService extends Service {
     public static final String ACTION_CLEAR_MISSED_CALL_NOTIFICATION =
             "clear_missed_call_notification";
     public static final String ACTION_DISMISS_ERROR_NOTIFICATIONS = "dismiss_error";
+    // Chatrix.One: reaction notification swiped away
+    public static final String ACTION_CHATRIX_CLEAR_REACTION_NOTIFICATION =
+            "chatrix_clear_reaction_notification";
     public static final String ACTION_TRY_AGAIN = "try_again";
 
     public static final String ACTION_TEMPORARILY_DISABLE = "temporarily_disable";
@@ -495,6 +498,22 @@ public class XmppConnectionService extends Service {
                                 Log.d(
                                         Config.LOGTAG,
                                         "unable to process clear message notification");
+                            }
+                        });
+                break;
+            case ACTION_CHATRIX_CLEAR_REACTION_NOTIFICATION:
+                mNotificationExecutor.execute(
+                        () -> {
+                            try {
+                                restoredFromDatabaseLatch.await();
+                                final Conversation c = findConversationByUuid(uuid);
+                                if (c != null) {
+                                    mNotificationService.clearReactions(c);
+                                }
+                            } catch (final InterruptedException e) {
+                                Log.d(
+                                        Config.LOGTAG,
+                                        "unable to process clear reaction notification");
                             }
                         });
                 break;

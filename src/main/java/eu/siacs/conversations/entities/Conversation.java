@@ -961,6 +961,15 @@ public class Conversation extends AbstractEntity
                         Config.ALWAYS_NOTIFY_BY_DEFAULT || isPrivateAndNonAnonymous());
     }
 
+    // Chatrix.One: per-chat "Notify on reactions" (null = use the global setting)
+    public boolean notifyOnReactions(final boolean globalDefault) {
+        return Attributes.valueOrDefault(this.attributes.chatrixNotifyReactions, globalDefault);
+    }
+
+    public void setNotifyOnReactions(final boolean value) {
+        this.attributes.chatrixNotifyReactions = value;
+    }
+
     public void add(Message message) {
         synchronized (this.messages) {
             this.messages.add(message);
@@ -1155,6 +1164,10 @@ public class Conversation extends AbstractEntity
         // Chatrix.One: per-chat background (null = use the default from settings)
         @SerializedName("chatrix_background")
         private String chatrixBackground;
+
+        // Chatrix.One: per-chat reaction notifications (null = use the global setting)
+        @SerializedName("chatrix_notify_reactions")
+        private Boolean chatrixNotifyReactions;
 
         public static Attributes parse(final String json) {
             if (Strings.isNullOrEmpty(json)) {

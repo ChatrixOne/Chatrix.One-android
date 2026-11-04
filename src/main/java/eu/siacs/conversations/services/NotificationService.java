@@ -74,6 +74,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -122,6 +123,12 @@ public class NotificationService {
     private static final String INCOMING_CALLS_NOTIFICATION_CHANNEL_PREFIX =
             "incoming_calls_channel#";
     public static final String MESSAGES_NOTIFICATION_CHANNEL = "messages";
+    // Chatrix.One: reaction notifications
+    private static final String REACTIONS_NOTIFICATION_CHANNEL = "chatrix_reactions";
+    private static final String SILENT_REACTIONS_NOTIFICATION_CHANNEL = "chatrix_silent_reactions";
+    private static final int REACTION_NOTIFICATION_ID = NOTIFICATION_ID_MULTIPLIER * 16;
+    private static final int MAX_REACTION_LINES = 5;
+    private final Map<String, List<CharSequence>> reactionLines = new HashMap<>();
 
     NotificationService(final XmppConnectionService service) {
         this.mXmppConnectionService = service;
@@ -266,6 +273,37 @@ public class NotificationService {
                         .build());
         deliveryFailedChannel.setGroup("chats");
         notificationManager.createNotificationChannel(deliveryFailedChannel);
+
+        // Chatrix.One: reaction notifications, one channel with sound and one silent
+        final NotificationChannel reactionsChannel =
+                new NotificationChannel(
+                        REACTIONS_NOTIFICATION_CHANNEL,
+                        c.getString(R.string.chatrix_reactions_channel_name),
+                        NotificationManager.IMPORTANCE_DEFAULT);
+        reactionsChannel.setDescription(
+                c.getString(R.string.chatrix_reactions_channel_description));
+        reactionsChannel.setShowBadge(false);
+        reactionsChannel.setSound(
+                RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION),
+                new AudioAttributes.Builder()
+                        .setContentType(AudioAttributes.CONTENT_TYPE_SONIFICATION)
+                        .setUsage(AudioAttributes.USAGE_NOTIFICATION)
+                        .build());
+        reactionsChannel.setLightColor(LED_COLOR);
+        reactionsChannel.enableLights(true);
+        reactionsChannel.setGroup("chats");
+        notificationManager.createNotificationChannel(reactionsChannel);
+        final NotificationChannel silentReactionsChannel =
+                new NotificationChannel(
+                        SILENT_REACTIONS_NOTIFICATION_CHANNEL,
+                        c.getString(R.string.chatrix_silent_reactions_channel_name),
+                        NotificationManager.IMPORTANCE_LOW);
+        silentReactionsChannel.setDescription(
+                c.getString(R.string.chatrix_reactions_channel_description));
+        silentReactionsChannel.setShowBadge(false);
+        silentReactionsChannel.setSound(null, null);
+        silentReactionsChannel.setGroup("chats");
+        notificationManager.createNotificationChannel(silentReactionsChannel);
     }
 
     @RequiresApi(api = Build.VERSION_CODES.R)
@@ -817,6 +855,108 @@ public class NotificationService {
     public void clear(final Conversation conversation) {
         clearMessages(conversation);
         clearMissedCalls(conversation);
+        clearReactions(conversation);
+    }
+
+    // Chatrix.One: notify when someone adds a reaction to one of our messages.
+    // The caller has already checked that the message is ours and that the reactions are new.
+    public void pushReaction(
+            final Message message, final String from, final Collection<String> added) {
+        if (!(message.getConversation() instanceof Conversation conversation)
+                || added.isEmpty()) {
+            return;
+        }
+        final var appSettings = new AppSettings(mXmppConnectionService.getApplicationContext());
+        if (conversation.isMuted()
+                || !conversation.notifyOnReactions(appSettings.isNotifyOnReactions())
+                || (conversation.isWithStranger() && !appSettings.isNotificationsFromStrangers())) {
+            return;
+        }
+        final boolean isScreenLocked = new Device(mXmppConnectionService).isScreenLocked();
+        if (this.mIsInForeground && !isScreenLocked && this.mOpenConversation == conversation) {
+            return;
+        }
+        final var account = conversation.getAccount();
+        final var connection = account.getXmppConnection();
+        final boolean gracePeriod =
+                connection != null
+                        && connection.getManager(ActivityManager.class).isInGracePeriod();
+        final boolean sound = appSettings.isReactionSound() && !gracePeriod;
+        String preview =
+                UIHelper.getMessagePreview(mXmppConnectionService, message).first.toString();
+        if (preview.length() > 80) {
+            preview = preview.substring(0, 79).trim() + "…";
+        }
+        final String name = Strings.isNullOrEmpty(from) ? conversation.getName().toString() : from;
+        final CharSequence line =
+                mXmppConnectionService.getString(
+                        R.string.chatrix_reacted_to, name, Joiner.on(' ').join(added), preview);
+        final List<CharSequence> lines;
+        synchronized (reactionLines) {
+            final var list =
+                    reactionLines.computeIfAbsent(conversation.getUuid(), k -> new ArrayList<>());
+            list.add(line);
+            while (list.size() > MAX_REACTION_LINES) {
+                list.remove(0);
+            }
+            lines = ImmutableList.copyOf(list);
+        }
+        final Builder builder =
+                new Builder(
+                        mXmppConnectionService,
+                        sound
+                                ? REACTIONS_NOTIFICATION_CHANNEL
+                                : SILENT_REACTIONS_NOTIFICATION_CHANNEL);
+        builder.setContentTitle(conversation.getName());
+        builder.setContentText(line);
+        if (lines.size() > 1) {
+            final var style = new NotificationCompat.InboxStyle();
+            for (final CharSequence l : lines) {
+                style.addLine(l);
+            }
+            builder.setStyle(style);
+        } else {
+            builder.setStyle(new NotificationCompat.BigTextStyle().bigText(line));
+        }
+        builder.setSmallIcon(R.drawable.ic_add_reaction_24dp);
+        setNotificationColor(builder);
+        builder.setCategory(NotificationCompat.CATEGORY_SOCIAL);
+        builder.setAutoCancel(true);
+        builder.setWhen(System.currentTimeMillis());
+        builder.setShowWhen(true);
+        builder.setContentIntent(createContentIntent(conversation));
+        builder.setDeleteIntent(createReactionsDeleteIntent(conversation));
+        if (sound) {
+            builder.setPriority(NotificationCompat.PRIORITY_DEFAULT);
+            builder.setDefaults(Notification.DEFAULT_SOUND);
+        } else {
+            builder.setPriority(NotificationCompat.PRIORITY_LOW);
+            builder.setSilent(true);
+        }
+        notify(conversation.getUuid(), REACTION_NOTIFICATION_ID, builder.build());
+    }
+
+    public void clearReactions(final Conversation conversation) {
+        final boolean had;
+        synchronized (reactionLines) {
+            had = reactionLines.remove(conversation.getUuid()) != null;
+        }
+        if (had) {
+            cancel(conversation.getUuid(), REACTION_NOTIFICATION_ID);
+        }
+    }
+
+    private PendingIntent createReactionsDeleteIntent(final Conversation conversation) {
+        final Intent intent = new Intent(mXmppConnectionService, XmppConnectionService.class);
+        intent.setAction(XmppConnectionService.ACTION_CHATRIX_CLEAR_REACTION_NOTIFICATION);
+        intent.putExtra("uuid", conversation.getUuid());
+        return PendingIntent.getService(
+                mXmppConnectionService,
+                generateRequestCode(conversation, 22),
+                intent,
+                s()
+                        ? PendingIntent.FLAG_IMMUTABLE | PendingIntent.FLAG_UPDATE_CURRENT
+                        : PendingIntent.FLAG_UPDATE_CURRENT);
     }
 
     public void clear(final Message message) {

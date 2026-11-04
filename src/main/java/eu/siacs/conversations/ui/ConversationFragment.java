@@ -719,6 +719,14 @@ public class ConversationFragment extends XmppFragment
                                         .isEmpty());
                         menuInviteContact.setTitle(R.string.start_group_chat);
                     }
+                    // Chatrix.One: per-chat reaction notifications
+                    final MenuItem menuNotifyReactions =
+                            menu.findItem(R.id.action_chatrix_notify_reactions);
+                    if (menuNotifyReactions != null) {
+                        menuNotifyReactions.setChecked(
+                                c.notifyOnReactions(
+                                        new AppSettings(requireContext()).isNotifyOnReactions()));
+                    }
                     if (c.isMuted()) {
                         menuMute.setVisible(false);
                     } else {
@@ -784,6 +792,9 @@ public class ConversationFragment extends XmppFragment
                         return true;
                     } else if (itemId == R.id.action_toggle_pinned) {
                         togglePinned();
+                        return true;
+                    } else if (itemId == R.id.action_chatrix_notify_reactions) {
+                        toggleNotifyOnReactions();
                         return true;
                     } else if (itemId == R.id.action_chatrix_background) {
                         chooseChatBackground();
@@ -1949,6 +1960,16 @@ public class ConversationFragment extends XmppFragment
                                     });
                         })
                 .start();
+    }
+
+    // Chatrix.One: per-chat reaction notifications
+    private void toggleNotifyOnReactions() {
+        final boolean current =
+                conversation.notifyOnReactions(
+                        new AppSettings(requireContext()).isNotifyOnReactions());
+        conversation.setNotifyOnReactions(!current);
+        requireXmppActivity().xmppConnectionService.updateConversation(conversation);
+        this.binding.toolbar.invalidateMenu();
     }
 
     private void togglePinned() {

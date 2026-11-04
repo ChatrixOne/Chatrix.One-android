@@ -63,6 +63,14 @@ public class ReactionManager extends AbstractManager {
                             this.getDatabase().getMessageWithServerMsgId(conversation, reactingTo);
                 }
                 if (message != null) {
+                    // Chatrix.One: remember what this occupant had before, to notify on new ones
+                    final var previous =
+                            ImmutableSet.copyOf(
+                                    Collections2.transform(
+                                            Collections2.filter(
+                                                    message.getReactions(),
+                                                    r -> occupantId.equals(r.occupantId)),
+                                            r -> r.reaction));
                     final var combinedReactions =
                             Reaction.withOccupantId(
                                     message.getReactions(),
@@ -74,6 +82,14 @@ public class ReactionManager extends AbstractManager {
                     message.setReactions(combinedReactions);
                     this.getDatabase().updateMessage(message, false);
                     this.service.updateConversationUi();
+                    if (isReceived) {
+                        chatrixNotify(
+                                message,
+                                query,
+                                counterpart.getResource(),
+                                previous,
+                                reactions.getReactions());
+                    }
                 } else {
                     Log.d(Config.LOGTAG, "message with id " + reactingTo + " not found");
                 }
@@ -129,6 +145,15 @@ public class ReactionManager extends AbstractManager {
                     reactionFrom = counterpart;
                 }
             }
+            // Chatrix.One: remember what this sender had before, to notify on new ones
+            final var fromBare = reactionFrom.asBareJid();
+            final var previous =
+                    ImmutableSet.copyOf(
+                            Collections2.transform(
+                                    Collections2.filter(
+                                            message.getReactions(),
+                                            r -> fromBare.equals(r.from.asBareJid())),
+                                    r -> r.reaction));
             final var combinedReactions =
                     Reaction.withFrom(
                             message.getReactions(),
@@ -137,7 +162,40 @@ public class ReactionManager extends AbstractManager {
                             reactionFrom);
             message.setReactions(combinedReactions);
             this.service.updateMessage(message, false);
+            if (isReceived) {
+                chatrixNotify(
+                        message,
+                        query,
+                        conversation.getMode() == Conversational.MODE_MULTI
+                                ? counterpart.getResource()
+                                : null,
+                        previous,
+                        reactions.getReactions());
+            }
         }
+    }
+
+    // Chatrix.One: notify about reactions newly added to one of our own messages. Like messages,
+    // only live stanzas and the offline catch-up count; older history from the archive never
+    // notifies. Removed or repeated reactions never notify.
+    private void chatrixNotify(
+            final Message message,
+            final MessageArchiveManager.Query query,
+            final String from,
+            final Collection<String> previous,
+            final Collection<String> current) {
+        if (message.getStatus() == Message.STATUS_RECEIVED) {
+            return;
+        }
+        if (query != null && !query.isCatchup()) {
+            return;
+        }
+        final var added =
+                ImmutableSet.copyOf(Collections2.filter(current, r -> !previous.contains(r)));
+        if (added.isEmpty()) {
+            return;
+        }
+        this.service.getNotificationService().pushReaction(message, from, added);
     }
 
     public boolean sendReactions(final Message message, final Collection<String> reactions) {

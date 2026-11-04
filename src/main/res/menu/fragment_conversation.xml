@@ -78,6 +78,13 @@
                 android:orderInCategory="72"
                 android:title="@string/enable_notifications"
                 app:showAsAction="never" />
+            <!-- Chatrix.One: per-chat reaction notifications -->
+            <item
+                android:id="@+id/action_chatrix_notify_reactions"
+                android:checkable="true"
+                android:orderInCategory="72"
+                android:title="@string/chatrix_notify_on_reactions"
+                app:showAsAction="never" />
 
             <item
                 android:id="@+id/action_toggle_pinned"

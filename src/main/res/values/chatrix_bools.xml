@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Chatrix.One: reaction notifications (off by default, silent by default) -->
+    <bool name="chatrix_notify_reactions">false</bool>
+    <bool name="chatrix_reaction_sound">false</bool>
+</resources>

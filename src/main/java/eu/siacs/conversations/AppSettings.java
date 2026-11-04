@@ -80,6 +80,9 @@ public class AppSettings {
 
     private static final String ACCEPT_INVITES_FROM_STRANGERS = "accept_invites_from_strangers";
     private static final String NOTIFICATIONS_FROM_STRANGERS = "notifications_from_strangers";
+    // Chatrix.One: reaction notifications
+    public static final String CHATRIX_NOTIFY_REACTIONS = "chatrix_notify_reactions";
+    public static final String CHATRIX_REACTION_SOUND = "chatrix_reaction_sound";
     private static final String INSTALLATION_ID = "im.conversations.android.install_id";
 
     private static final String EXTERNAL_STORAGE_AUTHORITY =
@@ -243,6 +246,16 @@ public class AppSettings {
     public boolean isNotificationsFromStrangers() {
         return getBooleanPreference(
                 NOTIFICATIONS_FROM_STRANGERS, R.bool.notifications_from_strangers);
+    }
+
+    // Chatrix.One: global default for "Notify on reactions" (a chat can override it)
+    public boolean isNotifyOnReactions() {
+        return getBooleanPreference(CHATRIX_NOTIFY_REACTIONS, R.bool.chatrix_notify_reactions);
+    }
+
+    // Chatrix.One: reaction notifications with sound (true) or silent (false)
+    public boolean isReactionSound() {
+        return getBooleanPreference(CHATRIX_REACTION_SOUND, R.bool.chatrix_reaction_sound);
     }
 
     public boolean isKeepForegroundService() {

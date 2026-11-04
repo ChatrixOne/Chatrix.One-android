@@ -70,6 +70,20 @@
         android:summary="@string/pref_notifications_from_strangers_summary"
         android:title="@string/pref_notifications_from_strangers" />
 
+    <!-- Chatrix.One: reaction notifications -->
+    <SwitchPreferenceCompat
+        android:defaultValue="@bool/chatrix_notify_reactions"
+        android:icon="@drawable/ic_add_reaction_24dp"
+        android:key="chatrix_notify_reactions"
+        android:summary="@string/chatrix_pref_notify_reactions_summary"
+        android:title="@string/chatrix_pref_notify_reactions" />
+    <SwitchPreferenceCompat
+        android:defaultValue="@bool/chatrix_reaction_sound"
+        android:icon="@drawable/ic_notifications_24dp"
+        android:key="chatrix_reaction_sound"
+        android:summary="@string/chatrix_pref_reaction_sound_summary"
+        android:title="@string/chatrix_pref_reaction_sound" />
+
     <SwitchPreferenceCompat
         android:defaultValue="@bool/enable_foreground_service"
         android:icon="@drawable/ic_link_24dp"

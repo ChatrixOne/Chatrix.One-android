@@ -37,4 +37,13 @@
     <string name="chatrix_pref_crash_reports_summary">Нищо не се изпраща във фонов режим. След срив Chatrix.One ви показва доклада (версия на приложението, модел на устройството, час и техническите подробности за грешката) и първо пита. Изпраща се до екипа на Chatrix.One само ако потвърдите, като XMPP съобщение от вашия профил или по имейл. Изключете, за да не бъдете питани никога.</string>
     <string name="chatrix_crash_report_message">Chatrix.One се затвори неочаквано. Докладът по-долу съдържа версията на приложението, модела на устройството, часа и техническите подробности за грешката. Да се изпрати ли до %s, за да се отстрани проблемът? Нищо не се изпраща, ако не изберете това.</string>
     <string name="chatrix_account_suspended">Профилът е спрян от сървъра</string>
+    <string name="chatrix_pref_notify_reactions">Известия за реакции</string>
+    <string name="chatrix_pref_notify_reactions_summary">Показва известие, когато някой реагира на ваше съобщение. Това е настройката по подразбиране за всички чатове; всеки чат може да я промени от своето меню.</string>
+    <string name="chatrix_pref_reaction_sound">Звук за реакции</string>
+    <string name="chatrix_pref_reaction_sound_summary">Известията за реакции са със звук. Когато е изключено, пристигат без звук.</string>
+    <string name="chatrix_notify_on_reactions">Известия за реакции</string>
+    <string name="chatrix_reacted_to">%1$s реагира с %2$s на: %3$s</string>
+    <string name="chatrix_reactions_channel_name">Реакции</string>
+    <string name="chatrix_silent_reactions_channel_name">Реакции без звук</string>
+    <string name="chatrix_reactions_channel_description">Някой реагира на ваше съобщение</string>
 </resources>
