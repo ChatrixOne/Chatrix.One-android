@@ -86,6 +86,7 @@ public class ReactionManager extends AbstractManager {
                         chatrixNotify(
                                 message,
                                 query,
+                                occupantId,
                                 counterpart.getResource(),
                                 previous,
                                 reactions.getReactions());
@@ -166,6 +167,7 @@ public class ReactionManager extends AbstractManager {
                 chatrixNotify(
                         message,
                         query,
+                        fromBare.toString(),
                         conversation.getMode() == Conversational.MODE_MULTI
                                 ? counterpart.getResource()
                                 : null,
@@ -177,10 +179,12 @@ public class ReactionManager extends AbstractManager {
 
     // Chatrix.One: notify about reactions newly added to one of our own messages. Like messages,
     // only live stanzas and the offline catch-up count; older history from the archive never
-    // notifies. Removed or repeated reactions never notify.
+    // notifies. Removed or repeated reactions never notify, and NotificationService notifies only
+    // once per message, sender and emoji (removing and re-adding the same emoji stays quiet).
     private void chatrixNotify(
             final Message message,
             final MessageArchiveManager.Query query,
+            final String senderKey,
             final String from,
             final Collection<String> previous,
             final Collection<String> current) {
@@ -195,7 +199,7 @@ public class ReactionManager extends AbstractManager {
         if (added.isEmpty()) {
             return;
         }
-        this.service.getNotificationService().pushReaction(message, from, added);
+        this.service.getNotificationService().pushReaction(message, senderKey, from, added);
     }
 
     public boolean sendReactions(final Message message, final Collection<String> reactions) {

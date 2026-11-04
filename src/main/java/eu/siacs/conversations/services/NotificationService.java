@@ -129,6 +129,15 @@ public class NotificationService {
     private static final int REACTION_NOTIFICATION_ID = NOTIFICATION_ID_MULTIPLIER * 16;
     private static final int MAX_REACTION_LINES = 5;
     private final Map<String, List<CharSequence>> reactionLines = new HashMap<>();
+    // message uuid + sender + emoji that already notified (in memory, newest 1000)
+    private final Set<String> notifiedReactions =
+            Collections.newSetFromMap(
+                    new LinkedHashMap<>() {
+                        @Override
+                        protected boolean removeEldestEntry(final Map.Entry<String, Boolean> e) {
+                            return size() > 1000;
+                        }
+                    });
 
     NotificationService(final XmppConnectionService service) {
         this.mXmppConnectionService = service;
@@ -861,9 +870,22 @@ public class NotificationService {
     // Chatrix.One: notify when someone adds a reaction to one of our messages.
     // The caller has already checked that the message is ours and that the reactions are new.
     public void pushReaction(
-            final Message message, final String from, final Collection<String> added) {
-        if (!(message.getConversation() instanceof Conversation conversation)
-                || added.isEmpty()) {
+            final Message message,
+            final String senderKey,
+            final String from,
+            final Collection<String> newReactions) {
+        if (!(message.getConversation() instanceof Conversation conversation)) {
+            return;
+        }
+        final List<String> added = new ArrayList<>();
+        synchronized (notifiedReactions) {
+            for (final String reaction : newReactions) {
+                if (notifiedReactions.add(message.getUuid() + '|' + senderKey + '|' + reaction)) {
+                    added.add(reaction);
+                }
+            }
+        }
+        if (added.isEmpty()) {
             return;
         }
         final var appSettings = new AppSettings(mXmppConnectionService.getApplicationContext());
