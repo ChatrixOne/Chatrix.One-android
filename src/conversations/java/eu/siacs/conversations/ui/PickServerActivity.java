@@ -51,8 +51,6 @@ public class PickServerActivity extends XmppActivity {
         super.onCreate(savedInstanceState);
         ActivityPickServerBinding binding =
                 DataBindingUtil.setContentView(this, R.layout.activity_pick_server);
-        eu.siacs.conversations.ui.chatrix.ChatrixLayout.limitWidth(
-                (android.view.View) binding.linearLayout.getParent(), 560); // Chatrix.One: tablets
         Activities.setStatusAndNavigationBarColors(this, binding.getRoot());
         setSupportActionBar(binding.toolbar);
         configureActionBar(getSupportActionBar());
