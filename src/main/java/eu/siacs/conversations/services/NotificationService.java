@@ -127,6 +127,10 @@ public class NotificationService {
     private static final String REACTIONS_NOTIFICATION_CHANNEL = "chatrix_reactions";
     private static final String SILENT_REACTIONS_NOTIFICATION_CHANNEL = "chatrix_silent_reactions";
     private static final int REACTION_NOTIFICATION_ID = NOTIFICATION_ID_MULTIPLIER * 16;
+    // Chatrix.One: reactions get their own group, so Android does not bundle them
+    // with the connection notification under its generic "bundled" status icon.
+    private static final int REACTION_SUMMARY_NOTIFICATION_ID = NOTIFICATION_ID_MULTIPLIER * 17;
+    private static final String REACTIONS_GROUP = "one.chatrix.reactions";
     private static final int MAX_REACTION_LINES = 5;
     private final Map<String, List<CharSequence>> reactionLines = new HashMap<>();
     // message uuid + sender + emoji that already notified (in memory, newest 1000)
@@ -940,8 +944,11 @@ public class NotificationService {
         } else {
             builder.setStyle(new NotificationCompat.BigTextStyle().bigText(line));
         }
-        builder.setSmallIcon(R.drawable.ic_add_reaction_24dp);
+        // same status bar icon as new messages; the text says it is a reaction
+        builder.setSmallIcon(R.drawable.ic_chatrix_message_24dp);
         setNotificationColor(builder);
+        builder.setGroup(REACTIONS_GROUP);
+        builder.setGroupAlertBehavior(NotificationCompat.GROUP_ALERT_CHILDREN);
         builder.setCategory(NotificationCompat.CATEGORY_SOCIAL);
         builder.setAutoCancel(true);
         builder.setWhen(System.currentTimeMillis());
@@ -956,15 +963,43 @@ public class NotificationService {
             builder.setSilent(true);
         }
         notify(conversation.getUuid(), REACTION_NOTIFICATION_ID, builder.build());
+        notify(REACTION_SUMMARY_NOTIFICATION_ID, buildReactionSummary(sound));
+    }
+
+    private Notification buildReactionSummary(final boolean sound) {
+        final Builder summary =
+                new Builder(
+                        mXmppConnectionService,
+                        sound
+                                ? REACTIONS_NOTIFICATION_CHANNEL
+                                : SILENT_REACTIONS_NOTIFICATION_CHANNEL);
+        summary.setContentTitle(
+                mXmppConnectionService.getString(R.string.chatrix_reactions_channel_name));
+        summary.setSmallIcon(R.drawable.ic_chatrix_message_24dp);
+        setNotificationColor(summary);
+        summary.setGroup(REACTIONS_GROUP);
+        summary.setGroupSummary(true);
+        summary.setGroupAlertBehavior(NotificationCompat.GROUP_ALERT_CHILDREN);
+        summary.setCategory(NotificationCompat.CATEGORY_SOCIAL);
+        summary.setAutoCancel(true);
+        summary.setSilent(true);
+        summary.setPriority(
+                sound ? NotificationCompat.PRIORITY_DEFAULT : NotificationCompat.PRIORITY_LOW);
+        return summary.build();
     }
 
     public void clearReactions(final Conversation conversation) {
         final boolean had;
+        final boolean none;
         synchronized (reactionLines) {
             had = reactionLines.remove(conversation.getUuid()) != null;
+            none = reactionLines.isEmpty();
         }
         if (had) {
             cancel(conversation.getUuid(), REACTION_NOTIFICATION_ID);
+            if (none) {
+                cancel(REACTION_SUMMARY_NOTIFICATION_ID);
+            }
         }
     }
 
