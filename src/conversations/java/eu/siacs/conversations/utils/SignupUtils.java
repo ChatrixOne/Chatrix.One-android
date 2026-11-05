@@ -12,7 +12,6 @@ import eu.siacs.conversations.ui.ConversationsActivity;
 import eu.siacs.conversations.ui.EditAccountActivity;
 import eu.siacs.conversations.ui.MagicCreateActivity;
 import eu.siacs.conversations.ui.ManageAccountActivity;
-import eu.siacs.conversations.ui.PickServerActivity;
 import eu.siacs.conversations.ui.WelcomeActivity;
 import eu.siacs.conversations.xmpp.Jid;
 import java.util.Collection;
@@ -42,11 +41,8 @@ public class SignupUtils {
 
     public static Intent getSignUpIntent(final Context context, final boolean toServerChooser) {
         final Intent intent;
-        if (toServerChooser) {
-            intent = new Intent(context, PickServerActivity.class);
-        } else {
-            intent = new Intent(context, WelcomeActivity.class);
-        }
+        // Chatrix.One: the provider picker is no longer shown; back to the welcome screen
+        intent = new Intent(context, WelcomeActivity.class);
         return intent;
     }
 

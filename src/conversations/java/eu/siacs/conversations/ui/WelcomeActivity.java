@@ -181,9 +181,19 @@ public class WelcomeActivity extends QrCodeProcessingActivity
         setSupportActionBar(binding.toolbar);
         configureActionBar(getSupportActionBar(), false);
         setTitle(null);
+        // Chatrix.One: straight to address and password (sign-up on another server);
+        // the provider picker had only one button left
         binding.registerNewAccount.setOnClickListener(
                 v -> {
-                    final Intent intent = new Intent(this, PickServerActivity.class);
+                    final List<Account> accounts = xmppConnectionService.getAccounts();
+                    Intent intent = new Intent(this, EditAccountActivity.class);
+                    intent.putExtra(EditAccountActivity.EXTRA_FORCE_REGISTER, true);
+                    if (accounts.size() == 1) {
+                        intent.putExtra("jid", accounts.get(0).getJid().asBareJid().toString());
+                        intent.putExtra("init", true);
+                    } else if (!accounts.isEmpty()) {
+                        intent = new Intent(this, ManageAccountActivity.class);
+                    }
                     addInviteUri(intent);
                     startActivity(intent);
                 });
