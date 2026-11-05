@@ -73,7 +73,7 @@
     <!-- Chatrix.One: reaction notifications -->
     <SwitchPreferenceCompat
         android:defaultValue="@bool/chatrix_notify_reactions"
-        android:icon="@drawable/ic_add_reaction_24dp"
+        android:icon="@drawable/ic_chatrix_favorite_24dp"
         android:key="chatrix_notify_reactions"
         android:summary="@string/chatrix_pref_notify_reactions_summary"
         android:title="@string/chatrix_pref_notify_reactions" />
