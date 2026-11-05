@@ -56,20 +56,13 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="8dp"
                         android:layout_marginBottom="16dp"
-                        android:text="@string/server_select_text"
+                        android:text="@string/chatrix_server_select_text"
                         android:textAppearance="?textAppearanceBodyMedium" />
 
-                    <Button
-                        android:id="@+id/use_cim"
-                        style="@style/Widget.Material3.Button.TonalButton"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="end"
-                        android:text="@string/use_conversations.im" />
-
+                    <!-- Chatrix.One: no "Use conversations.im" button; chatrix.one sign-up is on the welcome screen -->
                     <Button
                         android:id="@+id/use_own_provider"
-                        style="@style/Widget.Material3.Button.TextButton"
+                        style="@style/Widget.Material3.Button.TonalButton"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="end"

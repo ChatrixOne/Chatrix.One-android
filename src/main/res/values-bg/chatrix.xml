@@ -46,4 +46,5 @@
     <string name="chatrix_reactions_channel_name">Реакции</string>
     <string name="chatrix_silent_reactions_channel_name">Реакции без звук</string>
     <string name="chatrix_reactions_channel_description">Някой реагира на ваше съобщение</string>
+    <string name="chatrix_server_select_text">XMPP е мрежа за общуване чрез мигновени съобщения, която не е обвързана с конкретен доставчик. Можете да използвате приложението с всеки сървър, който работи с XMPP.</string>
 </resources>

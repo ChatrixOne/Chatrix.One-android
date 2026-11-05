@@ -56,13 +56,6 @@ public class PickServerActivity extends XmppActivity {
         Activities.setStatusAndNavigationBarColors(this, binding.getRoot());
         setSupportActionBar(binding.toolbar);
         configureActionBar(getSupportActionBar());
-        binding.useCim.setOnClickListener(
-                v -> {
-                    final Intent intent = new Intent(this, MagicCreateActivity.class);
-                    intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
-                    addInviteUri(intent);
-                    startActivity(intent);
-                });
         binding.useOwnProvider.setOnClickListener(
                 v -> {
                     List<Account> accounts = xmppConnectionService.getAccounts();
