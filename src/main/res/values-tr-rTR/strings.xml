@@ -1122,7 +1122,7 @@
     <string name="backup_and_restore">Yedekleme &amp; Geri Yükleme</string>
     <string name="search_in_chats">Sohbetlerde ara</string>
     <string name="search_for_x_in_chats">Sohbetlerde \"%s\" için ara</string>
-    <string name="pref_entity_time">Yerel zamanı paylay</string>
+    <string name="pref_entity_time">Yerel zamanı paylaş</string>
     <string name="pref_entity_time_summary">Kişilerinizle mevcut saatinizi paylaşın, karşılığında onların yerel saatlerini öğrenin.</string>
     <string name="pref_save_to_gallery">Galeriye Kaydet</string>
     <string name="pref_save_to_gallery_summary">Medya dosyalarını, galeri ve dosya yöneticinizde görünmeleri için herkese açık klasörlere otomatik olarak kaydeder.</string>
