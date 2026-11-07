@@ -90,6 +90,7 @@ public class Account extends AbstractEntity implements AvatarService.Avatar {
     private String pinnedChannelBinding;
     private String fastMechanism;
     private String fastToken;
+    private String oauthAccessToken;
     private ServiceOutageStatus serviceOutageStatus;
 
     public Account(final Jid jid, final String password) {
@@ -358,6 +359,14 @@ public class Account extends AbstractEntity implements AvatarService.Avatar {
     public void resetFastToken() {
         this.fastMechanism = null;
         this.fastToken = null;
+    }
+
+    public void setOauthAccessToken(final String token) {
+        this.oauthAccessToken = token;
+    }
+
+    public String getOauthAccessToken() {
+        return this.oauthAccessToken;
     }
 
     public void resetPinnedMechanism() {
@@ -704,6 +713,7 @@ public class Account extends AbstractEntity implements AvatarService.Avatar {
         AIRPLANE_MODE(false),
         CONNECTION_TIMEOUT,
         UNAUTHORIZED,
+        PENDING_OAUTH_AUTHORIZATION(true, false),
         TEMPORARY_AUTH_FAILURE,
         SERVER_NOT_FOUND,
         REGISTRATION_SUCCESSFUL(false),
@@ -767,6 +777,8 @@ public class Account extends AbstractEntity implements AvatarService.Avatar {
                 case CONNECTING -> R.string.account_status_connecting;
                 case OFFLINE -> R.string.account_status_offline;
                 case UNAUTHORIZED -> R.string.account_status_unauthorized;
+                case PENDING_OAUTH_AUTHORIZATION ->
+                        R.string.account_status_pending_oauth_authorization;
                 case SERVER_NOT_FOUND -> R.string.account_status_not_found;
                 case NO_INTERNET -> R.string.account_status_no_internet;
                 case AIRPLANE_MODE -> R.string.account_status_airplane_mode;

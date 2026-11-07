@@ -14,14 +14,18 @@ import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Maps;
 import com.google.common.escape.CharEscaper;
+import com.google.common.io.BaseEncoding;
+import com.google.common.primitives.Bytes;
 import com.google.common.primitives.Chars;
 import com.google.common.primitives.Doubles;
 import com.google.common.primitives.Ints;
+import eu.siacs.conversations.BuildConfig;
 import eu.siacs.conversations.utils.CharSequences;
 import eu.siacs.conversations.xmpp.Jid;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
@@ -262,6 +266,21 @@ public class MiniUri {
         throw new IllegalArgumentException("URI does not match internal pattern");
     }
 
+    public static MiniUri getInternalOrNull(final Uri uri) {
+        if (uri == null) {
+            return null;
+        }
+        final var asString = uri.toString();
+        if (Strings.isNullOrEmpty(asString)) {
+            return null;
+        }
+        try {
+            return tryInternalParse(asString);
+        } catch (final IllegalArgumentException e) {
+            return null;
+        }
+    }
+
     public static MiniUri asMiniUri(final String uri) {
         final var scheme = Iterables.getFirst(Splitter.on(':').limit(2).splitToList(uri), null);
         if (scheme == null) {
@@ -291,6 +310,7 @@ public class MiniUri {
                 }
                 throw new IllegalArgumentException("web+ap URI does not match pattern");
             }
+            case BuildConfig.APPLICATION_ID -> new Application(uri);
             default -> new MiniUri(uri);
         };
     }
@@ -632,6 +652,38 @@ public class MiniUri {
             return new GeoPoint(latitude, longitude);
         }
     }
+
+    public static class Application extends MiniUri {
+
+        private Application(String uri) {
+            super(uri);
+            Preconditions.checkArgument(BuildConfig.APPLICATION_ID.equals(getScheme()));
+        }
+
+        public Jid getAccount() {
+            final var state = getParameter("state");
+            if (Strings.isNullOrEmpty(state)) {
+                return null;
+            }
+            final byte[] asBytes;
+            try {
+                asBytes = BaseEncoding.base64Url().omitPadding().decode(state);
+            } catch (final IllegalArgumentException e) {
+                return null;
+            }
+            int nullIndex = Bytes.indexOf(asBytes, (byte) 0x00);
+            if (nullIndex == -1) {
+                return null;
+            }
+            try {
+                return Jid.of(new String(asBytes, 0, nullIndex, StandardCharsets.UTF_8));
+            } catch (final IllegalArgumentException e) {
+                return null;
+            }
+        }
+    }
+
+    public record StatePayload(Jid account, byte[] randomBytes) {}
 
     private static final CharEscaper LIGHT_URI_ESCAPER =
             new CharEscaper() {

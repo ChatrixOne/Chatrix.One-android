@@ -15,6 +15,7 @@ import android.util.SparseArray;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
+import com.google.common.base.Objects;
 import com.google.common.base.Optional;
 import com.google.common.base.Preconditions;
 import com.google.common.base.Strings;
@@ -31,6 +32,7 @@ import com.google.common.util.concurrent.Futures;
 import com.google.common.util.concurrent.ListenableFuture;
 import com.google.common.util.concurrent.MoreExecutors;
 import com.google.common.util.concurrent.SettableFuture;
+import de.gultsch.common.MiniUri;
 import de.gultsch.common.Patterns;
 import eu.siacs.conversations.AppSettings;
 import eu.siacs.conversations.BuildConfig;
@@ -44,6 +46,7 @@ import eu.siacs.conversations.crypto.sasl.ChannelBinding;
 import eu.siacs.conversations.crypto.sasl.ChannelBindingMechanism;
 import eu.siacs.conversations.crypto.sasl.DowngradeProtection;
 import eu.siacs.conversations.crypto.sasl.HashedToken;
+import eu.siacs.conversations.crypto.sasl.OAuthBearer;
 import eu.siacs.conversations.crypto.sasl.SaslMechanism;
 import eu.siacs.conversations.crypto.sasl.ScramMechanism;
 import eu.siacs.conversations.entities.Account;
@@ -75,6 +78,7 @@ import eu.siacs.conversations.xmpp.manager.CarbonsManager;
 import eu.siacs.conversations.xmpp.manager.DiscoManager;
 import eu.siacs.conversations.xmpp.manager.MessageArchiveManager;
 import eu.siacs.conversations.xmpp.manager.MultiUserChatManager;
+import eu.siacs.conversations.xmpp.manager.OAuthManager;
 import eu.siacs.conversations.xmpp.manager.PingManager;
 import eu.siacs.conversations.xmpp.manager.RegistrationManager;
 import im.conversations.android.xmpp.Entity;
@@ -119,7 +123,6 @@ import im.conversations.android.xmpp.model.sm.StreamManagement;
 import im.conversations.android.xmpp.model.stanza.Iq;
 import im.conversations.android.xmpp.model.stanza.Presence;
 import im.conversations.android.xmpp.model.stanza.Stanza;
-import im.conversations.android.xmpp.model.streams.Features;
 import im.conversations.android.xmpp.model.streams.Stream;
 import im.conversations.android.xmpp.model.streams.StreamError;
 import im.conversations.android.xmpp.model.streams.StreamErrorCondition;
@@ -152,6 +155,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
@@ -823,6 +827,22 @@ public class XmppConnection implements Runnable {
                     currentLoginInfo.saslMechanism.getResponse(
                             challengeAsBytes, sslSocketOrNull(socket));
             response.setContent(message);
+        } catch (final OAuthBearer.InvalidTokenException e) {
+            final var future =
+                    getManager(OAuthManager.class).preparePendingAuthorization(e.getResponse());
+            try {
+                final var pa = future.get(5, TimeUnit.SECONDS);
+                Log.d(Config.LOGTAG, account.getJid().asBareJid() + ": oauth for " + pa);
+                throw new StateChangingException(Account.State.PENDING_OAUTH_AUTHORIZATION);
+            } catch (final InterruptedException
+                    | TimeoutException
+                    | ExecutionException oauthException) {
+                Log.d(
+                        Config.LOGTAG,
+                        account.getJid().asBareJid() + ": could not prepare oauth authorization",
+                        oauthException);
+                throw new StateChangingException(Account.State.UNAUTHORIZED);
+            }
         } catch (final SaslMechanism.AuthenticationException e) {
             // TODO send auth abort
             Log.e(Config.LOGTAG, "could not process SASL challenge", e);
@@ -897,6 +917,12 @@ public class XmppConnection implements Runnable {
             final var failed = success.getExtension(Failed.class);
             final var tokenWrapper = success.getOnlyExtension(Token.class);
             final var token = tokenWrapper == null ? null : tokenWrapper.getToken();
+            if (currentLoginInfo.saslMechanism instanceof OAuthBearer
+                    && Strings.isNullOrEmpty(token)) {
+                throw new StateChangingException(
+                        Account.State.INCOMPATIBLE_SERVER,
+                        "server did not provide FAST token after oauth bearer login");
+            }
             if (bound != null && resumed != null) {
                 throw new StateChangingException(
                         Account.State.INCOMPATIBLE_SERVER,
@@ -963,11 +989,20 @@ public class XmppConnection implements Runnable {
                 if (ChannelBinding.priority(tokenMechanism.channelBinding())
                         >= ChannelBindingMechanism.getPriority(currentSaslMechanism)) {
                     this.account.setFastToken(tokenMechanism, token);
-                    Log.d(
-                            Config.LOGTAG,
-                            account.getJid().asBareJid()
-                                    + ": storing hashed token "
-                                    + tokenMechanism);
+                    if (loginInfo.saslMechanism instanceof OAuthBearer) {
+                        this.account.setOauthAccessToken(null);
+                        Log.d(
+                                Config.LOGTAG,
+                                account.getJid().asBareJid()
+                                        + ": deleting oauth bearer. storing hashed token "
+                                        + tokenMechanism);
+                    } else {
+                        Log.d(
+                                Config.LOGTAG,
+                                account.getJid().asBareJid()
+                                        + ": storing hashed token "
+                                        + tokenMechanism);
+                    }
                 } else {
                     Log.d(
                             Config.LOGTAG,
@@ -1709,7 +1744,17 @@ public class XmppConnection implements Runnable {
         } else {
             authElement = this.streamFeatures.getExtension(Authentication.class);
         }
-        final Collection<String> mechanisms = authElement.getMechanismNames();
+        final Collection<String> mechanisms;
+        if (version == SaslMechanism.Version.SASL_2) {
+            mechanisms = authElement.getMechanismNames();
+        } else {
+            // do not bother to even consider OAUTHBEARER on SASL1 (it will fail the FAST
+            // requirement later)
+            mechanisms =
+                    Collections2.filter(
+                            authElement.getMechanismNames(),
+                            m -> !Objects.equal(m, OAuthBearer.MECHANISM));
+        }
         final var cbExtension = this.streamFeatures.getExtension(SaslChannelBinding.class);
         final Collection<ChannelBinding> channelBindings = ChannelBinding.of(cbExtension);
         final SaslMechanism.Factory factory = new SaslMechanism.Factory(account);
@@ -1771,6 +1816,11 @@ public class XmppConnection implements Runnable {
                 hashTokenRequest = null;
                 inlineStreamManagement = false;
                 inlineBind = Optional.absent();
+            }
+            if (saslMechanism instanceof OAuthBearer && hashTokenRequest == null) {
+                throw new StateChangingException(
+                        Account.State.INCOMPATIBLE_SERVER,
+                        "OAuth is only supported on servers with FAST");
             }
             quickStartAvailable =
                     inlineStreamManagement
@@ -2056,6 +2106,10 @@ public class XmppConnection implements Runnable {
 
     public HttpUrl getRedirectionUrl() {
         return this.redirectionUrl;
+    }
+
+    public OAuthManager.PendingAuthorization getPendingAuthorization() {
+        return getManager(OAuthManager.class).getPendingAuthorization();
     }
 
     public void resetEverything() {
@@ -2930,6 +2984,27 @@ public class XmppConnection implements Runnable {
     public void setStatusAndTriggerProcessor(final Account.State state) {
         this.account.setStatus(state);
         this.accountStateProcessor.accept(state);
+    }
+
+    public void processOauthRedirect(final MiniUri.Application uri) {
+        final var future = getManager(OAuthManager.class).processOauthRedirect(uri);
+        Futures.addCallback(
+                future,
+                new FutureCallback<>() {
+                    @Override
+                    public void onSuccess(final OAuthManager.TokenResponse result) {
+                        account.setOauthAccessToken(result.accessToken());
+                        // TODO use oauth_success
+                        changeStateTerminal(Account.State.REGISTRATION_SUCCESSFUL);
+                    }
+
+                    @Override
+                    public void onFailure(@NonNull Throwable t) {
+                        Log.d(Config.LOGTAG, "could not exchange token", t);
+                        changeStateTerminal(Account.State.UNAUTHORIZED);
+                    }
+                },
+                MoreExecutors.directExecutor());
     }
 
     private class MyKeyManager implements X509KeyManager {
