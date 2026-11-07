@@ -16,28 +16,40 @@ import com.google.common.util.concurrent.MoreExecutors;
 import com.google.common.util.concurrent.SettableFuture;
 import com.google.gson.annotations.SerializedName;
 import de.gultsch.common.MiniUri;
+import de.gultsch.common.TrustManagers;
 import eu.siacs.conversations.BuildConfig;
 import eu.siacs.conversations.Config;
 import eu.siacs.conversations.crypto.sasl.OAuthBearer;
 import eu.siacs.conversations.http.HttpConnectionManager;
 import eu.siacs.conversations.utils.Random;
+import eu.siacs.conversations.utils.TLSSocketFactory;
 import eu.siacs.conversations.xmpp.Jid;
 import eu.siacs.conversations.xmpp.XmppConnection;
 import im.conversations.android.json.Services;
 import java.io.IOException;
 import java.io.Reader;
+import java.net.UnknownHostException;
 import java.nio.charset.StandardCharsets;
+import java.security.KeyManagementException;
+import java.security.KeyStoreException;
+import java.security.NoSuchAlgorithmException;
+import java.security.cert.CertificateException;
+import java.time.Duration;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Objects;
+import javax.net.ssl.SSLSocketFactory;
+import javax.net.ssl.X509TrustManager;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.Credentials;
+import okhttp3.Dns;
 import okhttp3.FormBody;
 import okhttp3.HttpUrl;
 import okhttp3.MediaType;
+import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
 
@@ -118,6 +130,25 @@ public class OAuthManager extends AbstractManager {
                     ImmutableSet.of(
                             String.format(
                                     "%s://%s", BuildConfig.APPLICATION_ID, OAUTH_REDIRECT_HOST)));
+
+    private static final OkHttpClient OK_HTTP_CLIENT =
+            HttpConnectionManager.OK_HTTP_CLIENT
+                    .newBuilder()
+                    .dns(
+                            hostname -> {
+                                final var addresses = Dns.SYSTEM.lookup(hostname);
+                                for (final var address : addresses) {
+                                    if (address.isLoopbackAddress()
+                                            || address.isSiteLocalAddress()
+                                            || address.isLinkLocalAddress()) {
+                                        throw new UnknownHostException(
+                                                "Not performing look ups on local addresses");
+                                    }
+                                }
+                                return addresses;
+                            })
+                    .callTimeout(Duration.ofSeconds(3))
+                    .build();
 
     private final Map<String, PendingAuthorization> pendingAuthorizations = new HashMap<>();
 
@@ -338,8 +369,22 @@ public class OAuthManager extends AbstractManager {
     }
 
     private ListenableFuture<Reader> asFutureCharStream(final Request request) {
+        final OkHttpClient.Builder builder = OK_HTTP_CLIENT.newBuilder();
+        try {
+            final X509TrustManager trustManager = TrustManagers.createForAndroidVersion(context);
+            final SSLSocketFactory socketFactory =
+                    new TLSSocketFactory(new X509TrustManager[] {trustManager}, context);
+            builder.sslSocketFactory(socketFactory, trustManager);
+        } catch (final KeyManagementException
+                | NoSuchAlgorithmException
+                | KeyStoreException
+                | CertificateException
+                | IOException e) {
+            return Futures.immediateFailedFuture(e);
+        }
+        final var okHttp = builder.build();
         final var future = SettableFuture.<Reader>create();
-        final var call = HttpConnectionManager.OK_HTTP_CLIENT.newCall(request);
+        final var call = okHttp.newCall(request);
         call.enqueue(
                 new Callback() {
                     @Override
