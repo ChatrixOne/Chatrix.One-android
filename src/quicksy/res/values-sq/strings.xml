@@ -9,4 +9,5 @@
     <string name="unable_to_verify_server_identity">S’arrihet të verifikohet identitet shërbyesi.</string>
     <string name="unknown_security_error">Gabim i panjohur sigurie.</string>
     <string name="timeout_while_connecting_to_server">Mbarim kohe teksa lidhej me shërbyesin.</string>
+    <string name="use_physical_device">Ju lutemi, përdorni një pajisje fizike që të regjistroni llogarinë tuaj.</string>
 </resources>
