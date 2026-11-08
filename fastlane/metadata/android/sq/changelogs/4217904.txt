@@ -1,0 +1,3 @@
+* Lejoni përpunimin e krejt mesazheve të dërguar; Jo vetëm të fundit. Shfaqni historik përpunimesh
+* Ndreqje figurash që s’shfaqen në njoftim
+* Ndreqje e disa URI-ve geo që s’formoheshin saktë
