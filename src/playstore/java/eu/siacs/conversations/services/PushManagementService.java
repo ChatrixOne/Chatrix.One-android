@@ -98,18 +98,16 @@ public class PushManagementService {
                 new RegistrationServiceConnection(
                         context, context.getString(R.string.gcm_defaultSenderId), handler);
         handler.endpointFuture.addListener(connection::unbind, MoreExecutors.directExecutor());
-        final boolean bound;
         try {
-            bound = context.bindService(intent, connection, Context.BIND_AUTO_CREATE);
+            if (context.bindService(intent, connection, Context.BIND_AUTO_CREATE)) {
+                return handler.endpointFuture;
+            } else {
+                return Futures.immediateFailedFuture(
+                        new IllegalStateException("Could not bind to Play Services"));
+            }
         } catch (final SecurityException e) {
-            handler.endpointFuture.setException(e);
-            return handler.endpointFuture;
+            return Futures.immediateFailedFuture(e);
         }
-        if (!bound) {
-            handler.endpointFuture.setException(
-                    new IllegalStateException("Could not bind to Play Services"));
-        }
-        return handler.endpointFuture;
     }
 
     public boolean available(final Account account) {
