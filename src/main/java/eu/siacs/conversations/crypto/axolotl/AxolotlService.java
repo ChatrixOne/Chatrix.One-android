@@ -2071,7 +2071,7 @@ public class AxolotlService implements OnAdvancedStreamFeaturesLoaded {
             if (preKeyId != null) {
                 postPreKeyMessageHandling(session, postponePreKeyMessageHandling);
             }
-        } catch (CryptoFailedException e) {
+        } catch (final CryptoFailedException e) {
             Log.d(Config.LOGTAG, "could not decrypt keyTransport message " + e.getMessage());
             return null;
         }
