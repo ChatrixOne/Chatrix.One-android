@@ -116,15 +116,12 @@ public class Content extends Element {
     }
 
     public XmppAxolotlMessage getSecurity(final Jid from) {
-        final String contentName = this.getContentName();
-        for (final Element child : this.children) {
+        for (final var child : this.children) {
             if ("security".equals(child.getName())
                     && Namespace.JINGLE_ENCRYPTED_TRANSPORT.equals(child.getNamespace())) {
-                final String name = child.getAttribute("name");
                 final String type = child.getAttribute("type");
                 final String cipher = child.getAttribute("cipher");
-                if (contentName.equals(name)
-                        && AxolotlService.PEP_PREFIX.equals(type)
+                if (AxolotlService.PEP_PREFIX.equals(type)
                         && "urn:xmpp:ciphers:aes-128-gcm-nopadding".equals(cipher)) {
                     final var encrypted = child.findChild("encrypted", AxolotlService.PEP_PREFIX);
                     if (encrypted != null) {

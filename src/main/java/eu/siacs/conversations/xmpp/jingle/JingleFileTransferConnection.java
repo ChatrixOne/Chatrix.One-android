@@ -21,6 +21,7 @@ import eu.siacs.conversations.entities.Conversation;
 import eu.siacs.conversations.entities.Message;
 import eu.siacs.conversations.entities.Transferable;
 import eu.siacs.conversations.entities.TransferablePlaceholder;
+import eu.siacs.conversations.persistance.FileBackend;
 import eu.siacs.conversations.services.AbstractConnectionManager;
 import eu.siacs.conversations.services.DebouncedInterfaceUpdater;
 import eu.siacs.conversations.services.XmppConnectionService;
@@ -1504,7 +1505,9 @@ public class JingleFileTransferConnection extends AbstractJingleConnection
             Log.d(Config.LOGTAG, "file receiver attempting to receive " + total + " bytes");
             final var sha1Hasher = Hashing.sha1().newHasher();
             final var sha256Hasher = Hashing.sha256().newHasher();
-            try (final var fileOutputStream = openFileOutputStream()) {
+            OutputStream fileOutputStream = null;
+            try {
+                fileOutputStream = openFileOutputStream();
                 final var buffer = new byte[4096];
                 while (total - transmitted > 0) {
                     final int count = inputStream.read(buffer);
@@ -1518,6 +1521,9 @@ public class JingleFileTransferConnection extends AbstractJingleConnection
                     transmitted += count;
                     updateProgress();
                 }
+                final OutputStream toClose = fileOutputStream;
+                fileOutputStream = null;
+                toClose.close();
                 Log.d(
                         Config.LOGTAG,
                         "written " + transmitted + " bytes to " + file.getAbsolutePath());
@@ -1531,6 +1537,10 @@ public class JingleFileTransferConnection extends AbstractJingleConnection
                                         FileTransferDescription.Algorithm.SHA_256));
                 complete.set(hashes);
             } catch (final Exception e) {
+                FileBackend.close(fileOutputStream);
+                if (file.exists() && !file.delete()) {
+                    Log.w(Config.LOGTAG, "could not delete " + file.getAbsolutePath());
+                }
                 complete.setException(e);
             }
             Log.d(Config.LOGTAG, "waiting for transport to terminate before stopping thread");
