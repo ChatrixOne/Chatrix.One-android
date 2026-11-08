@@ -9,4 +9,5 @@
     <string name="unable_to_verify_server_identity">Kan ikke bekræfte server identitet.</string>
     <string name="unknown_security_error">Ukendt sikkerhedsfejl.</string>
     <string name="timeout_while_connecting_to_server">Timeout under tilslutning til serveren.</string>
+    <string name="use_physical_device">Brug venligst en fysisk enhed til at registrere din konto.</string>
 </resources>
