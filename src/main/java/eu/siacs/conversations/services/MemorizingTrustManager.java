@@ -41,16 +41,15 @@ import android.util.SparseArray;
 import androidx.appcompat.app.AppCompatActivity;
 import com.google.common.base.Charsets;
 import com.google.common.base.Joiner;
-import com.google.common.base.Preconditions;
 import com.google.common.io.ByteStreams;
 import com.google.common.io.CharStreams;
 import de.gultsch.common.TrustManagers;
+import eu.siacs.conversations.AppSettings;
 import eu.siacs.conversations.Config;
 import eu.siacs.conversations.R;
 import eu.siacs.conversations.crypto.XmppDomainVerifier;
 import eu.siacs.conversations.entities.MTMDecision;
 import eu.siacs.conversations.http.HttpConnectionManager;
-import eu.siacs.conversations.persistance.FileBackend;
 import eu.siacs.conversations.ui.MemorizingActivity;
 import java.io.File;
 import java.io.FileInputStream;
@@ -62,9 +61,12 @@ import java.security.KeyStore;
 import java.security.KeyStoreException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.security.cert.CertPathValidatorException;
 import java.security.cert.Certificate;
 import java.security.cert.CertificateEncodingException;
 import java.security.cert.CertificateException;
+import java.security.cert.CertificateExpiredException;
+import java.security.cert.CertificateNotYetValidException;
 import java.security.cert.CertificateParsingException;
 import java.security.cert.X509Certificate;
 import java.text.SimpleDateFormat;
@@ -75,8 +77,6 @@ import java.util.Locale;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.regex.Pattern;
-import javax.net.ssl.TrustManager;
-import javax.net.ssl.TrustManagerFactory;
 import javax.net.ssl.X509TrustManager;
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -88,6 +88,10 @@ import org.json.JSONObject;
  *
  * <p>The certificate validity is checked using the system default X509 TrustManager, creating a
  * query Dialog if the check fails.
+ *
+ * <p>Certificates the user accepted permanently are only ever matched exactly against the server
+ * (leaf) certificate. They are never used as trust anchors, i.e. a memorized certificate can not be
+ * used to validate any other certificate it may have signed.
  *
  * <p><b>WARNING:</b> This only works if a dedicated thread is used for opening sockets!
  */
@@ -128,7 +132,6 @@ public class MemorizingTrustManager {
     private File keyStoreFile;
     private KeyStore appKeyStore;
     private final X509TrustManager defaultTrustManager;
-    private X509TrustManager appTrustManager;
     private String poshCacheDir;
 
     /**
@@ -148,7 +151,6 @@ public class MemorizingTrustManager {
     public MemorizingTrustManager(
             final Context context, final X509TrustManager defaultTrustManager) {
         init(context);
-        this.appTrustManager = getTrustManager(appKeyStore);
         this.defaultTrustManager = defaultTrustManager;
     }
 
@@ -165,7 +167,6 @@ public class MemorizingTrustManager {
      */
     public MemorizingTrustManager(final Context context) {
         init(context);
-        this.appTrustManager = getTrustManager(appKeyStore);
         try {
             this.defaultTrustManager = TrustManagers.createForAndroidVersion(context);
         } catch (final NoSuchAlgorithmException
@@ -235,21 +236,20 @@ public class MemorizingTrustManager {
     void init(final Context context) {
         master = context;
         masterHandler = new Handler(context.getMainLooper());
-        notificationManager =
-                (NotificationManager) master.getSystemService(Context.NOTIFICATION_SERVICE);
+        notificationManager = master.getSystemService(NotificationManager.class);
 
-        Application app;
-        if (context instanceof Application) {
-            app = (Application) context;
-        } else if (context instanceof Service) {
-            app = ((Service) context).getApplication();
-        } else if (context instanceof AppCompatActivity) {
-            app = ((AppCompatActivity) context).getApplication();
-        } else
-            throw new ClassCastException(
-                    "MemorizingTrustManager context must be either Activity or Service!");
+        final Application app =
+                switch (context) {
+                    case Application application -> application;
+                    case Service service -> service.getApplication();
+                    case AppCompatActivity appCompatActivity -> appCompatActivity.getApplication();
+                    default ->
+                            throw new ClassCastException(
+                                    "MemorizingTrustManager context must be either Activity or"
+                                            + " Service!");
+                };
 
-        File dir = app.getDir(KEYSTORE_DIR, Context.MODE_PRIVATE);
+        final var dir = app.getDir(KEYSTORE_DIR, Context.MODE_PRIVATE);
         keyStoreFile = new File(dir + File.separator + KEYSTORE_FILE);
 
         poshCacheDir = app.getCacheDir().getAbsolutePath() + "/posh_cache/";
@@ -265,7 +265,7 @@ public class MemorizingTrustManager {
     public Enumeration<String> getCertificates() {
         try {
             return appKeyStore.aliases();
-        } catch (KeyStoreException e) {
+        } catch (final KeyStoreException e) {
             // this should never happen, however...
             throw new RuntimeException(e);
         }
@@ -286,89 +286,68 @@ public class MemorizingTrustManager {
         keyStoreUpdated();
     }
 
-    private X509TrustManager getTrustManager(final KeyStore keyStore) {
-        Preconditions.checkNotNull(keyStore);
-        try {
-            TrustManagerFactory tmf = TrustManagerFactory.getInstance("X509");
-            tmf.init(keyStore);
-            for (TrustManager t : tmf.getTrustManagers()) {
-                if (t instanceof X509TrustManager) {
-                    return (X509TrustManager) t;
-                }
-            }
-        } catch (final Exception e) {
-            // Here, we are covering up errors. It might be more useful
-            // however to throw them out of the constructor so the
-            // embedding app knows something went wrong.
-            LOGGER.log(Level.SEVERE, "getTrustManager(" + keyStore + ")", e);
-        }
-        return null;
-    }
-
     KeyStore loadAppKeyStore() {
-        KeyStore ks;
+        final KeyStore ks;
         try {
             ks = KeyStore.getInstance(KeyStore.getDefaultType());
-        } catch (KeyStoreException e) {
+        } catch (final KeyStoreException e) {
             LOGGER.log(Level.SEVERE, "getAppKeyStore()", e);
             return null;
         }
-        FileInputStream fileInputStream = null;
-        try {
+        try (final var fileInputStream = new FileInputStream(keyStoreFile)) {
             ks.load(null, null);
-            fileInputStream = new FileInputStream(keyStoreFile);
             ks.load(fileInputStream, "MTM".toCharArray());
-        } catch (java.io.FileNotFoundException e) {
-            LOGGER.log(Level.INFO, "getAppKeyStore(" + keyStoreFile + ") - file does not exist");
-        } catch (Exception e) {
+        } catch (final Exception e) {
             LOGGER.log(Level.SEVERE, "getAppKeyStore(" + keyStoreFile + ")", e);
-        } finally {
-            FileBackend.close(fileInputStream);
         }
         return ks;
     }
 
-    void storeCert(String alias, Certificate cert) {
+    void storeCert(final String alias, final Certificate cert) {
         try {
             appKeyStore.setCertificateEntry(alias, cert);
-        } catch (KeyStoreException e) {
+        } catch (final KeyStoreException e) {
             LOGGER.log(Level.SEVERE, "storeCert(" + cert + ")", e);
             return;
         }
         keyStoreUpdated();
     }
 
-    void storeCert(X509Certificate cert) {
+    void storeCert(final X509Certificate cert) {
         storeCert(cert.getSubjectDN().toString(), cert);
     }
 
     void keyStoreUpdated() {
-        // reload appTrustManager
-        appTrustManager = getTrustManager(appKeyStore);
-
-        // store KeyStore to file
-        java.io.FileOutputStream fos = null;
-        try {
-            fos = new java.io.FileOutputStream(keyStoreFile);
+        try (final var fos = new FileOutputStream(keyStoreFile)) {
             appKeyStore.store(fos, "MTM".toCharArray());
-        } catch (Exception e) {
+        } catch (final Exception e) {
             LOGGER.log(Level.SEVERE, "storeCert(" + keyStoreFile + ")", e);
-        } finally {
-            if (fos != null) {
-                try {
-                    fos.close();
-                } catch (IOException e) {
-                    LOGGER.log(Level.SEVERE, "storeCert(" + keyStoreFile + ")", e);
-                }
-            }
         }
     }
 
-    // if the certificate is stored in the app key store, it is considered "known"
-    private boolean isCertKnown(X509Certificate cert) {
+    // if this exact certificate is stored in the app key store and is currently within its
+    // validity period, it is considered "known"
+    private boolean isCertKnown(final X509Certificate cert) {
+        if (appKeyStore == null) {
+            return false;
+        }
+        final String alias;
         try {
-            return appKeyStore.getCertificateAlias(cert) != null;
-        } catch (KeyStoreException e) {
+            alias = appKeyStore.getCertificateAlias(cert);
+        } catch (final KeyStoreException e) {
+            return false;
+        }
+        if (alias == null) {
+            return false;
+        }
+        try {
+            cert.checkValidity();
+            return true;
+        } catch (final CertificateExpiredException | CertificateNotYetValidException e) {
+            LOGGER.log(
+                    Level.INFO,
+                    "isCertKnown: stored certificate '" + alias + "' is not currently valid",
+                    e);
             return false;
         }
     }
@@ -382,59 +361,57 @@ public class MemorizingTrustManager {
             throws CertificateException {
         LOGGER.log(
                 Level.FINE, "checkCertTrusted(" + chain + ", " + authType + ", " + isServer + ")");
+        if (chain == null || chain.length == 0) {
+            throw new IllegalArgumentException("null or zero-length certificate chain");
+        }
+        // Memorized certificates are only ever compared against the leaf certificate. They are
+        // never used as trust anchors, so a memorized (CA) certificate can not be used to
+        // validate other certificates it might have signed.
+        if (isCertKnown(chain[0])) {
+            LOGGER.log(Level.INFO, "checkCertTrusted: accepting cert already stored in keystore");
+            return;
+        }
         try {
-            LOGGER.log(Level.FINE, "checkCertTrusted: trying appTrustManager");
-            if (isServer) appTrustManager.checkServerTrusted(chain, authType);
-            else appTrustManager.checkClientTrusted(chain, authType);
-        } catch (final CertificateException ae) {
-            LOGGER.log(Level.FINER, "checkCertTrusted: appTrustManager failed", ae);
-            if (isCertKnown(chain[0])) {
-                LOGGER.log(
-                        Level.INFO, "checkCertTrusted: accepting cert already stored in keystore");
-                return;
+            if (defaultTrustManager == null) {
+                // keep the 'trust anchor not found' cause so the dialog shows mtm_trust_anchor
+                throw new CertificateException(new CertPathValidatorException(NO_TRUST_ANCHOR));
             }
-            try {
-                if (defaultTrustManager == null) throw ae;
-                LOGGER.log(Level.FINE, "checkCertTrusted: trying defaultTrustManager");
-                if (isServer) defaultTrustManager.checkServerTrusted(chain, authType);
-                else defaultTrustManager.checkClientTrusted(chain, authType);
-            } catch (final CertificateException e) {
-                final SharedPreferences preferences =
-                        PreferenceManager.getDefaultSharedPreferences(master);
-                final boolean trustSystemCAs =
-                        !preferences.getBoolean("dont_trust_system_cas", false);
-                if (domain != null
-                        && isServer
-                        && trustSystemCAs
-                        && !isIp(domain)
-                        && !domain.endsWith(".onion")) {
-                    final String hash = getBase64Hash(chain[0], "SHA-256");
-                    final List<String> fingerprints = getPoshFingerprints(domain);
-                    if (hash != null && fingerprints.size() > 0) {
-                        if (fingerprints.contains(hash)) {
-                            Log.d(
-                                    Config.LOGTAG,
-                                    "trusted cert fingerprint of " + domain + " via posh");
-                            return;
-                        } else {
-                            Log.d(
-                                    Config.LOGTAG,
-                                    "fingerprint " + hash + " not found in " + fingerprints);
-                        }
-                        if (getPoshCacheFile(domain).delete()) {
-                            Log.d(
-                                    Config.LOGTAG,
-                                    "deleted posh file for "
-                                            + domain
-                                            + " after not being able to verify");
-                        }
+            if (isServer) {
+                this.defaultTrustManager.checkServerTrusted(chain, authType);
+            } else {
+                this.defaultTrustManager.checkClientTrusted(chain, authType);
+            }
+        } catch (final CertificateException e) {
+            final boolean trustSystemCAs = new AppSettings(master).isTrustSystemCAStore();
+            if (domain != null
+                    && isServer
+                    && trustSystemCAs
+                    && !isIp(domain)
+                    && !domain.endsWith(".onion")) {
+                final String hash = getBase64Hash(chain[0], "SHA-256");
+                final var fingerprints = getPoshFingerprints(domain);
+                if (hash != null && !fingerprints.isEmpty()) {
+                    if (fingerprints.contains(hash)) {
+                        Log.d(Config.LOGTAG, "trusted cert fingerprint of " + domain + " via posh");
+                        return;
+                    } else {
+                        Log.d(
+                                Config.LOGTAG,
+                                "fingerprint " + hash + " not found in " + fingerprints);
+                    }
+                    if (getPoshCacheFile(domain).delete()) {
+                        Log.d(
+                                Config.LOGTAG,
+                                "deleted posh file for "
+                                        + domain
+                                        + " after not being able to verify");
                     }
                 }
-                if (interactive) {
-                    interactCert(chain, authType, e);
-                } else {
-                    throw e;
-                }
+            }
+            if (interactive) {
+                interactCert(chain, authType, e);
+            } else {
+                throw e;
             }
         }
     }
@@ -628,7 +605,7 @@ public class MemorizingTrustManager {
 
     int interact(final String message, final int titleId) {
         /* prepare the MTMDecision blocker object */
-        MTMDecision choice = new MTMDecision();
+        final MTMDecision choice = new MTMDecision();
         final int myId = createDecisionId(choice);
 
         masterHandler.post(
@@ -667,7 +644,9 @@ public class MemorizingTrustManager {
             throws CertificateException {
         switch (interact(certChainMessage(chain, cause), R.string.mtm_accept_cert)) {
             case MTMDecision.DECISION_ALWAYS:
-                storeCert(chain[0]); // only store the server cert, not the whole chain
+                // only store the server cert, not the whole chain. The stored cert is only ever
+                // matched exactly against chain[0]; it is never used as a trust anchor.
+                storeCert(chain[0]);
             case MTMDecision.DECISION_ONCE:
                 break;
             default:
