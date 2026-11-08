@@ -40,6 +40,8 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Objects;
+import java.util.concurrent.Executor;
+import java.util.concurrent.Executors;
 import javax.net.ssl.SSLSocketFactory;
 import javax.net.ssl.X509TrustManager;
 import okhttp3.Call;
@@ -54,6 +56,8 @@ import okhttp3.Request;
 import okhttp3.RequestBody;
 
 public class OAuthManager extends AbstractManager {
+
+    private static final Executor OAUTH_PREPERATION_EXECUTOR = Executors.newSingleThreadExecutor();
 
     public static final String OAUTH_REDIRECT_HOST = "oauth-redirect";
 
@@ -168,7 +172,7 @@ public class OAuthManager extends AbstractManager {
         return Futures.transformAsync(
                 openIdConfigurationFuture,
                 config -> preparePendingAuthorization(Objects.requireNonNull(config)),
-                MoreExecutors.directExecutor());
+                OAUTH_PREPERATION_EXECUTOR);
     }
 
     private ListenableFuture<PendingAuthorization> preparePendingAuthorization(
@@ -199,7 +203,7 @@ public class OAuthManager extends AbstractManager {
                     }
                     return pa;
                 },
-                MoreExecutors.directExecutor());
+                OAUTH_PREPERATION_EXECUTOR);
     }
 
     private ListenableFuture<OpenIdConfiguration> fetchConfiguration(final HttpUrl url) {
@@ -313,7 +317,10 @@ public class OAuthManager extends AbstractManager {
                     new IllegalStateException(
                             "Could not handle oauth redirect. account did not match state"));
         }
-        final var pendingAuthorization = this.pendingAuthorizations.remove(state);
+        final PendingAuthorization pendingAuthorization;
+        synchronized (this.pendingAuthorizations) {
+            pendingAuthorization = this.pendingAuthorizations.remove(state);
+        }
         if (pendingAuthorization == null) {
             return Futures.immediateFailedFuture(
                     new IllegalStateException("no pending authorization found"));
@@ -328,7 +335,15 @@ public class OAuthManager extends AbstractManager {
                         new OAuthFailedException(error, errorDescription));
             }
         } else {
-            return this.exchangeAuthorizationCode(pendingAuthorization, code);
+            final var future = this.exchangeAuthorizationCode(pendingAuthorization, code);
+            future.addListener(
+                    () -> {
+                        synchronized (this.pendingAuthorizations) {
+                            this.pendingAuthorizations.clear();
+                        }
+                    },
+                    MoreExecutors.directExecutor());
+            return future;
         }
     }
 

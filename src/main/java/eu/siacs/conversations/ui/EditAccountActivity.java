@@ -290,6 +290,7 @@ public class EditAccountActivity extends OmemoActivity
                                             == Account.State.PENDING_OAUTH_AUTHORIZATION;
                     if (auth) {
                         launchPendingAuthorization();
+                        return;
                     }
 
                     final Jid jid;

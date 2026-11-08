@@ -1876,7 +1876,7 @@ public class XmppConnection implements Runnable {
     }
 
     private void validate(
-            final @Nullable SaslMechanism saslMechanism, Collection<String> mechanisms)
+            final @Nullable SaslMechanism saslMechanism, final Collection<String> mechanisms)
             throws StateChangingException {
         if (saslMechanism == null) {
             Log.d(
@@ -1886,7 +1886,11 @@ public class XmppConnection implements Runnable {
                             + mechanisms);
             throw new StateChangingException(Account.State.INCOMPATIBLE_SERVER);
         }
-        checkRequireChannelBinding(saslMechanism);
+        if (Strings.isNullOrEmpty(account.getPassword()) && saslMechanism instanceof OAuthBearer) {
+            Log.w(Config.LOGTAG, "not performing channel binding check on OauthBearer!");
+        } else {
+            checkRequireChannelBinding(saslMechanism);
+        }
         if (SaslMechanism.hashedToken(saslMechanism)) {
             return;
         }
