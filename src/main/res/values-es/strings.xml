@@ -1229,4 +1229,7 @@
     <string name="show_attachment_options">Ver opciones de adjuntos</string>
     <string name="collapsed">Contraído</string>
     <string name="expanded">Expandido</string>
+    <string name="account_status_pending_oauth_authorization">Autorización pendiente</string>
+    <string name="could_not_redirect_to_identity_provider">No se pudo redirigir al proveedor de identidad</string>
+    <string name="could_not_process_oauth_redirect">No se pudo procesar la redirección OAuth</string>
 </resources>
