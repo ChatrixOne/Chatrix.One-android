@@ -133,6 +133,7 @@ import eu.siacs.conversations.xmpp.manager.RosterManager;
 import eu.siacs.conversations.xmpp.manager.VCardManager;
 import im.conversations.android.model.Bookmark;
 import im.conversations.android.model.ImmutableBookmark;
+import im.conversations.android.xmpp.StreamElementWriter;
 import im.conversations.android.xmpp.model.delay.Delay;
 import im.conversations.android.xmpp.model.stanza.Iq;
 import im.conversations.android.xmpp.model.up.Push;
@@ -1762,6 +1763,7 @@ public class XmppConnectionService extends Service {
                             chatStateManager.getOutgoingChatStateExtension(conversation));
                 }
             }
+            Log.d(Config.LOGTAG, StreamElementWriter.asStringUnchecked(packet));
             sendMessagePacket(account, packet);
         }
     }

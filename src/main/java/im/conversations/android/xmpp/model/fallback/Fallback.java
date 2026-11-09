@@ -13,6 +13,16 @@ public class Fallback extends Extension {
         super(Fallback.class);
     }
 
+    public Fallback(final Class<? extends Extension> forExtension, final Element element) {
+        this();
+        this.setFor(forExtension);
+        this.addExtension(element);
+    }
+
+    public void setFor(final Class<? extends Extension> forExtension) {
+        this.setAttribute("for", ExtensionFactory.id(forExtension).namespace());
+    }
+
     public String getFor() {
         return this.getAttribute("for");
     }
@@ -63,7 +73,6 @@ public class Fallback extends Extension {
             return true;
         }
     }
-    ;
 
     public abstract static sealed class Element extends Extension permits Body, Subject {
 

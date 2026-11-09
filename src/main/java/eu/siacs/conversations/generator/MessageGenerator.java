@@ -10,9 +10,16 @@ import eu.siacs.conversations.services.XmppConnectionService;
 import eu.siacs.conversations.xml.Namespace;
 import eu.siacs.conversations.xmpp.Jid;
 import im.conversations.android.xmpp.model.correction.Replace;
+import im.conversations.android.xmpp.model.fallback.Body;
+import im.conversations.android.xmpp.model.fallback.Fallback;
+import im.conversations.android.xmpp.model.file.File;
 import im.conversations.android.xmpp.model.hints.Store;
 import im.conversations.android.xmpp.model.markers.Markable;
+import im.conversations.android.xmpp.model.oob.OutOfBandData;
+import im.conversations.android.xmpp.model.sfs.FileSharing;
+import im.conversations.android.xmpp.model.sfs.Sources;
 import im.conversations.android.xmpp.model.unique.OriginId;
+import im.conversations.android.xmpp.model.url.UrlData;
 
 public class MessageGenerator extends AbstractGenerator {
     private static final String OMEMO_FALLBACK_MESSAGE =
@@ -89,13 +96,32 @@ public class MessageGenerator extends AbstractGenerator {
         return packet;
     }
 
-    public im.conversations.android.xmpp.model.stanza.Message generateChat(Message message) {
+    public im.conversations.android.xmpp.model.stanza.Message generateChat(final Message message) {
         im.conversations.android.xmpp.model.stanza.Message packet = preparePacket(message);
-        String content;
+        final String content;
         if (message.hasFileOnRemoteHost()) {
             final Message.FileParams fileParams = message.getFileParams();
             content = fileParams.url;
-            packet.addChild("x", Namespace.OOB).addChild("url").setContent(content);
+            packet.addExtension(new OutOfBandData(fileParams.url));
+            final var fileSharing = packet.addExtension(new FileSharing());
+            fileSharing.setDisposition(FileSharing.Disposition.INLINE);
+            final var fileMetadata = fileSharing.addExtension(new File());
+            final var relativeFilePath = message.getRelativeFilePath();
+            final var height = fileParams.height;
+            final var width = fileParams.width;
+            final var mime = message.getMimeType();
+            if (mime != null) {
+                fileMetadata.setMediaType(mime);
+            }
+            if (relativeFilePath != null) {
+                fileMetadata.setFileName(relativeFilePath.file().getName());
+            }
+            fileMetadata.setFileSize(fileParams.size);
+            if (height > 0 && width > 0) {
+                fileMetadata.setDimensions(width, height);
+            }
+            fileSharing.addExtension(new Sources()).addExtension(new UrlData(fileParams.url));
+            packet.addExtension(new Fallback(FileSharing.class, new Body()));
         } else {
             content = message.getBody();
         }
