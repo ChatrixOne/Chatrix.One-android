@@ -53,7 +53,7 @@ public class ChatStateManager extends AbstractManager {
             return;
         }
         final var chatState = chatStateNotification.getClass();
-        if (getManager(MultiUserChatManager.class).isMuc(message)) {
+        if (getManager(MultiUserChatManager.class).isTypeGroupChatOrOpen(message)) {
             final var mucOptions =
                     getManager(MultiUserChatManager.class).getState(from.asBareJid());
             if (mucOptions == null) {

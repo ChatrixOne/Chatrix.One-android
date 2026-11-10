@@ -320,7 +320,7 @@ public class IqParser extends AbstractParser implements Consumer<Iq> {
 
     private void acceptPush(final Iq packet) {
         // there is rarely a good reason to respond to IQs from MUCs
-        if (getManager(MultiUserChatManager.class).isMuc(packet)) {
+        if (getManager(MultiUserChatManager.class).isTypeGroupChatOrOpen(packet)) {
             this.connection.sendErrorFor(packet, new Condition.ServiceUnavailable());
             return;
         }
@@ -350,7 +350,7 @@ public class IqParser extends AbstractParser implements Consumer<Iq> {
         }
 
         // there is rarely a good reason to respond to IQs from MUCs
-        if (getManager(MultiUserChatManager.class).isMuc(packet)) {
+        if (getManager(MultiUserChatManager.class).isTypeGroupChatOrOpen(packet)) {
             this.connection.sendErrorFor(packet, new Condition.ServiceUnavailable());
         } else if (packet.hasExtension(InfoQuery.class)) {
             this.getManager(DiscoManager.class).handleInfoQuery(packet);

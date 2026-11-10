@@ -825,7 +825,7 @@ public class MessageParser extends AbstractParser
 
         final var nick = packet.getExtension(Nick.class);
         if (nick != null && Jid.Invalid.isValid(from)) {
-            if (getManager(MultiUserChatManager.class).isMuc(from)) {
+            if (getManager(MultiUserChatManager.class).isOpenMultiUserChat(from)) {
                 return;
             }
             final Contact contact = account.getRoster().getContact(from);
