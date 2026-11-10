@@ -1231,4 +1231,7 @@
     <string name="show_attachment_options">Montrer les options de pièce jointe</string>
     <string name="collapsed">Réduit</string>
     <string name="expanded">Étendu</string>
+    <string name="account_status_pending_oauth_authorization">Autorisation en attente</string>
+    <string name="could_not_process_oauth_redirect">Impossible de suivre la redirection OAuth</string>
+    <string name="could_not_redirect_to_identity_provider">Impossible de rediriger vers le fournisseur d\'identité</string>
 </resources>
