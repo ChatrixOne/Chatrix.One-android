@@ -97,7 +97,7 @@ public class MessageGenerator extends AbstractGenerator {
     }
 
     public im.conversations.android.xmpp.model.stanza.Message generateChat(final Message message) {
-        im.conversations.android.xmpp.model.stanza.Message packet = preparePacket(message);
+        final im.conversations.android.xmpp.model.stanza.Message packet = preparePacket(message);
         final String content;
         if (message.hasFileOnRemoteHost()) {
             final Message.FileParams fileParams = message.getFileParams();

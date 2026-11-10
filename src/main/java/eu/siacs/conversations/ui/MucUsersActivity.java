@@ -133,13 +133,12 @@ public class MucUsersActivity extends XmppActivity
 
     @Override
     public boolean onMenuItemActionExpand(@NonNull MenuItem item) {
-        mSearchEditText.post(
-                () -> {
-                    mSearchEditText.requestFocus();
-                    final InputMethodManager imm =
-                            (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-                    imm.showSoftInput(mSearchEditText, InputMethodManager.SHOW_IMPLICIT);
-                });
+        mSearchEditText.post(() -> {
+            mSearchEditText.requestFocus();
+            final InputMethodManager imm =
+                    (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+            imm.showSoftInput(mSearchEditText, InputMethodManager.SHOW_IMPLICIT);
+        });
         return true;
     }
 

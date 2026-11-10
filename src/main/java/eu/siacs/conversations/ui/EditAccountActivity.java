@@ -597,37 +597,30 @@ public class EditAccountActivity extends OmemoActivity
     }
 
     protected void finishInitialSetup(final boolean avatar) {
-        runOnUiThread(
-                () -> {
-                    SoftKeyboardUtils.hideSoftKeyboard(EditAccountActivity.this);
-                    final Intent intent;
-                    final XmppConnection connection = mAccount.getXmppConnection();
-                    final boolean wasFirstAccount =
-                            xmppConnectionService != null
-                                    && xmppConnectionService.getAccounts().size() == 1;
-                    if (avatar || !connection.getManager(PepManager.class).isAvailable()) {
-                        intent =
-                                StartConversationActivity.startOrConversationsActivity(
-                                        this, mAccount);
-                        if (wasFirstAccount) {
-                            intent.putExtra("init", true);
-                        }
-                    } else {
-                        intent =
-                                new Intent(
-                                        getApplicationContext(),
-                                        PublishProfilePictureActivity.class);
-                        intent.putExtra(EXTRA_ACCOUNT, mAccount.getJid().asBareJid().toString());
-                        intent.putExtra("setup", true);
-                        StartConversationActivity.addInviteUri(intent, this);
-                    }
-                    if (wasFirstAccount) {
-                        intent.setFlags(
-                                Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                    }
-                    startActivity(intent);
-                    finish();
-                });
+        runOnUiThread(() -> {
+            SoftKeyboardUtils.hideSoftKeyboard(EditAccountActivity.this);
+            final Intent intent;
+            final XmppConnection connection = mAccount.getXmppConnection();
+            final boolean wasFirstAccount =
+                    xmppConnectionService != null
+                            && xmppConnectionService.getAccounts().size() == 1;
+            if (avatar || !connection.getManager(PepManager.class).isAvailable()) {
+                intent = StartConversationActivity.startOrConversationsActivity(this, mAccount);
+                if (wasFirstAccount) {
+                    intent.putExtra("init", true);
+                }
+            } else {
+                intent = new Intent(getApplicationContext(), PublishProfilePictureActivity.class);
+                intent.putExtra(EXTRA_ACCOUNT, mAccount.getJid().asBareJid().toString());
+                intent.putExtra("setup", true);
+                StartConversationActivity.addInviteUri(intent, this);
+            }
+            if (wasFirstAccount) {
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            }
+            startActivity(intent);
+            finish();
+        });
     }
 
     @Override
@@ -663,7 +656,6 @@ public class EditAccountActivity extends OmemoActivity
                         })
                 .create()
                 .show();
-        ;
     }
 
     @Override
@@ -862,10 +854,9 @@ public class EditAccountActivity extends OmemoActivity
             this.binding.accountRegisterNew.setVisibility(View.GONE);
         }
         this.binding.actionEditYourName.setOnClickListener(this::onEditYourNameClicked);
-        this.binding.scanButton.setOnClickListener(
-                (v) -> {
-                    requestPermissionAndScanQrCode();
-                });
+        this.binding.scanButton.setOnClickListener(v -> {
+            requestPermissionAndScanQrCode();
+        });
     }
 
     private void onEditYourNameClicked(View view) {
@@ -1291,12 +1282,10 @@ public class EditAccountActivity extends OmemoActivity
         PresenceTemplateAdapter presenceTemplateAdapter =
                 new PresenceTemplateAdapter(this, R.layout.item_autocomplete, templates);
         binding.statusMessage.setAdapter(presenceTemplateAdapter);
-        binding.statusMessage.setOnItemClickListener(
-                (parent, view, position, id) -> {
-                    PresenceTemplate template =
-                            (PresenceTemplate) parent.getItemAtPosition(position);
-                    setAvailabilityRadioButton(template.getStatus(), binding);
-                });
+        binding.statusMessage.setOnItemClickListener((parent, view, position, id) -> {
+            PresenceTemplate template = (PresenceTemplate) parent.getItemAtPosition(position);
+            setAvailabilityRadioButton(template.getStatus(), binding);
+        });
         builder.setTitle(R.string.edit_status_message_title);
         builder.setView(binding.getRoot());
         builder.setNegativeButton(R.string.cancel, null);
@@ -1749,26 +1738,23 @@ public class EditAccountActivity extends OmemoActivity
             this.binding.osOptimizationBody.setText(
                     getString(R.string.data_saver_enabled_explained, getString(R.string.app_name)));
             this.binding.osOptimizationDisable.setText(R.string.allow);
-            this.binding.osOptimizationDisable.setOnClickListener(
-                    v -> {
-                        Intent intent =
-                                new Intent(
-                                        Settings
-                                                .ACTION_IGNORE_BACKGROUND_DATA_RESTRICTIONS_SETTINGS);
-                        Uri uri = Uri.parse("package:" + getPackageName());
-                        intent.setData(uri);
-                        try {
-                            startActivityForResult(intent, REQUEST_DATA_SAVER);
-                        } catch (ActivityNotFoundException e) {
-                            Toast.makeText(
-                                            EditAccountActivity.this,
-                                            getString(
-                                                    R.string.device_does_not_support_data_saver,
-                                                    getString(R.string.app_name)),
-                                            Toast.LENGTH_SHORT)
-                                    .show();
-                        }
-                    });
+            this.binding.osOptimizationDisable.setOnClickListener(v -> {
+                Intent intent =
+                        new Intent(Settings.ACTION_IGNORE_BACKGROUND_DATA_RESTRICTIONS_SETTINGS);
+                Uri uri = Uri.parse("package:" + getPackageName());
+                intent.setData(uri);
+                try {
+                    startActivityForResult(intent, REQUEST_DATA_SAVER);
+                } catch (ActivityNotFoundException e) {
+                    Toast.makeText(
+                                    EditAccountActivity.this,
+                                    getString(
+                                            R.string.device_does_not_support_data_saver,
+                                            getString(R.string.app_name)),
+                                    Toast.LENGTH_SHORT)
+                            .show();
+                }
+            });
         } else if (showBatteryWarning) {
             this.binding.osOptimizationDisable.setText(R.string.disable);
             this.binding.osOptimizationHeadline.setText(R.string.battery_optimizations_enabled);
@@ -1776,22 +1762,20 @@ public class EditAccountActivity extends OmemoActivity
                     getString(
                             R.string.battery_optimizations_enabled_explained,
                             getString(R.string.app_name)));
-            this.binding.osOptimizationDisable.setOnClickListener(
-                    v -> {
-                        Intent intent =
-                                new Intent(Settings.ACTION_REQUEST_IGNORE_BATTERY_OPTIMIZATIONS);
-                        Uri uri = Uri.parse("package:" + getPackageName());
-                        intent.setData(uri);
-                        try {
-                            startActivityForResult(intent, REQUEST_BATTERY_OP);
-                        } catch (ActivityNotFoundException e) {
-                            Toast.makeText(
-                                            EditAccountActivity.this,
-                                            R.string.device_does_not_support_battery_op,
-                                            Toast.LENGTH_SHORT)
-                                    .show();
-                        }
-                    });
+            this.binding.osOptimizationDisable.setOnClickListener(v -> {
+                Intent intent = new Intent(Settings.ACTION_REQUEST_IGNORE_BATTERY_OPTIMIZATIONS);
+                Uri uri = Uri.parse("package:" + getPackageName());
+                intent.setData(uri);
+                try {
+                    startActivityForResult(intent, REQUEST_BATTERY_OP);
+                } catch (ActivityNotFoundException e) {
+                    Toast.makeText(
+                                    EditAccountActivity.this,
+                                    R.string.device_does_not_support_battery_op,
+                                    Toast.LENGTH_SHORT)
+                            .show();
+                }
+            });
         }
     }
 
@@ -1880,40 +1864,37 @@ public class EditAccountActivity extends OmemoActivity
 
     @Override
     public void onCaptchaRequested(final Account account, final Data data, final Bitmap captcha) {
-        runOnUiThread(
-                () -> {
-                    if (mCaptchaDialog != null && mCaptchaDialog.isShowing()) {
-                        mCaptchaDialog.dismiss();
-                    }
-                    if (!getLifecycle().getCurrentState().isAtLeast(Lifecycle.State.RESUMED)) {
-                        Log.d(Config.LOGTAG, "activity not running when captcha was requested");
-                        return;
-                    }
-                    final MaterialAlertDialogBuilder builder =
-                            new MaterialAlertDialogBuilder(EditAccountActivity.this);
-                    final View view = getLayoutInflater().inflate(R.layout.captcha, null);
-                    final ImageView imageView = view.findViewById(R.id.captcha);
-                    final EditText input = view.findViewById(R.id.input);
-                    imageView.setImageBitmap(captcha);
+        runOnUiThread(() -> {
+            if (mCaptchaDialog != null && mCaptchaDialog.isShowing()) {
+                mCaptchaDialog.dismiss();
+            }
+            if (!getLifecycle().getCurrentState().isAtLeast(Lifecycle.State.RESUMED)) {
+                Log.d(Config.LOGTAG, "activity not running when captcha was requested");
+                return;
+            }
+            final MaterialAlertDialogBuilder builder =
+                    new MaterialAlertDialogBuilder(EditAccountActivity.this);
+            final View view = getLayoutInflater().inflate(R.layout.captcha, null);
+            final ImageView imageView = view.findViewById(R.id.captcha);
+            final EditText input = view.findViewById(R.id.input);
+            imageView.setImageBitmap(captcha);
 
-                    builder.setTitle(getString(R.string.captcha_required));
-                    builder.setView(view);
+            builder.setTitle(getString(R.string.captcha_required));
+            builder.setView(view);
 
-                    builder.setPositiveButton(
-                            getString(R.string.ok),
-                            (dialog, which) ->
-                                    account.getXmppConnection()
-                                            .register(data, input.getText().toString()));
-                    builder.setNegativeButton(
-                            getString(R.string.cancel),
-                            (dialog, which) -> account.getXmppConnection().cancelRegistration());
+            builder.setPositiveButton(
+                    getString(R.string.ok),
+                    (dialog, which) ->
+                            account.getXmppConnection().register(data, input.getText().toString()));
+            builder.setNegativeButton(
+                    getString(R.string.cancel),
+                    (dialog, which) -> account.getXmppConnection().cancelRegistration());
 
-                    builder.setOnCancelListener(
-                            dialog -> account.getXmppConnection().cancelRegistration());
-                    mCaptchaDialog = builder.create();
-                    mCaptchaDialog.show();
-                    input.requestFocus();
-                });
+            builder.setOnCancelListener(dialog -> account.getXmppConnection().cancelRegistration());
+            mCaptchaDialog = builder.create();
+            mCaptchaDialog.show();
+            input.requestFocus();
+        });
     }
 
     public void onShowErrorToast(final int resId) {

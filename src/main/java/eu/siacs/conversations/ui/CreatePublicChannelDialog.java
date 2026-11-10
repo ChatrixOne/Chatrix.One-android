@@ -117,18 +117,16 @@ public class CreatePublicChannelDialog extends DialogFragment implements OnBacke
         this.knownHostsAdapter = new KnownHostsAdapter(getActivity(), R.layout.item_autocomplete);
         binding.jid.setAdapter(knownHostsAdapter);
         final AlertDialog dialog = builder.create();
-        binding.groupChatName.setOnEditorActionListener(
-                (v, actionId, event) -> {
-                    submit(dialog, binding);
-                    return true;
-                });
-        dialog.setOnShowListener(
-                dialogInterface -> {
-                    dialog.getButton(DialogInterface.BUTTON_NEGATIVE)
-                            .setOnClickListener(v -> goBack(dialog, binding));
-                    dialog.getButton(DialogInterface.BUTTON_POSITIVE)
-                            .setOnClickListener(v -> submit(dialog, binding));
-                });
+        binding.groupChatName.setOnEditorActionListener((v, actionId, event) -> {
+            submit(dialog, binding);
+            return true;
+        });
+        dialog.setOnShowListener(dialogInterface -> {
+            dialog.getButton(DialogInterface.BUTTON_NEGATIVE)
+                    .setOnClickListener(v -> goBack(dialog, binding));
+            dialog.getButton(DialogInterface.BUTTON_POSITIVE)
+                    .setOnClickListener(v -> submit(dialog, binding));
+        });
         return dialog;
     }
 

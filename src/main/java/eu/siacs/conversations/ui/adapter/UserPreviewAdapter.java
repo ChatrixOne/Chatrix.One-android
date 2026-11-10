@@ -43,33 +43,31 @@ public class UserPreviewAdapter extends ListAdapter<MucOptions.User, UserPreview
         viewHolder
                 .binding
                 .getRoot()
-                .setOnClickListener(
-                        v -> {
-                            final XmppActivity activity = XmppActivity.find(v);
-                            if (activity == null) {
-                                return;
-                            }
-                            if (user.resource() == null) {
-                                Toast.makeText(
-                                                activity,
-                                                activity.getString(
-                                                        R.string.user_has_left_conference,
-                                                        user.getDisplayName()),
-                                                Toast.LENGTH_SHORT)
-                                        .show();
-                            }
-                            activity.highlightInMuc(user.getConversation(), user.resource());
-                        });
+                .setOnClickListener(v -> {
+                    final XmppActivity activity = XmppActivity.find(v);
+                    if (activity == null) {
+                        return;
+                    }
+                    if (user.resource() == null) {
+                        Toast.makeText(
+                                        activity,
+                                        activity.getString(
+                                                R.string.user_has_left_conference,
+                                                user.getDisplayName()),
+                                        Toast.LENGTH_SHORT)
+                                .show();
+                    }
+                    activity.highlightInMuc(user.getConversation(), user.resource());
+                });
         viewHolder.binding.getRoot().setOnCreateContextMenuListener(this);
         viewHolder.binding.getRoot().setTag(user);
         viewHolder
                 .binding
                 .getRoot()
-                .setOnLongClickListener(
-                        v -> {
-                            selectedUser = user;
-                            return false;
-                        });
+                .setOnLongClickListener(v -> {
+                    selectedUser = user;
+                    return false;
+                });
     }
 
     @Override

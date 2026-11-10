@@ -33,11 +33,10 @@ public class ChooseAccountForProfilePictureActivity extends XmppActivity {
         configureActionBar(getSupportActionBar(), false);
         this.mAccountAdapter = new AccountAdapter(this, accountList, false);
         binding.accountList.setAdapter(this.mAccountAdapter);
-        binding.accountList.setOnItemClickListener(
-                (arg0, view, position, arg3) -> {
-                    final Account account = accountList.get(position);
-                    goToProfilePictureActivity(account);
-                });
+        binding.accountList.setOnItemClickListener((arg0, view, position, arg3) -> {
+            final Account account = accountList.get(position);
+            goToProfilePictureActivity(account);
+        });
     }
 
     @Override

@@ -138,19 +138,18 @@ public class OAuthManager extends AbstractManager {
     private static final OkHttpClient OK_HTTP_CLIENT =
             HttpConnectionManager.OK_HTTP_CLIENT
                     .newBuilder()
-                    .dns(
-                            hostname -> {
-                                final var addresses = Dns.SYSTEM.lookup(hostname);
-                                for (final var address : addresses) {
-                                    if (address.isLoopbackAddress()
-                                            || address.isSiteLocalAddress()
-                                            || address.isLinkLocalAddress()) {
-                                        throw new UnknownHostException(
-                                                "Not performing look ups on local addresses");
-                                    }
-                                }
-                                return addresses;
-                            })
+                    .dns(hostname -> {
+                        final var addresses = Dns.SYSTEM.lookup(hostname);
+                        for (final var address : addresses) {
+                            if (address.isLoopbackAddress()
+                                    || address.isSiteLocalAddress()
+                                    || address.isLinkLocalAddress()) {
+                                throw new UnknownHostException(
+                                        "Not performing look ups on local addresses");
+                            }
+                        }
+                        return addresses;
+                    })
                     .callTimeout(Duration.ofSeconds(3))
                     .build();
 

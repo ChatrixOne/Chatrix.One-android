@@ -269,16 +269,15 @@ public class SearchActivity extends XmppActivity
 
     @Override
     public void onSearchResultsAvailable(List<String> term, List<Message> messages) {
-        runOnUiThread(
-                () -> {
-                    this.messages.clear();
-                    messageListAdapter.setHighlightedTerm(term);
-                    DateSeparator.addAll(messages);
-                    this.messages.addAll(messages);
-                    messageListAdapter.notifyDataSetChanged();
-                    changeBackground(true, !messages.isEmpty());
-                    ListViewUtils.scrollToBottom(this.binding.searchResults);
-                });
+        runOnUiThread(() -> {
+            this.messages.clear();
+            messageListAdapter.setHighlightedTerm(term);
+            DateSeparator.addAll(messages);
+            this.messages.addAll(messages);
+            messageListAdapter.notifyDataSetChanged();
+            changeBackground(true, !messages.isEmpty());
+            ListViewUtils.scrollToBottom(this.binding.searchResults);
+        });
     }
 
     @Override

@@ -127,19 +127,18 @@ public class ScanResultProcessor {
         final var okHttp =
                 HttpConnectionManager.okHttpClient(context)
                         .newBuilder()
-                        .dns(
-                                hostname -> {
-                                    final var addresses = Dns.SYSTEM.lookup(hostname);
-                                    for (final var address : addresses) {
-                                        if (address.isLoopbackAddress()
-                                                || address.isSiteLocalAddress()
-                                                || address.isLinkLocalAddress()) {
-                                            throw new UnknownHostException(
-                                                    "Not performing look ups on local addresses");
-                                        }
-                                    }
-                                    return addresses;
-                                })
+                        .dns(hostname -> {
+                            final var addresses = Dns.SYSTEM.lookup(hostname);
+                            for (final var address : addresses) {
+                                if (address.isLoopbackAddress()
+                                        || address.isSiteLocalAddress()
+                                        || address.isLinkLocalAddress()) {
+                                    throw new UnknownHostException(
+                                            "Not performing look ups on local addresses");
+                                }
+                            }
+                            return addresses;
+                        })
                         .followRedirects(false)
                         .followSslRedirects(false)
                         .callTimeout(Duration.ofSeconds(3))

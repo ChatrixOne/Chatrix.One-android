@@ -307,19 +307,18 @@ public class ChooseContactActivity extends AbstractSearchableListItemActivity
                         true,
                         false);
 
-        dialog.setOnEnterJidDialogPositiveListener(
-                (accountJid, contactJid) -> {
-                    final Intent request = getIntent();
-                    final Intent data = new Intent();
-                    data.putExtra("contact", contactJid.toString());
-                    data.putExtra(EXTRA_ACCOUNT, accountJid.toString());
-                    data.putExtra(EXTRA_SELECT_MULTIPLE, false);
-                    copy(request, data);
-                    setResult(RESULT_OK, data);
-                    finish();
+        dialog.setOnEnterJidDialogPositiveListener((accountJid, contactJid) -> {
+            final Intent request = getIntent();
+            final Intent data = new Intent();
+            data.putExtra("contact", contactJid.toString());
+            data.putExtra(EXTRA_ACCOUNT, accountJid.toString());
+            data.putExtra(EXTRA_SELECT_MULTIPLE, false);
+            copy(request, data);
+            setResult(RESULT_OK, data);
+            finish();
 
-                    return true;
-                });
+            return true;
+        });
 
         dialog.show(ft, "dialog");
     }

@@ -1400,7 +1400,7 @@ public class ConversationFragment extends XmppFragment
             viewIdBuilder.add(id);
         }
         setAttachmentChoicesVisibility(false);
-        binding.attachButton.setOnClickListener((v) -> toggleAttachmentChoicesVisibility());
+        binding.attachButton.setOnClickListener(v -> toggleAttachmentChoicesVisibility());
         binding.attachmentChoicesFlow.setReferencedIds(Ints.toArray(viewIdBuilder.build()));
         binding.getRoot().setOnClickListener(null); // TODO why the fuck did we do this?
         binding.toolbar.addMenuProvider(
@@ -1413,13 +1413,12 @@ public class ConversationFragment extends XmppFragment
 
         binding.textInput.setOnEditorActionListener(mEditorActionListener);
         binding.textInput.setRichContentListener(new String[] {"image/*"}, mEditorContentListener);
-        binding.textInput.setOnTouchListener(
-                (v, event) -> {
-                    if (event.getAction() == MotionEvent.ACTION_UP) {
-                        setAttachmentChoicesVisibility(false);
-                    }
-                    return false;
-                });
+        binding.textInput.setOnTouchListener((v, event) -> {
+            if (event.getAction() == MotionEvent.ACTION_UP) {
+                setAttachmentChoicesVisibility(false);
+            }
+            return false;
+        });
 
         binding.textSendButton.setOnClickListener(this.mSendButtonListener);
 
@@ -2607,12 +2606,11 @@ public class ConversationFragment extends XmppFragment
                                                 .xmppConnectionService
                                                 .resendFailedMessages(message, forceP2P);
                                         new Handler()
-                                                .post(
-                                                        () -> {
-                                                            int size = messageList.size();
-                                                            this.binding.messagesView.setSelection(
-                                                                    size - 1);
-                                                        });
+                                                .post(() -> {
+                                                    int size = messageList.size();
+                                                    this.binding.messagesView.setSelection(
+                                                            size - 1);
+                                                });
                                     });
                     return;
                 }
@@ -2636,11 +2634,10 @@ public class ConversationFragment extends XmppFragment
         }
         requireXmppActivity().xmppConnectionService.resendFailedMessages(message, false);
         new Handler()
-                .post(
-                        () -> {
-                            int size = messageList.size();
-                            this.binding.messagesView.setSelection(size - 1);
-                        });
+                .post(() -> {
+                    int size = messageList.size();
+                    this.binding.messagesView.setSelection(size - 1);
+                });
     }
 
     private void cancelTransmission(Message message) {
@@ -3121,25 +3118,24 @@ public class ConversationFragment extends XmppFragment
         popupMenu.inflate(R.menu.block);
         popupMenu.getMenu().findItem(R.id.block_contact).setVisible(jid.getLocal() != null);
         popupMenu.getMenu().findItem(R.id.reject).setVisible(showReject);
-        popupMenu.setOnMenuItemClickListener(
-                menuItem -> {
-                    final int itemId = menuItem.getItemId();
-                    if (itemId == R.id.reject) {
-                        requireXmppActivity()
-                                .xmppConnectionService
-                                .stopPresenceUpdatesTo(conversation.getContact());
-                        updateSnackBar(conversation);
-                        return true;
-                    } else if (itemId == R.id.block_domain) {
-                        final Blockable blockable =
-                                conversation.getAccount().getRoster().getContact(jid.getDomain());
-                        BlockContactDialog.show(requireXmppActivity(), blockable);
-                        return true;
-                    } else {
-                        BlockContactDialog.show(requireXmppActivity(), conversation);
-                        return true;
-                    }
-                });
+        popupMenu.setOnMenuItemClickListener(menuItem -> {
+            final int itemId = menuItem.getItemId();
+            if (itemId == R.id.reject) {
+                requireXmppActivity()
+                        .xmppConnectionService
+                        .stopPresenceUpdatesTo(conversation.getContact());
+                updateSnackBar(conversation);
+                return true;
+            } else if (itemId == R.id.block_domain) {
+                final Blockable blockable =
+                        conversation.getAccount().getRoster().getContact(jid.getDomain());
+                BlockContactDialog.show(requireXmppActivity(), blockable);
+                return true;
+            } else {
+                BlockContactDialog.show(requireXmppActivity(), conversation);
+                return true;
+            }
+        });
         popupMenu.show();
         return true;
     }
@@ -3315,11 +3311,10 @@ public class ConversationFragment extends XmppFragment
         updateChatMsgHint();
         if (this.inputSettings.scrollToBottom() || scrolledToBottom()) {
             new Handler()
-                    .post(
-                            () -> {
-                                int size = messageList.size();
-                                this.binding.messagesView.setSelection(size - 1);
-                            });
+                    .post(() -> {
+                        int size = messageList.size();
+                        this.binding.messagesView.setSelection(size - 1);
+                    });
         }
     }
 
@@ -3367,11 +3362,10 @@ public class ConversationFragment extends XmppFragment
     }
 
     private void postEditUiModification() {
-        runOnUiThread(
-                () -> {
-                    updateSendButton();
-                    updateAttachmentButton();
-                });
+        runOnUiThread(() -> {
+            updateSendButton();
+            updateAttachmentButton();
+        });
     }
 
     private void updateAttachmentButton() {
@@ -3917,14 +3911,13 @@ public class ConversationFragment extends XmppFragment
         }
         ChatStateManager.send(conversation, Config.DEFAULT_CHAT_STATE);
         if (storeNextMessage()) {
-            runOnUiThread(
-                    () -> {
-                        try {
-                            requireConversationsActivity().onConversationsListItemUpdated();
-                        } catch (final IllegalStateException ignored) {
+            runOnUiThread(() -> {
+                try {
+                    requireConversationsActivity().onConversationsListItemUpdated();
+                } catch (final IllegalStateException ignored) {
 
-                        }
-                    });
+                }
+            });
         }
         postEditUiModification();
     }
@@ -4085,51 +4078,47 @@ public class ConversationFragment extends XmppFragment
                 final Menu menu = popupMenu.getMenu();
                 MucDetailsContextMenuHelper.configureMucDetailsContextMenu(
                         requireActivity(), menu, user);
-                popupMenu.setOnMenuItemClickListener(
-                        menuItem ->
-                                MucDetailsContextMenuHelper.onContextItemSelected(
-                                        menuItem, user, requireXmppActivity(), fingerprint));
+                popupMenu.setOnMenuItemClickListener(menuItem ->
+                        MucDetailsContextMenuHelper.onContextItemSelected(
+                                menuItem, user, requireXmppActivity(), fingerprint));
             } else {
                 popupMenu.inflate(R.menu.one_on_one_context);
-                popupMenu.setOnMenuItemClickListener(
-                        item -> {
-                            final int itemId = item.getItemId();
-                            if (itemId == R.id.action_contact_details) {
-                                requireXmppActivity()
-                                        .switchToContactDetails(message.getContact(), fingerprint);
-                                return true;
-                            } else if (itemId == R.id.action_show_qr_code) {
-                                final var uri = new MiniUri.Xmpp(message.getContact().getAddress());
-                                requireXmppActivity().showQrCode(uri);
-                                return true;
-                            } else {
-                                return true;
-                            }
-                        });
+                popupMenu.setOnMenuItemClickListener(item -> {
+                    final int itemId = item.getItemId();
+                    if (itemId == R.id.action_contact_details) {
+                        requireXmppActivity()
+                                .switchToContactDetails(message.getContact(), fingerprint);
+                        return true;
+                    } else if (itemId == R.id.action_show_qr_code) {
+                        final var uri = new MiniUri.Xmpp(message.getContact().getAddress());
+                        requireXmppActivity().showQrCode(uri);
+                        return true;
+                    } else {
+                        return true;
+                    }
+                });
             }
         } else {
             popupMenu.inflate(R.menu.account_context);
             final Menu menu = popupMenu.getMenu();
             menu.findItem(R.id.action_manage_accounts)
                     .setVisible(QuickConversationsService.isConversations());
-            popupMenu.setOnMenuItemClickListener(
-                    item -> {
-                        final int itemId = item.getItemId();
-                        if (itemId == R.id.action_show_qr_code) {
-                            requireXmppActivity().showQrCode(conversation.getAccount());
-                            return true;
-                        } else if (itemId == R.id.action_account_details) {
-                            requireXmppActivity()
-                                    .switchToAccount(
-                                            message.getConversation().getAccount(), fingerprint);
-                            return true;
-                        } else if (itemId == R.id.action_manage_accounts) {
-                            AccountUtils.launchManageAccounts(requireActivity());
-                            return true;
-                        } else {
-                            return true;
-                        }
-                    });
+            popupMenu.setOnMenuItemClickListener(item -> {
+                final int itemId = item.getItemId();
+                if (itemId == R.id.action_show_qr_code) {
+                    requireXmppActivity().showQrCode(conversation.getAccount());
+                    return true;
+                } else if (itemId == R.id.action_account_details) {
+                    requireXmppActivity()
+                            .switchToAccount(message.getConversation().getAccount(), fingerprint);
+                    return true;
+                } else if (itemId == R.id.action_manage_accounts) {
+                    AccountUtils.launchManageAccounts(requireActivity());
+                    return true;
+                } else {
+                    return true;
+                }
+            });
         }
         popupMenu.show();
     }

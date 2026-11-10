@@ -90,7 +90,6 @@ public class ConferenceDetailsActivity extends XmppActivity
                                         R.string.nick_in_use,
                                         Toast.LENGTH_SHORT)
                                 .show();
-                        ;
                     } else if (t instanceof IllegalArgumentException) {
                         Toast.makeText(
                                         getApplicationContext(),
@@ -221,56 +220,50 @@ public class ConferenceDetailsActivity extends XmppActivity
         this.binding.changeConferenceButton.setOnClickListener(this.mChangeConferenceSettings);
         setSupportActionBar(binding.toolbar);
         configureActionBar(getSupportActionBar());
-        this.binding.editNickButton.setOnClickListener(
-                v ->
-                        quickEdit(
-                                mConversation.getMucOptions().getActualNick(),
-                                R.string.nickname,
-                                value -> {
-                                    if (mConversation.getMucOptions().createJoinJid(value)
-                                            == null) {
-                                        return getString(R.string.invalid_muc_nick);
-                                    }
-                                    final var future =
-                                            mConversation
-                                                    .getAccount()
-                                                    .getXmppConnection()
-                                                    .getManager(MultiUserChatManager.class)
-                                                    .changeUsername(mConversation, value);
-                                    Futures.addCallback(
-                                            future,
-                                            renameCallback,
-                                            ContextCompat.getMainExecutor(this));
-                                    return null;
-                                }));
+        this.binding.editNickButton.setOnClickListener(v ->
+                quickEdit(
+                        mConversation.getMucOptions().getActualNick(),
+                        R.string.nickname,
+                        value -> {
+                            if (mConversation.getMucOptions().createJoinJid(value) == null) {
+                                return getString(R.string.invalid_muc_nick);
+                            }
+                            final var future =
+                                    mConversation
+                                            .getAccount()
+                                            .getXmppConnection()
+                                            .getManager(MultiUserChatManager.class)
+                                            .changeUsername(mConversation, value);
+                            Futures.addCallback(
+                                    future, renameCallback, ContextCompat.getMainExecutor(this));
+                            return null;
+                        }));
         this.binding.jidWarning.setOnClickListener(
                 v -> this.binding.mucInfoMore.setVisibility(View.VISIBLE));
         this.binding.mucInfoMore.setVisibility(showMore ? View.VISIBLE : View.GONE);
         this.binding.notificationStatusButton.setOnClickListener(this.mNotifyStatusClickListener);
-        this.binding.yourPhoto.setOnClickListener(
-                v -> {
-                    final MucOptions mucOptions = mConversation.getMucOptions();
-                    if (!mucOptions.hasVCards()) {
-                        Toast.makeText(
-                                        this,
-                                        R.string.host_does_not_support_group_chat_avatars,
-                                        Toast.LENGTH_SHORT)
-                                .show();
-                        return;
-                    }
-                    if (!mucOptions.getSelf().ranks(Affiliation.OWNER)) {
-                        Toast.makeText(
-                                        this,
-                                        R.string.only_the_owner_can_change_group_chat_avatar,
-                                        Toast.LENGTH_SHORT)
-                                .show();
-                        return;
-                    }
-                    final Intent intent =
-                            new Intent(this, PublishGroupChatProfilePictureActivity.class);
-                    intent.putExtra("uuid", mConversation.getUuid());
-                    startActivity(intent);
-                });
+        this.binding.yourPhoto.setOnClickListener(v -> {
+            final MucOptions mucOptions = mConversation.getMucOptions();
+            if (!mucOptions.hasVCards()) {
+                Toast.makeText(
+                                this,
+                                R.string.host_does_not_support_group_chat_avatars,
+                                Toast.LENGTH_SHORT)
+                        .show();
+                return;
+            }
+            if (!mucOptions.getSelf().ranks(Affiliation.OWNER)) {
+                Toast.makeText(
+                                this,
+                                R.string.only_the_owner_can_change_group_chat_avatar,
+                                Toast.LENGTH_SHORT)
+                        .show();
+                return;
+            }
+            final Intent intent = new Intent(this, PublishGroupChatProfilePictureActivity.class);
+            intent.putExtra("uuid", mConversation.getUuid());
+            startActivity(intent);
+        });
         this.binding.editMucNameButton.setContentDescription(
                 getString(R.string.edit_name_and_topic));
         this.binding.editMucNameButton.setOnClickListener(this::onMucEditButtonClicked);
@@ -285,12 +278,11 @@ public class ConferenceDetailsActivity extends XmppActivity
         GridManager.setupLayoutManager(this, this.binding.media, R.dimen.media_size);
         GridManager.setupLayoutManager(this, this.binding.users, R.dimen.media_size);
         this.binding.invite.setOnClickListener(v -> inviteToConversation(mConversation));
-        this.binding.showUsers.setOnClickListener(
-                v -> {
-                    Intent intent = new Intent(this, MucUsersActivity.class);
-                    intent.putExtra("uuid", mConversation.getUuid());
-                    startActivity(intent);
-                });
+        this.binding.showUsers.setOnClickListener(v -> {
+            Intent intent = new Intent(this, MucUsersActivity.class);
+            intent.putExtra("uuid", mConversation.getUuid());
+            startActivity(intent);
+        });
     }
 
     @Override
@@ -488,14 +480,11 @@ public class ConferenceDetailsActivity extends XmppActivity
 
     @Override
     public void onMediaLoaded(final List<Attachment> attachments) {
-        runOnUiThread(
-                () -> {
-                    final int limit = GridManager.getCurrentColumnCount(binding.media);
-                    mMediaAdapter.submitList(
-                            attachments.subList(0, Math.min(limit, attachments.size())));
-                    binding.mediaWrapper.setVisibility(
-                            attachments.isEmpty() ? View.GONE : View.VISIBLE);
-                });
+        runOnUiThread(() -> {
+            final int limit = GridManager.getCurrentColumnCount(binding.media);
+            mMediaAdapter.submitList(attachments.subList(0, Math.min(limit, attachments.size())));
+            binding.mediaWrapper.setVisibility(attachments.isEmpty() ? View.GONE : View.VISIBLE);
+        });
     }
 
     protected void saveAsBookmark() {
@@ -563,7 +552,7 @@ public class ConferenceDetailsActivity extends XmppActivity
                     final int limit = GridManager.getCurrentColumnCount(this.binding.media);
                     xmppConnectionService.getAttachments(this.mConversation, limit, this);
                     this.binding.showMedia.setOnClickListener(
-                            (v) -> MediaBrowserActivity.launch(this, mConversation));
+                            v -> MediaBrowserActivity.launch(this, mConversation));
                 }
                 updateView();
             }
@@ -703,13 +692,11 @@ public class ConferenceDetailsActivity extends XmppActivity
             this.binding.notificationStatusButton.setImageResource(
                     R.drawable.ic_notifications_none_24dp);
         }
-        this.binding.users.post(
-                () -> {
-                    final var list =
-                            mucOptions.getUsersPreview(
-                                    GridManager.getCurrentColumnCount(binding.users));
-                    this.mUserPreviewAdapter.submitList(list);
-                });
+        this.binding.users.post(() -> {
+            final var list =
+                    mucOptions.getUsersPreview(GridManager.getCurrentColumnCount(binding.users));
+            this.mUserPreviewAdapter.submitList(list);
+        });
         final var userCount = mucOptions.getUserCount();
         this.binding.invite.setVisibility(mucOptions.canInvite() ? View.VISIBLE : View.GONE);
         this.binding.showUsers.setVisibility(userCount == 0 ? View.GONE : View.VISIBLE);
@@ -729,13 +716,12 @@ public class ConferenceDetailsActivity extends XmppActivity
     }
 
     private void displayToast(final String msg) {
-        runOnUiThread(
-                () -> {
-                    if (isFinishing()) {
-                        return;
-                    }
-                    Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
-                });
+        runOnUiThread(() -> {
+            if (isFinishing()) {
+                return;
+            }
+            Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
+        });
     }
 
     @Override

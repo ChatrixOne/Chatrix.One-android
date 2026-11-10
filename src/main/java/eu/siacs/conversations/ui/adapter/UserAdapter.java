@@ -91,33 +91,31 @@ public class UserAdapter extends ListAdapter<MucOptions.User, UserAdapter.ViewHo
         viewHolder
                 .binding
                 .getRoot()
-                .setOnClickListener(
-                        v -> {
-                            final XmppActivity activity = XmppActivity.find(v);
-                            if (activity == null) {
-                                return;
-                            }
-                            if (user.resource() == null) {
-                                Toast.makeText(
-                                                activity,
-                                                activity.getString(
-                                                        R.string.user_has_left_conference,
-                                                        user.getDisplayName()),
-                                                Toast.LENGTH_SHORT)
-                                        .show();
-                            }
-                            activity.highlightInMuc(user.getConversation(), user.resource());
-                        });
+                .setOnClickListener(v -> {
+                    final XmppActivity activity = XmppActivity.find(v);
+                    if (activity == null) {
+                        return;
+                    }
+                    if (user.resource() == null) {
+                        Toast.makeText(
+                                        activity,
+                                        activity.getString(
+                                                R.string.user_has_left_conference,
+                                                user.getDisplayName()),
+                                        Toast.LENGTH_SHORT)
+                                .show();
+                    }
+                    activity.highlightInMuc(user.getConversation(), user.resource());
+                });
         viewHolder.binding.getRoot().setTag(user);
         viewHolder.binding.getRoot().setOnCreateContextMenuListener(this);
         viewHolder
                 .binding
                 .getRoot()
-                .setOnLongClickListener(
-                        v -> {
-                            selectedUser = user;
-                            return false;
-                        });
+                .setOnLongClickListener(v -> {
+                    selectedUser = user;
+                    return false;
+                });
         viewHolder.binding.contactDisplayName.setText(user.getDisplayName());
         final var jid = user.getRealJid();
         if (jid != null) {
@@ -128,30 +126,29 @@ public class UserAdapter extends ListAdapter<MucOptions.User, UserAdapter.ViewHo
         }
         if (user.getMucOptions().isPrivateAndNonAnonymous() && user.getPgpKeyId() != 0) {
             viewHolder.binding.key.setVisibility(View.VISIBLE);
-            viewHolder.binding.key.setOnClickListener(
-                    v -> {
-                        final XmppActivity activity = XmppActivity.find(v);
-                        final XmppConnectionService service =
-                                activity == null ? null : activity.xmppConnectionService;
-                        final PgpEngine pgpEngine = service == null ? null : service.getPgpEngine();
-                        if (pgpEngine != null) {
-                            PendingIntent intent = pgpEngine.getIntentForKey(user.getPgpKeyId());
-                            if (intent != null) {
-                                try {
-                                    activity.startIntentSenderForResult(
-                                            intent.getIntentSender(),
-                                            0,
-                                            null,
-                                            0,
-                                            0,
-                                            0,
-                                            Compatibility.pgpStartIntentSenderOptions());
-                                } catch (IntentSender.SendIntentException ignored) {
+            viewHolder.binding.key.setOnClickListener(v -> {
+                final XmppActivity activity = XmppActivity.find(v);
+                final XmppConnectionService service =
+                        activity == null ? null : activity.xmppConnectionService;
+                final PgpEngine pgpEngine = service == null ? null : service.getPgpEngine();
+                if (pgpEngine != null) {
+                    PendingIntent intent = pgpEngine.getIntentForKey(user.getPgpKeyId());
+                    if (intent != null) {
+                        try {
+                            activity.startIntentSenderForResult(
+                                    intent.getIntentSender(),
+                                    0,
+                                    null,
+                                    0,
+                                    0,
+                                    0,
+                                    Compatibility.pgpStartIntentSenderOptions());
+                        } catch (IntentSender.SendIntentException ignored) {
 
-                                }
-                            }
                         }
-                    });
+                    }
+                }
+            });
             viewHolder.binding.key.setText(OpenPgpUtils.convertKeyIdToHex(user.getPgpKeyId()));
         } else {
             viewHolder.binding.key.setVisibility(View.GONE);

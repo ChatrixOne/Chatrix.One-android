@@ -143,7 +143,6 @@ public class InbandBytestreamsTransport implements Transport {
                     throw new IqProcessingException(
                             new Condition.BadRequest(), "Invalid IBB packet type");
         }
-        ;
     }
 
     private void receiveData(final Data data) throws IqProcessingException {

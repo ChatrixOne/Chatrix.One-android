@@ -97,12 +97,11 @@ public class AccountAdapter extends ArrayAdapter<Account> {
         } else {
             viewHolder.binding.tglAccountStatus.setVisibility(View.GONE);
         }
-        viewHolder.binding.tglAccountStatus.setOnCheckedChangeListener(
-                (compoundButton, b) -> {
-                    if (b == isDisabled && activity instanceof OnTglAccountState tglAccountState) {
-                        tglAccountState.onClickTglAccountState(account, b);
-                    }
-                });
+        viewHolder.binding.tglAccountStatus.setOnCheckedChangeListener((compoundButton, b) -> {
+            if (b == isDisabled && activity instanceof OnTglAccountState tglAccountState) {
+                tglAccountState.onClickTglAccountState(account, b);
+            }
+        });
         return view;
     }
 

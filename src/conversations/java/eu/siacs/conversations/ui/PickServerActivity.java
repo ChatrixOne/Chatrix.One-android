@@ -54,27 +54,25 @@ public class PickServerActivity extends XmppActivity {
         Activities.setStatusAndNavigationBarColors(this, binding.getRoot());
         setSupportActionBar(binding.toolbar);
         configureActionBar(getSupportActionBar());
-        binding.useCim.setOnClickListener(
-                v -> {
-                    final Intent intent = new Intent(this, MagicCreateActivity.class);
-                    intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
-                    addInviteUri(intent);
-                    startActivity(intent);
-                });
-        binding.useOwnProvider.setOnClickListener(
-                v -> {
-                    List<Account> accounts = xmppConnectionService.getAccounts();
-                    Intent intent = new Intent(this, EditAccountActivity.class);
-                    intent.putExtra(EditAccountActivity.EXTRA_FORCE_REGISTER, true);
-                    if (accounts.size() == 1) {
-                        intent.putExtra("jid", accounts.get(0).getJid().asBareJid().toString());
-                        intent.putExtra("init", true);
-                    } else if (!accounts.isEmpty()) {
-                        intent = new Intent(this, ManageAccountActivity.class);
-                    }
-                    addInviteUri(intent);
-                    startActivity(intent);
-                });
+        binding.useCim.setOnClickListener(v -> {
+            final Intent intent = new Intent(this, MagicCreateActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+            addInviteUri(intent);
+            startActivity(intent);
+        });
+        binding.useOwnProvider.setOnClickListener(v -> {
+            List<Account> accounts = xmppConnectionService.getAccounts();
+            Intent intent = new Intent(this, EditAccountActivity.class);
+            intent.putExtra(EditAccountActivity.EXTRA_FORCE_REGISTER, true);
+            if (accounts.size() == 1) {
+                intent.putExtra("jid", accounts.get(0).getJid().asBareJid().toString());
+                intent.putExtra("init", true);
+            } else if (!accounts.isEmpty()) {
+                intent = new Intent(this, ManageAccountActivity.class);
+            }
+            addInviteUri(intent);
+            startActivity(intent);
+        });
     }
 
     public void addInviteUri(final Intent intent) {

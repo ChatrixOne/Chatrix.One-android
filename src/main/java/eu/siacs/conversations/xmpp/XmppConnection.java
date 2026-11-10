@@ -2919,15 +2919,14 @@ public class XmppConnection implements Runnable {
     public void trackOfflineMessageRetrieval(boolean trackOfflineMessageRetrieval) {
         if (trackOfflineMessageRetrieval) {
             getManager(PingManager.class)
-                    .ping(
-                            () -> {
-                                Log.d(
-                                        Config.LOGTAG,
-                                        account.getJid().asBareJid()
-                                                + ": got ping response after sending initial"
-                                                + " presence");
-                                this.offlineMessagesRetrieved = true;
-                            });
+                    .ping(() -> {
+                        Log.d(
+                                Config.LOGTAG,
+                                account.getJid().asBareJid()
+                                        + ": got ping response after sending initial"
+                                        + " presence");
+                        this.offlineMessagesRetrieved = true;
+                    });
         } else {
             this.offlineMessagesRetrieved = true;
         }

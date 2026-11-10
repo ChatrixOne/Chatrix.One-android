@@ -32,27 +32,20 @@ public class UpSettingsFragment extends XmppPreferenceFragment {
         if (upAccounts == null || pushServer == null) {
             throw new IllegalStateException();
         }
-        pushServer.setOnPreferenceChangeListener(
-                (preference, newValue) -> {
-                    if (newValue instanceof String string) {
-                        if (Strings.isNullOrEmpty(string)
-                                || isJidInvalid(string)
-                                || isHttpUri(string)) {
-                            Toast.makeText(
-                                            requireActivity(),
-                                            R.string.invalid_jid,
-                                            Toast.LENGTH_LONG)
-                                    .show();
-                            return false;
-                        } else {
-                            return true;
-                        }
-                    } else {
-                        Toast.makeText(requireActivity(), R.string.invalid_jid, Toast.LENGTH_LONG)
-                                .show();
-                        return false;
-                    }
-                });
+        pushServer.setOnPreferenceChangeListener((preference, newValue) -> {
+            if (newValue instanceof String string) {
+                if (Strings.isNullOrEmpty(string) || isJidInvalid(string) || isHttpUri(string)) {
+                    Toast.makeText(requireActivity(), R.string.invalid_jid, Toast.LENGTH_LONG)
+                            .show();
+                    return false;
+                } else {
+                    return true;
+                }
+            } else {
+                Toast.makeText(requireActivity(), R.string.invalid_jid, Toast.LENGTH_LONG).show();
+                return false;
+            }
+        });
         reconfigureUpAccountPreference(upAccounts);
     }
 

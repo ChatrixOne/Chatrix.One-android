@@ -143,14 +143,13 @@ public final class ScanQrCodeActivity extends AppCompatActivity
                                 cameraManager.getFacing() == CameraInfo.CAMERA_FACING_FRONT;
                         final int cameraRotation = cameraManager.getOrientation();
 
-                        runOnUiThread(
-                                () ->
-                                        scannerView.setFraming(
-                                                framingRect,
-                                                framingRectInPreview,
-                                                displayRotation(),
-                                                cameraRotation,
-                                                cameraFlip));
+                        runOnUiThread(() ->
+                                scannerView.setFraming(
+                                        framingRect,
+                                        framingRectInPreview,
+                                        displayRotation(),
+                                        cameraRotation,
+                                        cameraFlip));
 
                         final String focusMode = camera.getParameters().getFocusMode();
                         final boolean nonContinuousAutoFocus =

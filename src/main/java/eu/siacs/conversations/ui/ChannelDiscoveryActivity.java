@@ -135,13 +135,12 @@ public class ChannelDiscoveryActivity extends XmppActivity
 
     @Override
     public boolean onMenuItemActionExpand(@NonNull MenuItem item) {
-        mSearchEditText.post(
-                () -> {
-                    mSearchEditText.requestFocus();
-                    final InputMethodManager imm =
-                            (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-                    imm.showSoftInput(mSearchEditText, InputMethodManager.SHOW_IMPLICIT);
-                });
+        mSearchEditText.post(() -> {
+            mSearchEditText.requestFocus();
+            final InputMethodManager imm =
+                    (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+            imm.showSoftInput(mSearchEditText, InputMethodManager.SHOW_IMPLICIT);
+        });
         return true;
     }
 
@@ -179,14 +178,13 @@ public class ChannelDiscoveryActivity extends XmppActivity
             builder.setPositiveButton(R.string.confirm, (dialog, which) -> optIn());
             builder.setOnCancelListener(dialog -> finish());
             final androidx.appcompat.app.AlertDialog dialog = builder.create();
-            dialog.setOnShowListener(
-                    d -> {
-                        final TextView textView = dialog.findViewById(android.R.id.message);
-                        if (textView == null) {
-                            return;
-                        }
-                        textView.setMovementMethod(LinkMovementMethod.getInstance());
-                    });
+            dialog.setOnShowListener(d -> {
+                final TextView textView = dialog.findViewById(android.R.id.message);
+                if (textView == null) {
+                    return;
+                }
+                textView.setMovementMethod(LinkMovementMethod.getInstance());
+            });
             dialog.setCanceledOnTouchOutside(false);
             dialog.show();
             holdLoading();
@@ -231,20 +229,18 @@ public class ChannelDiscoveryActivity extends XmppActivity
 
     @Override
     public void onChannelSearchResultsFound(final List<Room> results) {
-        runOnUiThread(
-                () -> {
-                    adapter.submitList(results);
-                    binding.progressBar.setVisibility(View.GONE);
-                    if (results.isEmpty()) {
-                        binding.list.setBackground(
-                                ContextCompat.getDrawable(this, R.drawable.background_no_results));
-                    } else {
-                        binding.list.setBackgroundColor(
-                                MaterialColors.getColor(
-                                        binding.list,
-                                        com.google.android.material.R.attr.colorSurface));
-                    }
-                });
+        runOnUiThread(() -> {
+            adapter.submitList(results);
+            binding.progressBar.setVisibility(View.GONE);
+            if (results.isEmpty()) {
+                binding.list.setBackground(
+                        ContextCompat.getDrawable(this, R.drawable.background_no_results));
+            } else {
+                binding.list.setBackgroundColor(
+                        MaterialColors.getColor(
+                                binding.list, com.google.android.material.R.attr.colorSurface));
+            }
+        });
     }
 
     @Override

@@ -60,15 +60,14 @@ public class HttpConnectionManager extends AbstractConnectionManager {
     static {
         OK_HTTP_CLIENT =
                 new OkHttpClient.Builder()
-                        .addInterceptor(
-                                chain -> {
-                                    final Request original = chain.request();
-                                    final Request modified =
-                                            original.newBuilder()
-                                                    .header("User-Agent", getUserAgent())
-                                                    .build();
-                                    return chain.proceed(modified);
-                                })
+                        .addInterceptor(chain -> {
+                            final Request original = chain.request();
+                            final Request modified =
+                                    original.newBuilder()
+                                            .header("User-Agent", getUserAgent())
+                                            .build();
+                            return chain.proceed(modified);
+                        })
                         .build();
     }
 

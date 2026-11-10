@@ -116,26 +116,24 @@ public class WelcomeActivity extends QrCodeProcessingActivity
         setSupportActionBar(binding.toolbar);
         configureActionBar(getSupportActionBar(), false);
         setTitle(null);
-        binding.registerNewAccount.setOnClickListener(
-                v -> {
-                    final Intent intent = new Intent(this, PickServerActivity.class);
-                    addInviteUri(intent);
-                    startActivity(intent);
-                });
-        binding.useExisting.setOnClickListener(
-                v -> {
-                    final List<Account> accounts = xmppConnectionService.getAccounts();
-                    Intent intent = new Intent(this, EditAccountActivity.class);
-                    intent.putExtra(EditAccountActivity.EXTRA_FORCE_REGISTER, false);
-                    if (accounts.size() == 1) {
-                        intent.putExtra("jid", accounts.get(0).getJid().asBareJid().toString());
-                        intent.putExtra("init", true);
-                    } else if (!accounts.isEmpty()) {
-                        intent = new Intent(this, ManageAccountActivity.class);
-                    }
-                    addInviteUri(intent);
-                    startActivity(intent);
-                });
+        binding.registerNewAccount.setOnClickListener(v -> {
+            final Intent intent = new Intent(this, PickServerActivity.class);
+            addInviteUri(intent);
+            startActivity(intent);
+        });
+        binding.useExisting.setOnClickListener(v -> {
+            final List<Account> accounts = xmppConnectionService.getAccounts();
+            Intent intent = new Intent(this, EditAccountActivity.class);
+            intent.putExtra(EditAccountActivity.EXTRA_FORCE_REGISTER, false);
+            if (accounts.size() == 1) {
+                intent.putExtra("jid", accounts.get(0).getJid().asBareJid().toString());
+                intent.putExtra("init", true);
+            } else if (!accounts.isEmpty()) {
+                intent = new Intent(this, ManageAccountActivity.class);
+            }
+            addInviteUri(intent);
+            startActivity(intent);
+        });
     }
 
     @Override
@@ -177,13 +175,9 @@ public class WelcomeActivity extends QrCodeProcessingActivity
     @Override
     public void alias(final String alias) {
         if (Strings.isNullOrEmpty(alias)) {
-            runOnUiThread(
-                    () ->
-                            Toast.makeText(
-                                            this,
-                                            R.string.no_certificate_selected,
-                                            Toast.LENGTH_LONG)
-                                    .show());
+            runOnUiThread(() ->
+                    Toast.makeText(this, R.string.no_certificate_selected, Toast.LENGTH_LONG)
+                            .show());
             return;
         }
         xmppConnectionService.createAccountFromKey(alias, this);

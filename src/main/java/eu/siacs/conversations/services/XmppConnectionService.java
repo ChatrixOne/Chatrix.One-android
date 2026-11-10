@@ -481,42 +481,36 @@ public class XmppConnectionService extends Service {
                 logoutAndSave(true);
                 return START_NOT_STICKY;
             case ACTION_CLEAR_MESSAGE_NOTIFICATION:
-                mNotificationExecutor.execute(
-                        () -> {
-                            try {
-                                final Conversation c = findConversationByUuid(uuid);
-                                if (c != null) {
-                                    mNotificationService.clearMessages(c);
-                                } else {
-                                    mNotificationService.clearMessages();
-                                }
-                                restoredFromDatabaseLatch.await();
+                mNotificationExecutor.execute(() -> {
+                    try {
+                        final Conversation c = findConversationByUuid(uuid);
+                        if (c != null) {
+                            mNotificationService.clearMessages(c);
+                        } else {
+                            mNotificationService.clearMessages();
+                        }
+                        restoredFromDatabaseLatch.await();
 
-                            } catch (InterruptedException e) {
-                                Log.d(
-                                        Config.LOGTAG,
-                                        "unable to process clear message notification");
-                            }
-                        });
+                    } catch (InterruptedException e) {
+                        Log.d(Config.LOGTAG, "unable to process clear message notification");
+                    }
+                });
                 break;
             case ACTION_CLEAR_MISSED_CALL_NOTIFICATION:
-                mNotificationExecutor.execute(
-                        () -> {
-                            try {
-                                final Conversation c = findConversationByUuid(uuid);
-                                if (c != null) {
-                                    mNotificationService.clearMissedCalls(c);
-                                } else {
-                                    mNotificationService.clearMissedCalls();
-                                }
-                                restoredFromDatabaseLatch.await();
+                mNotificationExecutor.execute(() -> {
+                    try {
+                        final Conversation c = findConversationByUuid(uuid);
+                        if (c != null) {
+                            mNotificationService.clearMissedCalls(c);
+                        } else {
+                            mNotificationService.clearMissedCalls();
+                        }
+                        restoredFromDatabaseLatch.await();
 
-                            } catch (InterruptedException e) {
-                                Log.d(
-                                        Config.LOGTAG,
-                                        "unable to process clear missed call notification");
-                            }
-                        });
+                    } catch (InterruptedException e) {
+                        Log.d(Config.LOGTAG, "unable to process clear missed call notification");
+                    }
+                });
                 break;
             case ACTION_DISMISS_CALL:
                 {
@@ -564,63 +558,54 @@ public class XmppConnectionService extends Service {
                 if (body == null || body.length() <= 0) {
                     break;
                 }
-                mNotificationExecutor.execute(
-                        () -> {
-                            try {
-                                restoredFromDatabaseLatch.await();
-                                final Conversation c = findConversationByUuid(uuid);
-                                if (c != null) {
-                                    directReply(
-                                            c,
-                                            body.toString(),
-                                            lastMessageUuid,
-                                            dismissNotification);
-                                }
-                            } catch (InterruptedException e) {
-                                Log.d(Config.LOGTAG, "unable to process direct reply");
-                            }
-                        });
+                mNotificationExecutor.execute(() -> {
+                    try {
+                        restoredFromDatabaseLatch.await();
+                        final Conversation c = findConversationByUuid(uuid);
+                        if (c != null) {
+                            directReply(c, body.toString(), lastMessageUuid, dismissNotification);
+                        }
+                    } catch (InterruptedException e) {
+                        Log.d(Config.LOGTAG, "unable to process direct reply");
+                    }
+                });
                 break;
             case ACTION_MARK_AS_READ:
-                mNotificationExecutor.execute(
-                        () -> {
-                            final Conversation c = findConversationByUuid(uuid);
-                            if (c == null) {
-                                Log.d(
-                                        Config.LOGTAG,
-                                        "received mark read intent for unknown conversation ("
-                                                + uuid
-                                                + ")");
-                                return;
-                            }
-                            try {
-                                restoredFromDatabaseLatch.await();
-                                sendReadMarker(c, null);
-                            } catch (InterruptedException e) {
-                                Log.d(
-                                        Config.LOGTAG,
-                                        "unable to process notification read marker for"
-                                                + " conversation "
-                                                + c.getName());
-                            }
-                        });
+                mNotificationExecutor.execute(() -> {
+                    final Conversation c = findConversationByUuid(uuid);
+                    if (c == null) {
+                        Log.d(
+                                Config.LOGTAG,
+                                "received mark read intent for unknown conversation ("
+                                        + uuid
+                                        + ")");
+                        return;
+                    }
+                    try {
+                        restoredFromDatabaseLatch.await();
+                        sendReadMarker(c, null);
+                    } catch (InterruptedException e) {
+                        Log.d(
+                                Config.LOGTAG,
+                                "unable to process notification read marker for"
+                                        + " conversation "
+                                        + c.getName());
+                    }
+                });
                 break;
             case ACTION_SNOOZE:
-                mNotificationExecutor.execute(
-                        () -> {
-                            final Conversation c = findConversationByUuid(uuid);
-                            if (c == null) {
-                                Log.d(
-                                        Config.LOGTAG,
-                                        "received snooze intent for unknown conversation ("
-                                                + uuid
-                                                + ")");
-                                return;
-                            }
-                            c.setMutedTill(Instant.now().plus(Duration.ofMinutes(30)));
-                            mNotificationService.clearMessages(c);
-                            updateConversation(c);
-                        });
+                mNotificationExecutor.execute(() -> {
+                    final Conversation c = findConversationByUuid(uuid);
+                    if (c == null) {
+                        Log.d(
+                                Config.LOGTAG,
+                                "received snooze intent for unknown conversation (" + uuid + ")");
+                        return;
+                    }
+                    c.setMutedTill(Instant.now().plus(Duration.ofMinutes(30)));
+                    mNotificationService.clearMessages(c);
+                    updateConversation(c);
+                });
             case AudioManager.RINGER_MODE_CHANGED_ACTION:
             case NotificationManager.ACTION_INTERRUPTION_FILTER_CHANGED:
                 if (appSettings.isDndSyncSystem() && appSettings.isAutomaticAvailability()) {
@@ -1168,13 +1153,12 @@ public class XmppConnectionService extends Service {
                 this::manageAccountConnectionStatesInternal, 10, 10, TimeUnit.SECONDS);
         final SharedPreferences sharedPreferences =
                 androidx.preference.PreferenceManager.getDefaultSharedPreferences(this);
-        sharedPreferences.registerOnSharedPreferenceChangeListener(
-                (sp, key) -> {
-                    Log.d(Config.LOGTAG, "preference '" + key + "' has changed");
-                    if (AppSettings.KEEP_FOREGROUND_SERVICE.equals(key)) {
-                        toggleForegroundService();
-                    }
-                });
+        sharedPreferences.registerOnSharedPreferenceChangeListener((sp, key) -> {
+            Log.d(Config.LOGTAG, "preference '" + key + "' has changed");
+            if (AppSettings.KEEP_FOREGROUND_SERVICE.equals(key)) {
+                toggleForegroundService();
+            }
+        });
     }
 
     private void checkForDeletedFiles() {
@@ -1905,40 +1889,35 @@ public class XmppConnectionService extends Service {
     }
 
     public void loadPhoneContacts() {
-        mContactMergerExecutor.execute(
-                () -> {
-                    final Map<Jid, JabberIdContact> contacts = JabberIdContact.load(this);
-                    Log.d(Config.LOGTAG, "start merging phone contacts with roster");
-                    // TODO if we do this merge this only on enabled accounts we need to trigger
-                    // this upon enable
-                    for (final Account account : accounts) {
-                        final var remaining =
-                                new ArrayList<>(
-                                        account.getRoster()
-                                                .getWithSystemAccounts(JabberIdContact.class));
-                        for (final JabberIdContact jidContact : contacts.values()) {
-                            final Contact contact =
-                                    account.getRoster().getContact(jidContact.getJid());
-                            boolean needsCacheClean = contact.setPhoneContact(jidContact);
-                            if (needsCacheClean) {
-                                getAvatarService().clear(contact);
-                            }
-                            remaining.remove(contact);
-                        }
-                        for (final Contact contact : remaining) {
-                            boolean needsCacheClean =
-                                    contact.unsetPhoneContact(JabberIdContact.class);
-                            if (needsCacheClean) {
-                                getAvatarService().clear(contact);
-                            }
-                        }
+        mContactMergerExecutor.execute(() -> {
+            final Map<Jid, JabberIdContact> contacts = JabberIdContact.load(this);
+            Log.d(Config.LOGTAG, "start merging phone contacts with roster");
+            // TODO if we do this merge this only on enabled accounts we need to trigger
+            // this upon enable
+            for (final Account account : accounts) {
+                final var remaining =
+                        new ArrayList<>(
+                                account.getRoster().getWithSystemAccounts(JabberIdContact.class));
+                for (final JabberIdContact jidContact : contacts.values()) {
+                    final Contact contact = account.getRoster().getContact(jidContact.getJid());
+                    boolean needsCacheClean = contact.setPhoneContact(jidContact);
+                    if (needsCacheClean) {
+                        getAvatarService().clear(contact);
                     }
-                    Log.d(Config.LOGTAG, "finished merging phone contacts");
-                    mShortcutService.refresh(
-                            mInitialAddressbookSyncCompleted.compareAndSet(false, true));
-                    updateRosterUi();
-                    mQuickConversationsService.considerSync();
-                });
+                    remaining.remove(contact);
+                }
+                for (final Contact contact : remaining) {
+                    boolean needsCacheClean = contact.unsetPhoneContact(JabberIdContact.class);
+                    if (needsCacheClean) {
+                        getAvatarService().clear(contact);
+                    }
+                }
+            }
+            Log.d(Config.LOGTAG, "finished merging phone contacts");
+            mShortcutService.refresh(mInitialAddressbookSyncCompleted.compareAndSet(false, true));
+            updateRosterUi();
+            mQuickConversationsService.considerSync();
+        });
     }
 
     public List<Conversation> getConversations() {
@@ -2200,10 +2179,9 @@ public class XmppConnectionService extends Service {
                 loadMessagesFromDb = false;
             }
             if (async) {
-                DATABASE_READER.execute(
-                        () ->
-                                postProcessConversation(
-                                        conversation, loadMessagesFromDb, joinAfterCreate, query));
+                DATABASE_READER.execute(() ->
+                        postProcessConversation(
+                                conversation, loadMessagesFromDb, joinAfterCreate, query));
             } else {
                 postProcessConversation(conversation, loadMessagesFromDb, joinAfterCreate, query);
             }
@@ -2232,13 +2210,12 @@ public class XmppConnectionService extends Service {
         }
         existing.setAccount(account);
         final var loadMessagesFromDb = restoreFromArchive(existing);
-        DATABASE_READER.execute(
-                () ->
-                        postProcessConversation(
-                                existing,
-                                loadMessagesFromDb,
-                                existing.getMode() == Conversational.MODE_MULTI,
-                                null));
+        DATABASE_READER.execute(() ->
+                postProcessConversation(
+                        existing,
+                        loadMessagesFromDb,
+                        existing.getMode() == Conversational.MODE_MULTI,
+                        null));
         this.conversations.add(existing);
         if (existing.getMode() == Conversational.MODE_MULTI) {
             account.getXmppConnection()
@@ -2521,20 +2498,18 @@ public class XmppConnectionService extends Service {
                     mNotificationService.clear(conversation);
                 }
             }
-            XmppConnection.RECONNNECTION_EXECUTOR.execute(
-                    () -> {
-                        if (connected) {
-                            logout(account);
-                        } else {
-                            account.getXmppConnection().disconnectHard();
-                        }
-                    });
-            mDatabaseWriterExecutor.execute(
-                    () -> {
-                        if (databaseBackend.deleteAccount(account)) {
-                            Log.d(Config.LOGTAG, "deleted account from database");
-                        }
-                    });
+            XmppConnection.RECONNNECTION_EXECUTOR.execute(() -> {
+                if (connected) {
+                    logout(account);
+                } else {
+                    account.getXmppConnection().disconnectHard();
+                }
+            });
+            mDatabaseWriterExecutor.execute(() -> {
+                if (databaseBackend.deleteAccount(account)) {
+                    Log.d(Config.LOGTAG, "deleted account from database");
+                }
+            });
             this.accounts.remove(account);
             if (CallIntegration.hasSystemFeature(this)) {
                 CallIntegrationConnectionService.unregisterPhoneAccount(this, account);
@@ -2966,12 +2941,10 @@ public class XmppConnectionService extends Service {
             final Jid jid,
             final int limit,
             final OnMediaLoaded onMediaLoaded) {
-        new Thread(
-                        () ->
-                                onMediaLoaded.onMediaLoaded(
-                                        fileBackend.convertToAttachments(
-                                                databaseBackend.getRelativeFilePaths(
-                                                        account, jid, limit))))
+        new Thread(() ->
+                onMediaLoaded.onMediaLoaded(
+                        fileBackend.convertToAttachments(
+                                databaseBackend.getRelativeFilePaths(account, jid, limit))))
                 .start();
     }
 

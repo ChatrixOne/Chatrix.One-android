@@ -337,13 +337,11 @@ public class NotificationService {
     public static Optional<NotificationChannel> getCurrentIncomingCallChannel(
             final Context context) {
         final var iteration = getCurrentIncomingCallChannelIteration(context);
-        return iteration.transform(
-                i -> {
-                    final var notificationManager =
-                            context.getSystemService(NotificationManager.class);
-                    return notificationManager.getNotificationChannel(
-                            INCOMING_CALLS_NOTIFICATION_CHANNEL_PREFIX + i);
-                });
+        return iteration.transform(i -> {
+            final var notificationManager = context.getSystemService(NotificationManager.class);
+            return notificationManager.getNotificationChannel(
+                    INCOMING_CALLS_NOTIFICATION_CHANNEL_PREFIX + i);
+        });
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)

@@ -61,12 +61,11 @@ public class BackupFileAdapter
         backupFileViewHolder
                 .binding
                 .getRoot()
-                .setOnClickListener(
-                        v -> {
-                            if (listener != null) {
-                                listener.onClick(backupFile);
-                            }
-                        });
+                .setOnClickListener(v -> {
+                    if (listener != null) {
+                        listener.onClick(backupFile);
+                    }
+                });
         loadAvatar(header.getJid(), backupFileViewHolder.binding.accountImage);
     }
 

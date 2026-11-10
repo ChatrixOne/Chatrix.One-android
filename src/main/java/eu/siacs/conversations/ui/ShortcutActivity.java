@@ -25,30 +25,28 @@ public class ShortcutActivity extends AbstractSearchableListItemActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         getListView()
-                .setOnItemClickListener(
-                        (parent, view, position, id) -> {
-                            final ComponentName callingActivity = getCallingActivity();
+                .setOnItemClickListener((parent, view, position, id) -> {
+                    final ComponentName callingActivity = getCallingActivity();
 
-                            final InputMethodManager imm =
-                                    (InputMethodManager)
-                                            getSystemService(Context.INPUT_METHOD_SERVICE);
-                            imm.hideSoftInputFromWindow(
-                                    getSearchEditText().getWindowToken(),
-                                    InputMethodManager.HIDE_IMPLICIT_ONLY);
+                    final InputMethodManager imm =
+                            (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                    imm.hideSoftInputFromWindow(
+                            getSearchEditText().getWindowToken(),
+                            InputMethodManager.HIDE_IMPLICIT_ONLY);
 
-                            ListItem listItem = getListItems().get(position);
-                            final boolean legacy =
-                                    BLACKLISTED_ACTIVITIES.contains(
-                                            callingActivity == null
-                                                    ? null
-                                                    : callingActivity.getClassName());
-                            Intent shortcut =
-                                    xmppConnectionService
-                                            .getShortcutService()
-                                            .createShortcut(((Contact) listItem), legacy);
-                            setResult(RESULT_OK, shortcut);
-                            finish();
-                        });
+                    ListItem listItem = getListItems().get(position);
+                    final boolean legacy =
+                            BLACKLISTED_ACTIVITIES.contains(
+                                    callingActivity == null
+                                            ? null
+                                            : callingActivity.getClassName());
+                    Intent shortcut =
+                            xmppConnectionService
+                                    .getShortcutService()
+                                    .createShortcut(((Contact) listItem), legacy);
+                    setResult(RESULT_OK, shortcut);
+                    finish();
+                });
     }
 
     @Override
