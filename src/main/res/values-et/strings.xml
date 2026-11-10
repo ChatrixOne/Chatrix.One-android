@@ -1230,4 +1230,7 @@
     <string name="show_attachment_options">Näita manuste valikuid</string>
     <string name="collapsed">Ahendatud</string>
     <string name="expanded">Laiendatud</string>
+    <string name="account_status_pending_oauth_authorization">Autentimine on ootel</string>
+    <string name="could_not_process_oauth_redirect">OAuth-i edasisuunamise töötlemine ei õnnestunud</string>
+    <string name="could_not_redirect_to_identity_provider">Edasisuunamine identiteedipakkuja juurde ei õnnestunud</string>
 </resources>

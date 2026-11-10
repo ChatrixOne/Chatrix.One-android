@@ -1,13 +1,10 @@
 package eu.siacs.conversations.xmpp.jingle.stanzas;
 
 import android.util.Log;
-
 import androidx.annotation.NonNull;
-
 import com.google.common.base.Preconditions;
 import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableSet;
-
 import eu.siacs.conversations.Config;
 import eu.siacs.conversations.crypto.axolotl.AxolotlService;
 import eu.siacs.conversations.crypto.axolotl.XmppAxolotlMessage;
@@ -15,7 +12,6 @@ import eu.siacs.conversations.xml.Element;
 import eu.siacs.conversations.xml.Namespace;
 import eu.siacs.conversations.xmpp.Jid;
 import eu.siacs.conversations.xmpp.jingle.SessionDescription;
-
 import java.util.Locale;
 import java.util.Set;
 
@@ -116,19 +112,20 @@ public class Content extends Element {
     }
 
     public XmppAxolotlMessage getSecurity(final Jid from) {
-        final String contentName = this.getContentName();
-        for (final Element child : this.children) {
+        for (final var child : this.children) {
             if ("security".equals(child.getName())
                     && Namespace.JINGLE_ENCRYPTED_TRANSPORT.equals(child.getNamespace())) {
-                final String name = child.getAttribute("name");
                 final String type = child.getAttribute("type");
                 final String cipher = child.getAttribute("cipher");
-                if (contentName.equals(name)
-                        && AxolotlService.PEP_PREFIX.equals(type)
+                if (AxolotlService.PEP_PREFIX.equals(type)
                         && "urn:xmpp:ciphers:aes-128-gcm-nopadding".equals(cipher)) {
                     final var encrypted = child.findChild("encrypted", AxolotlService.PEP_PREFIX);
                     if (encrypted != null) {
-                        return XmppAxolotlMessage.fromElement(encrypted, from.asBareJid());
+                        final var axolotl =
+                                XmppAxolotlMessage.fromElementOrNull(encrypted, from.asBareJid());
+                        if (axolotl != null) {
+                            return axolotl;
+                        }
                     }
                 }
             }

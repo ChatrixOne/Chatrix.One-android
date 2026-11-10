@@ -1244,4 +1244,7 @@
     <string name="show_attachment_options">Pokaż opcje załączników</string>
     <string name="collapsed">Zwinięte</string>
     <string name="expanded">Rozwinięte</string>
+    <string name="account_status_pending_oauth_authorization">Uwierzytelnienie w trakcie</string>
+    <string name="could_not_process_oauth_redirect">Nie można przetworzyć przekierowania OAuth</string>
+    <string name="could_not_redirect_to_identity_provider">Nie można przekierować do dostawcy tożsamości</string>
 </resources>

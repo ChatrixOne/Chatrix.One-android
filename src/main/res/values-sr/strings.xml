@@ -1236,4 +1236,7 @@
     <string name="show_attachment_options">Прикажи опције качења</string>
     <string name="collapsed">Скупљено</string>
     <string name="expanded">Раширено</string>
+    <string name="account_status_pending_oauth_authorization">Чека се на овлашћење</string>
+    <string name="could_not_process_oauth_redirect">Није могуће обрадити OAuth преусмерење</string>
+    <string name="could_not_redirect_to_identity_provider">Није могуће преусмерити ка провајдеру идентитета</string>
 </resources>

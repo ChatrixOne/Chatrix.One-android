@@ -66,33 +66,30 @@ public class PublishProfilePictureActivity extends XmppActivity
 
     @Override
     public void onAvatarPublicationSucceeded() {
-        runOnUiThread(
-                () -> {
-                    if (mInitialAccountSetup) {
-                        Intent intent =
-                                StartConversationActivity.startOrConversationsActivity(
-                                        this, account);
-                        intent.putExtra("init", true);
-                        startActivity(intent);
-                    }
-                    Toast.makeText(
-                                    PublishProfilePictureActivity.this,
-                                    R.string.avatar_has_been_published,
-                                    Toast.LENGTH_SHORT)
-                            .show();
-                    finish();
-                });
+        runOnUiThread(() -> {
+            if (mInitialAccountSetup) {
+                Intent intent =
+                        StartConversationActivity.startOrConversationsActivity(this, account);
+                intent.putExtra("init", true);
+                startActivity(intent);
+            }
+            Toast.makeText(
+                            PublishProfilePictureActivity.this,
+                            R.string.avatar_has_been_published,
+                            Toast.LENGTH_SHORT)
+                    .show();
+            finish();
+        });
     }
 
     @Override
     public void onAvatarPublicationFailed(final int res) {
-        runOnUiThread(
-                () -> {
-                    this.binding.hintOrWarning.setText(res);
-                    this.binding.hintOrWarning.setVisibility(View.VISIBLE);
-                    this.publishing = false;
-                    togglePublishButton(true, R.string.publish);
-                });
+        runOnUiThread(() -> {
+            this.binding.hintOrWarning.setText(res);
+            this.binding.hintOrWarning.setVisibility(View.VISIBLE);
+            this.publishing = false;
+            togglePublishButton(true, R.string.publish);
+        });
     }
 
     @Override
@@ -107,31 +104,28 @@ public class PublishProfilePictureActivity extends XmppActivity
 
         Activities.setStatusAndNavigationBarColors(this, binding.getRoot());
 
-        this.binding.publishButton.setOnClickListener(
-                v -> {
-                    final boolean open = !this.binding.contactOnly.isChecked();
-                    final var uri = this.avatarUri;
-                    if (uri == null) {
-                        return;
-                    }
-                    publishing = true;
-                    togglePublishButton(false, R.string.publishing);
-                    xmppConnectionService.publishAvatar(account, uri, open, this);
-                });
-        this.binding.cancelButton.setOnClickListener(
-                v -> {
-                    if (mInitialAccountSetup) {
-                        final Intent intent =
-                                StartConversationActivity.startOrConversationsActivity(
-                                        this, account);
-                        if (xmppConnectionService != null
-                                && xmppConnectionService.getAccounts().size() == 1) {
-                            intent.putExtra("init", true);
-                        }
-                        startActivity(intent);
-                    }
-                    finish();
-                });
+        this.binding.publishButton.setOnClickListener(v -> {
+            final boolean open = !this.binding.contactOnly.isChecked();
+            final var uri = this.avatarUri;
+            if (uri == null) {
+                return;
+            }
+            publishing = true;
+            togglePublishButton(false, R.string.publishing);
+            xmppConnectionService.publishAvatar(account, uri, open, this);
+        });
+        this.binding.cancelButton.setOnClickListener(v -> {
+            if (mInitialAccountSetup) {
+                final Intent intent =
+                        StartConversationActivity.startOrConversationsActivity(this, account);
+                if (xmppConnectionService != null
+                        && xmppConnectionService.getAccounts().size() == 1) {
+                    intent.putExtra("init", true);
+                }
+                startActivity(intent);
+            }
+            finish();
+        });
         this.binding.accountImage.setOnClickListener(v -> pickAvatar(null));
         this.defaultUri = PhoneHelper.getProfilePictureUri(getApplicationContext());
         if (savedInstanceState != null) {

@@ -66,14 +66,13 @@ public class MediaPreviewAdapter
             cancelPotentialWork(attachment, holder.binding.mediaPreview);
             MediaAdapter.renderPreview(attachment, holder.binding.mediaPreview);
         }
-        holder.binding.deleteButton.setOnClickListener(
-                v -> {
-                    final int pos = mediaPreviews.indexOf(attachment);
-                    mediaPreviews.remove(pos);
-                    notifyItemRemoved(pos);
-                    conversationFragment.toggleInputMethod();
-                    onAttachmentRemoved.accept(attachment);
-                });
+        holder.binding.deleteButton.setOnClickListener(v -> {
+            final int pos = mediaPreviews.indexOf(attachment);
+            mediaPreviews.remove(pos);
+            notifyItemRemoved(pos);
+            conversationFragment.toggleInputMethod();
+            onAttachmentRemoved.accept(attachment);
+        });
         holder.binding.mediaPreview.setOnClickListener(v -> view(context, attachment));
     }
 

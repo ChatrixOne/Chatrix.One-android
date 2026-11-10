@@ -49,13 +49,12 @@ public class ConnectionSettingsFragment extends XmppPreferenceFragment {
             case AppSettings.USE_TOR -> {
                 final var appSettings = new AppSettings(requireContext());
                 if (appSettings.isUseTor()) {
-                    runOnUiThread(
-                            () ->
-                                    Toast.makeText(
-                                                    requireActivity(),
-                                                    R.string.audio_video_disabled_tor,
-                                                    Toast.LENGTH_LONG)
-                                            .show());
+                    runOnUiThread(() ->
+                            Toast.makeText(
+                                            requireActivity(),
+                                            R.string.audio_video_disabled_tor,
+                                            Toast.LENGTH_LONG)
+                                    .show());
                 }
                 reconnectAccounts();
                 requireService().reinitializeMuclumbusService();

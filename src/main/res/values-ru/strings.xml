@@ -1267,4 +1267,7 @@
     <string name="show_attachment_options">Показать параметры вложений</string>
     <string name="collapsed">Свёрнуто</string>
     <string name="expanded">Развёрнуто</string>
+    <string name="account_status_pending_oauth_authorization">Ожидание авторизации</string>
+    <string name="could_not_process_oauth_redirect">Невозможно обработать перенаправление OAuth</string>
+    <string name="could_not_redirect_to_identity_provider">Невозможно перенаправить на провайдера идентификации</string>
 </resources>

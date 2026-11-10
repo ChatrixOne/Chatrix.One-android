@@ -352,7 +352,6 @@ public class ConversationsActivity extends QrCodeProcessingActivity
         OmemoSetting.load(this);
         this.binding = DataBindingUtil.setContentView(this, R.layout.activity_conversations);
         Activities.setStatusAndNavigationBarColors(this, binding.getRoot());
-        ;
         this.getSupportFragmentManager()
                 .addOnBackStackChangedListener(this::showDialogsIfMainIsOverview);
         this.initializeFragments();
@@ -411,10 +410,9 @@ public class ConversationsActivity extends QrCodeProcessingActivity
                     final var cf = new ConversationFragment();
                     FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
                     fragmentTransaction.replace(R.id.secondary_fragment, cf);
-                    fragmentTransaction.runOnCommit(
-                            () -> {
-                                refreshFragment(R.id.main_fragment);
-                            });
+                    fragmentTransaction.runOnCommit(() -> {
+                        refreshFragment(R.id.main_fragment);
+                    });
                     fragmentTransaction.commitAllowingStateLoss();
                     conversationFragment = cf;
                 }

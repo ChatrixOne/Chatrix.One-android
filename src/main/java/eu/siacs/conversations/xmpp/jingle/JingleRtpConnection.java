@@ -13,6 +13,7 @@ import com.google.common.base.Stopwatch;
 import com.google.common.base.Strings;
 import com.google.common.base.Throwables;
 import com.google.common.collect.Collections2;
+import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableMultimap;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Iterables;
@@ -63,6 +64,7 @@ import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Queue;
 import java.util.Set;
 import java.util.concurrent.ExecutionException;
@@ -446,13 +448,19 @@ public class JingleRtpConnection extends AbstractJingleConnection
     }
 
     private void receiveContentAccept(final RtpContentMap receivedContentAccept) {
-        final IceUdpTransportInfo.Setup peerDtlsSetup = getPeerDtlsSetup();
-        final RtpContentMap modifiedContentMap =
-                getRemoteContentMap().addContent(receivedContentAccept, peerDtlsSetup);
-
+        final RtpContentMap modifiedContentMap;
+        final SessionDescription answer;
+        try {
+            final IceUdpTransportInfo.Setup peerDtlsSetup = getPeerDtlsSetup();
+            modifiedContentMap =
+                    getRemoteContentMap().addContent(receivedContentAccept, peerDtlsSetup);
+            answer = SessionDescription.of(modifiedContentMap, isResponder());
+        } catch (final RuntimeException e) {
+            webRTCWrapper.close();
+            sendSessionTerminate(new Reason.FailedApplication(), e.getMessage());
+            return;
+        }
         setRemoteContentMap(modifiedContentMap);
-
-        final SessionDescription answer = SessionDescription.of(modifiedContentMap, isResponder());
 
         final org.webrtc.SessionDescription sdp =
                 new org.webrtc.SessionDescription(
@@ -485,9 +493,22 @@ public class JingleRtpConnection extends AbstractJingleConnection
             receiveOutOfOrderAction(jinglePacket, Jingle.Action.CONTENT_MODIFY);
             return;
         }
-        final Map<String, Content.Senders> modification =
-                Maps.transformEntries(
-                        jingle.getJingleContents(), (key, value) -> value.getSenders());
+        final Map<String, Content.Senders> modification;
+        try {
+            modification =
+                    ImmutableMap.copyOf(
+                            Maps.transformEntries(
+                                    jingle.getJingleContents(),
+                                    (key, value) -> Objects.requireNonNull(value).getSenders()));
+        } catch (final RuntimeException e) {
+            Log.d(
+                    Config.LOGTAG,
+                    id.getAccount().getJid().asBareJid() + ": unable parse content-modify",
+                    e);
+            webRTCWrapper.close();
+            sendSessionTerminate(new Reason.FailedApplication(), e.getMessage());
+            return;
+        }
         final boolean isInitiator = isInitiator();
         final RtpContentMap currentOutgoing = this.outgoingContentAdd;
         final RtpContentMap remoteContentMap = this.getRemoteContentMap();
@@ -1102,13 +1123,22 @@ public class JingleRtpConnection extends AbstractJingleConnection
     private ListenableFuture<RtpContentMap> receiveRtpContentMap(
             final Jingle jinglePacket, final boolean expectVerification) {
         try {
-            return receiveRtpContentMap(RtpContentMap.of(jinglePacket), expectVerification);
+            return receiveRtpContentMapOrThrow(RtpContentMap.of(jinglePacket), expectVerification);
         } catch (final Exception e) {
             return Futures.immediateFailedFuture(e);
         }
     }
 
     private ListenableFuture<RtpContentMap> receiveRtpContentMap(
+            final RtpContentMap receivedContentMap, final boolean expectVerification) {
+        try {
+            return receiveRtpContentMapOrThrow(receivedContentMap, expectVerification);
+        } catch (final Exception e) {
+            return Futures.immediateFailedFuture(e);
+        }
+    }
+
+    private ListenableFuture<RtpContentMap> receiveRtpContentMapOrThrow(
             final RtpContentMap receivedContentMap, final boolean expectVerification) {
         Log.d(
                 Config.LOGTAG,
@@ -1126,7 +1156,8 @@ public class JingleRtpConnection extends AbstractJingleConnection
                     future,
                     omemoVerifiedPayload -> {
                         // TODO test if an exception here triggers a correct abort
-                        omemoVerification.setOrEnsureEqual(omemoVerifiedPayload);
+                        omemoVerification.setOrEnsureEqual(
+                                Objects.requireNonNull(omemoVerifiedPayload));
                         Log.d(
                                 Config.LOGTAG,
                                 id.account.getJid().asBareJid()

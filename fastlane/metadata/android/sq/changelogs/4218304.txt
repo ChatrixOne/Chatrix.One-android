@@ -1,0 +1,2 @@
+* Kërko doemos “Channel Binding”, si parazgjedhje, për instalime të reja (Mund të çaktivizohet te rregullimet)
+* Mos u zër besë DA-ve rrënjë nga eMudhra

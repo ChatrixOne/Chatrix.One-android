@@ -1210,4 +1210,7 @@
     <string name="show_attachment_options">Anhangoptionen anzeigen</string>
     <string name="collapsed">Eingeklappt</string>
     <string name="expanded">Ausgeklappt</string>
+    <string name="account_status_pending_oauth_authorization">Autorisierung ausstehend</string>
+    <string name="could_not_process_oauth_redirect">OAuth-Weiterleitung konnte nicht verarbeitet werden</string>
+    <string name="could_not_redirect_to_identity_provider">Weiterleitung zum Identitätsanbieter war nicht möglich</string>
 </resources>

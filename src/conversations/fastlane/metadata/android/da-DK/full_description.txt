@@ -1,0 +1,28 @@
+En gratis Jabber/XMPP-klient med åben kildekode til Android. Nem at bruge, pålidelig og batterivenlig. Med indbygget understøttelse af billeder, gruppechats og deling af placering. Ende-til-ende-kryptering er aktiveret som standard. Kan oprette forbindelse til alle moderne Jabber-, XMPP- og Snikket-servere.
+
+<b>Funktioner</b>
+• Ende-til-ende-kryptering med OMEMO eller OpenPGP
+• Send og modtag billeder og andre typer filer
+• Krypterede lyd- og videoopkald (DTLS-SRTP)
+• Avanceret beskyttelse mod man-in-the-middle-angreb via channel binding
+• Del din placering
+• Send talebeskeder
+• Emoji-reaktioner
+• Indikation af, når din kontakt har læst din besked
+• Intuitiv brugerflade, der følger Androids designretningslinjer (Material Design 3 med dynamiske farver)
+• Kontaktbilleder i høj opløsning (avatarer)
+• Synkronisering med desktopklienter (Gajim og Dino)
+• Private gruppechats og offentlige konferencer (med understøttelse af bogmærker)
+• Beskedmoderering for administratorer i offentlige konferencer
+• Integration med adressebogen
+• Flere konti (samlet indbakke)
+• Levering af pushmeddelelser til andre kompatible apps som Tusky, Ltt.rs, DAVx⁵ og Fennec via UnifiedPush
+• Meget lavt batteriforbrug
+
+<i><b>Bemærk:</b></i> Nogle af disse funktioner kræver understøttelse fra serveren. Gå til kontooplysningerne, og vælg 'Serverinfo' i menuen med flere muligheder for at se, om din server understøtter alle de nødvendige udvidelser.
+
+<b>Designprincipper</b>
+• At være så flot og brugervenlig som muligt uden at gå på kompromis med sikkerhed eller privatliv
+• At basere sig på eksisterende og velafprøvede protokoller
+• Ikke at kræve en Google-konto eller specifikt Firebase Cloud Messaging (FCM)
+• At kræve så få tilladelser som muligt

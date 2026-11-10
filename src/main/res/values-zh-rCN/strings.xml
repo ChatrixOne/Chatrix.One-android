@@ -1185,4 +1185,7 @@
     <string name="show_attachment_options">显示附件选项</string>
     <string name="collapsed">已折叠</string>
     <string name="expanded">已展开</string>
+    <string name="account_status_pending_oauth_authorization">待授权</string>
+    <string name="could_not_process_oauth_redirect">无法处理 OAuth 重定向</string>
+    <string name="could_not_redirect_to_identity_provider">无法重定向到身份提供商</string>
 </resources>

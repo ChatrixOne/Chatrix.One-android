@@ -143,11 +143,10 @@ public class EnterJidDialog extends DialogFragment implements OnBackendConnected
 
         View.OnClickListener dialogOnClick = v -> handleEnter(binding, account);
 
-        binding.jid.setOnEditorActionListener(
-                (v, actionId, event) -> {
-                    handleEnter(binding, account);
-                    return true;
-                });
+        binding.jid.setOnEditorActionListener((v, actionId, event) -> {
+            handleEnter(binding, account);
+            return true;
+        });
 
         dialog.show();
         dialog.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener(dialogOnClick);

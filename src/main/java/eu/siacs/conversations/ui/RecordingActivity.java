@@ -57,10 +57,9 @@ public class RecordingActivity extends BaseActivity implements View.OnClickListe
         this.autoSendRecording = appSettings.isAutoSendRecording();
         super.onCreate(savedInstanceState);
         this.binding = DataBindingUtil.setContentView(this, R.layout.activity_recording);
-        this.binding.timer.setOnClickListener(
-                v -> {
-                    onPauseContinue();
-                });
+        this.binding.timer.setOnClickListener(v -> {
+            onPauseContinue();
+        });
         this.binding.cancelButton.setOnClickListener(this);
         if (this.autoSendRecording) {
             this.binding.shareButton.setText(R.string.send);

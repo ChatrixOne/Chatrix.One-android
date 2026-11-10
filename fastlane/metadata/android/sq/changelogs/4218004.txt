@@ -1,0 +1,1 @@
+* Kërko doemos leje, kur shërbyesi XMPP gjendet në rrjet vendor

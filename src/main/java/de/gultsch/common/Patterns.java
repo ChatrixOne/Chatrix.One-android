@@ -3,6 +3,7 @@ package de.gultsch.common;
 import com.google.common.base.Joiner;
 import com.google.common.collect.Collections2;
 import com.google.common.collect.ImmutableList;
+import eu.siacs.conversations.BuildConfig;
 import java.util.Arrays;
 import java.util.List;
 import java.util.regex.Pattern;
@@ -16,6 +17,7 @@ public class Patterns {
     private static List<String> INTERNAL_URI_SCHEMES =
             new ImmutableList.Builder<String>()
                     .addAll(PUBLIC_URI_SCHEMES)
+                    .add(BuildConfig.APPLICATION_ID)
                     .add("imto")
                     .add("cid")
                     .build();

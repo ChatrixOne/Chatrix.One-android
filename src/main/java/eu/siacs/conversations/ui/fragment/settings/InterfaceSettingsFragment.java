@@ -130,20 +130,18 @@ public class InterfaceSettingsFragment extends XmppPreferenceFragment {
             throw new IllegalStateException(
                     "The preference resource file did not contain theme or color preferences");
         }
-        themePreference.setOnPreferenceChangeListener(
-                (preference, newValue) -> {
-                    if (newValue instanceof final String theme) {
-                        final int desiredNightMode = AppSettings.getDesiredNightMode(theme);
-                        requireSettingsActivity().setDesiredNightMode(desiredNightMode);
-                    }
-                    return true;
-                });
+        themePreference.setOnPreferenceChangeListener((preference, newValue) -> {
+            if (newValue instanceof final String theme) {
+                final int desiredNightMode = AppSettings.getDesiredNightMode(theme);
+                requireSettingsActivity().setDesiredNightMode(desiredNightMode);
+            }
+            return true;
+        });
         dynamicColors.setVisible(DynamicColors.isDynamicColorAvailable());
-        dynamicColors.setOnPreferenceChangeListener(
-                (preference, newValue) -> {
-                    requireSettingsActivity().setDynamicColors(Boolean.TRUE.equals(newValue));
-                    return true;
-                });
+        dynamicColors.setOnPreferenceChangeListener((preference, newValue) -> {
+            requireSettingsActivity().setDynamicColors(Boolean.TRUE.equals(newValue));
+            return true;
+        });
         quickAction.setSummaryProvider(new QuickActionSummaryProvider());
         final var quickActionsEntryValues = new CharSequence[QUICK_ACTIONS.size()];
         final var quickActionEntries = new CharSequence[QUICK_ACTIONS.size()];

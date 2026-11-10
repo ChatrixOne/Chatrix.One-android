@@ -899,25 +899,23 @@ public class MessageAdapter extends ArrayAdapter<Message> {
 
         viewHolder
                 .contactPicture()
-                .setOnClickListener(
-                        v -> {
-                            if (MessageAdapter.this.mOnContactPictureClickedListener != null) {
-                                MessageAdapter.this.mOnContactPictureClickedListener
-                                        .onContactPictureClicked(message);
-                            }
-                        });
+                .setOnClickListener(v -> {
+                    if (MessageAdapter.this.mOnContactPictureClickedListener != null) {
+                        MessageAdapter.this.mOnContactPictureClickedListener
+                                .onContactPictureClicked(message);
+                    }
+                });
         viewHolder
                 .contactPicture()
-                .setOnLongClickListener(
-                        v -> {
-                            if (MessageAdapter.this.mOnContactPictureLongClickedListener != null) {
-                                MessageAdapter.this.mOnContactPictureLongClickedListener
-                                        .onContactPictureLongClicked(v, message);
-                                return true;
-                            } else {
-                                return false;
-                            }
-                        });
+                .setOnLongClickListener(v -> {
+                    if (MessageAdapter.this.mOnContactPictureLongClickedListener != null) {
+                        MessageAdapter.this.mOnContactPictureLongClickedListener
+                                .onContactPictureLongClicked(v, message);
+                        return true;
+                    } else {
+                        return false;
+                    }
+                });
 
         final Transferable transferable = message.getTransferable();
         final boolean unInitiatedButKnownSize = MessageUtils.unInitiatedButKnownSize(message);

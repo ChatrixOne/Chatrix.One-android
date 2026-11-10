@@ -1266,4 +1266,7 @@
     <string name="show_attachment_options">Показати налаштування вкладень</string>
     <string name="collapsed">Згорнуто</string>
     <string name="expanded">Розгорнуто</string>
+    <string name="account_status_pending_oauth_authorization">Очікується авторизація</string>
+    <string name="could_not_process_oauth_redirect">Не вдалося обробити перенаправлення OAuth</string>
+    <string name="could_not_redirect_to_identity_provider">Не вдалося перенаправити до постачальника ідентифікації</string>
 </resources>

@@ -1,5 +1,11 @@
 # Changelog
 
+### Version 2.21.1
+
+* Add OAuth support (leave password empty to use)
+* Fix push notifications on play build flavor
+* Various minor security fixes discovered by LLM-models and forwarded to us by third parties
+
 ### Version 2.21.0
 
 * Require Channel Binding by default for new installs (Can be disabled in settings)

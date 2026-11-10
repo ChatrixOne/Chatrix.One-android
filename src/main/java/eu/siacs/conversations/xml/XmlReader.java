@@ -120,7 +120,6 @@ public class XmlReader implements Closeable {
         }
         final var id = parent.getId();
         final var element = ExtensionFactory.create(id);
-        ;
         element.setAttributes(parent.getAttributes());
         while (true) {
             final var tag = this.readTag();

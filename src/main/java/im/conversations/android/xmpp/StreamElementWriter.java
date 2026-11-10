@@ -53,12 +53,12 @@ public class StreamElementWriter extends BufferedWriter {
                 this.write(' ');
                 this.write("xmlns=");
                 this.write('"');
-                this.write(startOrEmpty.getId().namespace());
+                this.writeEncoded(startOrEmpty.getId().namespace());
                 this.write('"');
             }
             for (final var entry : startOrEmpty.getAttributes().entrySet()) {
                 this.write(' ');
-                this.write(entry.getKey());
+                this.writeEncoded(entry.getKey());
                 this.write('=');
                 this.write('"');
                 this.writeEncoded(entry.getValue());

@@ -414,13 +414,12 @@ public class QuickConversationsService extends AbstractQuickConversationsService
     @Override
     public void considerSyncBackground(final boolean forced) {
         mRunningSyncJobs.incrementAndGet();
-        mSerialSingleThreadExecutor.execute(
-                () -> {
-                    considerSync(forced);
-                    if (mRunningSyncJobs.decrementAndGet() == 0) {
-                        service.updateRosterUi();
-                    }
-                });
+        mSerialSingleThreadExecutor.execute(() -> {
+            considerSync(forced);
+            if (mRunningSyncJobs.decrementAndGet() == 0) {
+                service.updateRosterUi();
+            }
+        });
     }
 
     @Override
@@ -544,7 +543,7 @@ public class QuickConversationsService extends AbstractQuickConversationsService
         service.sendIqPacket(
                 account,
                 query,
-                (response) -> {
+                response -> {
                     if (response.getType() == Iq.Type.RESULT) {
                         final Element phoneBook =
                                 response.findChild("phone-book", Namespace.SYNCHRONIZATION);

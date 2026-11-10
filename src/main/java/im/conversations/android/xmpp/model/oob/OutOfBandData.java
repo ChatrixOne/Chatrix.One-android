@@ -11,8 +11,17 @@ public class OutOfBandData extends Extension {
         super(OutOfBandData.class);
     }
 
+    public OutOfBandData(final String url) {
+        this();
+        this.setURL(url);
+    }
+
     public String getURL() {
         final URL url = this.getExtension(URL.class);
         return url == null ? null : Strings.emptyToNull(url.getContent());
+    }
+
+    public void setURL(final String url) {
+        this.addExtension(new URL(url));
     }
 }

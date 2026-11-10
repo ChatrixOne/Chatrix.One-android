@@ -358,6 +358,8 @@ public final class MimeUtils {
         add("text/html", "html");
         add("text/h323", "323");
         add("text/iuls", "uls");
+        add("text/markdown", "md");
+        add("text/markdown", "markdown");
         add("text/mathml", "mml");
         // add ".txt" first so it will be the default for guessExtensionFromMimeType
         add("text/plain", "txt");

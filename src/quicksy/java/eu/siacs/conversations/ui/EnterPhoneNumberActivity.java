@@ -131,26 +131,25 @@ public class EnterPhoneNumberActivity extends XmppActivity
                 String.valueOf(
                         PhoneNumberUtilWrapper.getInstance(this)
                                 .getCountryCodeForRegion(this.region)));
-        this.binding.number.setOnKeyListener(
-                (v, keyCode, event) -> {
-                    if (event.getAction() != KeyEvent.ACTION_DOWN) {
-                        return false;
-                    }
-                    final EditText editText = (EditText) v;
-                    final boolean cursorAtZero =
-                            editText.getSelectionEnd() == 0 && editText.getSelectionStart() == 0;
-                    if (keyCode == KeyEvent.KEYCODE_DEL
-                            && (cursorAtZero || editText.getText().length() == 0)) {
-                        final Editable countryCode = this.binding.countryCode.getText();
-                        if (countryCode.length() > 0) {
-                            countryCode.delete(countryCode.length() - 1, countryCode.length());
-                            this.binding.countryCode.setSelection(countryCode.length());
-                        }
-                        this.binding.countryCode.requestFocus();
-                        return true;
-                    }
-                    return false;
-                });
+        this.binding.number.setOnKeyListener((v, keyCode, event) -> {
+            if (event.getAction() != KeyEvent.ACTION_DOWN) {
+                return false;
+            }
+            final EditText editText = (EditText) v;
+            final boolean cursorAtZero =
+                    editText.getSelectionEnd() == 0 && editText.getSelectionStart() == 0;
+            if (keyCode == KeyEvent.KEYCODE_DEL
+                    && (cursorAtZero || editText.getText().length() == 0)) {
+                final Editable countryCode = this.binding.countryCode.getText();
+                if (countryCode.length() > 0) {
+                    countryCode.delete(countryCode.length() - 1, countryCode.length());
+                    this.binding.countryCode.setSelection(countryCode.length());
+                }
+                this.binding.countryCode.requestFocus();
+                return true;
+            }
+            return false;
+        });
         setRequestingVerificationState(requestingVerification);
     }
 
@@ -306,11 +305,10 @@ public class EnterPhoneNumberActivity extends XmppActivity
 
     @Override
     public void onVerificationRequestFailed(int code) {
-        runOnUiThread(
-                () -> {
-                    setRequestingVerificationState(false);
-                    ApiDialogHelper.createError(this, code).show();
-                });
+        runOnUiThread(() -> {
+            setRequestingVerificationState(false);
+            ApiDialogHelper.createError(this, code).show();
+        });
     }
 
     @Override

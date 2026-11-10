@@ -308,21 +308,19 @@ public class ConversationsOverviewFragment extends XmppFragment {
                                     }
                                 });
 
-        pendingActionHelper.push(
-                () -> {
-                    if (snackbar.isShownOrQueued()) {
-                        snackbar.dismiss();
-                    }
-                    final Conversation conversation = swipedConversation.pop();
-                    if (conversation == null) {
-                        return;
-                    }
-                    if (!conversation.isRead()
-                            && conversation.getMode() == Conversation.MODE_SINGLE) {
-                        return;
-                    }
-                    requireXmppActivity().xmppConnectionService.archiveConversation(c);
-                });
+        pendingActionHelper.push(() -> {
+            if (snackbar.isShownOrQueued()) {
+                snackbar.dismiss();
+            }
+            final Conversation conversation = swipedConversation.pop();
+            if (conversation == null) {
+                return;
+            }
+            if (!conversation.isRead() && conversation.getMode() == Conversation.MODE_SINGLE) {
+                return;
+            }
+            requireXmppActivity().xmppConnectionService.archiveConversation(c);
+        });
         snackbar.show();
     }
 
@@ -419,40 +417,37 @@ public class ConversationsOverviewFragment extends XmppFragment {
         this.binding
                 .searchView
                 .getEditText()
-                .setOnEditorActionListener(
-                        (v, actionId, event) -> {
-                            startSearch(CharSequences.nullToEmpty(v.getText()));
-                            this.binding.searchView.hide();
-                            return true;
-                        });
+                .setOnEditorActionListener((v, actionId, event) -> {
+                    startSearch(CharSequences.nullToEmpty(v.getText()));
+                    this.binding.searchView.hide();
+                    return true;
+                });
         this.binding
                 .searchView
                 .getEditText()
                 .addTextChangedListener(new TextChangeListener(this::submitSearchSuggestion));
-        this.binding.searchView.addTransitionListener(
-                (searchView, oldState, newState) -> {
-                    final boolean isShowing =
-                            Arrays.asList(
-                                            SearchView.TransitionState.SHOWING,
-                                            SearchView.TransitionState.SHOWN)
-                                    .contains(newState);
-                    searchViewOnBackPressedCallback.setEnabled(isShowing);
-                });
+        this.binding.searchView.addTransitionListener((searchView, oldState, newState) -> {
+            final boolean isShowing =
+                    Arrays.asList(
+                                    SearchView.TransitionState.SHOWING,
+                                    SearchView.TransitionState.SHOWN)
+                            .contains(newState);
+            searchViewOnBackPressedCallback.setEnabled(isShowing);
+        });
         this.binding.fab.setOnClickListener(
-                (view) -> StartConversationActivity.launch(getActivity()));
+                view -> StartConversationActivity.launch(getActivity()));
 
         this.conversationsAdapter =
                 new ConversationAdapter(requireXmppActivity(), this.conversations);
-        this.conversationsAdapter.setConversationClickListener(
-                (view, conversation) -> {
-                    if (getActivity() instanceof OnConversationSelected callback) {
-                        callback.onConversationSelected(conversation);
-                    } else {
-                        Log.w(
-                                ConversationsOverviewFragment.class.getCanonicalName(),
-                                "Activity does not implement OnConversationSelected");
-                    }
-                });
+        this.conversationsAdapter.setConversationClickListener((view, conversation) -> {
+            if (getActivity() instanceof OnConversationSelected callback) {
+                callback.onConversationSelected(conversation);
+            } else {
+                Log.w(
+                        ConversationsOverviewFragment.class.getCanonicalName(),
+                        "Activity does not implement OnConversationSelected");
+            }
+        });
         this.searchSuggestionAdapter = new SearchSuggestionAdapter();
         this.binding.list.setAdapter(this.conversationsAdapter);
         this.binding.list.setLayoutManager(
@@ -567,19 +562,15 @@ public class ConversationsOverviewFragment extends XmppFragment {
         } else if (suggestion instanceof SearchSuggestion.Note) {
             this.hideSearchView();
             final var picker = new AccountPickerDialog.Enabled(requireXmppActivity());
-            picker.pick(
-                    a -> {
-                        final var contact = a.getSelfContact();
-                        final var conversation =
-                                requireXmppActivity()
-                                        .xmppConnectionService
-                                        .findOrCreateConversation(
-                                                contact.getAccount(),
-                                                contact.getAddress(),
-                                                false,
-                                                true);
-                        requireXmppActivity().switchToConversation(conversation);
-                    });
+            picker.pick(a -> {
+                final var contact = a.getSelfContact();
+                final var conversation =
+                        requireXmppActivity()
+                                .xmppConnectionService
+                                .findOrCreateConversation(
+                                        contact.getAccount(), contact.getAddress(), false, true);
+                requireXmppActivity().switchToConversation(conversation);
+            });
         }
     }
 
@@ -634,10 +625,9 @@ public class ConversationsOverviewFragment extends XmppFragment {
 
     private void selectAccountToStartEasyInvite() {
         final var accountPicker = new AccountPickerDialog.EasyInvite(requireXmppActivity());
-        accountPicker.pick(
-                account -> {
-                    EasyOnboardingInviteActivity.launch(account, requireContext());
-                });
+        accountPicker.pick(account -> {
+            EasyOnboardingInviteActivity.launch(account, requireContext());
+        });
     }
 
     @Override

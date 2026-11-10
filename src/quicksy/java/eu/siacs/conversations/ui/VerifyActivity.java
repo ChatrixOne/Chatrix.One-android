@@ -330,19 +330,17 @@ public class VerifyActivity extends XmppActivity
 
     @Override
     public void onVerificationFailed(final int code) {
-        runOnUiThread(
-                () -> {
-                    setVerifyingState(false);
-                    if (code == 401 || code == 404) {
-                        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-                        builder.setMessage(
-                                code == 404 ? R.string.pin_expired : R.string.incorrect_pin);
-                        builder.setPositiveButton(R.string.ok, null);
-                        builder.create().show();
-                    } else {
-                        ApiDialogHelper.createError(this, code).show();
-                    }
-                });
+        runOnUiThread(() -> {
+            setVerifyingState(false);
+            if (code == 401 || code == 404) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                builder.setMessage(code == 404 ? R.string.pin_expired : R.string.incorrect_pin);
+                builder.setPositiveButton(R.string.ok, null);
+                builder.create().show();
+            } else {
+                ApiDialogHelper.createError(this, code).show();
+            }
+        });
     }
 
     @Override
@@ -353,11 +351,10 @@ public class VerifyActivity extends XmppActivity
     @Override
     public void onVerificationRetryAt(long timestamp) {
         this.retryVerificationAfter = timestamp;
-        runOnUiThread(
-                () -> {
-                    ApiDialogHelper.createTooManyAttempts(this).show();
-                    setVerifyingState(false);
-                });
+        runOnUiThread(() -> {
+            ApiDialogHelper.createTooManyAttempts(this).show();
+            setVerifyingState(false);
+        });
         mHandler.removeCallbacks(VERIFICATION_TIMEOUT_UPDATER);
         runOnUiThread(VERIFICATION_TIMEOUT_UPDATER);
     }
@@ -371,35 +368,32 @@ public class VerifyActivity extends XmppActivity
     // send sms again button callback
     @Override
     public void onVerificationRequestFailed(int code) {
-        runOnUiThread(
-                () -> {
-                    setRequestingVerificationState(false);
-                    ApiDialogHelper.createError(this, code).show();
-                });
+        runOnUiThread(() -> {
+            setRequestingVerificationState(false);
+            ApiDialogHelper.createError(this, code).show();
+        });
     }
 
     // send sms again button callback
     @Override
     public void onVerificationRequested() {
-        runOnUiThread(
-                () -> {
-                    pinEntryWrapper.clear();
-                    setRequestingVerificationState(false);
-                    AlertDialog.Builder builder = new AlertDialog.Builder(this);
-                    builder.setMessage(R.string.we_have_sent_you_another_sms);
-                    builder.setPositiveButton(R.string.ok, null);
-                    builder.create().show();
-                });
+        runOnUiThread(() -> {
+            pinEntryWrapper.clear();
+            setRequestingVerificationState(false);
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setMessage(R.string.we_have_sent_you_another_sms);
+            builder.setPositiveButton(R.string.ok, null);
+            builder.create().show();
+        });
     }
 
     @Override
     public void onVerificationRequestedRetryAt(long timestamp) {
         this.retrySmsAfter = timestamp;
-        runOnUiThread(
-                () -> {
-                    ApiDialogHelper.createRateLimited(this, timestamp).show();
-                    setRequestingVerificationState(false);
-                });
+        runOnUiThread(() -> {
+            ApiDialogHelper.createRateLimited(this, timestamp).show();
+            setRequestingVerificationState(false);
+        });
         mHandler.removeCallbacks(SMS_TIMEOUT_UPDATER);
         runOnUiThread(SMS_TIMEOUT_UPDATER);
     }

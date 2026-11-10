@@ -219,7 +219,9 @@
             android:windowSoftInputMode="stateAlwaysHidden" />
         <activity
             android:name=".ui.YuriLauncherActivity"
-            android:exported="true">
+            android:excludeFromRecents="true"
+            android:exported="true"
+            android:noHistory="true">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
 
@@ -284,6 +286,23 @@
 
                 <data android:scheme="imto" />
                 <data android:host="xmpp" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".ui.OAuthRedirectActivity"
+            android:excludeFromRecents="true"
+            android:exported="true"
+            android:noHistory="true"
+            android:taskAffinity="">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data
+                    android:host="oauth-redirect"
+                    android:scheme="@string/applicationId" />
             </intent-filter>
         </activity>
         <activity

@@ -22,7 +22,6 @@ public class UnifiedPushDistributor extends AppCompatActivity {
         if (intent == null || Strings.isNullOrEmpty(callingPackage)) {
             setResult(RESULT_CANCELED, result);
             finish();
-            ;
         }
         Log.d(Config.LOGTAG, "a package (" + callingPackage + ") called our link activity");
         final var pendingIntent =

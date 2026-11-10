@@ -1523,17 +1523,15 @@ public class RtpSessionActivity extends XmppActivity
                 return;
             }
             resetVisibilityToggleExecutor();
-            runOnUiThread(
-                    () -> {
-                        updateStateDisplay(state, media, contentAddition);
-                        updateVerifiedShield(
-                                verified && STATES_SHOWING_SWITCH_TO_CHAT.contains(state));
-                        updateButtonConfiguration(state, media, contentAddition);
-                        updateVideoViews(state);
-                        updateIncomingCallScreen(state, contact);
-                        updateSupportWarning(state, contact);
-                        invalidateOptionsMenu();
-                    });
+            runOnUiThread(() -> {
+                updateStateDisplay(state, media, contentAddition);
+                updateVerifiedShield(verified && STATES_SHOWING_SWITCH_TO_CHAT.contains(state));
+                updateButtonConfiguration(state, media, contentAddition);
+                updateVideoViews(state);
+                updateIncomingCallScreen(state, contact);
+                updateSupportWarning(state, contact);
+                invalidateOptionsMenu();
+            });
             if (END_CARD.contains(state)) {
                 final JingleRtpConnection rtpConnection = requireRtpConnection();
                 resetIntent(account, with, state, rtpConnection.getMedia());
@@ -1597,15 +1595,14 @@ public class RtpSessionActivity extends XmppActivity
         }
         final Set<Media> media = actionToMedia(currentIntent.getStringExtra(EXTRA_LAST_ACTION));
         if (Jid.of(withExtra).asBareJid().equals(with)) {
-            runOnUiThread(
-                    () -> {
-                        updateVerifiedShield(false);
-                        updateStateDisplay(state);
-                        updateButtonConfiguration(state, media, null);
-                        updateIncomingCallScreen(state);
-                        updateSupportWarning(state, account.getRoster().getContact(with));
-                        invalidateOptionsMenu();
-                    });
+            runOnUiThread(() -> {
+                updateVerifiedShield(false);
+                updateStateDisplay(state);
+                updateButtonConfiguration(state, media, null);
+                updateIncomingCallScreen(state);
+                updateSupportWarning(state, account.getRoster().getContact(with));
+                invalidateOptionsMenu();
+            });
             resetIntent(account, with, state, media);
         }
     }

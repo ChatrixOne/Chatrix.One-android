@@ -43,16 +43,14 @@ public class TosActivity extends XmppActivity {
             ab.setDisplayShowHomeEnabled(false);
             ab.setDisplayHomeAsUpEnabled(false);
         }
-        binding.agree.setOnClickListener(
-                v -> {
-                    final Intent intent = new Intent(this, EnterPhoneNumberActivity.class);
-                    SharedPreferences preferences =
-                            PreferenceManager.getDefaultSharedPreferences(this);
-                    preferences.edit().putBoolean("tos", true).apply();
-                    addInviteUri(intent);
-                    startActivity(intent);
-                    finish();
-                });
+        binding.agree.setOnClickListener(v -> {
+            final Intent intent = new Intent(this, EnterPhoneNumberActivity.class);
+            SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+            preferences.edit().putBoolean("tos", true).apply();
+            addInviteUri(intent);
+            startActivity(intent);
+            finish();
+        });
         binding.welcomeText.setText(Html.fromHtml(getString(R.string.welcome_text_quicksy_static)));
         binding.welcomeText.setMovementMethod(LinkMovementMethod.getInstance());
     }

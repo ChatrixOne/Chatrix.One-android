@@ -133,11 +133,14 @@ public abstract class SaslMechanism {
                 return new Plain(account);
             } else if (mechanisms.contains(DigestMd5.MECHANISM)) {
                 return new DigestMd5(account);
-            } else if (mechanisms.contains(Anonymous.MECHANISM)) {
-                return new Anonymous(account);
-            } else {
-                return null;
+            } else if (Strings.isNullOrEmpty(account.getPassword())) {
+                if (mechanisms.contains(OAuthBearer.MECHANISM)) {
+                    return new OAuthBearer(account);
+                } else if (mechanisms.contains(Anonymous.MECHANISM)) {
+                    return new Anonymous(account);
+                }
             }
+            return null;
         }
 
         public SaslMechanism of(

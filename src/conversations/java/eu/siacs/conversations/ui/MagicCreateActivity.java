@@ -59,63 +59,58 @@ public class MagicCreateActivity extends XmppActivity implements TextWatcher {
         } else if (domain != null) {
             binding.instructions.setText(getString(R.string.magic_create_text_on_x, domain));
         }
-        binding.createAccount.setOnClickListener(
-                v -> {
-                    try {
-                        final String username = binding.username.getText().toString();
-                        final Jid jid;
-                        final boolean fixedUsername;
-                        if (this.domain != null && this.username != null) {
-                            fixedUsername = true;
-                            jid = Jid.ofLocalAndDomain(this.username, this.domain);
-                        } else if (this.domain != null) {
-                            fixedUsername = false;
-                            jid = Jid.ofLocalAndDomain(username, this.domain);
-                        } else {
-                            fixedUsername = false;
-                            jid = Jid.ofLocalAndDomain(username, Config.MAGIC_CREATE_DOMAIN);
+        binding.createAccount.setOnClickListener(v -> {
+            try {
+                final String username = binding.username.getText().toString();
+                final Jid jid;
+                final boolean fixedUsername;
+                if (this.domain != null && this.username != null) {
+                    fixedUsername = true;
+                    jid = Jid.ofLocalAndDomain(this.username, this.domain);
+                } else if (this.domain != null) {
+                    fixedUsername = false;
+                    jid = Jid.ofLocalAndDomain(username, this.domain);
+                } else {
+                    fixedUsername = false;
+                    jid = Jid.ofLocalAndDomain(username, Config.MAGIC_CREATE_DOMAIN);
+                }
+                if (!jid.getLocal().equals(jid.getLocal())
+                        || (this.username == null && username.length() < 3)) {
+                    binding.usernameLayout.setError(getString(R.string.invalid_username));
+                    binding.username.requestFocus();
+                } else {
+                    binding.usernameLayout.setError(null);
+                    Account account = xmppConnectionService.findAccountByJid(jid);
+                    if (account == null) {
+                        account =
+                                new Account(jid, CryptoHelper.createPassword(Random.SECURE_RANDOM));
+                        account.setOption(Account.OPTION_REGISTER, true);
+                        account.setOption(Account.OPTION_DISABLED, true);
+                        account.setOption(Account.OPTION_MAGIC_CREATE, true);
+                        account.setOption(Account.OPTION_FIXED_USERNAME, fixedUsername);
+                        if (this.preAuth != null) {
+                            account.setPreAuthRegistrationToken(this.preAuth);
                         }
-                        if (!jid.getLocal().equals(jid.getLocal())
-                                || (this.username == null && username.length() < 3)) {
-                            binding.usernameLayout.setError(getString(R.string.invalid_username));
-                            binding.username.requestFocus();
-                        } else {
-                            binding.usernameLayout.setError(null);
-                            Account account = xmppConnectionService.findAccountByJid(jid);
-                            if (account == null) {
-                                account =
-                                        new Account(
-                                                jid,
-                                                CryptoHelper.createPassword(Random.SECURE_RANDOM));
-                                account.setOption(Account.OPTION_REGISTER, true);
-                                account.setOption(Account.OPTION_DISABLED, true);
-                                account.setOption(Account.OPTION_MAGIC_CREATE, true);
-                                account.setOption(Account.OPTION_FIXED_USERNAME, fixedUsername);
-                                if (this.preAuth != null) {
-                                    account.setPreAuthRegistrationToken(this.preAuth);
-                                }
-                                xmppConnectionService.createAccount(account);
-                            }
-                            Intent intent =
-                                    new Intent(MagicCreateActivity.this, EditAccountActivity.class);
-                            intent.putExtra("jid", account.getJid().asBareJid().toString());
-                            intent.putExtra("init", true);
-                            intent.setFlags(
-                                    Intent.FLAG_ACTIVITY_NEW_TASK
-                                            | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                            Toast.makeText(
-                                            MagicCreateActivity.this,
-                                            R.string.secure_password_generated,
-                                            Toast.LENGTH_SHORT)
-                                    .show();
-                            StartConversationActivity.addInviteUri(intent, this);
-                            startActivity(intent);
-                        }
-                    } catch (final IllegalArgumentException e) {
-                        binding.usernameLayout.setError(getString(R.string.invalid_username));
-                        binding.username.requestFocus();
+                        xmppConnectionService.createAccount(account);
                     }
-                });
+                    Intent intent = new Intent(MagicCreateActivity.this, EditAccountActivity.class);
+                    intent.putExtra("jid", account.getJid().asBareJid().toString());
+                    intent.putExtra("init", true);
+                    intent.setFlags(
+                            Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                    Toast.makeText(
+                                    MagicCreateActivity.this,
+                                    R.string.secure_password_generated,
+                                    Toast.LENGTH_SHORT)
+                            .show();
+                    StartConversationActivity.addInviteUri(intent, this);
+                    startActivity(intent);
+                }
+            } catch (final IllegalArgumentException e) {
+                binding.usernameLayout.setError(getString(R.string.invalid_username));
+                binding.username.requestFocus();
+            }
+        });
         binding.username.addTextChangedListener(this);
     }
 

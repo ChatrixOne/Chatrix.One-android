@@ -563,12 +563,11 @@ public class CallIntegration extends Connection {
             return;
         }
         final var audioManager = requireAppRtcAudioManager();
-        audioManager.executeOnMain(
-                () -> {
-                    audioManager.start();
-                    this.onAudioDeviceChanged(
-                            audioManager.getSelectedAudioDevice(), audioManager.getAudioDevices());
-                });
+        audioManager.executeOnMain(() -> {
+            audioManager.start();
+            this.onAudioDeviceChanged(
+                    audioManager.getSelectedAudioDevice(), audioManager.getAudioDevices());
+        });
     }
 
     private void destroyCallIntegration() {

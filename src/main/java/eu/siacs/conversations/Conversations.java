@@ -53,39 +53,36 @@ public class Conversations extends Application {
             Suppliers.memoize(
                     () -> getPackageManager().hasSystemFeature(PackageManager.FEATURE_MICROPHONE));
     private final Supplier<Boolean> declaredReadContacts =
-            Suppliers.memoize(
-                    () -> {
-                        final String[] permissions;
-                        try {
-                            permissions =
-                                    getPackageManager()
-                                            .getPackageInfo(
-                                                    getPackageName(),
-                                                    PackageManager.GET_PERMISSIONS)
-                                            .requestedPermissions;
-                        } catch (final PackageManager.NameNotFoundException e) {
-                            return false;
-                        }
-                        if (permissions == null || permissions.length == 0) {
-                            return false;
-                        }
-                        return Iterables.any(
-                                Arrays.asList(permissions),
-                                p -> p != null && p.equals(Manifest.permission.READ_CONTACTS));
-                    });
+            Suppliers.memoize(() -> {
+                final String[] permissions;
+                try {
+                    permissions =
+                            getPackageManager()
+                                    .getPackageInfo(
+                                            getPackageName(), PackageManager.GET_PERMISSIONS)
+                                    .requestedPermissions;
+                } catch (final PackageManager.NameNotFoundException e) {
+                    return false;
+                }
+                if (permissions == null || permissions.length == 0) {
+                    return false;
+                }
+                return Iterables.any(
+                        Arrays.asList(permissions),
+                        p -> p != null && p.equals(Manifest.permission.READ_CONTACTS));
+            });
 
     private final Supplier<X509TrustManager> filteredDefaultTrustManager =
-            Suppliers.memoize(
-                    () -> {
-                        try {
-                            return TrustManagers.createDefaultTrustManager();
-                        } catch (final NoSuchAlgorithmException
-                                | KeyStoreException
-                                | CertificateException
-                                | IOException e) {
-                            throw new IllegalStateException(e);
-                        }
-                    });
+            Suppliers.memoize(() -> {
+                try {
+                    return TrustManagers.createDefaultTrustManager();
+                } catch (final NoSuchAlgorithmException
+                        | KeyStoreException
+                        | CertificateException
+                        | IOException e) {
+                    throw new IllegalStateException(e);
+                }
+            });
 
     @Override
     public void onCreate() {

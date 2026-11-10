@@ -29,6 +29,7 @@ import eu.siacs.conversations.xmpp.manager.ModerationManager;
 import eu.siacs.conversations.xmpp.manager.MultiUserChatManager;
 import eu.siacs.conversations.xmpp.manager.NativeBookmarkManager;
 import eu.siacs.conversations.xmpp.manager.NickManager;
+import eu.siacs.conversations.xmpp.manager.OAuthManager;
 import eu.siacs.conversations.xmpp.manager.OfflineMessagesManager;
 import eu.siacs.conversations.xmpp.manager.PepManager;
 import eu.siacs.conversations.xmpp.manager.PingManager;
@@ -84,6 +85,7 @@ public class Managers {
                 .put(MultiUserChatManager.class, new MultiUserChatManager(context, connection))
                 .put(NativeBookmarkManager.class, new NativeBookmarkManager(context, connection))
                 .put(NickManager.class, new NickManager(context, connection))
+                .put(OAuthManager.class, new OAuthManager(context, connection))
                 .put(OfflineMessagesManager.class, new OfflineMessagesManager(context, connection))
                 .put(PepManager.class, new PepManager(context, connection))
                 .put(PingManager.class, new PingManager(context, connection))

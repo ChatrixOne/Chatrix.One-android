@@ -55,20 +55,19 @@ public class HttpConnectionManager extends AbstractConnectionManager {
 
     public static final Executor EXECUTOR = Executors.newFixedThreadPool(4);
 
-    private static final OkHttpClient OK_HTTP_CLIENT;
+    public static final OkHttpClient OK_HTTP_CLIENT;
 
     static {
         OK_HTTP_CLIENT =
                 new OkHttpClient.Builder()
-                        .addInterceptor(
-                                chain -> {
-                                    final Request original = chain.request();
-                                    final Request modified =
-                                            original.newBuilder()
-                                                    .header("User-Agent", getUserAgent())
-                                                    .build();
-                                    return chain.proceed(modified);
-                                })
+                        .addInterceptor(chain -> {
+                            final Request original = chain.request();
+                            final Request modified =
+                                    original.newBuilder()
+                                            .header("User-Agent", getUserAgent())
+                                            .build();
+                            return chain.proceed(modified);
+                        })
                         .build();
     }
 

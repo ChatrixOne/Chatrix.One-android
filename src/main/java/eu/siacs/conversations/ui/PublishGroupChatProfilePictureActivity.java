@@ -100,9 +100,9 @@ public class PublishGroupChatProfilePictureActivity extends XmppActivity
         Activities.setStatusAndNavigationBarColors(this, binding.getRoot());
         setSupportActionBar(this.binding.toolbar);
         configureActionBar(getSupportActionBar());
-        this.binding.cancelButton.setOnClickListener((v) -> this.finish());
+        this.binding.cancelButton.setOnClickListener(v -> this.finish());
         this.binding.secondaryHint.setVisibility(View.GONE);
-        this.binding.accountImage.setOnClickListener((v) -> pickAvatar());
+        this.binding.accountImage.setOnClickListener(v -> pickAvatar());
 
         final var intent = getIntent();
         final var uuid = intent == null ? null : intent.getStringExtra("uuid");
@@ -134,21 +134,18 @@ public class PublishGroupChatProfilePictureActivity extends XmppActivity
 
     @Override
     public void onAvatarPublicationSucceeded() {
-        runOnUiThread(
-                () -> {
-                    Toast.makeText(this, R.string.avatar_has_been_published, Toast.LENGTH_SHORT)
-                            .show();
-                    finish();
-                });
+        runOnUiThread(() -> {
+            Toast.makeText(this, R.string.avatar_has_been_published, Toast.LENGTH_SHORT).show();
+            finish();
+        });
     }
 
     @Override
     public void onAvatarPublicationFailed(@StringRes int res) {
-        runOnUiThread(
-                () -> {
-                    Toast.makeText(this, res, Toast.LENGTH_SHORT).show();
-                    this.binding.publishButton.setText(R.string.publish);
-                    this.binding.publishButton.setEnabled(true);
-                });
+        runOnUiThread(() -> {
+            Toast.makeText(this, res, Toast.LENGTH_SHORT).show();
+            this.binding.publishButton.setText(R.string.publish);
+            this.binding.publishButton.setEnabled(true);
+        });
     }
 }

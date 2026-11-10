@@ -182,7 +182,6 @@ public class AddReactionDialog {
                 callback.accept(reactionBuilder.build());
             }
             this.dialog.dismiss();
-            ;
         }
     }
 

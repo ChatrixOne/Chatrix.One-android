@@ -431,39 +431,36 @@ public class TrustKeysActivity extends OmemoActivity implements OnKeyStatusUpdat
         final boolean keysToTrust = reloadFingerprints();
         if (report != null) {
             lastFetchReport = report;
-            runOnUiThread(
-                    () -> {
-                        if (mUseCameraHintToast != null && !keysToTrust) {
-                            mUseCameraHintToast.cancel();
-                        }
-                        switch (report) {
-                            case ERROR:
-                                Toast.makeText(
-                                                TrustKeysActivity.this,
-                                                R.string.error_fetching_omemo_key,
-                                                Toast.LENGTH_SHORT)
-                                        .show();
-                                break;
-                            case SUCCESS_TRUSTED:
-                                Toast.makeText(
-                                                TrustKeysActivity.this,
-                                                R.string.blindly_trusted_omemo_keys,
-                                                Toast.LENGTH_LONG)
-                                        .show();
-                                break;
-                            case SUCCESS_VERIFIED:
-                                Toast.makeText(
-                                                TrustKeysActivity.this,
-                                                Config.X509_VERIFICATION
-                                                        ? R.string
-                                                                .verified_omemo_key_with_certificate
-                                                        : R.string
-                                                                .all_omemo_keys_have_been_verified,
-                                                Toast.LENGTH_LONG)
-                                        .show();
-                                break;
-                        }
-                    });
+            runOnUiThread(() -> {
+                if (mUseCameraHintToast != null && !keysToTrust) {
+                    mUseCameraHintToast.cancel();
+                }
+                switch (report) {
+                    case ERROR:
+                        Toast.makeText(
+                                        TrustKeysActivity.this,
+                                        R.string.error_fetching_omemo_key,
+                                        Toast.LENGTH_SHORT)
+                                .show();
+                        break;
+                    case SUCCESS_TRUSTED:
+                        Toast.makeText(
+                                        TrustKeysActivity.this,
+                                        R.string.blindly_trusted_omemo_keys,
+                                        Toast.LENGTH_LONG)
+                                .show();
+                        break;
+                    case SUCCESS_VERIFIED:
+                        Toast.makeText(
+                                        TrustKeysActivity.this,
+                                        Config.X509_VERIFICATION
+                                                ? R.string.verified_omemo_key_with_certificate
+                                                : R.string.all_omemo_keys_have_been_verified,
+                                        Toast.LENGTH_LONG)
+                                .show();
+                        break;
+                }
+            });
         }
         if (keysToTrust || hasPendingKeyFetches() || hasNoOtherTrustedKeys()) {
             refreshUi();

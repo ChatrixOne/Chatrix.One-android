@@ -9,4 +9,9 @@ public class URL extends Extension {
     public URL() {
         super(URL.class);
     }
+
+    public URL(final String url) {
+        this();
+        this.setContent(url);
+    }
 }

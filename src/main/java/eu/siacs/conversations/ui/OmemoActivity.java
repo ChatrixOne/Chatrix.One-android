@@ -165,10 +165,8 @@ public abstract class OmemoActivity extends QrCodeScanningActivity {
                 binding.verifiedFingerprint.setVisibility(View.VISIBLE);
                 binding.verifiedFingerprint.setAlpha(1.0f);
                 binding.tglTrust.setVisibility(View.GONE);
-                binding.verifiedFingerprint.setOnClickListener(
-                        v ->
-                                replaceToast(
-                                        getString(R.string.this_device_has_been_verified), false));
+                binding.verifiedFingerprint.setOnClickListener(v ->
+                        replaceToast(getString(R.string.this_device_has_been_verified), false));
                 toast = null;
             } else {
                 binding.verifiedFingerprint.setVisibility(View.GONE);
@@ -177,14 +175,13 @@ public abstract class OmemoActivity extends QrCodeScanningActivity {
                 if (status.getTrust() == FingerprintStatus.Trust.UNDECIDED
                         && undecidedNeedEnablement) {
                     binding.buttonEnableDevice.setVisibility(View.VISIBLE);
-                    binding.buttonEnableDevice.setOnClickListener(
-                            v -> {
-                                account.getAxolotlService()
-                                        .setFingerprintTrust(
-                                                fingerprint, FingerprintStatus.createActive(false));
-                                binding.buttonEnableDevice.setVisibility(View.GONE);
-                                binding.tglTrust.setVisibility(View.VISIBLE);
-                            });
+                    binding.buttonEnableDevice.setOnClickListener(v -> {
+                        account.getAxolotlService()
+                                .setFingerprintTrust(
+                                        fingerprint, FingerprintStatus.createActive(false));
+                        binding.buttonEnableDevice.setVisibility(View.GONE);
+                        binding.tglTrust.setVisibility(View.VISIBLE);
+                    });
                     binding.tglTrust.setVisibility(View.GONE);
                 } else {
                     binding.tglTrust.setOnClickListener(null);

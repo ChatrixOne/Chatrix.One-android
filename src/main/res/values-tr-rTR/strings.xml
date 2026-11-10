@@ -263,7 +263,7 @@
 \n<small>Bu, bağlantınızın hangi konuşma uygulamasını kullandığını belirlemekte kullanılacak</small>.</string>
     <string name="request_now">Şimdi iste</string>
     <string name="ignore">Yok say</string>
-    <string name="without_mutual_presence_updates"><b>Uyarı:</b> Bu mesajı karşılıklı çevrim içi durum bildirimleri olmadan göndermek, beklenmeyen problemlere neden olabilir. <small>\n\n Çevrim içi durum aboneliklerini doğrulamak için \"Kişi Bilgileri\" kısmına gidin.</small></string>
+    <string name="without_mutual_presence_updates"><b>Uyarı:</b> Bu mesajı karşılıklı çevrim içi durum bildirimleri olmadan göndermek, beklenmeyen problemlere neden olabilir.\n\n<small>Çevrim içi durum aboneliklerini doğrulamak için \"Kişi Bilgileri\" kısmına gidin.</small></string>
     <string name="pref_security_settings">Güvenlik</string>
     <string name="pref_allow_message_correction">Mesaj düzeltmeler</string>
     <string name="pref_allow_message_correction_summary">Kişilerinizin geçmiş iletilerini düzeltmelerine izin ver</string>
@@ -1122,7 +1122,7 @@
     <string name="backup_and_restore">Yedekleme &amp; Geri Yükleme</string>
     <string name="search_in_chats">Sohbetlerde ara</string>
     <string name="search_for_x_in_chats">Sohbetlerde \"%s\" için ara</string>
-    <string name="pref_entity_time">Yerel zamanı paylay</string>
+    <string name="pref_entity_time">Yerel zamanı paylaş</string>
     <string name="pref_entity_time_summary">Kişilerinizle mevcut saatinizi paylaşın, karşılığında onların yerel saatlerini öğrenin.</string>
     <string name="pref_save_to_gallery">Galeriye Kaydet</string>
     <string name="pref_save_to_gallery_summary">Medya dosyalarını, galeri ve dosya yöneticinizde görünmeleri için herkese açık klasörlere otomatik olarak kaydeder.</string>
@@ -1212,6 +1212,7 @@
     <string name="add_attachment">Dosya ekle</string>
     <string name="hide_attachment_options">Ekleme seçeneklerini gizle</string>
     <string name="show_attachment_options">Ekleme seçeneklerini göster</string>
-    <string name="collapsed">Daralt</string>
+    <string name="collapsed">Daraltıldı</string>
     <string name="expanded">Genişlet</string>
+    <string name="mobile_ticket">Mobil bilet</string>
 </resources>

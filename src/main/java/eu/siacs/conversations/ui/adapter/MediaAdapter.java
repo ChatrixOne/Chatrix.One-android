@@ -65,6 +65,7 @@ public class MediaAdapter extends ListAdapter<Attachment, MediaAdapter.MediaView
                     .add("application/pdf")
                     .add("text/x-tex")
                     .add("text/plain")
+                    .add("text/markdown")
                     .addAll(MimeUtils.WORD_DOCUMENT_MIMES)
                     .build();
 
@@ -255,15 +256,13 @@ public class MediaAdapter extends ListAdapter<Attachment, MediaAdapter.MediaView
         holder.binding.getRoot().setOnClickListener(v -> onAttachmentClicked.accept(attachment));
         holder.binding
                 .getRoot()
-                .setOnLongClickListener(
-                        v -> {
-                            final var wrapper = v.findViewById(R.id.wrapper);
-                            if (wrapper != null
-                                    && wrapper.getBackground() instanceof Drawable drawable) {
-                                drawable.jumpToCurrentState();
-                            }
-                            return onAttachmentLongClicked.apply(attachment);
-                        });
+                .setOnLongClickListener(v -> {
+                    final var wrapper = v.findViewById(R.id.wrapper);
+                    if (wrapper != null && wrapper.getBackground() instanceof Drawable drawable) {
+                        drawable.jumpToCurrentState();
+                    }
+                    return onAttachmentLongClicked.apply(attachment);
+                });
         if (selectedAttachments.contains(attachment.getUuid())) {
             holder.binding.selectionIndicator.setVisibility(ImageView.VISIBLE);
             holder.binding

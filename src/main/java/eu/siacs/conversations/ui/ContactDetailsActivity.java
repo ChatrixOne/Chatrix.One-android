@@ -253,11 +253,10 @@ public class ContactDetailsActivity extends OmemoActivity
 
         setSupportActionBar(binding.toolbar);
         configureActionBar(getSupportActionBar());
-        binding.showInactiveDevices.setOnClickListener(
-                v -> {
-                    showInactiveOmemo = !showInactiveOmemo;
-                    populateView();
-                });
+        binding.showInactiveDevices.setOnClickListener(v -> {
+            showInactiveOmemo = !showInactiveOmemo;
+            populateView();
+        });
         binding.addContactButton.setOnClickListener(v -> showAddToRosterDialog(contact));
 
         mMediaAdapter = new MediaAdapter(this, R.dimen.media_size);
@@ -568,7 +567,7 @@ public class ContactDetailsActivity extends OmemoActivity
         binding.scanButton.setVisibility(
                 hasKeys && isCameraFeatureAvailable ? View.VISIBLE : View.GONE);
         if (hasKeys) {
-            binding.scanButton.setOnClickListener((v) -> requestPermissionAndScanQrCode());
+            binding.scanButton.setOnClickListener(v -> requestPermissionAndScanQrCode());
         }
         if (contact.getPgpKeyId() != 0) {
             hasKeys = true;
@@ -667,7 +666,7 @@ public class ContactDetailsActivity extends OmemoActivity
                 xmppConnectionService.getAttachments(
                         account, contact.getAddress().asBareJid(), limit, this);
                 this.binding.showMedia.setOnClickListener(
-                        (v) -> MediaBrowserActivity.launch(this, contact));
+                        v -> MediaBrowserActivity.launch(this, contact));
             }
             populateView();
         }
@@ -693,13 +692,10 @@ public class ContactDetailsActivity extends OmemoActivity
 
     @Override
     public void onMediaLoaded(List<Attachment> attachments) {
-        runOnUiThread(
-                () -> {
-                    int limit = GridManager.getCurrentColumnCount(binding.media);
-                    mMediaAdapter.submitList(
-                            attachments.subList(0, Math.min(limit, attachments.size())));
-                    binding.mediaWrapper.setVisibility(
-                            attachments.size() > 0 ? View.VISIBLE : View.GONE);
-                });
+        runOnUiThread(() -> {
+            int limit = GridManager.getCurrentColumnCount(binding.media);
+            mMediaAdapter.submitList(attachments.subList(0, Math.min(limit, attachments.size())));
+            binding.mediaWrapper.setVisibility(attachments.size() > 0 ? View.VISIBLE : View.GONE);
+        });
     }
 }
