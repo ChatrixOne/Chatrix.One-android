@@ -38,6 +38,7 @@ import java.util.Objects;
 import java.util.Set;
 import java.util.UUID;
 import java.util.concurrent.CopyOnWriteArraySet;
+import okhttp3.HttpUrl;
 import org.jspecify.annotations.NonNull;
 
 public class Message extends AbstractEntity
@@ -1172,6 +1173,39 @@ public class Message extends AbstractEntity
     }
 
     public record StorageLocation(File file, boolean sharedStorage) {}
+
+    public record InlineMedia(
+            StorageLocation storageLocation,
+            HttpUrl source,
+            Instant date,
+            String desc,
+            byte[] sha256,
+            Integer width,
+            Integer height,
+            Long length,
+            String mediaType,
+            String name,
+            Long size,
+            List<Thumbnail> thumbnails) {
+
+        public static InlineMedia stub(final StorageLocation storageLocation, final String mime) {
+            return new InlineMedia(
+                    storageLocation,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    mime,
+                    null,
+                    null,
+                    Collections.emptyList());
+        }
+    }
+
+    public record Thumbnail(byte[] thumbnail, String mediaType, Long width, Long height) {}
 
     public record BodyVersion(String body, int encryption, String fingerprint) {
         public static BodyVersion of(final Message m) {

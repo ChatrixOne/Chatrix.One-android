@@ -647,6 +647,7 @@ public class FileBackend {
         if (file.isPresent()
                 && new FileBackend.Cache(mXmppConnectionService).isCachedFile(file.get())) {
             // These are files we created ourselves like recordings and photos
+            // TODO return stub InlineMedia where StorageLocation is just a child
             setupRelativeFilePath(message, file.get().getName());
         } else {
             final String extension;

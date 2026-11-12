@@ -63,7 +63,8 @@ public class PresenceManager extends AbstractManager {
         if (from == null || from.equals(getAccount().getJid())) {
             return;
         }
-        if (from.isBareJid() && getManager(MultiUserChatManager.class).isMuc(from.asBareJid())) {
+        if (from.isBareJid()
+                && getManager(MultiUserChatManager.class).isOpenMultiUserChat(from.asBareJid())) {
             // the old vCard updates will end up here
             return;
         }

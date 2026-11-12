@@ -2247,10 +2247,7 @@ public class XmppConnectionService extends Service {
 
     private boolean restoreFromArchive(
             final Conversation conversation, final Jid jid, final boolean muc) {
-        if (muc) {
-            conversation.setMode(Conversation.MODE_MULTI);
-            conversation.setContactJid(jid);
-        } else {
+        if (!muc) {
             conversation.setMode(Conversation.MODE_SINGLE);
             conversation.setContactJid(jid.asBareJid());
         }
@@ -2855,6 +2852,7 @@ public class XmppConnectionService extends Service {
         }
     }
 
+    // TODO get rid of this. Call Manager
     public void joinMuc(final Conversation conversation) {
         final var account = conversation.getAccount();
         account.getXmppConnection().getManager(MultiUserChatManager.class).join(conversation);

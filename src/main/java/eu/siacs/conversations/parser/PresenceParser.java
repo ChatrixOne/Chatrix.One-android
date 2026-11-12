@@ -25,7 +25,7 @@ public class PresenceParser extends AbstractParser
             multiUserChatManager.handlePresence(presence);
         } else if (type == Presence.Type.ERROR
                 && (presence.hasExtension(MultiUserChat.class)
-                        || multiUserChatManager.isMuc(presence.getFrom()))) {
+                        || multiUserChatManager.isOpenMultiUserChat(presence.getFrom()))) {
             multiUserChatManager.handleErrorPresence(presence);
         } else {
             getManager(PresenceManager.class).handlePresence(presence);

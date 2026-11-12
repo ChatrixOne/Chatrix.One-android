@@ -47,7 +47,7 @@ public class JingleMessageManager extends AbstractManager {
             final String serverMsgId,
             final Long timestamp,
             final int status) {
-        if (getManager(MultiUserChatManager.class).isMuc(packet)) {
+        if (getManager(MultiUserChatManager.class).isTypeGroupChatOrOpen(packet)) {
             Log.d(Config.LOGTAG, "ignore JMI from MUC");
             return;
         }

@@ -98,8 +98,13 @@ Without it, Gradle produces unsigned APKs in `build/outputs/apk/`.
 ## Versions
 
 Versions follow the Conversations release they are based on, plus a Chatrix.One suffix:
-`2.21.0-cx1-1` is the first Chatrix.One release based on Conversations 2.21.0, `2.21.0-cx1-2` the
-next one on the same base. New Conversations releases are merged regularly.
+
+* `2.21.2-cx1` is Conversations 2.21.2 merged into Chatrix.One, with no new Chatrix.One changes.
+* `2.21.2-cx1.1`, `2.21.2-cx1.2`, ... are the following Chatrix.One releases on the same base.
+
+The version code is the Conversations version code times 100 plus the Chatrix.One release number
+(`4218500` for `2.21.2-cx1`, `4218501` for `2.21.2-cx1.1`). New Conversations releases are merged
+regularly. Releases before 2.21.2 used the older form `2.21.1-cx1-1`, `2.21.0-cx1-2`, ...
 
 ## Credits and license
 

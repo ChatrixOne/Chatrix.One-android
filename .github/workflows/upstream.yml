@@ -38,4 +38,4 @@ jobs:
 
           Changelog: https://codeberg.org/iNPUTmice/Conversations/src/tag/$latest/CHANGELOG.md
 
-          Steps: fetch the tag from upstream, merge it into \`chatrix\`, resolve conflicts, set the version to \`$latest-cx1-1\`, build, test on a phone, release."
+          Steps: fetch the tag from upstream, merge it into \`chatrix\`, resolve conflicts, set the version to \`$latest-cx1\`, build, test on a phone, release."
