@@ -1,0 +1,3 @@
+* Dodanie obsługi OAuth‑a (pozostaw hasło puste aby użyć)
+* Naprawienie powiadomień wypychanych dla wariantu dla Google Play Store
+* Różne poprawki drobnych błędów bezpieczeństwa wykrytych przez duże modele językowe i przekazanych do nas przez inne podmioty
