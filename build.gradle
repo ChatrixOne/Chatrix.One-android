@@ -110,8 +110,8 @@ android {
 
     defaultConfig {
         minSdk = 23
-        versionCode = 42184
-        versionName = '2.21.1'
+        versionCode = 42185
+        versionName = '2.21.2'
         applicationId = 'eu.siacs.conversations'
         resValue('string', 'applicationId', applicationId)
         def appName = "Conversations"
