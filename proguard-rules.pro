@@ -6,6 +6,9 @@
 -keep class eu.siacs.conversations.**
 -keep class im.conversations.**
 
+-keep class eu.siacs.conversations.crypto.sasl.** { *; }
+-keep class eu.siacs.conversations.xmpp.manager.** { *; }
+
 -keep class org.whispersystems.**
 
 -keep class com.kyleduo.switchbutton.Configuration
