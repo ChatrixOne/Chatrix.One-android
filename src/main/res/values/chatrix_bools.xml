@@ -3,4 +3,6 @@
     <!-- Chatrix.One: reaction notifications (off by default, silent by default) -->
     <bool name="chatrix_notify_reactions">false</bool>
     <bool name="chatrix_reaction_sound">false</bool>
+    <!-- Chatrix.One: link previews (off by default: the app would open links by itself) -->
+    <bool name="chatrix_link_previews">false</bool>
 </resources>

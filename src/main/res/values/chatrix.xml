@@ -71,4 +71,6 @@
     <string name="chatrix_silent_reactions_channel_name">Silent reactions</string>
     <string name="chatrix_reactions_channel_description">Someone reacted to your message</string>
     <string name="chatrix_server_select_text">XMPP is a provider-independent instant messaging network. You can use this app with whichever XMPP server you choose.</string>
+    <string name="chatrix_pref_link_previews">Link previews</string>
+    <string name="chatrix_pref_link_previews_summary">Show a title and picture for links from your contacts. To get them, the app opens the link, so the website can see your IP address. Off when Tor is on.</string>
 </resources>

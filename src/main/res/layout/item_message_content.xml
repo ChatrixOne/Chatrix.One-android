@@ -15,6 +15,60 @@
             android:longClickable="false"
             android:textAppearance="?textAppearanceBodyMedium" />
 
+        <!-- Chatrix.One: link preview card (LinkPreviews) -->
+        <LinearLayout
+            android:id="@+id/link_preview"
+            android:layout_width="@dimen/audio_player_width"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="10dp"
+            android:layout_marginTop="6dp"
+            android:background="@drawable/background_chatrix_link_preview"
+            android:clipToOutline="true"
+            android:foreground="?attr/selectableItemBackground"
+            android:longClickable="true"
+            android:minHeight="64dp"
+            android:orientation="horizontal"
+            android:visibility="gone"
+            tools:visibility="visible">
+
+            <ImageView
+                android:id="@+id/link_preview_image"
+                android:layout_width="64dp"
+                android:layout_height="match_parent"
+                android:importantForAccessibility="no"
+                android:scaleType="centerCrop" />
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:paddingHorizontal="10dp"
+                android:paddingVertical="8dp">
+
+                <TextView
+                    android:id="@+id/link_preview_title"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:ellipsize="end"
+                    android:maxLines="2"
+                    android:textAppearance="?textAppearanceTitleSmall"
+                    tools:text="The Seven Rila Lakes: hiking guide and routes" />
+
+                <TextView
+                    android:id="@+id/link_preview_site"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="2dp"
+                    android:alpha="0.7"
+                    android:ellipsize="end"
+                    android:maxLines="1"
+                    android:textAppearance="?textAppearanceBodySmall"
+                    tools:text="visit-rila.example" />
+            </LinearLayout>
+        </LinearLayout>
+
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

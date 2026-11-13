@@ -83,6 +83,8 @@ public class AppSettings {
     // Chatrix.One: reaction notifications
     public static final String CHATRIX_NOTIFY_REACTIONS = "chatrix_notify_reactions";
     public static final String CHATRIX_REACTION_SOUND = "chatrix_reaction_sound";
+    // Chatrix.One: link preview cards (off by default)
+    public static final String CHATRIX_LINK_PREVIEWS = "chatrix_link_previews";
     private static final String INSTALLATION_ID = "im.conversations.android.install_id";
 
     private static final String EXTERNAL_STORAGE_AUTHORITY =
@@ -256,6 +258,11 @@ public class AppSettings {
     // Chatrix.One: reaction notifications with sound (true) or silent (false)
     public boolean isReactionSound() {
         return getBooleanPreference(CHATRIX_REACTION_SOUND, R.bool.chatrix_reaction_sound);
+    }
+
+    // Chatrix.One: link preview cards for links from contacts
+    public boolean isLinkPreviews() {
+        return getBooleanPreference(CHATRIX_LINK_PREVIEWS, R.bool.chatrix_link_previews);
     }
 
     public boolean isKeepForegroundService() {

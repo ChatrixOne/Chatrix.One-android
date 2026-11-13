@@ -40,6 +40,12 @@
             android:key="accept_invites_from_strangers"
             android:summary="@string/pref_accept_invites_from_strangers_summary"
             android:title="@string/pref_accept_invites_from_strangers" />
+        <SwitchPreferenceCompat
+            android:defaultValue="@bool/chatrix_link_previews"
+            android:icon="@drawable/ic_link_24dp"
+            android:key="chatrix_link_previews"
+            android:summary="@string/chatrix_pref_link_previews_summary"
+            android:title="@string/chatrix_pref_link_previews" />
     </PreferenceCategory>
     <PreferenceCategory android:title="@string/peer_to_peer">
         <SwitchPreferenceCompat

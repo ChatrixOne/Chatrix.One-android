@@ -605,6 +605,11 @@ public class MessageAdapter extends ArrayAdapter<Message> {
         viewHolder.messageBody().setAutoLinkMask(0);
         viewHolder.messageBody().setText(body);
         viewHolder.messageBody().setMovementMethod(ClickableMovementMethod.getInstance());
+        // Chatrix.One: link preview card under the text
+        eu.siacs.conversations.ui.chatrix.LinkPreviews.bind(
+                viewHolder.messageBox().findViewById(R.id.link_preview),
+                message,
+                bubbleToOnSurfaceColor(viewHolder.messageBody(), bubbleColor));
     }
 
     private void displayDownloadableMessage(
@@ -916,6 +921,10 @@ public class MessageAdapter extends ArrayAdapter<Message> {
                         return false;
                     }
                 });
+
+        // Chatrix.One: only text messages get a link preview card (see displayTextMessage)
+        eu.siacs.conversations.ui.chatrix.LinkPreviews.hide(
+                viewHolder.messageBox().findViewById(R.id.link_preview));
 
         final Transferable transferable = message.getTransferable();
         final boolean unInitiatedButKnownSize = MessageUtils.unInitiatedButKnownSize(message);
