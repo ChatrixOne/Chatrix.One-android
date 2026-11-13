@@ -15,6 +15,7 @@
         <item>@string/chatrix_action_react</item>
         <item>@string/chatrix_action_copy</item>
         <item>@string/chatrix_action_edit</item>
+        <item>@string/share_with</item>
         <item>@string/chatrix_action_none</item>
     </string-array>
     <string-array name="chatrix_action_values" translatable="false">
@@ -22,6 +23,7 @@
         <item>react</item>
         <item>copy</item>
         <item>edit</item>
+        <item>share</item>
         <item>none</item>
     </string-array>
     <string name="chatrix_pref_chat_background">Chat background</string>

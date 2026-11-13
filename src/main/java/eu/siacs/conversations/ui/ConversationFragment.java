@@ -2570,6 +2570,7 @@ public class ConversationFragment extends XmppFragment
         switch (action) {
             case QUOTE -> quoteMessage(message);
             case EDIT -> correctMessage(message);
+            case SHARE -> ShareUtil.share(requireXmppActivity(), message);
             case COPY -> {
                 ShareUtil.copyToClipboard(requireXmppActivity(), message);
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {

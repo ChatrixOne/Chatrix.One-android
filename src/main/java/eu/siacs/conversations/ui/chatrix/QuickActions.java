@@ -33,6 +33,7 @@ public final class QuickActions {
         REACT,
         COPY,
         EDIT,
+        SHARE,
         NONE;
 
         static Action of(final String value) {
@@ -173,12 +174,29 @@ public final class QuickActions {
                 && singleOrOccupantId;
     }
 
+    /** Same conditions as "Share with" in the context menu. */
+    public static boolean canShare(final Message m) {
+        if (!baseConditions(m)) {
+            return false;
+        }
+        final Transferable t = m.getTransferable();
+        if (m.isFileOrImage()) {
+            final boolean receiving = m.getStatus() == Message.STATUS_RECEIVED && t != null;
+            return !m.isDeleted() && !receiving;
+        }
+        return m.getType() == Message.TYPE_TEXT
+                && !m.treatAsDownloadable()
+                && !MessageUtils.unInitiatedButKnownSize(m)
+                && t == null;
+    }
+
     public static boolean isAllowed(final Action action, final Message m) {
         return switch (action) {
             case QUOTE -> canQuote(m);
             case REACT -> canReact(m);
             case COPY -> canCopy(m);
             case EDIT -> canEdit(m);
+            case SHARE -> canShare(m);
             case NONE -> false;
         };
     }
@@ -199,6 +217,7 @@ public final class QuickActions {
                     case QUOTE -> ContextCompat.getDrawable(context, R.drawable.ic_reply_24dp);
                     case COPY -> ContextCompat.getDrawable(context, R.drawable.ic_chatrix_copy_24dp);
                     case EDIT -> ContextCompat.getDrawable(context, R.drawable.ic_edit_24dp);
+                    case SHARE -> ContextCompat.getDrawable(context, R.drawable.ic_share_24dp);
                     case REACT -> new EmojiDrawable(quickEmoji(context));
                     case NONE -> null;
                 };
