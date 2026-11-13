@@ -49,4 +49,5 @@
     <string name="chatrix_server_select_text">XMPP ഒരു ദാതാവിനെയും ആശ്രയിക്കാത്ത ഇൻസ്റ്റന്റ് മെസേജിംഗ് നെറ്റ്‌വർക്കാണ്. നിങ്ങൾ തിരഞ്ഞെടുക്കുന്ന ഏത് XMPP സെർവറിനൊപ്പവും ഈ ആപ്പ് ഉപയോഗിക്കാം.</string>
     <string name="chatrix_pref_link_previews">ലിങ്ക് പ്രിവ്യൂ</string>
     <string name="chatrix_pref_link_previews_summary">നിങ്ങളുടെ കോൺടാക്റ്റുകളിൽ നിന്നുള്ള ലിങ്കുകൾക്ക് തലക്കെട്ടും ചിത്രവും കാണിക്കുക. ഇതിനായി ആപ്പ് ലിങ്ക് തുറക്കുന്നു, അതിനാൽ വെബ്സൈറ്റിന് നിങ്ങളുടെ IP വിലാസം കാണാനാകും. Tor ഓണായിരിക്കുമ്പോൾ ഓഫ്.</string>
+    <string name="chatrix_voice_speed">പ്ലേബാക്ക് വേഗത</string>
 </resources>

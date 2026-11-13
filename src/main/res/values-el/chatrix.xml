@@ -49,4 +49,5 @@
     <string name="chatrix_server_select_text">Το XMPP είναι ένα δίκτυο άμεσων μηνυμάτων ανεξάρτητο από πάροχο. Μπορείτε να χρησιμοποιήσετε αυτή την εφαρμογή με όποιον διακομιστή XMPP επιθυμείτε.</string>
     <string name="chatrix_pref_link_previews">Προεπισκόπηση συνδέσμων</string>
     <string name="chatrix_pref_link_previews_summary">Εμφάνιση τίτλου και εικόνας για συνδέσμους από τις επαφές σας. Για να τα λάβει, η εφαρμογή ανοίγει τον σύνδεσμο, οπότε ο ιστότοπος μπορεί να δει τη διεύθυνση IP σας. Ανενεργό όταν το Tor είναι ενεργό.</string>
+    <string name="chatrix_voice_speed">Ταχύτητα αναπαραγωγής</string>
 </resources>

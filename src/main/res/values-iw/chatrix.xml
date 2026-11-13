@@ -49,4 +49,5 @@
     <string name="chatrix_server_select_text">XMPP היא רשת הודעות מיידיות שאינה תלויה בספק. אפשר להשתמש באפליקציה זו עם כל שרת XMPP שתבחר/י.</string>
     <string name="chatrix_pref_link_previews">תצוגה מקדימה של קישורים</string>
     <string name="chatrix_pref_link_previews_summary">הצגת כותרת ותמונה לקישורים מאנשי הקשר שלך. כדי לקבל אותן האפליקציה פותחת את הקישור, ולכן האתר יכול לראות את כתובת ה־IP שלך. כבוי כש־Tor פועל.</string>
+    <string name="chatrix_voice_speed">מהירות ההשמעה</string>
 </resources>

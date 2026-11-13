@@ -49,4 +49,5 @@
     <string name="chatrix_server_select_text">XMPP to niezależna od dostawcy sieć komunikacji błyskawicznej. Możesz używać tej aplikacji z dowolnym wybranym serwerem XMPP.</string>
     <string name="chatrix_pref_link_previews">Podgląd linków</string>
     <string name="chatrix_pref_link_previews_summary">Pokazuj tytuł i obrazek dla linków od Twoich kontaktów. Aby je pobrać, aplikacja otwiera link, więc strona może zobaczyć Twój adres IP. Wyłączone, gdy Tor jest włączony.</string>
+    <string name="chatrix_voice_speed">Prędkość odtwarzania</string>
 </resources>

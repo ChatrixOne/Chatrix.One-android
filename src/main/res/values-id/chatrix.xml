@@ -49,4 +49,5 @@
     <string name="chatrix_server_select_text">XMPP adalah jaringan pesan instan yang tidak bergantung pada satu penyedia. Anda dapat menggunakan aplikasi ini dengan server XMPP pilihan Anda.</string>
     <string name="chatrix_pref_link_previews">Pratinjau tautan</string>
     <string name="chatrix_pref_link_previews_summary">Tampilkan judul dan gambar untuk tautan dari kontak Anda. Untuk itu aplikasi membuka tautan, sehingga situs web dapat melihat alamat IP Anda. Mati saat Tor aktif.</string>
+    <string name="chatrix_voice_speed">Kecepatan pemutaran</string>
 </resources>

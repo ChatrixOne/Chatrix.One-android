@@ -49,4 +49,5 @@
     <string name="chatrix_server_select_text">XMPP este o rețea de mesagerie instant ce nu depinde de un anumit furnizor. Puteți folosi această aplicație cu orice server XMPP doriți.</string>
     <string name="chatrix_pref_link_previews">Previzualizare linkuri</string>
     <string name="chatrix_pref_link_previews_summary">Afișează un titlu și o imagine pentru linkurile de la contactele dumneavoastră. Pentru asta, aplicația deschide linkul, deci site-ul vă poate vedea adresa IP. Dezactivat când Tor este pornit.</string>
+    <string name="chatrix_voice_speed">Viteza de redare</string>
 </resources>

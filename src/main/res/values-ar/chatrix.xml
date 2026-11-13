@@ -49,4 +49,5 @@
     <string name="chatrix_server_select_text">XMPP شبكة مراسلة فورية مستقلة عن مزوّد الخدمة. يمكنك استخدام هذا التطبيق مع أي خادم XMPP تختاره.</string>
     <string name="chatrix_pref_link_previews">معاينة الروابط</string>
     <string name="chatrix_pref_link_previews_summary">إظهار عنوان وصورة للروابط الواردة من جهات اتصالك. للحصول عليهما يفتح التطبيق الرابط، لذا يمكن للموقع رؤية عنوان IP الخاص بك. متوقف عند تشغيل Tor.</string>
+    <string name="chatrix_voice_speed">سرعة التشغيل</string>
 </resources>

@@ -49,4 +49,5 @@
     <string name="chatrix_server_select_text">XMPP یک شبکهٔ پیام‌رسانی فوری مستقل از سرویس‌دهنده است. می‌توانید این برنامه را با هر سرور XMPP که بخواهید به کار ببرید.</string>
     <string name="chatrix_pref_link_previews">پیش‌نمایش پیوندها</string>
     <string name="chatrix_pref_link_previews_summary">برای پیوندهایی که مخاطبانتان می‌فرستند، عنوان و تصویر نشان داده شود. برای این کار برنامه پیوند را باز می‌کند، پس وب‌سایت می‌تواند نشانی IP شما را ببیند. وقتی Tor روشن است خاموش است.</string>
+    <string name="chatrix_voice_speed">سرعت پخش</string>
 </resources>

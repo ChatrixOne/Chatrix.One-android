@@ -49,4 +49,5 @@
     <string name="chatrix_server_select_text">XMPP to je nec wartkich wiadōmości niyzależny ôd liferanta. Możesz używać tyj aplikacyje ze serwerym XMPP, jaki sie wybieresz.</string>
     <string name="chatrix_pref_link_previews">Podglōnd linkōw</string>
     <string name="chatrix_pref_link_previews_summary">Pokazuj tytuł i ôbrazek dlŏ linkōw ôd twojich kōntaktōw. Coby je dostać, aplikacyjŏ ôtwiyrŏ link, tōż strōna może ôbejrzeć twōj adres IP. Wyłōnczōne, kej Tor je załōnczōny.</string>
+    <string name="chatrix_voice_speed">Gibkość grania</string>
 </resources>

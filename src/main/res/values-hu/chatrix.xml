@@ -49,4 +49,5 @@
     <string name="chatrix_server_select_text">Az XMPP egy szolgáltatófüggetlen, azonnali üzenetküldő hálózat. Ezt az alkalmazást bármely XMPP-kiszolgálóval használhatja.</string>
     <string name="chatrix_pref_link_previews">Linkelőnézetek</string>
     <string name="chatrix_pref_link_previews_summary">Cím és kép megjelenítése a névjegyeitől érkező linkekhez. Ehhez az alkalmazás megnyitja a linket, így a webhely láthatja az Ön IP-címét. Kikapcsolva, ha a Tor be van kapcsolva.</string>
+    <string name="chatrix_voice_speed">Lejátszási sebesség</string>
 </resources>

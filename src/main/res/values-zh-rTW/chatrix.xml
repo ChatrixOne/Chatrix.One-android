@@ -49,4 +49,5 @@
     <string name="chatrix_server_select_text">XMPP 是獨立於服務提供者的即時訊息網路。你可以搭配任何你選擇的 XMPP 伺服器使用此應用程式。</string>
     <string name="chatrix_pref_link_previews">連結預覽</string>
     <string name="chatrix_pref_link_previews_summary">為聯絡人傳來的連結顯示標題與圖片。為此應用程式會開啟該連結，因此網站可以看到你的 IP 位址。開啟 Tor 時關閉。</string>
+    <string name="chatrix_voice_speed">播放速度</string>
 </resources>

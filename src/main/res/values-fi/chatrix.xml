@@ -49,4 +49,5 @@
     <string name="chatrix_server_select_text">XMPP on palveluntarjoajasta riippumaton pikaviestiverkko. Voit käyttää tätä sovellusta minkä tahansa valitsemasi XMPP-palvelimen kanssa.</string>
     <string name="chatrix_pref_link_previews">Linkkien esikatselu</string>
     <string name="chatrix_pref_link_previews_summary">Näytä otsikko ja kuva yhteystietojesi lähettämille linkeille. Niitä varten sovellus avaa linkin, joten sivusto voi nähdä IP-osoitteesi. Pois päältä, kun Tor on käytössä.</string>
+    <string name="chatrix_voice_speed">Toistonopeus</string>
 </resources>

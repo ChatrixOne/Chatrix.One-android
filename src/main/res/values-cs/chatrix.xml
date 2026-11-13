@@ -49,4 +49,5 @@
     <string name="chatrix_server_select_text">XMPP je síť pro rychlé zprávy nezávislá na poskytovateli. Tuto aplikaci můžete používat s jakýmkoli XMPP serverem, který si zvolíte.</string>
     <string name="chatrix_pref_link_previews">Náhledy odkazů</string>
     <string name="chatrix_pref_link_previews_summary">Zobrazit název a obrázek u odkazů od vašich kontaktů. Aplikace k tomu odkaz otevře, takže web může vidět vaši IP adresu. Vypnuto, když je zapnutý Tor.</string>
+    <string name="chatrix_voice_speed">Rychlost přehrávání</string>
 </resources>

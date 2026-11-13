@@ -49,4 +49,5 @@
     <string name="chatrix_server_select_text">XMPP एक इंस्टेंट मैसेजिंग नेटवर्क है जो किसी एक प्रदाता पर निर्भर नहीं है। आप इस ऐप को अपनी पसंद के किसी भी XMPP सर्वर के साथ इस्तेमाल कर सकते हैं।</string>
     <string name="chatrix_pref_link_previews">लिंक पूर्वावलोकन</string>
     <string name="chatrix_pref_link_previews_summary">आपके संपर्कों के लिंक के लिए शीर्षक और चित्र दिखाएँ। इसके लिए ऐप लिंक खोलता है, इसलिए वेबसाइट आपका IP पता देख सकती है। Tor चालू होने पर बंद।</string>
+    <string name="chatrix_voice_speed">चलाने की गति</string>
 </resources>

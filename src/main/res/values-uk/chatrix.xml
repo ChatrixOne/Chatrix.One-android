@@ -49,4 +49,5 @@
     <string name="chatrix_server_select_text">XMPP — це мережа обміну миттєвими повідомленнями, незалежна від постачальників. Можете використовувати цю програму з будь-яким XMPP-сервером, який оберете.</string>
     <string name="chatrix_pref_link_previews">Попередній перегляд посилань</string>
     <string name="chatrix_pref_link_previews_summary">Показувати заголовок і зображення для посилань від ваших контактів. Для цього застосунок відкриває посилання, тож сайт може побачити вашу IP-адресу. Вимкнено, коли ввімкнено Tor.</string>
+    <string name="chatrix_voice_speed">Швидкість відтворення</string>
 </resources>

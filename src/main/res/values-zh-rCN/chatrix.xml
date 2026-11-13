@@ -49,4 +49,5 @@
     <string name="chatrix_server_select_text">XMPP 是独立于服务提供者的即时通讯网络。您可以选择任意 XMPP 服务器使用本应用。</string>
     <string name="chatrix_pref_link_previews">链接预览</string>
     <string name="chatrix_pref_link_previews_summary">为联系人发来的链接显示标题和图片。为此应用会打开该链接，因此网站可以看到你的 IP 地址。开启 Tor 时关闭。</string>
+    <string name="chatrix_voice_speed">播放速度</string>
 </resources>

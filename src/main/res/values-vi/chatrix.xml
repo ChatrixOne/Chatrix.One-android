@@ -49,4 +49,5 @@
     <string name="chatrix_server_select_text">XMPP là mạng nhắn tin tức thời không phụ thuộc vào nhà cung cấp nào. Bạn có thể dùng ứng dụng này với bất kỳ máy chủ XMPP nào bạn chọn.</string>
     <string name="chatrix_pref_link_previews">Xem trước liên kết</string>
     <string name="chatrix_pref_link_previews_summary">Hiện tiêu đề và hình ảnh cho liên kết từ danh bạ của bạn. Để lấy chúng, ứng dụng mở liên kết, nên trang web có thể thấy địa chỉ IP của bạn. Tắt khi bật Tor.</string>
+    <string name="chatrix_voice_speed">Tốc độ phát</string>
 </resources>

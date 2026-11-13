@@ -110,8 +110,8 @@ android {
 
     defaultConfig {
         minSdk = 23
-        versionCode = 4218502 // Chatrix.One: upstream 42185, fork release 02
-        versionName = '2.21.2-cx1.2'
+        versionCode = 4218503 // Chatrix.One: upstream 42185, fork release 03
+        versionName = '2.21.2-cx1.3'
         applicationId = 'eu.siacs.conversations'
         resValue('string', 'applicationId', applicationId)
         def appName = "Conversations"

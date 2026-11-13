@@ -49,4 +49,5 @@
     <string name="chatrix_server_select_text">XMPP је мрежа за инстант поруке, независна од провајдера. Ову апликацију можете да користите уз било који XMPP сервер по свом избору.</string>
     <string name="chatrix_pref_link_previews">Преглед линкова</string>
     <string name="chatrix_pref_link_previews_summary">Прикажи наслов и слику за линкове од ваших контаката. За то апликација отвара линк, па сајт може да види вашу IP адресу. Искључено када је Tor укључен.</string>
+    <string name="chatrix_voice_speed">Брзина репродукције</string>
 </resources>

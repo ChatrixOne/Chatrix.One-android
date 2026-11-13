@@ -49,4 +49,5 @@
     <string name="chatrix_server_select_text">XMPP është një rrjet mesazhesh të menjëhershme i pavarur nga ofruesi. Mund ta përdorni këtë aplikacion me çfarëdo shërbyesi XMPP që zgjidhni.</string>
     <string name="chatrix_pref_link_previews">Paraparje lidhjesh</string>
     <string name="chatrix_pref_link_previews_summary">Shfaq një titull dhe një foto për lidhjet nga kontaktet tuaja. Për t’i marrë, aplikacioni hap lidhjen, ndaj sajti mund të shohë adresën tuaj IP. Joaktive kur Tor është aktiv.</string>
+    <string name="chatrix_voice_speed">Shpejtësia e luajtjes</string>
 </resources>

@@ -49,4 +49,5 @@
     <string name="chatrix_server_select_text">XMPP je sieť pre okamžité správy nezávislá od poskytovateľa. Túto aplikáciu môžete používať s akýmkoľvek XMPP serverom, ktorý si vyberiete.</string>
     <string name="chatrix_pref_link_previews">Náhľady odkazov</string>
     <string name="chatrix_pref_link_previews_summary">Zobraziť názov a obrázok pri odkazoch od vašich kontaktov. Aplikácia na to odkaz otvorí, takže stránka môže vidieť vašu IP adresu. Vypnuté, keď je zapnutý Tor.</string>
+    <string name="chatrix_voice_speed">Rýchlosť prehrávania</string>
 </resources>

@@ -17,6 +17,7 @@ import android.view.View;
 import android.widget.RelativeLayout;
 import android.widget.SeekBar;
 import android.widget.TextView;
+import androidx.preference.PreferenceManager;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import com.google.android.material.button.MaterialButton;
@@ -120,6 +121,8 @@ public class AudioPlayer
         // Chatrix.One: play button follows the bubble colour (was invisible on the green bubble)
         viewHolder.playPause.setIconTint(color);
         viewHolder.playPause.setStrokeColor(color);
+        // Chatrix.One: playback speed chip
+        bindSpeed(viewHolder);
         // Chatrix.One: draw the voice message as sound-wave bars
         if (viewHolder.progress instanceof eu.siacs.conversations.ui.chatrix.WaveformSeekBar w) {
             w.setAudioFile(messageAdapter.getFileBackend().getFile(message));
@@ -192,6 +195,7 @@ public class AudioPlayer
         } else {
             viewHolder.progress.setEnabled(true);
             player.start();
+            applySpeed(player, speed(viewHolder.playPause.getContext()));
             messageAdapter.flagScreenOn();
             acquireProximityWakeLock();
             this.stopRefresher(true);
@@ -218,6 +222,7 @@ public class AudioPlayer
             AudioPlayer.player.setOnCompletionListener(this);
             AudioPlayer.player.prepare();
             AudioPlayer.player.start();
+            applySpeed(AudioPlayer.player, speed(viewHolder.speed.getContext()));
             messageAdapter.flagScreenOn();
             acquireProximityWakeLock();
             viewHolder.progress.setEnabled(true);
@@ -446,6 +451,82 @@ public class AudioPlayer
         messageAdapter.setVolumeControl(AudioManager.STREAM_MUSIC);
     }
 
+    // Chatrix.One: voice message playback speed, one setting for all voice messages
+
+    private static final String PREF_VOICE_SPEED = "chatrix_voice_speed";
+    private static final float[] SPEEDS = {1f, 1.5f, 2f};
+
+    private static float speed(final Context context) {
+        final float stored =
+                PreferenceManager.getDefaultSharedPreferences(context)
+                        .getFloat(PREF_VOICE_SPEED, 1f);
+        for (final float s : SPEEDS) {
+            if (s == stored) {
+                return s;
+            }
+        }
+        return 1f;
+    }
+
+    private static String speedLabel(final float speed) {
+        final java.text.DecimalFormat format = new java.text.DecimalFormat("0.#");
+        return format.format(speed) + "×";
+    }
+
+    /** Changes speed without pitch change; only while playing (on a paused player it would resume). */
+    private static void applySpeed(final MediaPlayer mediaPlayer, final float speed) {
+        if (mediaPlayer == null || !mediaPlayer.isPlaying()) {
+            return;
+        }
+        try {
+            mediaPlayer.setPlaybackParams(
+                    mediaPlayer.getPlaybackParams().setSpeed(speed).setPitch(1f));
+        } catch (final IllegalStateException | IllegalArgumentException e) {
+            Log.d(Config.LOGTAG, "could not set voice message speed", e);
+        }
+    }
+
+    private void bindSpeed(final ViewHolder viewHolder) {
+        final TextView chip = viewHolder.speed;
+        if (chip == null) {
+            return;
+        }
+        final Context context = chip.getContext();
+        final float speed = speed(context);
+        final int color = MessageAdapter.bubbleToOnSurfaceColor(chip, viewHolder.bubbleColor);
+        final float density = context.getResources().getDisplayMetrics().density;
+        final android.graphics.drawable.GradientDrawable shape =
+                new android.graphics.drawable.GradientDrawable();
+        shape.setCornerRadius(100 * density);
+        shape.setStroke(Math.round(1.3f * density), color);
+        // filled when not at normal speed, so the speed is visible at a glance
+        shape.setColor(speed == 1f ? android.graphics.Color.TRANSPARENT
+                : androidx.core.graphics.ColorUtils.setAlphaComponent(color, 0x40));
+        chip.setBackground(shape);
+        chip.setTextColor(color);
+        final String label = speedLabel(speed);
+        chip.setText(label);
+        chip.setContentDescription(context.getString(R.string.chatrix_voice_speed) + " " + label);
+        chip.setOnClickListener(v -> {
+            final float current = speed(context);
+            float next = SPEEDS[0];
+            for (int i = 0; i < SPEEDS.length; i++) {
+                if (SPEEDS[i] == current) {
+                    next = SPEEDS[(i + 1) % SPEEDS.length];
+                }
+            }
+            PreferenceManager.getDefaultSharedPreferences(context)
+                    .edit()
+                    .putFloat(PREF_VOICE_SPEED, next)
+                    .apply();
+            synchronized (LOCK) {
+                applySpeed(AudioPlayer.player, next);
+            }
+            // every voice message on screen shows the new speed
+            messageAdapter.notifyDataSetChanged();
+        });
+    }
+
     private ViewHolder getCurrentViewHolder() {
         for (WeakReference<RelativeLayout> audioPlayer : audioPlayerLayouts) {
             final Message message = (Message) audioPlayer.get().getTag();
@@ -460,6 +541,7 @@ public class AudioPlayer
         private TextView runtime;
         private SeekBar progress;
         private MaterialButton playPause;
+        private TextView speed;
         private MessageAdapter.BubbleColor bubbleColor = MessageAdapter.BubbleColor.SURFACE;
 
         public static ViewHolder get(final RelativeLayout audioPlayer) {
@@ -472,6 +554,7 @@ public class AudioPlayer
             viewHolder.runtime = audioPlayer.findViewById(R.id.runtime);
             viewHolder.progress = audioPlayer.findViewById(R.id.progress);
             viewHolder.playPause = audioPlayer.findViewById(R.id.play_pause);
+            viewHolder.speed = audioPlayer.findViewById(R.id.speed);
             audioPlayer.setTag(R.id.TAG_AUDIO_PLAYER_VIEW_HOLDER, viewHolder);
             return viewHolder;
         }

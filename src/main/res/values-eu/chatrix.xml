@@ -49,4 +49,5 @@
     <string name="chatrix_server_select_text">XMPP hornitzailez independentea den bat-bateko mezularitza sare bat da. Aplikazio hau nahi duzun XMPP zerbitzariarekin erabil dezakezu.</string>
     <string name="chatrix_pref_link_previews">Esteken aurrebista</string>
     <string name="chatrix_pref_link_previews_summary">Erakutsi izenburu bat eta irudi bat zure kontaktuen esteketarako. Horretarako aplikazioak esteka irekitzen du, beraz webguneak zure IP helbidea ikus dezake. Desaktibatuta Tor aktibatuta dagoenean.</string>
+    <string name="chatrix_voice_speed">Erreprodukzio-abiadura</string>
 </resources>

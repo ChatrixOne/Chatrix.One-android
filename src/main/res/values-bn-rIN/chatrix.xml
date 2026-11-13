@@ -49,4 +49,5 @@
     <string name="chatrix_server_select_text">XMPP কোনো একটি নির্দিষ্ট সংস্থার উপরে নির্ভরশীল নয়। এই অ্যাপটি আপনি যেকোনো XMPP সার্ভারের সাথে ব্যবহার করতে পারেন।</string>
     <string name="chatrix_pref_link_previews">লিংক প্রিভিউ</string>
     <string name="chatrix_pref_link_previews_summary">আপনার পরিচিতিদের পাঠানো লিংকের জন্য শিরোনাম ও ছবি দেখান। এর জন্য অ্যাপটি লিংকটি খোলে, তাই ওয়েবসাইট আপনার IP ঠিকানা দেখতে পারে। Tor চালু থাকলে বন্ধ।</string>
+    <string name="chatrix_voice_speed">চালানোর গতি</string>
 </resources>

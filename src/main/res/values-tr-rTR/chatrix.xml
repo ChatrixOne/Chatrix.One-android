@@ -49,4 +49,5 @@
     <string name="chatrix_server_select_text">XMPP, sağlayıcıdan bağımsız bir anlık mesajlaşma ağıdır. Bu uygulamayı seçtiğiniz herhangi bir XMPP sunucusuyla kullanabilirsiniz.</string>
     <string name="chatrix_pref_link_previews">Bağlantı önizlemeleri</string>
     <string name="chatrix_pref_link_previews_summary">Kişilerinizden gelen bağlantılar için bir başlık ve resim göster. Bunun için uygulama bağlantıyı açar, bu yüzden web sitesi IP adresinizi görebilir. Tor açıkken kapalıdır.</string>
+    <string name="chatrix_voice_speed">Oynatma hızı</string>
 </resources>

@@ -49,4 +49,5 @@
     <string name="chatrix_server_select_text">XMPP är ett leverantörsoberoende snabbmeddelandenätverk. Du kan använda den här appen med valfri XMPP-server.</string>
     <string name="chatrix_pref_link_previews">Länkförhandsvisning</string>
     <string name="chatrix_pref_link_previews_summary">Visa en titel och bild för länkar från dina kontakter. För att hämta dem öppnar appen länken, så webbplatsen kan se din IP-adress. Av när Tor är på.</string>
+    <string name="chatrix_voice_speed">Uppspelningshastighet</string>
 </resources>

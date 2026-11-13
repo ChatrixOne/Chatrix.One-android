@@ -49,4 +49,5 @@
     <string name="chatrix_server_select_text">XMPP is een provider-onafhankelijk berichtennetwerk. Je kunt deze app gebruiken met elke XMPP-server die je kiest.</string>
     <string name="chatrix_pref_link_previews">Linkvoorbeelden</string>
     <string name="chatrix_pref_link_previews_summary">Een titel en afbeelding tonen voor links van je contacten. Daarvoor opent de app de link, dus de website kan je IP-adres zien. Uit als Tor aan staat.</string>
+    <string name="chatrix_voice_speed">Afspeelsnelheid</string>
 </resources>

@@ -49,4 +49,5 @@
     <string name="chatrix_server_select_text">XMPP er et leverandøruavhengig nettverk for direktemeldinger. Du kan bruke denne appen med hvilken som helst XMPP-server du velger.</string>
     <string name="chatrix_pref_link_previews">Forhåndsvisning av lenker</string>
     <string name="chatrix_pref_link_previews_summary">Vis en tittel og et bilde for lenker fra kontaktene dine. For å hente dem åpner appen lenken, så nettstedet kan se IP-adressen din. Av når Tor er på.</string>
+    <string name="chatrix_voice_speed">Avspillingshastighet</string>
 </resources>
