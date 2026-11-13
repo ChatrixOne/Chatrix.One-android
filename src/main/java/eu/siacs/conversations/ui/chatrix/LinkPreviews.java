@@ -44,6 +44,7 @@ import java.util.Map;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import okhttp3.HttpUrl;
@@ -52,6 +53,8 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 import okhttp3.ResponseBody;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 /**
  * Chatrix.One: link preview card (title, website, small picture) under a text message.
@@ -71,8 +74,17 @@ public final class LinkPreviews {
 
     private static final int MAX_HTML_BYTES = 256 * 1024;
     private static final int MAX_IMAGE_BYTES = 3 * 1024 * 1024;
+    private static final int MAX_OEMBED_BYTES = 64 * 1024;
     private static final int THUMB_PX = 192;
+
+    /** Pictures at least this much wider than high get the wide box (16:9) on the card. */
+    private static final float WIDE_MIN_RATIO = 1.3f;
     private static final int MAX_TITLE_CHARS = 200;
+
+    /** v2: wide pictures are stored 16:9 and YouTube/Vimeo use oEmbed. */
+    private static final String CACHE_DIR = "chatrix_link_previews_v2";
+
+    private static final String OLD_CACHE_DIR = "chatrix_link_previews";
 
     private static final String NONE = "\u0000none";
 
@@ -80,6 +92,7 @@ public final class LinkPreviews {
     private static final Pattern ATTR =
             Pattern.compile(
                     "([a-zA-Z_:-]+)\\s*=\\s*(?:\"([^\"]*)\"|'([^']*)'|([^\\s\"'>]+))");
+    private static final Pattern LINK = Pattern.compile("<link\\s[^>]*>", Pattern.CASE_INSENSITIVE);
     private static final Pattern TITLE =
             Pattern.compile("<title[^>]*>(.*?)</title>", Pattern.CASE_INSENSITIVE | Pattern.DOTALL);
     private static final Pattern CHARSET =
@@ -89,6 +102,7 @@ public final class LinkPreviews {
     private static final LruCache<String, Preview> MEMORY = new LruCache<>(128);
 
     private static final Preview MISSING = new Preview("", "", "", null);
+    private static final AtomicBoolean OLD_CACHE_REMOVED = new AtomicBoolean(false);
     private static final Map<String, List<Callback>> PENDING = new HashMap<>();
     private static final ExecutorService EXECUTOR = Executors.newFixedThreadPool(2);
     private static final Handler MAIN = new Handler(Looper.getMainLooper());
@@ -126,7 +140,11 @@ public final class LinkPreviews {
             return;
         }
         card.setTag(url);
-        final File cacheDir = new File(context.getCacheDir(), "chatrix_link_previews");
+        final File cacheDir = new File(context.getCacheDir(), CACHE_DIR);
+        if (OLD_CACHE_REMOVED.compareAndSet(false, true)) {
+            final File old = new File(context.getCacheDir(), OLD_CACHE_DIR);
+            EXECUTOR.execute(() -> deleteRecursively(old));
+        }
         get(cacheDir, url, preview -> {
             if (preview != null && url.equals(card.getTag())) {
                 show(card, preview, textColor);
@@ -154,6 +172,18 @@ public final class LinkPreviews {
             }
         }
         return null;
+    }
+
+    private static void deleteRecursively(final File file) {
+        final File[] children = file.listFiles();
+        if (children != null) {
+            for (final File child : children) {
+                deleteRecursively(child);
+            }
+        }
+        if (file.exists() && !file.delete()) {
+            Log.d(Config.LOGTAG, "could not delete " + file);
+        }
     }
 
     /** Never reach into the user's own network (router pages, printers, ...). */
@@ -187,7 +217,14 @@ public final class LinkPreviews {
         site.setText(preview.site());
         site.setTextColor(textColor);
         if (preview.image() != null) {
-            image.setImageBitmap(preview.image());
+            // square box for square pictures, wide 16:9 box for banners and videos
+            final Bitmap bitmap = preview.image();
+            final float density = card.getResources().getDisplayMetrics().density;
+            final boolean wide = bitmap.getWidth() >= bitmap.getHeight() * WIDE_MIN_RATIO;
+            final var params = image.getLayoutParams();
+            params.width = Math.round((wide ? 114 : 64) * density);
+            image.setLayoutParams(params);
+            image.setImageBitmap(bitmap);
             image.setVisibility(View.VISIBLE);
         } else {
             image.setImageDrawable(null);
@@ -309,8 +346,20 @@ public final class LinkPreviews {
     }
 
     private static Preview fetch(final String url) throws IOException {
+        final HttpUrl original = HttpUrl.get(url);
+        // Sites that build their pages with JavaScript (YouTube) offer oEmbed for apps instead
+        final HttpUrl knownOEmbed = knownOEmbed(original);
+        if (knownOEmbed != null) {
+            final Preview fromOEmbed = fetchOEmbed(url, knownOEmbed);
+            if (fromOEmbed != null) {
+                return fromOEmbed;
+            }
+        }
         final Request request =
-                new Request.Builder().url(url).header("Accept", "text/html,application/xhtml+xml").build();
+                new Request.Builder()
+                        .url(url)
+                        .header("Accept", "text/html,application/xhtml+xml")
+                        .build();
         final String html;
         final HttpUrl finalUrl;
         try (Response response = CLIENT.newCall(request).execute()) {
@@ -328,33 +377,142 @@ public final class LinkPreviews {
         final Map<String, String> meta = metaTags(html);
         String title = first(meta.get("og:title"), meta.get("twitter:title"));
         if (title == null) {
+            // the page may point to its own oEmbed address
+            final HttpUrl discovered = discoverOEmbed(html, finalUrl);
+            if (discovered != null) {
+                final Preview fromOEmbed = fetchOEmbed(url, discovered);
+                if (fromOEmbed != null) {
+                    return fromOEmbed;
+                }
+            }
             final Matcher m = TITLE.matcher(html);
             title = m.find() ? m.group(1) : null;
         }
         title = clean(title);
-        if (title == null) {
+        if (title == null || title.startsWith("- ")) {
             return MISSING;
         }
-        if (title.length() > MAX_TITLE_CHARS) {
-            title = title.substring(0, MAX_TITLE_CHARS) + "…";
+        final String imageRef =
+                first(meta.get("og:image"), meta.get("og:image:url"), meta.get("twitter:image"));
+        final HttpUrl imageUrl =
+                imageRef == null
+                        ? null
+                        : finalUrl.resolve(HtmlCompat.fromHtml(imageRef, 0).toString().trim());
+        return new Preview(url, shorten(title), siteName(finalUrl), loadImage(imageUrl));
+    }
+
+    private static String siteName(final HttpUrl url) {
+        final String host = url.host();
+        return host.startsWith("www.") ? host.substring(4) : host;
+    }
+
+    private static String shorten(final String title) {
+        return title.length() > MAX_TITLE_CHARS
+                ? title.substring(0, MAX_TITLE_CHARS) + "…"
+                : title;
+    }
+
+    @Nullable
+    private static Bitmap loadImage(@Nullable final HttpUrl imageUrl) {
+        if (imageUrl == null || isLocal(imageUrl.host())) {
+            return null;
         }
-        String host = finalUrl.host();
-        if (host.startsWith("www.")) {
-            host = host.substring(4);
+        try {
+            return fetchImage(imageUrl);
+        } catch (final IOException e) {
+            Log.d(Config.LOGTAG, "link preview image failed: " + e.getMessage());
+            return null;
         }
-        final String imageRef = first(meta.get("og:image"), meta.get("og:image:url"), meta.get("twitter:image"));
-        Bitmap image = null;
-        if (imageRef != null) {
-            final HttpUrl imageUrl = finalUrl.resolve(HtmlCompat.fromHtml(imageRef, 0).toString().trim());
-            if (imageUrl != null && !isLocal(imageUrl.host())) {
-                try {
-                    image = fetchImage(imageUrl);
-                } catch (final IOException e) {
-                    Log.d(Config.LOGTAG, "link preview image failed: " + e.getMessage());
+    }
+
+    /** oEmbed endpoints of big sites whose pages have no usable title without JavaScript. */
+    @Nullable
+    private static HttpUrl knownOEmbed(final HttpUrl url) {
+        final String host = url.host().toLowerCase(Locale.ROOT);
+        final String endpoint;
+        if (host.equals("youtu.be")
+                || host.equals("youtube.com")
+                || host.endsWith(".youtube.com")) {
+            endpoint = "https://www.youtube.com/oembed";
+        } else if (host.equals("vimeo.com") || host.endsWith(".vimeo.com")) {
+            endpoint = "https://vimeo.com/api/oembed.json";
+        } else {
+            return null;
+        }
+        return HttpUrl.get(endpoint)
+                .newBuilder()
+                .addQueryParameter("format", "json")
+                .addQueryParameter("url", url.toString())
+                .build();
+    }
+
+    @Nullable
+    private static HttpUrl discoverOEmbed(final String html, final HttpUrl base) {
+        final Matcher links = LINK.matcher(html);
+        while (links.find()) {
+            String type = null;
+            String href = null;
+            final Matcher attrs = ATTR.matcher(links.group());
+            while (attrs.find()) {
+                final String name = attrs.group(1).toLowerCase(Locale.ROOT);
+                final String value =
+                        attrs.group(2) != null
+                                ? attrs.group(2)
+                                : attrs.group(3) != null ? attrs.group(3) : attrs.group(4);
+                if (name.equals("type")) {
+                    type = value.toLowerCase(Locale.ROOT).trim();
+                } else if (name.equals("href")) {
+                    href = value;
+                }
+            }
+            if ("application/json+oembed".equals(type) && href != null) {
+                final HttpUrl url =
+                        base.resolve(HtmlCompat.fromHtml(href, 0).toString().trim());
+                if (url != null && !isLocal(url.host())) {
+                    return url;
                 }
             }
         }
-        return new Preview(url, title, host, image);
+        return null;
+    }
+
+    /** Title and thumbnail from an oEmbed JSON answer; null if it has no title. */
+    @Nullable
+    private static Preview fetchOEmbed(final String url, final HttpUrl endpoint) {
+        final JSONObject json;
+        try (Response response =
+                CLIENT.newCall(
+                                new Request.Builder()
+                                        .url(endpoint)
+                                        .header("Accept", "application/json")
+                                        .build())
+                        .execute()) {
+            if (!response.isSuccessful()) {
+                return null;
+            }
+            final byte[] bytes = readAtMost(response.body().byteStream(), MAX_OEMBED_BYTES);
+            json = new JSONObject(new String(bytes, StandardCharsets.UTF_8));
+        } catch (final IOException | JSONException e) {
+            Log.d(Config.LOGTAG, "oEmbed failed: " + e.getMessage());
+            return null;
+        }
+        final String title = clean(json.optString("title", null));
+        if (title == null) {
+            return null;
+        }
+        final String author = clean(json.optString("author_name", null));
+        final String provider = clean(json.optString("provider_name", null));
+        final String site;
+        if (author != null && provider != null) {
+            site = author + " · " + provider;
+        } else if (provider != null) {
+            site = provider;
+        } else {
+            site = siteName(endpoint);
+        }
+        final String thumbnail = json.optString("thumbnail_url", null);
+        final HttpUrl imageUrl = thumbnail == null ? null : HttpUrl.parse(thumbnail);
+        return new Preview(url, shorten(title), site, loadImage(imageUrl));
     }
 
     @Nullable
@@ -391,17 +549,33 @@ public final class LinkPreviews {
         if (decoded == null) {
             return null;
         }
-        // square centre crop, like the card shows it
-        final int side = Math.min(decoded.getWidth(), decoded.getHeight());
-        final Bitmap square =
-                Bitmap.createBitmap(
-                        decoded,
-                        (decoded.getWidth() - side) / 2,
-                        (decoded.getHeight() - side) / 2,
-                        side,
-                        side);
-        final Bitmap thumb =
-                side > THUMB_PX ? Bitmap.createScaledBitmap(square, THUMB_PX, THUMB_PX, true) : square;
+        // Centre crop to what the card shows: wide pictures (website banners, videos) get the
+        // wide 16:9 box, everything else the square one.
+        final int w = decoded.getWidth();
+        final int h = decoded.getHeight();
+        final boolean wide = w >= h * WIDE_MIN_RATIO;
+        final int cropW;
+        final int cropH;
+        if (wide) {
+            cropH = Math.min(h, Math.round(w * 9f / 16f));
+            cropW = Math.min(w, Math.round(cropH * 16f / 9f));
+        } else {
+            cropW = Math.min(w, h);
+            cropH = cropW;
+        }
+        final Bitmap cropped =
+                Bitmap.createBitmap(decoded, (w - cropW) / 2, (h - cropH) / 2, cropW, cropH);
+        final Bitmap thumb;
+        if (cropH > THUMB_PX) {
+            thumb =
+                    Bitmap.createScaledBitmap(
+                            cropped, Math.round(cropW * (float) THUMB_PX / cropH), THUMB_PX, true);
+            if (cropped != decoded && cropped != thumb) {
+                cropped.recycle();
+            }
+        } else {
+            thumb = cropped;
+        }
         if (thumb != decoded) {
             decoded.recycle();
         }
