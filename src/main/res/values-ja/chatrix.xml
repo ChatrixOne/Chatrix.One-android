@@ -37,4 +37,16 @@
     <string name="chatrix_pref_crash_reports_summary">バックグラウンドで何かが送信されることはありません。クラッシュ後、Chatrix.One はレポート（アプリのバージョン、端末のモデル、時刻、エラーの技術的な詳細）を表示し、まず確認します。確認した場合のみ、あなたのアカウントからの XMPP メッセージまたはメールで Chatrix.One チームに送信されます。確認自体が不要ならオフにしてください。</string>
     <string name="chatrix_crash_report_message">Chatrix.One が予期せず終了しました。以下のレポートには、アプリのバージョン、端末のモデル、時刻、エラーの技術的な詳細が含まれています。問題の解決のため %s に送信しますか？選択しない限り何も送信されません。</string>
     <string name="chatrix_account_suspended">サーバーによりアカウントが停止されました</string>
+    <string name="chatrix_pref_notify_reactions">リアクションを通知</string>
+    <string name="chatrix_pref_notify_reactions_summary">誰かがあなたのメッセージにリアクションしたときに通知を表示します。すべてのチャットの既定値で、チャットごとにメニューから変更できます。</string>
+    <string name="chatrix_pref_reaction_sound">リアクションの通知音</string>
+    <string name="chatrix_pref_reaction_sound_summary">リアクションの通知で音を鳴らします。オフにすると無音で届きます。</string>
+    <string name="chatrix_notify_on_reactions">リアクションを通知</string>
+    <string name="chatrix_reacted_to">%1$s さんが %3$s に %2$s でリアクションしました</string>
+    <string name="chatrix_reactions_channel_name">リアクション</string>
+    <string name="chatrix_silent_reactions_channel_name">サイレントのリアクション</string>
+    <string name="chatrix_reactions_channel_description">誰かがあなたのメッセージにリアクションしました</string>
+    <string name="chatrix_server_select_text">XMPP は、プロバイダーに依存しないインスタントメッセージのネットワークです。どの XMPP サーバーでもこのアプリを使用できます。</string>
+    <string name="chatrix_pref_link_previews">リンクのプレビュー</string>
+    <string name="chatrix_pref_link_previews_summary">連絡先から届いたリンクにタイトルと画像を表示します。そのためにアプリがリンクを開くので、ウェブサイトにあなたの IP アドレスが見えます。Tor がオンのときはオフになります。</string>
 </resources>

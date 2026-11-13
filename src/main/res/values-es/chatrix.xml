@@ -37,4 +37,16 @@
     <string name="chatrix_pref_crash_reports_summary">Nunca se envía nada en segundo plano. Tras un cierre inesperado, Chatrix.One te muestra el informe (versión de la app, modelo del dispositivo, hora y detalles técnicos del error) y te pregunta primero. Solo se envía al equipo de Chatrix.One si lo confirmas, como mensaje XMPP desde tu cuenta o por correo. Desactívalo para que no se te pregunte nunca.</string>
     <string name="chatrix_crash_report_message">Chatrix.One se cerró inesperadamente. El informe de abajo contiene la versión de la app, el modelo del dispositivo, la hora y los detalles técnicos del error. ¿Enviarlo a %s para ayudar a solucionar el problema? No se envía nada si no lo eliges.</string>
     <string name="chatrix_account_suspended">Cuenta suspendida por el servidor</string>
+    <string name="chatrix_pref_notify_reactions">Notificar reacciones</string>
+    <string name="chatrix_pref_notify_reactions_summary">Mostrar una notificación cuando alguien reaccione a tu mensaje. Es el valor predeterminado para todos los chats; cada chat puede cambiarlo en su menú.</string>
+    <string name="chatrix_pref_reaction_sound">Sonido para reacciones</string>
+    <string name="chatrix_pref_reaction_sound_summary">Reproducir un sonido en las notificaciones de reacciones. Si está desactivado, llegan en silencio.</string>
+    <string name="chatrix_notify_on_reactions">Notificar reacciones</string>
+    <string name="chatrix_reacted_to">%1$s reaccionó %2$s a: %3$s</string>
+    <string name="chatrix_reactions_channel_name">Reacciones</string>
+    <string name="chatrix_silent_reactions_channel_name">Reacciones silenciosas</string>
+    <string name="chatrix_reactions_channel_description">Alguien reaccionó a tu mensaje</string>
+    <string name="chatrix_server_select_text">XMPP es una red de mensajería instantánea independiente del proveedor. Puedes utilizar esta aplicación con cualquier servidor XMPP que elijas.</string>
+    <string name="chatrix_pref_link_previews">Vista previa de enlaces</string>
+    <string name="chatrix_pref_link_previews_summary">Mostrar un título y una imagen para los enlaces de tus contactos. Para obtenerlos, la aplicación abre el enlace, así que el sitio web puede ver tu dirección IP. Desactivado cuando Tor está activado.</string>
 </resources>

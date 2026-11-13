@@ -47,4 +47,6 @@
     <string name="chatrix_silent_reactions_channel_name">Реакции без звук</string>
     <string name="chatrix_reactions_channel_description">Някой реагира на ваше съобщение</string>
     <string name="chatrix_server_select_text">XMPP е мрежа за общуване чрез мигновени съобщения, която не е обвързана с конкретен доставчик. Можете да използвате приложението с всеки сървър, който работи с XMPP.</string>
+    <string name="chatrix_pref_link_previews">Преглед на връзки</string>
+    <string name="chatrix_pref_link_previews_summary">Показва заглавие и снимка за връзки от вашите контакти. За целта приложението отваря връзката, така че сайтът може да види вашия IP адрес. Изключено, когато Tor е включен.</string>
 </resources>

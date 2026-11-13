@@ -37,4 +37,16 @@
     <string name="chatrix_pref_crash_reports_summary">Intet sendes nogensinde i baggrunden. Efter et nedbrud viser Chatrix.One dig rapporten (appversion, enhedsmodel, tidspunkt og de tekniske fejldetaljer) og spørger først. Den sendes kun til Chatrix.One-teamet, hvis du bekræfter, som XMPP-besked fra din konto eller via e-mail. Slå fra for aldrig at blive spurgt.</string>
     <string name="chatrix_crash_report_message">Chatrix.One lukkede uventet. Rapporten nedenfor indeholder appversion, enhedsmodel, tidspunkt og de tekniske fejldetaljer. Send den til %s for at hjælpe med at løse problemet? Intet sendes, medmindre du vælger det.</string>
     <string name="chatrix_account_suspended">Kontoen er suspenderet af serveren</string>
+    <string name="chatrix_pref_notify_reactions">Giv besked om reaktioner</string>
+    <string name="chatrix_pref_notify_reactions_summary">Vis en notifikation, når nogen reagerer på din besked. Det gælder alle chats; hver chat kan ændre det i sin menu.</string>
+    <string name="chatrix_pref_reaction_sound">Lyd for reaktioner</string>
+    <string name="chatrix_pref_reaction_sound_summary">Afspil en lyd for notifikationer om reaktioner. Når det er slået fra, kommer de lydløst.</string>
+    <string name="chatrix_notify_on_reactions">Giv besked om reaktioner</string>
+    <string name="chatrix_reacted_to">%1$s reagerede med %2$s på: %3$s</string>
+    <string name="chatrix_reactions_channel_name">Reaktioner</string>
+    <string name="chatrix_silent_reactions_channel_name">Lydløse reaktioner</string>
+    <string name="chatrix_reactions_channel_description">Nogen reagerede på din besked</string>
+    <string name="chatrix_server_select_text">XMPP er et udbyderuafhængigt netværk til onlinebeskeder. Du kan bruge denne app med en hvilken som helst XMPP-server, du vælger.</string>
+    <string name="chatrix_pref_link_previews">Linkforhåndsvisning</string>
+    <string name="chatrix_pref_link_previews_summary">Vis en titel og et billede for links fra dine kontakter. For at hente dem åbner appen linket, så hjemmesiden kan se din IP-adresse. Slået fra, når Tor er slået til.</string>
 </resources>

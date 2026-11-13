@@ -37,4 +37,16 @@
     <string name="chatrix_pref_crash_reports_summary">Ez da inoiz ezer bidaltzen atzeko planoan. Huts egin ondoren, Chatrix.One-k txostena erakusten dizu (aplikazioaren bertsioa, gailuaren modeloa, ordua eta errorearen xehetasun teknikoak) eta lehenik galdetzen dizu. Berresten baduzu bakarrik bidaltzen zaio Chatrix.One taldeari, zure kontutik XMPP mezu gisa edo posta elektronikoz. Desaktibatu inoiz ez galdetzeko.</string>
     <string name="chatrix_crash_report_message">Chatrix.One ustekabean itxi da. Beheko txostenak aplikazioaren bertsioa, gailuaren modeloa, ordua eta errorearen xehetasun teknikoak ditu. %s helbidera bidali arazoa konpontzen laguntzeko? Ez da ezer bidaltzen zuk aukeratu ezean.</string>
     <string name="chatrix_account_suspended">Zerbitzariak kontua eten du</string>
+    <string name="chatrix_pref_notify_reactions">Jakinarazi erreakzioak</string>
+    <string name="chatrix_pref_notify_reactions_summary">Erakutsi jakinarazpen bat norbaitek zure mezuari erreakzionatzen dionean. Txat guztien balio lehenetsia da; txat bakoitzak bere menuan alda dezake.</string>
+    <string name="chatrix_pref_reaction_sound">Erreakzioen soinua</string>
+    <string name="chatrix_pref_reaction_sound_summary">Jo soinu bat erreakzioen jakinarazpenetan. Desaktibatuta badago, isilik iristen dira.</string>
+    <string name="chatrix_notify_on_reactions">Jakinarazi erreakzioak</string>
+    <string name="chatrix_reacted_to">%1$s erabiltzaileak %2$s erreakzioa egin dio honi: %3$s</string>
+    <string name="chatrix_reactions_channel_name">Erreakzioak</string>
+    <string name="chatrix_silent_reactions_channel_name">Erreakzio isilak</string>
+    <string name="chatrix_reactions_channel_description">Norbaitek zure mezuari erreakzionatu dio</string>
+    <string name="chatrix_server_select_text">XMPP hornitzailez independentea den bat-bateko mezularitza sare bat da. Aplikazio hau nahi duzun XMPP zerbitzariarekin erabil dezakezu.</string>
+    <string name="chatrix_pref_link_previews">Esteken aurrebista</string>
+    <string name="chatrix_pref_link_previews_summary">Erakutsi izenburu bat eta irudi bat zure kontaktuen esteketarako. Horretarako aplikazioak esteka irekitzen du, beraz webguneak zure IP helbidea ikus dezake. Desaktibatuta Tor aktibatuta dagoenean.</string>
 </resources>

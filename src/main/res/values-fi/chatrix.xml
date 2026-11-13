@@ -37,4 +37,16 @@
     <string name="chatrix_pref_crash_reports_summary">Mitään ei koskaan lähetetä taustalla. Kaatumisen jälkeen Chatrix.One näyttää sinulle raportin (sovelluksen versio, laitemalli, aika ja virheen tekniset tiedot) ja kysyy ensin. Se lähetetään Chatrix.One-tiimille vain, jos vahvistat, XMPP-viestinä tililtäsi tai sähköpostilla. Poista käytöstä, jos et halua kysymystä koskaan.</string>
     <string name="chatrix_crash_report_message">Chatrix.One sulkeutui odottamatta. Alla oleva raportti sisältää sovelluksen version, laitemallin, ajan ja virheen tekniset tiedot. Lähetetäänkö se osoitteeseen %s ongelman korjaamiseksi? Mitään ei lähetetä, ellet itse valitse niin.</string>
     <string name="chatrix_account_suspended">Palvelin on jäädyttänyt tilin</string>
+    <string name="chatrix_pref_notify_reactions">Ilmoita reaktioista</string>
+    <string name="chatrix_pref_notify_reactions_summary">Näytä ilmoitus, kun joku reagoi viestiisi. Tämä on oletus kaikille keskusteluille; jokainen keskustelu voi muuttaa sen omasta valikostaan.</string>
+    <string name="chatrix_pref_reaction_sound">Ääni reaktioille</string>
+    <string name="chatrix_pref_reaction_sound_summary">Toista ääni reaktioilmoituksissa. Kun pois päältä, ne saapuvat äänettömästi.</string>
+    <string name="chatrix_notify_on_reactions">Ilmoita reaktioista</string>
+    <string name="chatrix_reacted_to">%1$s reagoi %2$s viestiin: %3$s</string>
+    <string name="chatrix_reactions_channel_name">Reaktiot</string>
+    <string name="chatrix_silent_reactions_channel_name">Äänettömät reaktiot</string>
+    <string name="chatrix_reactions_channel_description">Joku reagoi viestiisi</string>
+    <string name="chatrix_server_select_text">XMPP on palveluntarjoajasta riippumaton pikaviestiverkko. Voit käyttää tätä sovellusta minkä tahansa valitsemasi XMPP-palvelimen kanssa.</string>
+    <string name="chatrix_pref_link_previews">Linkkien esikatselu</string>
+    <string name="chatrix_pref_link_previews_summary">Näytä otsikko ja kuva yhteystietojesi lähettämille linkeille. Niitä varten sovellus avaa linkin, joten sivusto voi nähdä IP-osoitteesi. Pois päältä, kun Tor on käytössä.</string>
 </resources>

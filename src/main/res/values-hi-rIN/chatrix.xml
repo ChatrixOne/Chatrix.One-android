@@ -37,4 +37,16 @@
     <string name="chatrix_pref_crash_reports_summary">पृष्ठभूमि में कभी कुछ नहीं भेजा जाता। क्रैश के बाद Chatrix.One आपको रिपोर्ट (ऐप संस्करण, डिवाइस मॉडल, समय और त्रुटि का तकनीकी विवरण) दिखाता है और पहले पूछता है। यह Chatrix.One टीम को तभी भेजी जाती है जब आप पुष्टि करें, आपके खाते से XMPP संदेश के रूप में या ईमेल से। कभी न पूछे जाने के लिए बंद करें।</string>
     <string name="chatrix_crash_report_message">Chatrix.One अचानक बंद हो गया। नीचे दी गई रिपोर्ट में ऐप संस्करण, डिवाइस मॉडल, समय और त्रुटि का तकनीकी विवरण है। समस्या ठीक करने में मदद के लिए इसे %s पर भेजें? जब तक आप न चुनें, कुछ नहीं भेजा जाता।</string>
     <string name="chatrix_account_suspended">सर्वर ने खाता निलंबित कर दिया है</string>
+    <string name="chatrix_pref_notify_reactions">प्रतिक्रियाओं की सूचना दें</string>
+    <string name="chatrix_pref_notify_reactions_summary">जब कोई आपके संदेश पर प्रतिक्रिया दे, तो सूचना दिखाएँ। यह सभी चैट के लिए डिफ़ॉल्ट है; हर चैट इसे अपने मेनू में बदल सकती है।</string>
+    <string name="chatrix_pref_reaction_sound">प्रतिक्रियाओं के लिए ध्वनि</string>
+    <string name="chatrix_pref_reaction_sound_summary">प्रतिक्रिया सूचनाओं के लिए ध्वनि बजाएँ। बंद होने पर वे बिना आवाज़ के आती हैं।</string>
+    <string name="chatrix_notify_on_reactions">प्रतिक्रियाओं की सूचना दें</string>
+    <string name="chatrix_reacted_to">%1$s ने %3$s पर %2$s से प्रतिक्रिया दी</string>
+    <string name="chatrix_reactions_channel_name">प्रतिक्रियाएँ</string>
+    <string name="chatrix_silent_reactions_channel_name">मौन प्रतिक्रियाएँ</string>
+    <string name="chatrix_reactions_channel_description">किसी ने आपके संदेश पर प्रतिक्रिया दी</string>
+    <string name="chatrix_server_select_text">XMPP एक इंस्टेंट मैसेजिंग नेटवर्क है जो किसी एक प्रदाता पर निर्भर नहीं है। आप इस ऐप को अपनी पसंद के किसी भी XMPP सर्वर के साथ इस्तेमाल कर सकते हैं।</string>
+    <string name="chatrix_pref_link_previews">लिंक पूर्वावलोकन</string>
+    <string name="chatrix_pref_link_previews_summary">आपके संपर्कों के लिंक के लिए शीर्षक और चित्र दिखाएँ। इसके लिए ऐप लिंक खोलता है, इसलिए वेबसाइट आपका IP पता देख सकती है। Tor चालू होने पर बंद।</string>
 </resources>

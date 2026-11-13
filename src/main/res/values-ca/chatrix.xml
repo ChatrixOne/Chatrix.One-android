@@ -37,4 +37,16 @@
     <string name="chatrix_pref_crash_reports_summary">Mai no s\'envia res en segon pla. Després d\'una fallada, Chatrix.One et mostra l\'informe (versió de l\'aplicació, model del dispositiu, hora i detalls tècnics de l\'error) i et pregunta primer. Només s\'envia a l\'equip de Chatrix.One si ho confirmes, com a missatge XMPP des del teu compte o per correu. Desactiva-ho perquè no se\'t pregunti mai.</string>
     <string name="chatrix_crash_report_message">Chatrix.One s\'ha tancat inesperadament. L\'informe següent conté la versió de l\'aplicació, el model del dispositiu, l\'hora i els detalls tècnics de l\'error. Vols enviar-lo a %s per ajudar a solucionar el problema? No s\'envia res si no ho tries.</string>
     <string name="chatrix_account_suspended">Compte suspès pel servidor</string>
+    <string name="chatrix_pref_notify_reactions">Notifica les reaccions</string>
+    <string name="chatrix_pref_notify_reactions_summary">Mostra una notificació quan algú reacciona al teu missatge. És el valor per defecte de tots els xats; cada xat ho pot canviar al seu menú.</string>
+    <string name="chatrix_pref_reaction_sound">So per a les reaccions</string>
+    <string name="chatrix_pref_reaction_sound_summary">Reprodueix un so a les notificacions de reaccions. Si està desactivat, arriben en silenci.</string>
+    <string name="chatrix_notify_on_reactions">Notifica les reaccions</string>
+    <string name="chatrix_reacted_to">%1$s ha reaccionat amb %2$s a: %3$s</string>
+    <string name="chatrix_reactions_channel_name">Reaccions</string>
+    <string name="chatrix_silent_reactions_channel_name">Reaccions silencioses</string>
+    <string name="chatrix_reactions_channel_description">Algú ha reaccionat al teu missatge</string>
+    <string name="chatrix_server_select_text">L’XMPP és una xarxa de missatgeria instantània independent del proveïdor. Pots utilitzar aquesta aplicació amb el servidor XMPP que vulguis.</string>
+    <string name="chatrix_pref_link_previews">Previsualització d’enllaços</string>
+    <string name="chatrix_pref_link_previews_summary">Mostra un títol i una imatge per als enllaços dels teus contactes. Per obtenir-los, l’aplicació obre l’enllaç, així que el lloc web pot veure la teva adreça IP. Desactivat quan Tor està activat.</string>
 </resources>

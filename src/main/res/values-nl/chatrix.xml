@@ -37,4 +37,16 @@
     <string name="chatrix_pref_crash_reports_summary">Er wordt nooit iets op de achtergrond verstuurd. Na een crash toont Chatrix.One je het rapport (appversie, apparaatmodel, tijd en technische foutdetails) en vraagt het eerst. Het wordt alleen naar het Chatrix.One-team gestuurd als je bevestigt, als XMPP-bericht vanaf je account of per e-mail. Zet uit om het nooit gevraagd te worden.</string>
     <string name="chatrix_crash_report_message">Chatrix.One is onverwacht gesloten. Het rapport hieronder bevat de appversie, het apparaatmodel, de tijd en de technische foutdetails. Naar %s sturen om het probleem te helpen oplossen? Er wordt niets verstuurd tenzij je dat kiest.</string>
     <string name="chatrix_account_suspended">Account opgeschort door de server</string>
+    <string name="chatrix_pref_notify_reactions">Melding bij reacties</string>
+    <string name="chatrix_pref_notify_reactions_summary">Een melding tonen wanneer iemand op je bericht reageert. Dit is de standaard voor alle chats; elke chat kan het in zijn menu wijzigen.</string>
+    <string name="chatrix_pref_reaction_sound">Geluid voor reacties</string>
+    <string name="chatrix_pref_reaction_sound_summary">Een geluid afspelen bij meldingen van reacties. Als dit uit staat, komen ze stil binnen.</string>
+    <string name="chatrix_notify_on_reactions">Melding bij reacties</string>
+    <string name="chatrix_reacted_to">%1$s reageerde met %2$s op: %3$s</string>
+    <string name="chatrix_reactions_channel_name">Reacties</string>
+    <string name="chatrix_silent_reactions_channel_name">Stille reacties</string>
+    <string name="chatrix_reactions_channel_description">Iemand heeft op je bericht gereageerd</string>
+    <string name="chatrix_server_select_text">XMPP is een provider-onafhankelijk berichtennetwerk. Je kunt deze app gebruiken met elke XMPP-server die je kiest.</string>
+    <string name="chatrix_pref_link_previews">Linkvoorbeelden</string>
+    <string name="chatrix_pref_link_previews_summary">Een titel en afbeelding tonen voor links van je contacten. Daarvoor opent de app de link, dus de website kan je IP-adres zien. Uit als Tor aan staat.</string>
 </resources>

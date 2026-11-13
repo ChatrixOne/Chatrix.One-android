@@ -37,4 +37,16 @@
     <string name="chatrix_pref_crash_reports_summary">שום דבר לא נשלח ברקע אף פעם. לאחר קריסה, Chatrix.One מציג לכם את הדוח (גרסת האפליקציה, דגם המכשיר, השעה ופרטי השגיאה הטכניים) ושואל קודם. הוא נשלח לצוות Chatrix.One רק אם תאשרו, כהודעת XMPP מהחשבון שלכם או בדוא\"ל. כבו כדי שלא תישאלו לעולם.</string>
     <string name="chatrix_crash_report_message">Chatrix.One נסגר באופן בלתי צפוי. הדוח שלהלן כולל את גרסת האפליקציה, דגם המכשיר, השעה ופרטי השגיאה הטכניים. לשלוח אותו אל %s כדי לעזור לתקן את הבעיה? שום דבר לא נשלח בלי שתבחרו בכך.</string>
     <string name="chatrix_account_suspended">החשבון הושעה על ידי השרת</string>
+    <string name="chatrix_pref_notify_reactions">התראה על תגובות</string>
+    <string name="chatrix_pref_notify_reactions_summary">הצגת התראה כשמישהו מגיב להודעה שלך. זו ברירת המחדל לכל הצ׳אטים; כל צ׳אט יכול לשנות זאת בתפריט שלו.</string>
+    <string name="chatrix_pref_reaction_sound">צליל לתגובות</string>
+    <string name="chatrix_pref_reaction_sound_summary">השמעת צליל בהתראות על תגובות. כשהאפשרות כבויה, הן מגיעות בשקט.</string>
+    <string name="chatrix_notify_on_reactions">התראה על תגובות</string>
+    <string name="chatrix_reacted_to">%1$s הגיב/ה %2$s על: %3$s</string>
+    <string name="chatrix_reactions_channel_name">תגובות</string>
+    <string name="chatrix_silent_reactions_channel_name">תגובות שקטות</string>
+    <string name="chatrix_reactions_channel_description">מישהו הגיב להודעה שלך</string>
+    <string name="chatrix_server_select_text">XMPP היא רשת הודעות מיידיות שאינה תלויה בספק. אפשר להשתמש באפליקציה זו עם כל שרת XMPP שתבחר/י.</string>
+    <string name="chatrix_pref_link_previews">תצוגה מקדימה של קישורים</string>
+    <string name="chatrix_pref_link_previews_summary">הצגת כותרת ותמונה לקישורים מאנשי הקשר שלך. כדי לקבל אותן האפליקציה פותחת את הקישור, ולכן האתר יכול לראות את כתובת ה־IP שלך. כבוי כש־Tor פועל.</string>
 </resources>

@@ -37,4 +37,16 @@
     <string name="chatrix_pref_crash_reports_summary">Na pozadí se nikdy nic neodesílá. Po pádu vám Chatrix.One ukáže hlášení (verze aplikace, model zařízení, čas a technické podrobnosti chyby) a nejprve se zeptá. Týmu Chatrix.One se odešle, jen pokud to potvrdíte, jako XMPP zpráva z vašeho účtu nebo e-mailem. Vypněte, pokud se nechcete nikdy ptát.</string>
     <string name="chatrix_crash_report_message">Chatrix.One se neočekávaně ukončil. Hlášení níže obsahuje verzi aplikace, model zařízení, čas a technické podrobnosti chyby. Odeslat ho na %s a pomoci tak problém vyřešit? Bez vaší volby se nic neodešle.</string>
     <string name="chatrix_account_suspended">Účet byl serverem pozastaven</string>
+    <string name="chatrix_pref_notify_reactions">Upozorňovat na reakce</string>
+    <string name="chatrix_pref_notify_reactions_summary">Zobrazit oznámení, když někdo zareaguje na vaši zprávu. Platí pro všechny chaty; každý chat to může změnit ve svém menu.</string>
+    <string name="chatrix_pref_reaction_sound">Zvuk pro reakce</string>
+    <string name="chatrix_pref_reaction_sound_summary">Přehrát zvuk u oznámení o reakcích. Když je vypnuto, přicházejí potichu.</string>
+    <string name="chatrix_notify_on_reactions">Upozorňovat na reakce</string>
+    <string name="chatrix_reacted_to">%1$s reaguje %2$s na: %3$s</string>
+    <string name="chatrix_reactions_channel_name">Reakce</string>
+    <string name="chatrix_silent_reactions_channel_name">Tiché reakce</string>
+    <string name="chatrix_reactions_channel_description">Někdo zareagoval na vaši zprávu</string>
+    <string name="chatrix_server_select_text">XMPP je síť pro rychlé zprávy nezávislá na poskytovateli. Tuto aplikaci můžete používat s jakýmkoli XMPP serverem, který si zvolíte.</string>
+    <string name="chatrix_pref_link_previews">Náhledy odkazů</string>
+    <string name="chatrix_pref_link_previews_summary">Zobrazit název a obrázek u odkazů od vašich kontaktů. Aplikace k tomu odkaz otevře, takže web může vidět vaši IP adresu. Vypnuto, když je zapnutý Tor.</string>
 </resources>

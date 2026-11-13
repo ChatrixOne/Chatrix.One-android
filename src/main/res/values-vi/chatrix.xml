@@ -37,4 +37,16 @@
     <string name="chatrix_pref_crash_reports_summary">Không bao giờ gửi gì trong nền. Sau khi gặp sự cố, Chatrix.One cho bạn xem báo cáo (phiên bản ứng dụng, mẫu thiết bị, thời gian và chi tiết kỹ thuật của lỗi) và hỏi trước. Báo cáo chỉ được gửi tới nhóm Chatrix.One nếu bạn xác nhận, dưới dạng tin nhắn XMPP từ tài khoản của bạn hoặc qua email. Tắt để không bao giờ bị hỏi.</string>
     <string name="chatrix_crash_report_message">Chatrix.One đã đóng đột ngột. Báo cáo bên dưới gồm phiên bản ứng dụng, mẫu thiết bị, thời gian và chi tiết kỹ thuật của lỗi. Gửi tới %s để giúp khắc phục sự cố? Không có gì được gửi nếu bạn không chọn.</string>
     <string name="chatrix_account_suspended">Tài khoản đã bị máy chủ tạm khóa</string>
+    <string name="chatrix_pref_notify_reactions">Thông báo khi có cảm xúc</string>
+    <string name="chatrix_pref_notify_reactions_summary">Hiện thông báo khi có người bày tỏ cảm xúc với tin nhắn của bạn. Đây là mặc định cho mọi cuộc trò chuyện; mỗi cuộc trò chuyện có thể đổi trong menu của nó.</string>
+    <string name="chatrix_pref_reaction_sound">Âm thanh cho cảm xúc</string>
+    <string name="chatrix_pref_reaction_sound_summary">Phát âm thanh cho thông báo cảm xúc. Khi tắt, thông báo đến không có tiếng.</string>
+    <string name="chatrix_notify_on_reactions">Thông báo khi có cảm xúc</string>
+    <string name="chatrix_reacted_to">%1$s đã bày tỏ %2$s với: %3$s</string>
+    <string name="chatrix_reactions_channel_name">Cảm xúc</string>
+    <string name="chatrix_silent_reactions_channel_name">Cảm xúc im lặng</string>
+    <string name="chatrix_reactions_channel_description">Có người bày tỏ cảm xúc với tin nhắn của bạn</string>
+    <string name="chatrix_server_select_text">XMPP là mạng nhắn tin tức thời không phụ thuộc vào nhà cung cấp nào. Bạn có thể dùng ứng dụng này với bất kỳ máy chủ XMPP nào bạn chọn.</string>
+    <string name="chatrix_pref_link_previews">Xem trước liên kết</string>
+    <string name="chatrix_pref_link_previews_summary">Hiện tiêu đề và hình ảnh cho liên kết từ danh bạ của bạn. Để lấy chúng, ứng dụng mở liên kết, nên trang web có thể thấy địa chỉ IP của bạn. Tắt khi bật Tor.</string>
 </resources>

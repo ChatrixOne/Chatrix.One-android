@@ -37,4 +37,16 @@
     <string name="chatrix_pref_crash_reports_summary">لا يُرسل أي شيء في الخلفية أبدًا. بعد حدوث عطل، يعرض عليك Chatrix.One التقرير (إصدار التطبيق، طراز الجهاز، الوقت والتفاصيل التقنية للخطأ) ويسألك أولًا. لا يُرسل إلى فريق Chatrix.One إلا إذا أكدت، كرسالة XMPP من حسابك أو بالبريد الإلكتروني. أوقفه كي لا تُسأل أبدًا.</string>
     <string name="chatrix_crash_report_message">أُغلق Chatrix.One بشكل غير متوقع. يحتوي التقرير أدناه على إصدار التطبيق وطراز الجهاز والوقت والتفاصيل التقنية للخطأ. هل تريد إرساله إلى %s للمساعدة في حل المشكلة؟ لن يُرسل أي شيء ما لم تختر ذلك.</string>
     <string name="chatrix_account_suspended">علّق الخادم الحساب</string>
+    <string name="chatrix_pref_notify_reactions">الإشعار بالتفاعلات</string>
+    <string name="chatrix_pref_notify_reactions_summary">إظهار إشعار عندما يتفاعل أحد مع رسالتك. هذا هو الإعداد الافتراضي لكل المحادثات، ويمكن لكل محادثة تغييره من قائمتها.</string>
+    <string name="chatrix_pref_reaction_sound">صوت للتفاعلات</string>
+    <string name="chatrix_pref_reaction_sound_summary">تشغيل صوت لإشعارات التفاعلات. عند إيقافه تصل بلا صوت.</string>
+    <string name="chatrix_notify_on_reactions">الإشعار بالتفاعلات</string>
+    <string name="chatrix_reacted_to">تفاعل %1$s بـ %2$s مع: %3$s</string>
+    <string name="chatrix_reactions_channel_name">التفاعلات</string>
+    <string name="chatrix_silent_reactions_channel_name">تفاعلات صامتة</string>
+    <string name="chatrix_reactions_channel_description">تفاعل أحدهم مع رسالتك</string>
+    <string name="chatrix_server_select_text">XMPP شبكة مراسلة فورية مستقلة عن مزوّد الخدمة. يمكنك استخدام هذا التطبيق مع أي خادم XMPP تختاره.</string>
+    <string name="chatrix_pref_link_previews">معاينة الروابط</string>
+    <string name="chatrix_pref_link_previews_summary">إظهار عنوان وصورة للروابط الواردة من جهات اتصالك. للحصول عليهما يفتح التطبيق الرابط، لذا يمكن للموقع رؤية عنوان IP الخاص بك. متوقف عند تشغيل Tor.</string>
 </resources>

@@ -37,4 +37,16 @@
     <string name="chatrix_pref_crash_reports_summary">Nic niy je posyłane w tle. Po awaryji Chatrix.One pokazuje ci raport (wersyjo aplikacyje, model urzōndzynio, czas i techniczne szczegōły błyndu) i nojprzōd pyto. Idzie do zespołu Chatrix.One ino, jak to potwierdzisz, jako wiadōmość XMPP z twojigo kōnta abo mailym. Zastaw, coby nigdy niy być pytanym.</string>
     <string name="chatrix_crash_report_message">Chatrix.One niyspodziywanie sie zawar. Raport niżyj mo wersyjo aplikacyje, model urzōndzynio, czas i techniczne szczegōły błyndu. Posłać go do %s, coby pōmōc rozwiōnzać problym? Nic niy pōjdzie bez twojigo wyboru.</string>
     <string name="chatrix_account_suspended">Kōnto zawiyszōne bez serwer</string>
+    <string name="chatrix_pref_notify_reactions">Uwiadamiej ô reakcyjach</string>
+    <string name="chatrix_pref_notify_reactions_summary">Pokazuj uwiadōmiynie, kej ftoś zareaguje na twoja wiadōmość. To je sztandard dlŏ wszyjskich czatōw; kożdy czat może to zmiynić we swojim myni.</string>
+    <string name="chatrix_pref_reaction_sound">Klang dlŏ reakcyji</string>
+    <string name="chatrix_pref_reaction_sound_summary">Grej klang przi uwiadōmiyniach ô reakcyjach. Kej je to wyłōnczōne, przichodzōm bez klangu.</string>
+    <string name="chatrix_notify_on_reactions">Uwiadamiej ô reakcyjach</string>
+    <string name="chatrix_reacted_to">%1$s zareagowoł(a) %2$s na: %3$s</string>
+    <string name="chatrix_reactions_channel_name">Reakcyje</string>
+    <string name="chatrix_silent_reactions_channel_name">Cichy reakcyje</string>
+    <string name="chatrix_reactions_channel_description">Ftoś zareagowoł na twoja wiadōmość</string>
+    <string name="chatrix_server_select_text">XMPP to je nec wartkich wiadōmości niyzależny ôd liferanta. Możesz używać tyj aplikacyje ze serwerym XMPP, jaki sie wybieresz.</string>
+    <string name="chatrix_pref_link_previews">Podglōnd linkōw</string>
+    <string name="chatrix_pref_link_previews_summary">Pokazuj tytuł i ôbrazek dlŏ linkōw ôd twojich kōntaktōw. Coby je dostać, aplikacyjŏ ôtwiyrŏ link, tōż strōna może ôbejrzeć twōj adres IP. Wyłōnczōne, kej Tor je załōnczōny.</string>
 </resources>

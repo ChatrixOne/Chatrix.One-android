@@ -37,4 +37,16 @@
     <string name="chatrix_pref_crash_reports_summary">هرگز چیزی در پس‌زمینه فرستاده نمی‌شود. پس از از کار افتادن، Chatrix.One گزارش را (نسخهٔ برنامه، مدل دستگاه، زمان و جزئیات فنی خطا) به شما نشان می‌دهد و اول می‌پرسد. فقط در صورت تأیید شما، به صورت پیام XMPP از حسابتان یا با ایمیل، برای تیم Chatrix.One فرستاده می‌شود. برای اینکه هرگز پرسیده نشود، خاموشش کنید.</string>
     <string name="chatrix_crash_report_message">Chatrix.One به‌طور غیرمنتظره بسته شد. گزارش زیر شامل نسخهٔ برنامه، مدل دستگاه، زمان و جزئیات فنی خطاست. برای کمک به رفع مشکل به %s فرستاده شود؟ تا خودتان انتخاب نکنید چیزی فرستاده نمی‌شود.</string>
     <string name="chatrix_account_suspended">حساب توسط کارساز معلق شد</string>
+    <string name="chatrix_pref_notify_reactions">اعلان واکنش‌ها</string>
+    <string name="chatrix_pref_notify_reactions_summary">وقتی کسی به پیام شما واکنش نشان می‌دهد، اعلان نشان داده شود. این پیش‌فرض همهٔ گفتگوهاست؛ هر گفتگو می‌تواند آن را از منوی خود تغییر دهد.</string>
+    <string name="chatrix_pref_reaction_sound">صدا برای واکنش‌ها</string>
+    <string name="chatrix_pref_reaction_sound_summary">برای اعلان‌های واکنش صدا پخش شود. اگر خاموش باشد، بی‌صدا می‌رسند.</string>
+    <string name="chatrix_notify_on_reactions">اعلان واکنش‌ها</string>
+    <string name="chatrix_reacted_to">%1$s با %2$s واکنش نشان داد به: %3$s</string>
+    <string name="chatrix_reactions_channel_name">واکنش‌ها</string>
+    <string name="chatrix_silent_reactions_channel_name">واکنش‌های بی‌صدا</string>
+    <string name="chatrix_reactions_channel_description">کسی به پیام شما واکنش نشان داد</string>
+    <string name="chatrix_server_select_text">XMPP یک شبکهٔ پیام‌رسانی فوری مستقل از سرویس‌دهنده است. می‌توانید این برنامه را با هر سرور XMPP که بخواهید به کار ببرید.</string>
+    <string name="chatrix_pref_link_previews">پیش‌نمایش پیوندها</string>
+    <string name="chatrix_pref_link_previews_summary">برای پیوندهایی که مخاطبانتان می‌فرستند، عنوان و تصویر نشان داده شود. برای این کار برنامه پیوند را باز می‌کند، پس وب‌سایت می‌تواند نشانی IP شما را ببیند. وقتی Tor روشن است خاموش است.</string>
 </resources>

@@ -37,4 +37,16 @@
     <string name="chatrix_pref_crash_reports_summary">Asgjë nuk dërgohet kurrë në prapaskenë. Pas një vithisjeje, Chatrix.One ju shfaq raportin (versioni i aplikacionit, modeli i pajisjes, ora dhe hollësitë teknike të gabimit) dhe pyet më parë. I dërgohet ekipit Chatrix.One vetëm nëse e ripohoni, si mesazh XMPP nga llogaria juaj ose me email. Çaktivizojeni që të mos pyeteni kurrë.</string>
     <string name="chatrix_crash_report_message">Chatrix.One u mbyll papritur. Raporti më poshtë përmban versionin e aplikacionit, modelin e pajisjes, orën dhe hollësitë teknike të gabimit. Ta dërgojmë te %s për të ndihmuar në ndreqjen e problemit? Asgjë nuk dërgohet pa zgjedhjen tuaj.</string>
     <string name="chatrix_account_suspended">Llogaria u pezullua nga shërbyesi</string>
+    <string name="chatrix_pref_notify_reactions">Njofto për reagimet</string>
+    <string name="chatrix_pref_notify_reactions_summary">Shfaq një njoftim kur dikush reagon ndaj mesazhit tuaj. Kjo është parazgjedhja për të gjitha bisedat; çdo bisedë mund ta ndryshojë në menunë e saj.</string>
+    <string name="chatrix_pref_reaction_sound">Tingull për reagimet</string>
+    <string name="chatrix_pref_reaction_sound_summary">Luaj një tingull për njoftimet e reagimeve. Kur është çaktivizuar, ato vijnë pa zë.</string>
+    <string name="chatrix_notify_on_reactions">Njofto për reagimet</string>
+    <string name="chatrix_reacted_to">%1$s reagoi me %2$s ndaj: %3$s</string>
+    <string name="chatrix_reactions_channel_name">Reagime</string>
+    <string name="chatrix_silent_reactions_channel_name">Reagime pa zë</string>
+    <string name="chatrix_reactions_channel_description">Dikush reagoi ndaj mesazhit tuaj</string>
+    <string name="chatrix_server_select_text">XMPP është një rrjet mesazhesh të menjëhershme i pavarur nga ofruesi. Mund ta përdorni këtë aplikacion me çfarëdo shërbyesi XMPP që zgjidhni.</string>
+    <string name="chatrix_pref_link_previews">Paraparje lidhjesh</string>
+    <string name="chatrix_pref_link_previews_summary">Shfaq një titull dhe një foto për lidhjet nga kontaktet tuaja. Për t’i marrë, aplikacioni hap lidhjen, ndaj sajti mund të shohë adresën tuaj IP. Joaktive kur Tor është aktiv.</string>
 </resources>

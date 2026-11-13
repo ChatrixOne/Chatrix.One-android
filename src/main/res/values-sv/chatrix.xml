@@ -37,4 +37,16 @@
     <string name="chatrix_pref_crash_reports_summary">Inget skickas någonsin i bakgrunden. Efter en krasch visar Chatrix.One rapporten (appversion, enhetsmodell, tid och teknisk felinformation) och frågar först. Den skickas till Chatrix.One-teamet bara om du bekräftar, som XMPP-meddelande från ditt konto eller via e-post. Stäng av för att aldrig bli tillfrågad.</string>
     <string name="chatrix_crash_report_message">Chatrix.One stängdes oväntat. Rapporten nedan innehåller appversion, enhetsmodell, tid och teknisk felinformation. Skicka den till %s för att hjälpa till att lösa problemet? Inget skickas om du inte väljer det.</string>
     <string name="chatrix_account_suspended">Kontot är avstängt av servern</string>
+    <string name="chatrix_pref_notify_reactions">Avisera om reaktioner</string>
+    <string name="chatrix_pref_notify_reactions_summary">Visa en avisering när någon reagerar på ditt meddelande. Detta gäller alla chattar; varje chatt kan ändra det i sin meny.</string>
+    <string name="chatrix_pref_reaction_sound">Ljud för reaktioner</string>
+    <string name="chatrix_pref_reaction_sound_summary">Spela ett ljud för aviseringar om reaktioner. När det är av kommer de tyst.</string>
+    <string name="chatrix_notify_on_reactions">Avisera om reaktioner</string>
+    <string name="chatrix_reacted_to">%1$s reagerade med %2$s på: %3$s</string>
+    <string name="chatrix_reactions_channel_name">Reaktioner</string>
+    <string name="chatrix_silent_reactions_channel_name">Tysta reaktioner</string>
+    <string name="chatrix_reactions_channel_description">Någon reagerade på ditt meddelande</string>
+    <string name="chatrix_server_select_text">XMPP är ett leverantörsoberoende snabbmeddelandenätverk. Du kan använda den här appen med valfri XMPP-server.</string>
+    <string name="chatrix_pref_link_previews">Länkförhandsvisning</string>
+    <string name="chatrix_pref_link_previews_summary">Visa en titel och bild för länkar från dina kontakter. För att hämta dem öppnar appen länken, så webbplatsen kan se din IP-adress. Av när Tor är på.</string>
 </resources>

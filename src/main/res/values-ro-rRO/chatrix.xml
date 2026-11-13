@@ -37,4 +37,16 @@
     <string name="chatrix_pref_crash_reports_summary">Nu se trimite niciodată nimic în fundal. După o eroare fatală, Chatrix.One vă arată raportul (versiunea aplicației, modelul dispozitivului, ora și detaliile tehnice ale erorii) și întreabă mai întâi. Se trimite echipei Chatrix.One doar dacă confirmați, ca mesaj XMPP din contul dumneavoastră sau prin e-mail. Dezactivați pentru a nu fi întrebat niciodată.</string>
     <string name="chatrix_crash_report_message">Chatrix.One s-a închis neașteptat. Raportul de mai jos conține versiunea aplicației, modelul dispozitivului, ora și detaliile tehnice ale erorii. Îl trimiteți la %s pentru a ajuta la rezolvarea problemei? Nu se trimite nimic fără alegerea dumneavoastră.</string>
     <string name="chatrix_account_suspended">Cont suspendat de server</string>
+    <string name="chatrix_pref_notify_reactions">Notificări pentru reacții</string>
+    <string name="chatrix_pref_notify_reactions_summary">Afișează o notificare când cineva reacționează la mesajul dumneavoastră. Este setarea implicită pentru toate conversațiile; fiecare conversație o poate schimba din meniul său.</string>
+    <string name="chatrix_pref_reaction_sound">Sunet pentru reacții</string>
+    <string name="chatrix_pref_reaction_sound_summary">Redă un sunet pentru notificările de reacții. Când este dezactivat, sosesc fără sunet.</string>
+    <string name="chatrix_notify_on_reactions">Notificări pentru reacții</string>
+    <string name="chatrix_reacted_to">%1$s a reacționat cu %2$s la: %3$s</string>
+    <string name="chatrix_reactions_channel_name">Reacții</string>
+    <string name="chatrix_silent_reactions_channel_name">Reacții silențioase</string>
+    <string name="chatrix_reactions_channel_description">Cineva a reacționat la mesajul dumneavoastră</string>
+    <string name="chatrix_server_select_text">XMPP este o rețea de mesagerie instant ce nu depinde de un anumit furnizor. Puteți folosi această aplicație cu orice server XMPP doriți.</string>
+    <string name="chatrix_pref_link_previews">Previzualizare linkuri</string>
+    <string name="chatrix_pref_link_previews_summary">Afișează un titlu și o imagine pentru linkurile de la contactele dumneavoastră. Pentru asta, aplicația deschide linkul, deci site-ul vă poate vedea adresa IP. Dezactivat când Tor este pornit.</string>
 </resources>

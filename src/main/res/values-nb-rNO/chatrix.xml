@@ -37,4 +37,16 @@
     <string name="chatrix_pref_crash_reports_summary">Ingenting sendes noen gang i bakgrunnen. Etter et krasj viser Chatrix.One deg rapporten (appversjon, enhetsmodell, tidspunkt og de tekniske feildetaljene) og spør først. Den sendes bare til Chatrix.One-teamet hvis du bekrefter, som XMPP-melding fra kontoen din eller med e-post. Slå av for aldri å bli spurt.</string>
     <string name="chatrix_crash_report_message">Chatrix.One ble lukket uventet. Rapporten nedenfor inneholder appversjon, enhetsmodell, tidspunkt og de tekniske feildetaljene. Sende den til %s for å hjelpe med å løse problemet? Ingenting sendes med mindre du velger det.</string>
     <string name="chatrix_account_suspended">Kontoen er suspendert av serveren</string>
+    <string name="chatrix_pref_notify_reactions">Varsle om reaksjoner</string>
+    <string name="chatrix_pref_notify_reactions_summary">Vis et varsel når noen reagerer på meldingen din. Dette gjelder alle chatter; hver chat kan endre det i sin meny.</string>
+    <string name="chatrix_pref_reaction_sound">Lyd for reaksjoner</string>
+    <string name="chatrix_pref_reaction_sound_summary">Spill av en lyd for varsler om reaksjoner. Når det er av, kommer de lydløst.</string>
+    <string name="chatrix_notify_on_reactions">Varsle om reaksjoner</string>
+    <string name="chatrix_reacted_to">%1$s reagerte med %2$s på: %3$s</string>
+    <string name="chatrix_reactions_channel_name">Reaksjoner</string>
+    <string name="chatrix_silent_reactions_channel_name">Lydløse reaksjoner</string>
+    <string name="chatrix_reactions_channel_description">Noen reagerte på meldingen din</string>
+    <string name="chatrix_server_select_text">XMPP er et leverandøruavhengig nettverk for direktemeldinger. Du kan bruke denne appen med hvilken som helst XMPP-server du velger.</string>
+    <string name="chatrix_pref_link_previews">Forhåndsvisning av lenker</string>
+    <string name="chatrix_pref_link_previews_summary">Vis en tittel og et bilde for lenker fra kontaktene dine. For å hente dem åpner appen lenken, så nettstedet kan se IP-adressen din. Av når Tor er på.</string>
 </resources>

@@ -37,4 +37,16 @@
     <string name="chatrix_pref_crash_reports_summary">Ništa se nikad ne šalje u pozadini. Nakon rušenja Chatrix.One vam pokaže izvještaj (verzija aplikacije, model uređaja, vrijeme i tehnički detalji pogreške) i prvo pita. Šalje se timu Chatrix.One samo ako potvrdite, kao XMPP poruka s vašeg računa ili e-poštom. Isključite da nikad ne budete pitani.</string>
     <string name="chatrix_crash_report_message">Chatrix.One se neočekivano zatvorio. Izvještaj ispod sadrži verziju aplikacije, model uređaja, vrijeme i tehničke detalje pogreške. Poslati ga na %s kako bi se problem riješio? Ništa se ne šalje ako to ne odaberete.</string>
     <string name="chatrix_account_suspended">Poslužitelj je suspendirao račun</string>
+    <string name="chatrix_pref_notify_reactions">Obavijesti o reakcijama</string>
+    <string name="chatrix_pref_notify_reactions_summary">Prikaži obavijest kad netko reagira na vašu poruku. Vrijedi za sve razgovore; svaki razgovor to može promijeniti u svom izborniku.</string>
+    <string name="chatrix_pref_reaction_sound">Zvuk za reakcije</string>
+    <string name="chatrix_pref_reaction_sound_summary">Reproduciraj zvuk za obavijesti o reakcijama. Kad je isključeno, stižu bez zvuka.</string>
+    <string name="chatrix_notify_on_reactions">Obavijesti o reakcijama</string>
+    <string name="chatrix_reacted_to">%1$s reagira s %2$s na: %3$s</string>
+    <string name="chatrix_reactions_channel_name">Reakcije</string>
+    <string name="chatrix_silent_reactions_channel_name">Tihe reakcije</string>
+    <string name="chatrix_reactions_channel_description">Netko je reagirao na vašu poruku</string>
+    <string name="chatrix_server_select_text">XMPP je mreža za razmjenu izravnih poruka neovisna o pružatelju usluga. Ovu aplikaciju možete koristiti s bilo kojim XMPP poslužiteljem koji odaberete.</string>
+    <string name="chatrix_pref_link_previews">Pregled poveznica</string>
+    <string name="chatrix_pref_link_previews_summary">Prikaži naslov i sliku za poveznice od vaših kontakata. Za to aplikacija otvara poveznicu, pa web-mjesto može vidjeti vašu IP adresu. Isključeno kad je Tor uključen.</string>
 </resources>

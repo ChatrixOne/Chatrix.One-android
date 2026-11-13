@@ -37,4 +37,16 @@
     <string name="chatrix_pref_crash_reports_summary">Τίποτα δεν αποστέλλεται ποτέ στο παρασκήνιο. Μετά από κατάρρευση, το Chatrix.One σας δείχνει την αναφορά (έκδοση εφαρμογής, μοντέλο συσκευής, ώρα και τεχνικές λεπτομέρειες του σφάλματος) και ρωτά πρώτα. Αποστέλλεται στην ομάδα του Chatrix.One μόνο αν επιβεβαιώσετε, ως μήνυμα XMPP από τον λογαριασμό σας ή με email. Απενεργοποιήστε για να μην ερωτηθείτε ποτέ.</string>
     <string name="chatrix_crash_report_message">Το Chatrix.One έκλεισε απρόσμενα. Η παρακάτω αναφορά περιέχει την έκδοση της εφαρμογής, το μοντέλο της συσκευής, την ώρα και τις τεχνικές λεπτομέρειες του σφάλματος. Να σταλεί στο %s για να βοηθήσει στη διόρθωση του προβλήματος; Τίποτα δεν αποστέλλεται χωρίς τη δική σας επιλογή.</string>
     <string name="chatrix_account_suspended">Ο λογαριασμός ανεστάλη από τον διακομιστή</string>
+    <string name="chatrix_pref_notify_reactions">Ειδοποίηση για αντιδράσεις</string>
+    <string name="chatrix_pref_notify_reactions_summary">Εμφάνιση ειδοποίησης όταν κάποιος αντιδρά στο μήνυμά σας. Ισχύει για όλες τις συνομιλίες· κάθε συνομιλία μπορεί να το αλλάξει από το μενού της.</string>
+    <string name="chatrix_pref_reaction_sound">Ήχος για αντιδράσεις</string>
+    <string name="chatrix_pref_reaction_sound_summary">Αναπαραγωγή ήχου στις ειδοποιήσεις αντιδράσεων. Όταν είναι ανενεργό, φτάνουν αθόρυβα.</string>
+    <string name="chatrix_notify_on_reactions">Ειδοποίηση για αντιδράσεις</string>
+    <string name="chatrix_reacted_to">Ο/Η %1$s αντέδρασε με %2$s σε: %3$s</string>
+    <string name="chatrix_reactions_channel_name">Αντιδράσεις</string>
+    <string name="chatrix_silent_reactions_channel_name">Αθόρυβες αντιδράσεις</string>
+    <string name="chatrix_reactions_channel_description">Κάποιος αντέδρασε στο μήνυμά σας</string>
+    <string name="chatrix_server_select_text">Το XMPP είναι ένα δίκτυο άμεσων μηνυμάτων ανεξάρτητο από πάροχο. Μπορείτε να χρησιμοποιήσετε αυτή την εφαρμογή με όποιον διακομιστή XMPP επιθυμείτε.</string>
+    <string name="chatrix_pref_link_previews">Προεπισκόπηση συνδέσμων</string>
+    <string name="chatrix_pref_link_previews_summary">Εμφάνιση τίτλου και εικόνας για συνδέσμους από τις επαφές σας. Για να τα λάβει, η εφαρμογή ανοίγει τον σύνδεσμο, οπότε ο ιστότοπος μπορεί να δει τη διεύθυνση IP σας. Ανενεργό όταν το Tor είναι ενεργό.</string>
 </resources>

@@ -37,4 +37,16 @@
     <string name="chatrix_pref_crash_reports_summary">В фоне никогда ничего не отправляется. После сбоя Chatrix.One показывает вам отчёт (версия приложения, модель устройства, время и технические подробности ошибки) и сначала спрашивает. Он отправляется команде Chatrix.One только с вашего подтверждения — XMPP-сообщением с вашего аккаунта или по почте. Отключите, чтобы никогда не получать этот вопрос.</string>
     <string name="chatrix_crash_report_message">Chatrix.One неожиданно закрылся. Отчёт ниже содержит версию приложения, модель устройства, время и технические подробности ошибки. Отправить его на %s, чтобы помочь исправить проблему? Без вашего выбора ничего не отправляется.</string>
     <string name="chatrix_account_suspended">Аккаунт заблокирован сервером</string>
+    <string name="chatrix_pref_notify_reactions">Уведомлять о реакциях</string>
+    <string name="chatrix_pref_notify_reactions_summary">Показывать уведомление, когда кто-то реагирует на ваше сообщение. Это значение по умолчанию для всех чатов; каждый чат может изменить его в своём меню.</string>
+    <string name="chatrix_pref_reaction_sound">Звук для реакций</string>
+    <string name="chatrix_pref_reaction_sound_summary">Воспроизводить звук для уведомлений о реакциях. Если выключено, они приходят без звука.</string>
+    <string name="chatrix_notify_on_reactions">Уведомлять о реакциях</string>
+    <string name="chatrix_reacted_to">%1$s отреагировал(а) %2$s на: %3$s</string>
+    <string name="chatrix_reactions_channel_name">Реакции</string>
+    <string name="chatrix_silent_reactions_channel_name">Беззвучные реакции</string>
+    <string name="chatrix_reactions_channel_description">Кто-то отреагировал на ваше сообщение</string>
+    <string name="chatrix_server_select_text">XMPP — это независимая от провайдера сеть обмена мгновенными сообщениями. Это приложение можно использовать с любым XMPP-сервером на ваш выбор.</string>
+    <string name="chatrix_pref_link_previews">Предпросмотр ссылок</string>
+    <string name="chatrix_pref_link_previews_summary">Показывать заголовок и картинку для ссылок от ваших контактов. Для этого приложение открывает ссылку, поэтому сайт может увидеть ваш IP-адрес. Выключено, когда включён Tor.</string>
 </resources>

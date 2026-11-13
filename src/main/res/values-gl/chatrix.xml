@@ -37,4 +37,16 @@
     <string name="chatrix_pref_crash_reports_summary">Nunca se envía nada en segundo plano. Despois dun peche inesperado, Chatrix.One amósache o informe (versión da app, modelo do dispositivo, hora e detalles técnicos do erro) e pregunta primeiro. Só se envía ao equipo de Chatrix.One se o confirmas, como mensaxe XMPP desde a túa conta ou por correo. Desactívao para que non se che pregunte nunca.</string>
     <string name="chatrix_crash_report_message">Chatrix.One pechouse inesperadamente. O informe de abaixo contén a versión da app, o modelo do dispositivo, a hora e os detalles técnicos do erro. Enviarllo a %s para axudar a solucionar o problema? Non se envía nada se non o escolles.</string>
     <string name="chatrix_account_suspended">Conta suspendida polo servidor</string>
+    <string name="chatrix_pref_notify_reactions">Notificar reaccións</string>
+    <string name="chatrix_pref_notify_reactions_summary">Mostrar unha notificación cando alguén reacciona á túa mensaxe. É o valor predeterminado para todas as conversas; cada conversa pode cambialo no seu menú.</string>
+    <string name="chatrix_pref_reaction_sound">Son para reaccións</string>
+    <string name="chatrix_pref_reaction_sound_summary">Reproducir un son nas notificacións de reaccións. Se está desactivado, chegan en silencio.</string>
+    <string name="chatrix_notify_on_reactions">Notificar reaccións</string>
+    <string name="chatrix_reacted_to">%1$s reaccionou con %2$s a: %3$s</string>
+    <string name="chatrix_reactions_channel_name">Reaccións</string>
+    <string name="chatrix_silent_reactions_channel_name">Reaccións silenciosas</string>
+    <string name="chatrix_reactions_channel_description">Alguén reaccionou á túa mensaxe</string>
+    <string name="chatrix_server_select_text">XMPP é unha rede de mensaxería instantánea independente do provedor. Podes usar esta app con calquera servidor XMPP que elixas.</string>
+    <string name="chatrix_pref_link_previews">Vista previa de ligazóns</string>
+    <string name="chatrix_pref_link_previews_summary">Mostrar un título e unha imaxe para as ligazóns dos teus contactos. Para obtelos, a app abre a ligazón, así que o sitio web pode ver o teu enderezo IP. Desactivado cando Tor está activado.</string>
 </resources>

@@ -37,4 +37,16 @@
     <string name="chatrix_pref_crash_reports_summary">백그라운드에서는 아무것도 보내지 않습니다. 앱이 비정상 종료되면 Chatrix.One이 보고서(앱 버전, 기기 모델, 시간, 오류의 기술적 세부 정보)를 보여 주고 먼저 묻습니다. 확인한 경우에만 내 계정의 XMPP 메시지 또는 이메일로 Chatrix.One 팀에 전송됩니다. 다시는 묻지 않게 하려면 끄세요.</string>
     <string name="chatrix_crash_report_message">Chatrix.One이 예기치 않게 종료되었습니다. 아래 보고서에는 앱 버전, 기기 모델, 시간, 오류의 기술적 세부 정보가 포함되어 있습니다. 문제 해결을 돕기 위해 %s(으)로 보낼까요? 선택하지 않으면 아무것도 전송되지 않습니다.</string>
     <string name="chatrix_account_suspended">서버에서 계정을 정지했습니다</string>
+    <string name="chatrix_pref_notify_reactions">반응 알림</string>
+    <string name="chatrix_pref_notify_reactions_summary">누군가 내 메시지에 반응하면 알림을 표시합니다. 모든 채팅의 기본값이며, 각 채팅의 메뉴에서 바꿀 수 있습니다.</string>
+    <string name="chatrix_pref_reaction_sound">반응 알림 소리</string>
+    <string name="chatrix_pref_reaction_sound_summary">반응 알림에 소리를 재생합니다. 끄면 소리 없이 도착합니다.</string>
+    <string name="chatrix_notify_on_reactions">반응 알림</string>
+    <string name="chatrix_reacted_to">%1$s 님이 %3$s에 %2$s(으)로 반응했습니다</string>
+    <string name="chatrix_reactions_channel_name">반응</string>
+    <string name="chatrix_silent_reactions_channel_name">무음 반응</string>
+    <string name="chatrix_reactions_channel_description">누군가 내 메시지에 반응했습니다</string>
+    <string name="chatrix_server_select_text">XMPP는 특정 제공자에 종속되지 않는 인스턴트 메시징 네트워크입니다. 원하는 어떤 XMPP 서버로도 이 앱을 사용할 수 있습니다.</string>
+    <string name="chatrix_pref_link_previews">링크 미리보기</string>
+    <string name="chatrix_pref_link_previews_summary">연락처에서 보낸 링크에 제목과 이미지를 표시합니다. 이를 위해 앱이 링크를 열기 때문에 웹사이트가 내 IP 주소를 볼 수 있습니다. Tor가 켜져 있으면 꺼집니다.</string>
 </resources>

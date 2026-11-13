@@ -37,4 +37,16 @@
     <string name="chatrix_pref_crash_reports_summary">Na pozadí sa nikdy nič neodosiela. Po páde vám Chatrix.One ukáže hlásenie (verzia aplikácie, model zariadenia, čas a technické podrobnosti chyby) a najprv sa opýta. Tímu Chatrix.One sa odošle, len ak to potvrdíte, ako XMPP správa z vášho konta alebo e-mailom. Vypnite, ak sa nechcete nikdy pýtať.</string>
     <string name="chatrix_crash_report_message">Chatrix.One sa neočakávane zavrel. Hlásenie nižšie obsahuje verziu aplikácie, model zariadenia, čas a technické podrobnosti chyby. Odoslať ho na %s a pomôcť tak problém vyriešiť? Bez vášho výberu sa nič neodošle.</string>
     <string name="chatrix_account_suspended">Konto bolo serverom pozastavené</string>
+    <string name="chatrix_pref_notify_reactions">Upozorňovať na reakcie</string>
+    <string name="chatrix_pref_notify_reactions_summary">Zobraziť upozornenie, keď niekto zareaguje na vašu správu. Platí pre všetky chaty; každý chat to môže zmeniť vo svojom menu.</string>
+    <string name="chatrix_pref_reaction_sound">Zvuk pre reakcie</string>
+    <string name="chatrix_pref_reaction_sound_summary">Prehrať zvuk pri upozorneniach na reakcie. Keď je vypnuté, prichádzajú potichu.</string>
+    <string name="chatrix_notify_on_reactions">Upozorňovať na reakcie</string>
+    <string name="chatrix_reacted_to">%1$s reaguje %2$s na: %3$s</string>
+    <string name="chatrix_reactions_channel_name">Reakcie</string>
+    <string name="chatrix_silent_reactions_channel_name">Tiché reakcie</string>
+    <string name="chatrix_reactions_channel_description">Niekto zareagoval na vašu správu</string>
+    <string name="chatrix_server_select_text">XMPP je sieť pre okamžité správy nezávislá od poskytovateľa. Túto aplikáciu môžete používať s akýmkoľvek XMPP serverom, ktorý si vyberiete.</string>
+    <string name="chatrix_pref_link_previews">Náhľady odkazov</string>
+    <string name="chatrix_pref_link_previews_summary">Zobraziť názov a obrázok pri odkazoch od vašich kontaktov. Aplikácia na to odkaz otvorí, takže stránka môže vidieť vašu IP adresu. Vypnuté, keď je zapnutý Tor.</string>
 </resources>

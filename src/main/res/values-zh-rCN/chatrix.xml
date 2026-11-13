@@ -37,4 +37,16 @@
     <string name="chatrix_pref_crash_reports_summary">绝不会在后台发送任何内容。崩溃后，Chatrix.One 会向你显示报告（应用版本、设备型号、时间和错误的技术细节）并先询问你。只有在你确认后，才会以你账号发出的 XMPP 消息或电子邮件发送给 Chatrix.One 团队。关闭后将不再询问。</string>
     <string name="chatrix_crash_report_message">Chatrix.One 意外关闭。下方报告包含应用版本、设备型号、时间和错误的技术细节。是否发送到 %s 以帮助修复问题？除非你选择，否则不会发送任何内容。</string>
     <string name="chatrix_account_suspended">账号已被服务器停用</string>
+    <string name="chatrix_pref_notify_reactions">回应通知</string>
+    <string name="chatrix_pref_notify_reactions_summary">有人回应你的消息时显示通知。这是所有聊天的默认设置；每个聊天都可以在其菜单中更改。</string>
+    <string name="chatrix_pref_reaction_sound">回应提示音</string>
+    <string name="chatrix_pref_reaction_sound_summary">为回应通知播放提示音。关闭后将静音送达。</string>
+    <string name="chatrix_notify_on_reactions">回应通知</string>
+    <string name="chatrix_reacted_to">%1$s 用 %2$s 回应了：%3$s</string>
+    <string name="chatrix_reactions_channel_name">回应</string>
+    <string name="chatrix_silent_reactions_channel_name">静音回应</string>
+    <string name="chatrix_reactions_channel_description">有人回应了你的消息</string>
+    <string name="chatrix_server_select_text">XMPP 是独立于服务提供者的即时通讯网络。您可以选择任意 XMPP 服务器使用本应用。</string>
+    <string name="chatrix_pref_link_previews">链接预览</string>
+    <string name="chatrix_pref_link_previews_summary">为联系人发来的链接显示标题和图片。为此应用会打开该链接，因此网站可以看到你的 IP 地址。开启 Tor 时关闭。</string>
 </resources>

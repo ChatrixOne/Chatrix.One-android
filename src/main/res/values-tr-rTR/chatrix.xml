@@ -37,4 +37,16 @@
     <string name="chatrix_pref_crash_reports_summary">Arka planda asla hiçbir şey gönderilmez. Bir çökmeden sonra Chatrix.One size raporu (uygulama sürümü, cihaz modeli, saat ve hatanın teknik ayrıntıları) gösterir ve önce sorar. Rapor yalnızca onaylarsanız, hesabınızdan XMPP mesajı olarak veya e-postayla Chatrix.One ekibine gönderilir. Hiç sorulmaması için kapatın.</string>
     <string name="chatrix_crash_report_message">Chatrix.One beklenmedik şekilde kapandı. Aşağıdaki rapor uygulama sürümünü, cihaz modelini, saati ve hatanın teknik ayrıntılarını içerir. Sorunun giderilmesine yardım etmek için %s adresine gönderilsin mi? Siz seçmedikçe hiçbir şey gönderilmez.</string>
     <string name="chatrix_account_suspended">Hesap sunucu tarafından askıya alındı</string>
+    <string name="chatrix_pref_notify_reactions">Tepkilerde bildir</string>
+    <string name="chatrix_pref_notify_reactions_summary">Biri mesajınıza tepki verdiğinde bildirim göster. Bu, tüm sohbetler için varsayılandır; her sohbet bunu kendi menüsünden değiştirebilir.</string>
+    <string name="chatrix_pref_reaction_sound">Tepkiler için ses</string>
+    <string name="chatrix_pref_reaction_sound_summary">Tepki bildirimlerinde ses çal. Kapalıyken sessiz gelirler.</string>
+    <string name="chatrix_notify_on_reactions">Tepkilerde bildir</string>
+    <string name="chatrix_reacted_to">%1$s, %3$s mesajına %2$s ile tepki verdi</string>
+    <string name="chatrix_reactions_channel_name">Tepkiler</string>
+    <string name="chatrix_silent_reactions_channel_name">Sessiz tepkiler</string>
+    <string name="chatrix_reactions_channel_description">Biri mesajınıza tepki verdi</string>
+    <string name="chatrix_server_select_text">XMPP, sağlayıcıdan bağımsız bir anlık mesajlaşma ağıdır. Bu uygulamayı seçtiğiniz herhangi bir XMPP sunucusuyla kullanabilirsiniz.</string>
+    <string name="chatrix_pref_link_previews">Bağlantı önizlemeleri</string>
+    <string name="chatrix_pref_link_previews_summary">Kişilerinizden gelen bağlantılar için bir başlık ve resim göster. Bunun için uygulama bağlantıyı açar, bu yüzden web sitesi IP adresinizi görebilir. Tor açıkken kapalıdır.</string>
 </resources>

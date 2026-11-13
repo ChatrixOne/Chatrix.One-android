@@ -37,4 +37,16 @@
     <string name="chatrix_pref_crash_reports_summary">Ништа се никада не шаље у позадини. После пада Chatrix.One вам покаже извештај (верзија апликације, модел уређаја, време и технички детаљи грешке) и прво пита. Шаље се тиму Chatrix.One само ако потврдите, као XMPP порука са вашег налога или е-поштом. Искључите да никада не будете питани.</string>
     <string name="chatrix_crash_report_message">Chatrix.One се неочекивано затворио. Извештај испод садржи верзију апликације, модел уређаја, време и техничке детаље грешке. Послати га на %s да би се проблем решио? Ништа се не шаље ако то не изаберете.</string>
     <string name="chatrix_account_suspended">Сервер је суспендовао налог</string>
+    <string name="chatrix_pref_notify_reactions">Обавести о реакцијама</string>
+    <string name="chatrix_pref_notify_reactions_summary">Прикажи обавештење када неко реагује на вашу поруку. Ово важи за сва ћаскања; свако ћаскање то може да промени у свом менију.</string>
+    <string name="chatrix_pref_reaction_sound">Звук за реакције</string>
+    <string name="chatrix_pref_reaction_sound_summary">Пусти звук за обавештења о реакцијама. Када је искључено, стижу без звука.</string>
+    <string name="chatrix_notify_on_reactions">Обавести о реакцијама</string>
+    <string name="chatrix_reacted_to">%1$s реагује са %2$s на: %3$s</string>
+    <string name="chatrix_reactions_channel_name">Реакције</string>
+    <string name="chatrix_silent_reactions_channel_name">Тихе реакције</string>
+    <string name="chatrix_reactions_channel_description">Неко је реаговао на вашу поруку</string>
+    <string name="chatrix_server_select_text">XMPP је мрежа за инстант поруке, независна од провајдера. Ову апликацију можете да користите уз било који XMPP сервер по свом избору.</string>
+    <string name="chatrix_pref_link_previews">Преглед линкова</string>
+    <string name="chatrix_pref_link_previews_summary">Прикажи наслов и слику за линкове од ваших контаката. За то апликација отвара линк, па сајт може да види вашу IP адресу. Искључено када је Tor укључен.</string>
 </resources>

@@ -37,4 +37,16 @@
     <string name="chatrix_pref_crash_reports_summary">У фоні ніколи нічого не надсилається. Після збою Chatrix.One показує Вам звіт (версія застосунку, модель пристрою, час і технічні подробиці помилки) і спершу питає. Його надсилають команді Chatrix.One лише з Вашого підтвердження — XMPP-повідомленням з Вашого облікового запису або електронною поштою. Вимкніть, щоб ніколи не отримувати цього запитання.</string>
     <string name="chatrix_crash_report_message">Chatrix.One несподівано закрився. Звіт нижче містить версію застосунку, модель пристрою, час і технічні подробиці помилки. Надіслати його на %s, щоб допомогти виправити проблему? Без Вашого вибору нічого не надсилається.</string>
     <string name="chatrix_account_suspended">Обліковий запис призупинено сервером</string>
+    <string name="chatrix_pref_notify_reactions">Сповіщати про реакції</string>
+    <string name="chatrix_pref_notify_reactions_summary">Показувати сповіщення, коли хтось реагує на ваше повідомлення. Це типове значення для всіх чатів; кожен чат може змінити його у своєму меню.</string>
+    <string name="chatrix_pref_reaction_sound">Звук для реакцій</string>
+    <string name="chatrix_pref_reaction_sound_summary">Відтворювати звук для сповіщень про реакції. Якщо вимкнено, вони надходять без звуку.</string>
+    <string name="chatrix_notify_on_reactions">Сповіщати про реакції</string>
+    <string name="chatrix_reacted_to">%1$s реагує %2$s на: %3$s</string>
+    <string name="chatrix_reactions_channel_name">Реакції</string>
+    <string name="chatrix_silent_reactions_channel_name">Беззвучні реакції</string>
+    <string name="chatrix_reactions_channel_description">Хтось відреагував на ваше повідомлення</string>
+    <string name="chatrix_server_select_text">XMPP — це мережа обміну миттєвими повідомленнями, незалежна від постачальників. Можете використовувати цю програму з будь-яким XMPP-сервером, який оберете.</string>
+    <string name="chatrix_pref_link_previews">Попередній перегляд посилань</string>
+    <string name="chatrix_pref_link_previews_summary">Показувати заголовок і зображення для посилань від ваших контактів. Для цього застосунок відкриває посилання, тож сайт може побачити вашу IP-адресу. Вимкнено, коли ввімкнено Tor.</string>
 </resources>

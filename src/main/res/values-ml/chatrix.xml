@@ -37,4 +37,16 @@
     <string name="chatrix_pref_crash_reports_summary">പശ്ചാത്തലത്തിൽ ഒരിക്കലും ഒന്നും അയയ്ക്കില്ല. ക്രാഷിനുശേഷം Chatrix.One റിപ്പോർട്ട് (ആപ്പ് പതിപ്പ്, ഉപകരണ മോഡൽ, സമയം, പിശകിന്റെ സാങ്കേതിക വിശദാംശങ്ങൾ) കാണിച്ച് ആദ്യം ചോദിക്കും. നിങ്ങൾ സ്ഥിരീകരിച്ചാൽ മാത്രം, നിങ്ങളുടെ അക്കൗണ്ടിൽ നിന്നുള്ള XMPP സന്ദേശമായോ ഇമെയിലായോ Chatrix.One ടീമിന് അയയ്ക്കും. ഒരിക്കലും ചോദിക്കേണ്ടെങ്കിൽ ഓഫാക്കുക.</string>
     <string name="chatrix_crash_report_message">Chatrix.One അപ്രതീക്ഷിതമായി അടച്ചു. താഴെയുള്ള റിപ്പോർട്ടിൽ ആപ്പ് പതിപ്പ്, ഉപകരണ മോഡൽ, സമയം, പിശകിന്റെ സാങ്കേതിക വിശദാംശങ്ങൾ എന്നിവയുണ്ട്. പ്രശ്നം പരിഹരിക്കാൻ സഹായിക്കുന്നതിന് ഇത് %s-ലേക്ക് അയയ്ക്കണോ? നിങ്ങൾ തിരഞ്ഞെടുക്കാതെ ഒന്നും അയയ്ക്കില്ല.</string>
     <string name="chatrix_account_suspended">സെർവർ അക്കൗണ്ട് താൽക്കാലികമായി നിർത്തി</string>
+    <string name="chatrix_pref_notify_reactions">പ്രതികരണങ്ങൾ അറിയിക്കുക</string>
+    <string name="chatrix_pref_notify_reactions_summary">ആരെങ്കിലും നിങ്ങളുടെ സന്ദേശത്തോട് പ്രതികരിക്കുമ്പോൾ അറിയിപ്പ് കാണിക്കുക. എല്ലാ ചാറ്റുകൾക്കും ഇതാണ് സ്ഥിരസ്ഥിതി; ഓരോ ചാറ്റിനും അതിന്റെ മെനുവിൽ ഇത് മാറ്റാം.</string>
+    <string name="chatrix_pref_reaction_sound">പ്രതികരണങ്ങൾക്ക് ശബ്ദം</string>
+    <string name="chatrix_pref_reaction_sound_summary">പ്രതികരണ അറിയിപ്പുകൾക്ക് ശബ്ദം പ്ലേ ചെയ്യുക. ഓഫാണെങ്കിൽ അവ നിശ്ശബ്ദമായി എത്തും.</string>
+    <string name="chatrix_notify_on_reactions">പ്രതികരണങ്ങൾ അറിയിക്കുക</string>
+    <string name="chatrix_reacted_to">%1$s %3$s എന്നതിനോട് %2$s ഉപയോഗിച്ച് പ്രതികരിച്ചു</string>
+    <string name="chatrix_reactions_channel_name">പ്രതികരണങ്ങൾ</string>
+    <string name="chatrix_silent_reactions_channel_name">നിശ്ശബ്ദ പ്രതികരണങ്ങൾ</string>
+    <string name="chatrix_reactions_channel_description">ആരോ നിങ്ങളുടെ സന്ദേശത്തോട് പ്രതികരിച്ചു</string>
+    <string name="chatrix_server_select_text">XMPP ഒരു ദാതാവിനെയും ആശ്രയിക്കാത്ത ഇൻസ്റ്റന്റ് മെസേജിംഗ് നെറ്റ്‌വർക്കാണ്. നിങ്ങൾ തിരഞ്ഞെടുക്കുന്ന ഏത് XMPP സെർവറിനൊപ്പവും ഈ ആപ്പ് ഉപയോഗിക്കാം.</string>
+    <string name="chatrix_pref_link_previews">ലിങ്ക് പ്രിവ്യൂ</string>
+    <string name="chatrix_pref_link_previews_summary">നിങ്ങളുടെ കോൺടാക്റ്റുകളിൽ നിന്നുള്ള ലിങ്കുകൾക്ക് തലക്കെട്ടും ചിത്രവും കാണിക്കുക. ഇതിനായി ആപ്പ് ലിങ്ക് തുറക്കുന്നു, അതിനാൽ വെബ്സൈറ്റിന് നിങ്ങളുടെ IP വിലാസം കാണാനാകും. Tor ഓണായിരിക്കുമ്പോൾ ഓഫ്.</string>
 </resources>

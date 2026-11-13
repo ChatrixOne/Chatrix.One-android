@@ -37,4 +37,16 @@
     <string name="chatrix_pref_crash_reports_summary">Nada é enviado em segundo plano. Após uma falha, o Chatrix.One mostra o relatório (versão do app, modelo do dispositivo, horário e detalhes técnicos do erro) e pergunta antes. Ele só é enviado à equipe do Chatrix.One se você confirmar, como mensagem XMPP da sua conta ou por e-mail. Desative para nunca ser perguntado.</string>
     <string name="chatrix_crash_report_message">O Chatrix.One fechou inesperadamente. O relatório abaixo contém a versão do app, o modelo do dispositivo, o horário e os detalhes técnicos do erro. Enviar para %s para ajudar a corrigir o problema? Nada é enviado sem a sua escolha.</string>
     <string name="chatrix_account_suspended">Conta suspensa pelo servidor</string>
+    <string name="chatrix_pref_notify_reactions">Notificar reações</string>
+    <string name="chatrix_pref_notify_reactions_summary">Mostrar uma notificação quando alguém reagir à sua mensagem. É o padrão para todas as conversas; cada conversa pode mudar isso no seu menu.</string>
+    <string name="chatrix_pref_reaction_sound">Som para reações</string>
+    <string name="chatrix_pref_reaction_sound_summary">Tocar um som nas notificações de reações. Desativado, elas chegam em silêncio.</string>
+    <string name="chatrix_notify_on_reactions">Notificar reações</string>
+    <string name="chatrix_reacted_to">%1$s reagiu com %2$s a: %3$s</string>
+    <string name="chatrix_reactions_channel_name">Reações</string>
+    <string name="chatrix_silent_reactions_channel_name">Reações silenciosas</string>
+    <string name="chatrix_reactions_channel_description">Alguém reagiu à sua mensagem</string>
+    <string name="chatrix_server_select_text">XMPP é uma rede de mensagens instantâneas independente de provedor. Você pode usar este aplicativo com qualquer servidor XMPP de sua escolha.</string>
+    <string name="chatrix_pref_link_previews">Prévia de links</string>
+    <string name="chatrix_pref_link_previews_summary">Mostrar um título e uma imagem para links dos seus contatos. Para obtê-los, o aplicativo abre o link, então o site pode ver seu endereço IP. Desativado quando o Tor está ativado.</string>
 </resources>

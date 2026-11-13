@@ -37,4 +37,16 @@
     <string name="chatrix_pref_crash_reports_summary">Rien n\'est jamais envoyé en arrière-plan. Après un plantage, Chatrix.One vous montre le rapport (version de l\'application, modèle de l\'appareil, heure et détails techniques de l\'erreur) et vous demande d\'abord. Il n\'est envoyé à l\'équipe Chatrix.One que si vous confirmez, par message XMPP depuis votre compte ou par e-mail. Désactivez pour ne jamais être sollicité.</string>
     <string name="chatrix_crash_report_message">Chatrix.One s\'est fermé de manière inattendue. Le rapport ci-dessous contient la version de l\'application, le modèle de l\'appareil, l\'heure et les détails techniques de l\'erreur. L\'envoyer à %s pour aider à corriger le problème ? Rien n\'est envoyé sans votre choix.</string>
     <string name="chatrix_account_suspended">Compte suspendu par le serveur</string>
+    <string name="chatrix_pref_notify_reactions">Notifier les réactions</string>
+    <string name="chatrix_pref_notify_reactions_summary">Afficher une notification quand quelqu’un réagit à votre message. C’est le réglage par défaut pour toutes les discussions ; chaque discussion peut le modifier dans son menu.</string>
+    <string name="chatrix_pref_reaction_sound">Son pour les réactions</string>
+    <string name="chatrix_pref_reaction_sound_summary">Jouer un son pour les notifications de réaction. Désactivé, elles arrivent en silence.</string>
+    <string name="chatrix_notify_on_reactions">Notifier les réactions</string>
+    <string name="chatrix_reacted_to">%1$s a réagi %2$s à : %3$s</string>
+    <string name="chatrix_reactions_channel_name">Réactions</string>
+    <string name="chatrix_silent_reactions_channel_name">Réactions silencieuses</string>
+    <string name="chatrix_reactions_channel_description">Quelqu’un a réagi à votre message</string>
+    <string name="chatrix_server_select_text">XMPP est un réseau de messagerie instantanée indépendant du fournisseur. Vous pouvez utiliser cette application avec n’importe quel serveur XMPP de votre choix.</string>
+    <string name="chatrix_pref_link_previews">Aperçus des liens</string>
+    <string name="chatrix_pref_link_previews_summary">Afficher un titre et une image pour les liens de vos contacts. Pour les obtenir, l’application ouvre le lien, donc le site peut voir votre adresse IP. Désactivé quand Tor est activé.</string>
 </resources>

@@ -37,4 +37,16 @@
     <string name="chatrix_pref_crash_reports_summary">Nic nie jest wysyłane w tle. Po awarii Chatrix.One pokazuje Ci raport (wersja aplikacji, model urządzenia, czas i techniczne szczegóły błędu) i najpierw pyta. Trafia on do zespołu Chatrix.One tylko po Twoim potwierdzeniu, jako wiadomość XMPP z Twojego konta lub e-mailem. Wyłącz, aby nigdy nie być pytanym.</string>
     <string name="chatrix_crash_report_message">Chatrix.One nieoczekiwanie się zamknął. Poniższy raport zawiera wersję aplikacji, model urządzenia, czas i techniczne szczegóły błędu. Wysłać go do %s, aby pomóc rozwiązać problem? Nic nie zostanie wysłane bez Twojego wyboru.</string>
     <string name="chatrix_account_suspended">Konto zawieszone przez serwer</string>
+    <string name="chatrix_pref_notify_reactions">Powiadamiaj o reakcjach</string>
+    <string name="chatrix_pref_notify_reactions_summary">Pokazuj powiadomienie, gdy ktoś zareaguje na Twoją wiadomość. To ustawienie domyślne dla wszystkich czatów; każdy czat może je zmienić w swoim menu.</string>
+    <string name="chatrix_pref_reaction_sound">Dźwięk reakcji</string>
+    <string name="chatrix_pref_reaction_sound_summary">Odtwarzaj dźwięk przy powiadomieniach o reakcjach. Gdy wyłączone, przychodzą bez dźwięku.</string>
+    <string name="chatrix_notify_on_reactions">Powiadamiaj o reakcjach</string>
+    <string name="chatrix_reacted_to">%1$s zareagował(a) %2$s na: %3$s</string>
+    <string name="chatrix_reactions_channel_name">Reakcje</string>
+    <string name="chatrix_silent_reactions_channel_name">Ciche reakcje</string>
+    <string name="chatrix_reactions_channel_description">Ktoś zareagował na Twoją wiadomość</string>
+    <string name="chatrix_server_select_text">XMPP to niezależna od dostawcy sieć komunikacji błyskawicznej. Możesz używać tej aplikacji z dowolnym wybranym serwerem XMPP.</string>
+    <string name="chatrix_pref_link_previews">Podgląd linków</string>
+    <string name="chatrix_pref_link_previews_summary">Pokazuj tytuł i obrazek dla linków od Twoich kontaktów. Aby je pobrać, aplikacja otwiera link, więc strona może zobaczyć Twój adres IP. Wyłączone, gdy Tor jest włączony.</string>
 </resources>

@@ -37,4 +37,16 @@
     <string name="chatrix_pref_crash_reports_summary">A háttérben soha nem kerül elküldésre semmi. Összeomlás után a Chatrix.One megmutatja a jelentést (alkalmazásverzió, eszközmodell, időpont és a hiba műszaki részletei), és először rákérdez. Csak akkor kerül a Chatrix.One csapatához, ha megerősíti, XMPP-üzenetként a fiókjából vagy e-mailben. Kapcsolja ki, ha soha nem szeretné, hogy rákérdezzen.</string>
     <string name="chatrix_crash_report_message">A Chatrix.One váratlanul bezárult. Az alábbi jelentés tartalmazza az alkalmazás verzióját, az eszköz modelljét, az időpontot és a hiba műszaki részleteit. Elküldi a(z) %s címre, hogy segítsen a hiba javításában? Semmi nem kerül elküldésre, ha nem így dönt.</string>
     <string name="chatrix_account_suspended">A kiszolgáló felfüggesztette a fiókot</string>
+    <string name="chatrix_pref_notify_reactions">Értesítés reakciókról</string>
+    <string name="chatrix_pref_notify_reactions_summary">Értesítés megjelenítése, ha valaki reagál az üzenetére. Ez az alapértelmezés minden csevegésnél; minden csevegés módosíthatja a saját menüjében.</string>
+    <string name="chatrix_pref_reaction_sound">Hang a reakciókhoz</string>
+    <string name="chatrix_pref_reaction_sound_summary">Hang lejátszása a reakcióértesítéseknél. Kikapcsolva hang nélkül érkeznek.</string>
+    <string name="chatrix_notify_on_reactions">Értesítés reakciókról</string>
+    <string name="chatrix_reacted_to">%1$s ezzel reagált: %2$s erre: %3$s</string>
+    <string name="chatrix_reactions_channel_name">Reakciók</string>
+    <string name="chatrix_silent_reactions_channel_name">Néma reakciók</string>
+    <string name="chatrix_reactions_channel_description">Valaki reagált az üzenetére</string>
+    <string name="chatrix_server_select_text">Az XMPP egy szolgáltatófüggetlen, azonnali üzenetküldő hálózat. Ezt az alkalmazást bármely XMPP-kiszolgálóval használhatja.</string>
+    <string name="chatrix_pref_link_previews">Linkelőnézetek</string>
+    <string name="chatrix_pref_link_previews_summary">Cím és kép megjelenítése a névjegyeitől érkező linkekhez. Ehhez az alkalmazás megnyitja a linket, így a webhely láthatja az Ön IP-címét. Kikapcsolva, ha a Tor be van kapcsolva.</string>
 </resources>

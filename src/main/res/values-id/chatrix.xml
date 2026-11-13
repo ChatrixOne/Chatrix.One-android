@@ -37,4 +37,16 @@
     <string name="chatrix_pref_crash_reports_summary">Tidak ada yang pernah dikirim di latar belakang. Setelah aplikasi mogok, Chatrix.One menampilkan laporan (versi aplikasi, model perangkat, waktu, dan detail teknis kesalahan) dan bertanya terlebih dahulu. Laporan hanya dikirim ke tim Chatrix.One jika Anda mengonfirmasi, sebagai pesan XMPP dari akun Anda atau lewat email. Matikan agar tidak pernah ditanya.</string>
     <string name="chatrix_crash_report_message">Chatrix.One tertutup secara tidak terduga. Laporan di bawah berisi versi aplikasi, model perangkat, waktu, dan detail teknis kesalahan. Kirim ke %s untuk membantu memperbaiki masalah? Tidak ada yang dikirim kecuali Anda memilihnya.</string>
     <string name="chatrix_account_suspended">Akun ditangguhkan oleh server</string>
+    <string name="chatrix_pref_notify_reactions">Beri tahu reaksi</string>
+    <string name="chatrix_pref_notify_reactions_summary">Tampilkan notifikasi saat seseorang bereaksi pada pesan Anda. Ini bawaan untuk semua obrolan; setiap obrolan bisa mengubahnya di menunya.</string>
+    <string name="chatrix_pref_reaction_sound">Suara untuk reaksi</string>
+    <string name="chatrix_pref_reaction_sound_summary">Putar suara untuk notifikasi reaksi. Jika mati, notifikasi datang tanpa suara.</string>
+    <string name="chatrix_notify_on_reactions">Beri tahu reaksi</string>
+    <string name="chatrix_reacted_to">%1$s bereaksi %2$s pada: %3$s</string>
+    <string name="chatrix_reactions_channel_name">Reaksi</string>
+    <string name="chatrix_silent_reactions_channel_name">Reaksi senyap</string>
+    <string name="chatrix_reactions_channel_description">Seseorang bereaksi pada pesan Anda</string>
+    <string name="chatrix_server_select_text">XMPP adalah jaringan pesan instan yang tidak bergantung pada satu penyedia. Anda dapat menggunakan aplikasi ini dengan server XMPP pilihan Anda.</string>
+    <string name="chatrix_pref_link_previews">Pratinjau tautan</string>
+    <string name="chatrix_pref_link_previews_summary">Tampilkan judul dan gambar untuk tautan dari kontak Anda. Untuk itu aplikasi membuka tautan, sehingga situs web dapat melihat alamat IP Anda. Mati saat Tor aktif.</string>
 </resources>

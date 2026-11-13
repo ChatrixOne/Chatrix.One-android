@@ -37,4 +37,16 @@
     <string name="chatrix_pref_crash_reports_summary">Im Hintergrund wird nie etwas gesendet. Nach einem Absturz zeigt dir Chatrix.One den Bericht (App-Version, Gerätemodell, Uhrzeit und die technischen Fehlerdetails) und fragt zuerst. Er wird nur nach deiner Bestätigung an das Chatrix.One-Team gesendet, als XMPP-Nachricht von deinem Konto oder per E-Mail. Ausschalten, um nie gefragt zu werden.</string>
     <string name="chatrix_crash_report_message">Chatrix.One wurde unerwartet beendet. Der Bericht unten enthält die App-Version, das Gerätemodell, die Uhrzeit und die technischen Fehlerdetails. An %s senden, um das Problem zu beheben? Ohne deine Auswahl wird nichts gesendet.</string>
     <string name="chatrix_account_suspended">Konto vom Server gesperrt</string>
+    <string name="chatrix_pref_notify_reactions">Bei Reaktionen benachrichtigen</string>
+    <string name="chatrix_pref_notify_reactions_summary">Eine Benachrichtigung zeigen, wenn jemand auf deine Nachricht reagiert. Das gilt für alle Chats; jeder Chat kann es in seinem Menü ändern.</string>
+    <string name="chatrix_pref_reaction_sound">Ton für Reaktionen</string>
+    <string name="chatrix_pref_reaction_sound_summary">Bei Benachrichtigungen zu Reaktionen einen Ton abspielen. Wenn aus, kommen sie lautlos.</string>
+    <string name="chatrix_notify_on_reactions">Bei Reaktionen benachrichtigen</string>
+    <string name="chatrix_reacted_to">%1$s hat mit %2$s reagiert auf: %3$s</string>
+    <string name="chatrix_reactions_channel_name">Reaktionen</string>
+    <string name="chatrix_silent_reactions_channel_name">Lautlose Reaktionen</string>
+    <string name="chatrix_reactions_channel_description">Jemand hat auf deine Nachricht reagiert</string>
+    <string name="chatrix_server_select_text">XMPP ist ein anbieterunabhängiges Instant-Messaging-Netzwerk. Du kannst diese App mit jedem beliebigen XMPP-Server nutzen.</string>
+    <string name="chatrix_pref_link_previews">Linkvorschau</string>
+    <string name="chatrix_pref_link_previews_summary">Für Links von deinen Kontakten einen Titel und ein Bild zeigen. Dafür öffnet die App den Link, sodass die Website deine IP-Adresse sehen kann. Aus, wenn Tor eingeschaltet ist.</string>
 </resources>
