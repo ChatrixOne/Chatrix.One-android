@@ -608,6 +608,7 @@ public class MessageAdapter extends ArrayAdapter<Message> {
         // Chatrix.One: link preview card under the text
         eu.siacs.conversations.ui.chatrix.LinkPreviews.bind(
                 viewHolder.messageBox().findViewById(R.id.link_preview),
+                viewHolder.messageBody(),
                 message,
                 bubbleToOnSurfaceColor(viewHolder.messageBody(), bubbleColor));
     }

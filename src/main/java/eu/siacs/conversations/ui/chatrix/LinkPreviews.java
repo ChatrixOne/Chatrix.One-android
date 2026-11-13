@@ -6,12 +6,15 @@ import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
+import android.graphics.Paint;
 import android.net.Uri;
 import android.os.Handler;
 import android.os.Looper;
 import android.util.Log;
 import android.util.LruCache;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 import androidx.annotation.ColorInt;
@@ -75,16 +78,25 @@ public final class LinkPreviews {
     private static final int MAX_HTML_BYTES = 256 * 1024;
     private static final int MAX_IMAGE_BYTES = 3 * 1024 * 1024;
     private static final int MAX_OEMBED_BYTES = 64 * 1024;
+    /** Square pictures (compact card). */
     private static final int THUMB_PX = 192;
 
-    /** Pictures at least this much wider than high get the wide box (16:9) on the card. */
+    /** Wide pictures (large card) are kept up to this width. */
+    private static final int WIDE_PX = 720;
+
+    /** Pictures at least this much wider than high get the large card. */
     private static final float WIDE_MIN_RATIO = 1.3f;
+
+    /** Even wider pictures are trimmed at the sides to this ratio. */
+    private static final float WIDE_MAX_RATIO = 2.0f;
     private static final int MAX_TITLE_CHARS = 200;
 
-    /** v2: wide pictures are stored 16:9 and YouTube/Vimeo use oEmbed. */
-    private static final String CACHE_DIR = "chatrix_link_previews_v2";
+    /** v3: wide pictures are stored uncropped and larger for the large card. */
+    private static final String CACHE_DIR = "chatrix_link_previews_v3";
 
-    private static final String OLD_CACHE_DIR = "chatrix_link_previews";
+    private static final String[] OLD_CACHE_DIRS = {
+        "chatrix_link_previews", "chatrix_link_previews_v2"
+    };
 
     private static final String NONE = "\u0000none";
 
@@ -98,8 +110,14 @@ public final class LinkPreviews {
     private static final Pattern CHARSET =
             Pattern.compile("charset\\s*=\\s*[\"']?([a-zA-Z0-9_-]+)", Pattern.CASE_INSENSITIVE);
 
-    /** url -> preview; {@link #MISSING} marks links without a preview (this session only). */
-    private static final LruCache<String, Preview> MEMORY = new LruCache<>(128);
+    /** url -> preview, limited by picture size; {@link #MISSING} marks links without one. */
+    private static final LruCache<String, Preview> MEMORY =
+            new LruCache<>(12 * 1024 * 1024) {
+                @Override
+                protected int sizeOf(final String key, final Preview value) {
+                    return value.image() == null ? 512 : value.image().getByteCount();
+                }
+            };
 
     private static final Preview MISSING = new Preview("", "", "", null);
     private static final AtomicBoolean OLD_CACHE_REMOVED = new AtomicBoolean(false);
@@ -128,32 +146,43 @@ public final class LinkPreviews {
      * may get one. The card stays hidden until the preview has loaded.
      */
     public static void bind(
-            final View card, final Message message, final @ColorInt int textColor) {
+            final View card,
+            final TextView body,
+            final Message message,
+            final @ColorInt int textColor) {
         hide(card);
         final Context context = card.getContext();
         final AppSettings settings = new AppSettings(context);
         if (!settings.isLinkPreviews() || settings.isUseTor()) {
             return;
         }
-        final String url = eligibleUrl(message);
-        if (url == null) {
+        final String[] link = eligibleLink(message);
+        if (link == null) {
             return;
         }
+        final String url = link[0];
+        // a message that is only the link shows just the card, without the address
+        final boolean linkOnly = message.getBody().trim().equals(link[1]);
         card.setTag(url);
         final File cacheDir = new File(context.getCacheDir(), CACHE_DIR);
         if (OLD_CACHE_REMOVED.compareAndSet(false, true)) {
-            final File old = new File(context.getCacheDir(), OLD_CACHE_DIR);
-            EXECUTOR.execute(() -> deleteRecursively(old));
+            final File base = context.getCacheDir();
+            EXECUTOR.execute(() -> {
+                for (final String old : OLD_CACHE_DIRS) {
+                    deleteRecursively(new File(base, old));
+                }
+            });
         }
         get(cacheDir, url, preview -> {
             if (preview != null && url.equals(card.getTag())) {
-                show(card, preview, textColor);
+                show(card, body, preview, textColor, linkOnly);
             }
         });
     }
 
+    /** {normalised url, url as written in the message}, or null. */
     @Nullable
-    private static String eligibleUrl(final Message message) {
+    private static String[] eligibleLink(final Message message) {
         if (message.getStatus() == Message.STATUS_RECEIVED) {
             final var contact = message.getContact();
             if (contact == null || !contact.showInContactList()) {
@@ -168,7 +197,9 @@ public final class LinkPreviews {
             final String scheme = Strings.nullToEmpty(link.getScheme()).toLowerCase(Locale.ROOT);
             if (scheme.equals("http") || scheme.equals("https")) {
                 final HttpUrl url = HttpUrl.parse(link.getRaw());
-                return url == null || isLocal(url.host()) ? null : url.toString();
+                return url == null || isLocal(url.host())
+                        ? null
+                        : new String[] {url.toString(), link.getRaw()};
             }
         }
         return null;
@@ -208,32 +239,70 @@ public final class LinkPreviews {
         }
     }
 
-    private static void show(final View card, final Preview preview, final int textColor) {
+    private static void show(
+            final View card,
+            final TextView body,
+            final Preview preview,
+            final int textColor,
+            final boolean linkOnly) {
+        final ImageView banner = card.findViewById(R.id.link_preview_banner);
+        final View row = card.findViewById(R.id.link_preview_row);
+        final ImageView image = card.findViewById(R.id.link_preview_image);
         final TextView title = card.findViewById(R.id.link_preview_title);
         final TextView site = card.findViewById(R.id.link_preview_site);
-        final ImageView image = card.findViewById(R.id.link_preview_image);
+        final float density = card.getResources().getDisplayMetrics().density;
         title.setText(preview.title());
         title.setTextColor(textColor);
+        title.setPaintFlags(title.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
         site.setText(preview.site());
         site.setTextColor(textColor);
-        if (preview.image() != null) {
-            // square box for square pictures, wide 16:9 box for banners and videos
-            final Bitmap bitmap = preview.image();
-            final float density = card.getResources().getDisplayMetrics().density;
-            final boolean wide = bitmap.getWidth() >= bitmap.getHeight() * WIDE_MIN_RATIO;
-            final var params = image.getLayoutParams();
-            params.width = Math.round((wide ? 114 : 64) * density);
-            image.setLayoutParams(params);
-            image.setImageBitmap(bitmap);
-            image.setVisibility(View.VISIBLE);
-        } else {
+
+        final Bitmap bitmap = preview.image();
+        final boolean wide =
+                bitmap != null && bitmap.getWidth() >= bitmap.getHeight() * WIDE_MIN_RATIO;
+        if (wide) {
+            // large card: the whole picture across the full width, text below
+            final int width = card.getResources().getDimensionPixelSize(R.dimen.audio_player_width);
+            final var params = banner.getLayoutParams();
+            params.height = Math.round(width * bitmap.getHeight() / (float) bitmap.getWidth());
+            banner.setLayoutParams(params);
+            banner.setImageBitmap(bitmap);
+            banner.setVisibility(View.VISIBLE);
             image.setImageDrawable(null);
             image.setVisibility(View.GONE);
+            row.setMinimumHeight(0);
+        } else {
+            // compact card: square picture (if any) next to the text
+            banner.setImageDrawable(null);
+            banner.setVisibility(View.GONE);
+            if (bitmap != null) {
+                image.setImageBitmap(bitmap);
+                image.setVisibility(View.VISIBLE);
+            } else {
+                image.setImageDrawable(null);
+                image.setVisibility(View.GONE);
+            }
+            row.setMinimumHeight(Math.round(64 * density));
         }
+
+        // link-only message with a wide picture: the bubble itself is the card (edge to edge)
+        final boolean flush = linkOnly && wide;
+        final var margins = (ViewGroup.MarginLayoutParams) card.getLayoutParams();
+        final int inset = flush ? 0 : Math.round(8 * density);
+        margins.setMarginStart(inset);
+        margins.setMarginEnd(inset);
+        margins.topMargin = flush ? 0 : Math.round(6 * density);
+        card.setLayoutParams(margins);
         card.setBackgroundTintList(
-                ColorStateList.valueOf(ColorUtils.setAlphaComponent(textColor, 0x24)));
+                ColorStateList.valueOf(
+                        flush
+                                ? Color.TRANSPARENT
+                                : ColorUtils.setAlphaComponent(textColor, 0x24)));
         card.setOnClickListener(v -> open(v.getContext(), preview.url()));
         card.setVisibility(View.VISIBLE);
+        if (linkOnly) {
+            body.setVisibility(View.GONE);
+        }
     }
 
     private static void open(final Context context, final String url) {
@@ -306,7 +375,10 @@ public final class LinkPreviews {
                 return null;
             }
             final File img = new File(dir, key(url) + ".jpg");
-            final Bitmap bitmap = img.isFile() ? BitmapFactory.decodeFile(img.getAbsolutePath()) : null;
+            final BitmapFactory.Options options = new BitmapFactory.Options();
+            options.inPreferredConfig = Bitmap.Config.RGB_565; // half the memory, no alpha needed
+            final Bitmap bitmap =
+                    img.isFile() ? BitmapFactory.decodeFile(img.getAbsolutePath(), options) : null;
             return new Preview(url, content.substring(nl + 1), content.substring(0, nl), bitmap);
         } catch (final IOException e) {
             return null;
@@ -539,9 +611,16 @@ public final class LinkPreviews {
         if (bounds.outWidth <= 0 || bounds.outHeight <= 0) {
             return null;
         }
+        final boolean wideSource = bounds.outWidth >= bounds.outHeight * WIDE_MIN_RATIO;
         int sample = 1;
-        while (Math.min(bounds.outWidth, bounds.outHeight) / (sample * 2) >= THUMB_PX) {
-            sample *= 2;
+        if (wideSource) {
+            while (bounds.outWidth / (sample * 2) >= WIDE_PX) {
+                sample *= 2;
+            }
+        } else {
+            while (Math.min(bounds.outWidth, bounds.outHeight) / (sample * 2) >= THUMB_PX) {
+                sample *= 2;
+            }
         }
         final BitmapFactory.Options options = new BitmapFactory.Options();
         options.inSampleSize = sample;
@@ -549,27 +628,32 @@ public final class LinkPreviews {
         if (decoded == null) {
             return null;
         }
-        // Centre crop to what the card shows: wide pictures (website banners, videos) get the
-        // wide 16:9 box, everything else the square one.
         final int w = decoded.getWidth();
         final int h = decoded.getHeight();
         final boolean wide = w >= h * WIDE_MIN_RATIO;
         final int cropW;
         final int cropH;
+        final int targetW;
         if (wide) {
-            cropH = Math.min(h, Math.round(w * 9f / 16f));
-            cropW = Math.min(w, Math.round(cropH * 16f / 9f));
+            // keep the whole picture; only panoramas wider than 2:1 lose a little at the sides
+            cropH = h;
+            cropW = Math.min(w, Math.round(h * WIDE_MAX_RATIO));
+            targetW = Math.min(cropW, WIDE_PX);
         } else {
             cropW = Math.min(w, h);
             cropH = cropW;
+            targetW = Math.min(cropW, THUMB_PX);
         }
         final Bitmap cropped =
                 Bitmap.createBitmap(decoded, (w - cropW) / 2, (h - cropH) / 2, cropW, cropH);
         final Bitmap thumb;
-        if (cropH > THUMB_PX) {
+        if (targetW < cropW) {
             thumb =
                     Bitmap.createScaledBitmap(
-                            cropped, Math.round(cropW * (float) THUMB_PX / cropH), THUMB_PX, true);
+                            cropped,
+                            targetW,
+                            Math.max(1, Math.round(cropH * (float) targetW / cropW)),
+                            true);
             if (cropped != decoded && cropped != thumb) {
                 cropped.recycle();
             }
