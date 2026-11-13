@@ -117,6 +117,9 @@ public class AudioPlayer
                         viewHolder.progress, viewHolder.bubbleColor);
         viewHolder.progress.setThumbTintList(color);
         viewHolder.progress.setProgressTintList(color);
+        // Chatrix.One: play button follows the bubble colour (was invisible on the green bubble)
+        viewHolder.playPause.setIconTint(color);
+        viewHolder.playPause.setStrokeColor(color);
         // Chatrix.One: draw the voice message as sound-wave bars
         if (viewHolder.progress instanceof eu.siacs.conversations.ui.chatrix.WaveformSeekBar w) {
             w.setAudioFile(messageAdapter.getFileBackend().getFile(message));
