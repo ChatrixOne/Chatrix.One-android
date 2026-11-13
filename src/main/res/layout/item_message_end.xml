@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -43,57 +44,82 @@
                     android:id="@+id/message_content"
                     layout="@layout/item_message_content" />
 
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="end"
-                    android:layout_marginHorizontal="10dp"
-                    android:layout_marginVertical="4dp"
-                    android:orientation="horizontal">
+                <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
 
+                    <!-- Chatrix.One: voice message speed chip, shown only for voice messages
+                         (AudioPlayer); on the free side of the bottom line -->
                     <TextView
-                        android:id="@+id/message_time"
+                        android:id="@+id/speed"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="center_vertical"
-                        android:layout_marginEnd="2sp"
-                        android:accessibilityTraversalAfter="@id/message_photo"
-                        android:accessibilityTraversalBefore="@id/message_content"
-                        android:gravity="center_vertical"
-                        android:text="@string/sending"
-                        android:textAppearance="?textAppearanceBodySmall"
-                        android:textColor="?colorOnSecondaryContainer" />
+                        android:layout_gravity="start|center_vertical"
+                        android:layout_marginStart="66dp"
+                        android:background="?attr/selectableItemBackgroundBorderless"
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:fontFamily="sans-serif-medium"
+                        android:gravity="center"
+                        android:minWidth="34dp"
+                        android:paddingHorizontal="7dp"
+                        android:paddingVertical="1dp"
+                        android:textAppearance="?textAppearanceLabelSmall"
+                        android:visibility="gone"
+                        tools:text="1.5×" />
 
-                    <ImageView
-                        android:id="@+id/security_indicator"
-                        android:layout_width="12sp"
-                        android:layout_height="12sp"
-                        android:layout_gravity="center_vertical"
-                        android:layout_marginStart="4sp"
-                        android:gravity="center_vertical"
-                        android:src="@drawable/ic_lock_24dp"
-                        app:tint="?colorOnSecondaryContainer" />
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="end"
+                        android:layout_marginHorizontal="10dp"
+                        android:layout_marginVertical="4dp"
+                        android:orientation="horizontal">
 
-                    <ImageView
-                        android:id="@+id/edit_indicator"
-                        android:layout_width="12sp"
-                        android:layout_height="12sp"
-                        android:layout_gravity="center_vertical"
-                        android:layout_marginStart="4sp"
-                        android:gravity="center_vertical"
-                        android:src="@drawable/ic_edit_24dp"
-                        app:tint="?colorOnSecondaryContainer" />
+                        <TextView
+                            android:id="@+id/message_time"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:layout_marginEnd="2sp"
+                            android:accessibilityTraversalAfter="@id/message_photo"
+                            android:accessibilityTraversalBefore="@id/message_content"
+                            android:gravity="center_vertical"
+                            android:text="@string/sending"
+                            android:textAppearance="?textAppearanceBodySmall"
+                            android:textColor="?colorOnSecondaryContainer" />
 
-                    <ImageView
-                        android:id="@+id/indicator_received"
-                        android:layout_width="16sp"
-                        android:layout_height="16sp"
-                        android:layout_gravity="center_vertical"
-                        android:layout_marginStart="4sp"
-                        android:gravity="center_vertical"
-                        android:src="@drawable/ic_done_24dp"
-                        app:tint="?colorOnSecondaryContainer" />
-                </LinearLayout>
+                        <ImageView
+                            android:id="@+id/security_indicator"
+                            android:layout_width="12sp"
+                            android:layout_height="12sp"
+                            android:layout_gravity="center_vertical"
+                            android:layout_marginStart="4sp"
+                            android:gravity="center_vertical"
+                            android:src="@drawable/ic_lock_24dp"
+                            app:tint="?colorOnSecondaryContainer" />
+
+                        <ImageView
+                            android:id="@+id/edit_indicator"
+                            android:layout_width="12sp"
+                            android:layout_height="12sp"
+                            android:layout_gravity="center_vertical"
+                            android:layout_marginStart="4sp"
+                            android:gravity="center_vertical"
+                            android:src="@drawable/ic_edit_24dp"
+                            app:tint="?colorOnSecondaryContainer" />
+
+                        <ImageView
+                            android:id="@+id/indicator_received"
+                            android:layout_width="16sp"
+                            android:layout_height="16sp"
+                            android:layout_gravity="center_vertical"
+                            android:layout_marginStart="4sp"
+                            android:gravity="center_vertical"
+                            android:src="@drawable/ic_done_24dp"
+                            app:tint="?colorOnSecondaryContainer" />
+                    </LinearLayout>
+                </FrameLayout>
             </LinearLayout>
         </LinearLayout>
 

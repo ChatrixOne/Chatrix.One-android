@@ -503,6 +503,8 @@ public class AudioPlayer
         shape.setColor(speed == 1f ? android.graphics.Color.TRANSPARENT
                 : androidx.core.graphics.ColorUtils.setAlphaComponent(color, 0x40));
         chip.setBackground(shape);
+        chip.setVisibility(View.VISIBLE);
+        alignWithWaveform(viewHolder);
         chip.setTextColor(color);
         final String label = speedLabel(speed);
         chip.setText(label);
@@ -524,6 +526,32 @@ public class AudioPlayer
             }
             // every voice message on screen shows the new speed
             messageAdapter.notifyDataSetChanged();
+        });
+    }
+
+    /**
+     * On our own bubbles the chip is at the start of the bottom line: line it up with where the
+     * waveform starts. (Received bubbles have it at the end, a fixed distance from the edge.)
+     */
+    private static void alignWithWaveform(final ViewHolder viewHolder) {
+        final TextView chip = viewHolder.speed;
+        if (!(chip.getLayoutParams() instanceof android.widget.FrameLayout.LayoutParams params)
+                || (params.gravity & android.view.Gravity.RELATIVE_HORIZONTAL_GRAVITY_MASK)
+                        != android.view.Gravity.START) {
+            return;
+        }
+        final View player = (View) viewHolder.playPause.getParent();
+        final View row = (View) chip.getParent();
+        player.post(() -> {
+            final int x =
+                    player.getLeft()
+                            + viewHolder.progress.getLeft()
+                            + viewHolder.progress.getPaddingStart()
+                            - row.getLeft();
+            if (x > 0 && params.getMarginStart() != x) {
+                params.setMarginStart(x);
+                chip.setLayoutParams(params);
+            }
         });
     }
 
@@ -554,7 +582,8 @@ public class AudioPlayer
             viewHolder.runtime = audioPlayer.findViewById(R.id.runtime);
             viewHolder.progress = audioPlayer.findViewById(R.id.progress);
             viewHolder.playPause = audioPlayer.findViewById(R.id.play_pause);
-            viewHolder.speed = audioPlayer.findViewById(R.id.speed);
+            // the speed chip sits in the bubble's bottom line, next to the player
+            viewHolder.speed = ((View) audioPlayer.getParent()).findViewById(R.id.speed);
             audioPlayer.setTag(R.id.TAG_AUDIO_PLAYER_VIEW_HOLDER, viewHolder);
             return viewHolder;
         }
