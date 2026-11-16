@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="gcm_defaultSenderId" translatable="false">1076775176585</string>
+    <string name="app_server">p2.siacs.eu</string>
+</resources>

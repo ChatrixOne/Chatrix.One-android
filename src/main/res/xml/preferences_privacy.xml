@@ -52,6 +52,12 @@
     </PreferenceCategory>
     <PreferenceCategory android:title="@string/pref_category_application">
         <SwitchPreferenceCompat
+            android:defaultValue="@bool/google_push"
+            android:icon="@drawable/ic_google_24dp"
+            android:key="google_push"
+            android:title="@string/pref_google_push"
+            android:summary="@string/pref_google_push_summary"/>
+        <SwitchPreferenceCompat
             android:defaultValue="@bool/send_crash_reports"
             android:icon="@drawable/ic_report_24dp"
             android:key="send_crash_reports"
