@@ -1,0 +1,1 @@
+* Fix PGP encrypted jingle file transfer

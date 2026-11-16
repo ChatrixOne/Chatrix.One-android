@@ -1,6 +1,10 @@
 # Changelog
 
-### Version 2.21.1
+### Versiong 2.21.3
+
+* Fix PGP encrypted jingle file transfer
+
+### Version 2.21.2
 
 * Fix broken OAuth support
 
