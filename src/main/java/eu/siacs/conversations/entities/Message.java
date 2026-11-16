@@ -21,7 +21,6 @@ import eu.siacs.conversations.crypto.axolotl.FingerprintStatus;
 import eu.siacs.conversations.http.URL;
 import eu.siacs.conversations.persistance.FileBackend;
 import eu.siacs.conversations.services.AvatarService;
-import eu.siacs.conversations.utils.CryptoHelper;
 import eu.siacs.conversations.utils.Emoticons;
 import eu.siacs.conversations.utils.MessageUtils;
 import eu.siacs.conversations.utils.MimeUtils;
@@ -734,8 +733,7 @@ public class Message extends AbstractEntity
             }
             final boolean matchingCounterpart = this.counterpart.equals(message.getCounterpart());
             if (message.getRemoteMsgId() != null) {
-                final boolean hasUuid =
-                        CryptoHelper.UUID_PATTERN.matcher(message.getRemoteMsgId()).matches();
+                final boolean hasUuid = Patterns.UUID.matcher(message.getRemoteMsgId()).matches();
                 if (hasUuid
                         && matchingCounterpart
                         && Edit.wasPreviouslyEditedRemoteMsgId(edits, message.getRemoteMsgId())) {
