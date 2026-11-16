@@ -36,6 +36,7 @@ import okhttp3.Request;
 import okhttp3.Response;
 import org.bouncycastle.crypto.engines.AESEngine;
 import org.bouncycastle.crypto.io.CipherOutputStream;
+import org.bouncycastle.crypto.io.InvalidCipherTextIOException;
 import org.bouncycastle.crypto.modes.GCMBlockCipher;
 import org.bouncycastle.crypto.params.AEADParameters;
 import org.bouncycastle.crypto.params.KeyParameter;
@@ -183,6 +184,17 @@ public class HttpDownloadConnection implements Transferable {
                 final var outputStream =
                         new CipherOutputStream(new FileOutputStream(decrypted), cipher)) {
             ByteStreams.copy(is, outputStream);
+        } catch (final InvalidCipherTextIOException e) {
+            if (decrypted.delete()) {
+                Log.d(Config.LOGTAG, "deleted partially decrypted file");
+            }
+            if (partial.delete()) {
+                Log.d(
+                        Config.LOGTAG,
+                        "deleted encrypted file with invalid authentication tag "
+                                + partial.getAbsolutePath());
+            }
+            throw e;
         } catch (final Exception e) {
             if (decrypted.delete()) {
                 Log.d(Config.LOGTAG, "deleted partially decrypted file");
@@ -244,7 +256,7 @@ public class HttpDownloadConnection implements Transferable {
         } else if (e instanceof FileWriterException) {
             mXmppConnectionService.showErrorToastInUi(
                     R.string.download_failed_could_not_write_file);
-        } else if (e instanceof InvalidFileException) {
+        } else if (e instanceof InvalidFileException | e instanceof InvalidCipherTextIOException) {
             mXmppConnectionService.showErrorToastInUi(R.string.download_failed_invalid_file);
         } else {
             mXmppConnectionService.showErrorToastInUi(R.string.download_failed_file_not_found);
