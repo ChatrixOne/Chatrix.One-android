@@ -1,0 +1,3 @@
+* Lade till stöd för OAuth (lämna lösenordet tomt för att använda)
+* Åtgärdade push-meddelanden på Play byggsmaken
+* Diverse mindre säkerhetsåtgärder som upptäckts av LLM-modeller och vidarebefordrats till oss av tredje part
