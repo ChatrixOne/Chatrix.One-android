@@ -1,0 +1,3 @@
+* Ajout du support OAuth (laisser le mot de passe vide pour utiliser)
+* Correction des notifications push sur la version Play Store
+* Correctifs de sécurité mineurs découverts via des modèles LLM et qui nous a été transmis par un tiers
