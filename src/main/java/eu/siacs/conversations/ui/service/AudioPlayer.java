@@ -503,7 +503,7 @@ public class AudioPlayer
         shape.setColor(speed == 1f ? android.graphics.Color.TRANSPARENT
                 : androidx.core.graphics.ColorUtils.setAlphaComponent(color, 0x40));
         chip.setBackground(shape);
-        chip.setVisibility(View.VISIBLE);
+        showSpeedChip(chip, true);
         alignWithWaveform(viewHolder);
         chip.setTextColor(color);
         final String label = speedLabel(speed);
@@ -527,6 +527,26 @@ public class AudioPlayer
             // every voice message on screen shows the new speed
             messageAdapter.notifyDataSetChanged();
         });
+    }
+
+    /**
+     * Shows or hides the speed chip. The bottom line spans the whole bubble only while the chip
+     * is shown (voice messages are wide anyway). Otherwise it keeps its natural width: a
+     * full-width row does not count when the bubble works out its width, so a short message
+     * would squeeze the time and the edit/received icons into a narrow column.
+     */
+    public static void showSpeedChip(final View chip, final boolean show) {
+        chip.setVisibility(show ? View.VISIBLE : View.GONE);
+        final View row = (View) chip.getParent();
+        final android.view.ViewGroup.LayoutParams params = row.getLayoutParams();
+        final int width =
+                show
+                        ? android.view.ViewGroup.LayoutParams.MATCH_PARENT
+                        : android.view.ViewGroup.LayoutParams.WRAP_CONTENT;
+        if (params.width != width) {
+            params.width = width;
+            row.setLayoutParams(params);
+        }
     }
 
     /**

@@ -45,7 +45,7 @@
                     layout="@layout/item_message_content" />
 
                 <FrameLayout
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content">
 
                     <!-- Chatrix.One: voice message speed chip, shown only for voice messages

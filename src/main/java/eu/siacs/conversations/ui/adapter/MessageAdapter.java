@@ -924,7 +924,7 @@ public class MessageAdapter extends ArrayAdapter<Message> {
                 });
 
         // Chatrix.One: the speed chip is only for voice messages (shown by AudioPlayer)
-        viewHolder.messageBox().findViewById(R.id.speed).setVisibility(View.GONE);
+        AudioPlayer.showSpeedChip(viewHolder.messageBox().findViewById(R.id.speed), false);
         // Chatrix.One: only text messages get a link preview card (see displayTextMessage)
         eu.siacs.conversations.ui.chatrix.LinkPreviews.hide(
                 viewHolder.messageBox().findViewById(R.id.link_preview));
