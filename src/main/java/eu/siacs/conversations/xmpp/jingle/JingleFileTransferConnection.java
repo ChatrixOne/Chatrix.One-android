@@ -166,7 +166,7 @@ public class JingleFileTransferConnection extends AbstractJingleConnection
     private void sendSessionInitialize(final XmppAxolotlMessage xmppAxolotlMessage) {
         this.transport = setupTransport();
         this.transport.setTransportCallback(this);
-        final File file = xmppConnectionService.getFileBackend().getFile(message);
+        final var file = xmppConnectionService.getFileBackend().getFile(message, false);
         final var fileDescription =
                 new FileTransferDescription.File(
                         file.length(),
@@ -1000,7 +1000,7 @@ public class JingleFileTransferConnection extends AbstractJingleConnection
         this.message.setTransferable(null);
         xmppConnectionService.getFileBackend().updateFileParams(message);
         xmppConnectionService.databaseBackend.createMessage(message);
-        final File file = xmppConnectionService.getFileBackend().getFile(message);
+        final var file = xmppConnectionService.getFileBackend().getFile(message, false);
         if (acceptedAutomatically) {
             message.markUnread();
             if (message.getEncryption() == Message.ENCRYPTION_PGP) {
@@ -1042,10 +1042,13 @@ public class JingleFileTransferConnection extends AbstractJingleConnection
             throw new IOException("No transport configured");
         }
         final var fileDescription = getLocalContentMap().requireOnlyFile();
-        final File file = xmppConnectionService.getFileBackend().getFile(message);
-        final Runnable updateRunnable = new DebouncedInterfaceUpdater(xmppConnectionService);
+        final var file = xmppConnectionService.getFileBackend().getFile(message, false);
+        final var updateRunnable = new DebouncedInterfaceUpdater(xmppConnectionService);
         if (receiving) {
+            final var partial =
+                    new FileBackend.Cache(xmppConnectionService).partial(message.getUuid());
             return new FileReceiver(
+                    partial,
                     file,
                     this.transportSecurity,
                     transport.getInputStream(),
@@ -1504,8 +1507,10 @@ public class JingleFileTransferConnection extends AbstractJingleConnection
     private static class FileReceiver extends AbstractFileTransceiver {
 
         private final InputStream inputStream;
+        private final File partial;
 
         private FileReceiver(
+                final File partial,
                 final File file,
                 final TransportSecurity transportSecurity,
                 final InputStream inputStream,
@@ -1513,17 +1518,18 @@ public class JingleFileTransferConnection extends AbstractJingleConnection
                 final long total,
                 final Runnable updateRunnable) {
             super(file, transportSecurity, transportTerminationLatch, total, updateRunnable);
+            this.partial = partial;
             this.inputStream = inputStream;
         }
 
         private OutputStream openFileOutputStream() throws FileNotFoundException {
-            final var directory = this.file.getParentFile();
+            final var directory = this.partial.getParentFile();
             if (directory != null && directory.mkdirs()) {
                 Log.d(Config.LOGTAG, "created parent directory: " + directory.getAbsolutePath());
                 // TODO technically this should restart the file observer. maybe do this when file
                 // receiver is initiated
             }
-            final var fileOutputStream = new FileOutputStream(this.file);
+            final var fileOutputStream = new FileOutputStream(this.partial);
             if (this.transportSecurity == null) {
                 return fileOutputStream;
             } else {
@@ -1544,9 +1550,8 @@ public class JingleFileTransferConnection extends AbstractJingleConnection
             Log.d(Config.LOGTAG, "file receiver attempting to receive " + total + " bytes");
             final var sha1Hasher = Hashing.sha1().newHasher();
             final var sha256Hasher = Hashing.sha256().newHasher();
-            OutputStream fileOutputStream = null;
-            try {
-                fileOutputStream = openFileOutputStream();
+            final List<FileTransferDescription.Hash> hashes;
+            try (final var fileOutputStream = openFileOutputStream()) {
                 final var buffer = new byte[4096];
                 while (total - transmitted > 0) {
                     final int count = inputStream.read(buffer);
@@ -1560,13 +1565,10 @@ public class JingleFileTransferConnection extends AbstractJingleConnection
                     transmitted += count;
                     updateProgress();
                 }
-                final OutputStream toClose = fileOutputStream;
-                fileOutputStream = null;
-                toClose.close();
                 Log.d(
                         Config.LOGTAG,
                         "written " + transmitted + " bytes to " + file.getAbsolutePath());
-                final List<FileTransferDescription.Hash> hashes =
+                hashes =
                         ImmutableList.of(
                                 new FileTransferDescription.Hash(
                                         sha1Hasher.hash().asBytes(),
@@ -1574,14 +1576,20 @@ public class JingleFileTransferConnection extends AbstractJingleConnection
                                 new FileTransferDescription.Hash(
                                         sha256Hasher.hash().asBytes(),
                                         FileTransferDescription.Algorithm.SHA_256));
-                complete.set(hashes);
             } catch (final Exception e) {
-                FileBackend.close(fileOutputStream);
-                if (file.exists() && !file.delete()) {
-                    Log.w(Config.LOGTAG, "could not delete " + file.getAbsolutePath());
+                if (partial.exists() && !partial.delete()) {
+                    Log.w(Config.LOGTAG, "could not delete " + partial.getAbsolutePath());
                 }
                 complete.setException(e);
+                return;
             }
+            try {
+                FileBackend.move(this.partial, this.file);
+            } catch (final IOException e) {
+                complete.setException(e);
+                return;
+            }
+            complete.set(hashes);
             Log.d(Config.LOGTAG, "waiting for transport to terminate before stopping thread");
             awaitTransportTermination();
             closeTransport(inputStream);

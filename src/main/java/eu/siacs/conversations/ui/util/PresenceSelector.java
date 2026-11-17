@@ -35,11 +35,11 @@ import android.util.Pair;
 import android.widget.Toast;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.common.collect.Iterables;
+import de.gultsch.common.Patterns;
 import eu.siacs.conversations.R;
 import eu.siacs.conversations.entities.Contact;
 import eu.siacs.conversations.entities.Conversation;
 import eu.siacs.conversations.entities.Presences;
-import eu.siacs.conversations.utils.CryptoHelper;
 import eu.siacs.conversations.xmpp.Jid;
 import eu.siacs.conversations.xmpp.jingle.RtpCapability;
 import im.conversations.android.xmpp.model.stanza.Presence;
@@ -104,7 +104,7 @@ public class PresenceSelector {
                     readableIdentities[i] = translateType(activity, type);
                 } else if (name != null) {
                     if (Collections.frequency(resourceNameMap.values(), name) == 1
-                            || CryptoHelper.UUID_PATTERN.matcher(resource).matches()) {
+                            || Patterns.UUID.matcher(resource).matches()) {
                         readableIdentities[i] = translateType(activity, type) + "  (" + name + ")";
                     } else {
                         readableIdentities[i] =

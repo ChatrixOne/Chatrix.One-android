@@ -21,7 +21,6 @@ import java.text.Normalizer;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-import java.util.regex.Pattern;
 import org.bouncycastle.asn1.x500.X500Name;
 import org.bouncycastle.asn1.x500.style.BCStyle;
 import org.bouncycastle.asn1.x500.style.IETFUtils;
@@ -29,8 +28,6 @@ import org.bouncycastle.cert.jcajce.JcaX509CertificateHolder;
 
 public final class CryptoHelper {
 
-    public static final Pattern UUID_PATTERN =
-            Pattern.compile("[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}");
     public static final byte[] ONE = new byte[] {0, 0, 0, 1};
     private static final char[] CHARS =
             "ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz123456789+-/#$!?".toCharArray();

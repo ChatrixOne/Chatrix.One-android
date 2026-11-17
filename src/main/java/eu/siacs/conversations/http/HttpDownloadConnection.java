@@ -36,6 +36,7 @@ import okhttp3.Request;
 import okhttp3.Response;
 import org.bouncycastle.crypto.engines.AESEngine;
 import org.bouncycastle.crypto.io.CipherOutputStream;
+import org.bouncycastle.crypto.io.InvalidCipherTextIOException;
 import org.bouncycastle.crypto.modes.GCMBlockCipher;
 import org.bouncycastle.crypto.params.AEADParameters;
 import org.bouncycastle.crypto.params.KeyParameter;
@@ -132,21 +133,11 @@ public class HttpDownloadConnection implements Transferable {
     private void setupFile() {
         final String reference = mUrl.fragment();
         if (reference != null && AesGcmURL.IV_KEY.matcher(reference).matches()) {
-            // TODO create a folder for partial downloads (because camera and recorder will also
-            // write to sub directories)
-            this.file = new File(mXmppConnectionService.getCacheDir(), message.getUuid());
             this.transportSecurity = TransportSecurity.ofAnchor(CryptoHelper.hexToBytes(reference));
-            Log.d(
-                    Config.LOGTAG,
-                    "create temporary OMEMO encrypted file: "
-                            + this.file.getAbsolutePath()
-                            + "("
-                            + message.getMimeType()
-                            + ")");
         } else {
-            this.file = mXmppConnectionService.getFileBackend().getFile(message, false);
             this.transportSecurity = null;
         }
+        this.file = mXmppConnectionService.getFileBackend().getFile(message, false);
     }
 
     private void download(final boolean interactive) {
@@ -171,33 +162,52 @@ public class HttpDownloadConnection implements Transferable {
         this.mXmppConnectionService.updateConversationUi();
     }
 
-    private void decryptFile(final TransportSecurity transportSecurity) throws IOException {
-        final var outputFile = mXmppConnectionService.getFileBackend().getFile(message);
+    private File decryptFile(final File partial, final TransportSecurity transportSecurity)
+            throws IOException {
+        final var decrypted =
+                new FileBackend.Cache(mXmppConnectionService).decrypted(message.getUuid());
 
-        final var directory = outputFile.getParentFile();
+        final var directory = decrypted.getParentFile();
         if (directory != null && directory.mkdirs()) {
-            Log.d(Config.LOGTAG, "created parent directories for " + outputFile.getAbsolutePath());
+            Log.d(Config.LOGTAG, "created parent directories for " + decrypted.getAbsolutePath());
         }
 
-        if (!outputFile.createNewFile()) {
-            Log.w(Config.LOGTAG, "unable to create output file " + outputFile.getAbsolutePath());
+        if (!decrypted.createNewFile()) {
+            Log.w(Config.LOGTAG, "unable to create output file " + decrypted.getAbsolutePath());
         }
         final var cipher = GCMBlockCipher.newInstance(AESEngine.newInstance());
         cipher.init(
                 false,
                 new AEADParameters(
                         new KeyParameter(transportSecurity.key()), 128, transportSecurity.iv()));
-        try (final InputStream is = new FileInputStream(this.file);
-                final CipherOutputStream outputStream =
-                        new CipherOutputStream(new FileOutputStream(outputFile), cipher)) {
+        try (final var is = new FileInputStream(partial);
+                final var outputStream =
+                        new CipherOutputStream(new FileOutputStream(decrypted), cipher)) {
             ByteStreams.copy(is, outputStream);
+        } catch (final InvalidCipherTextIOException e) {
+            if (decrypted.delete()) {
+                Log.d(Config.LOGTAG, "deleted partially decrypted file");
+            }
+            if (partial.delete()) {
+                Log.d(
+                        Config.LOGTAG,
+                        "deleted encrypted file with invalid authentication tag "
+                                + partial.getAbsolutePath());
+            }
+            throw e;
+        } catch (final Exception e) {
+            if (decrypted.delete()) {
+                Log.d(Config.LOGTAG, "deleted partially decrypted file");
+            }
+            throw e;
         }
 
-        if (file.delete()) {
+        if (partial.delete()) {
             Log.w(
                     Config.LOGTAG,
-                    "deleted temporary OMEMO encrypted file " + file.getAbsolutePath());
+                    "deleted temporary OMEMO encrypted file " + partial.getAbsolutePath());
         }
+        return decrypted;
     }
 
     private void finish() {
@@ -225,13 +235,6 @@ public class HttpDownloadConnection implements Transferable {
                         });
     }
 
-    private void decryptIfNeeded() throws IOException {
-        final var transportSecurity = this.transportSecurity;
-        if (transportSecurity != null) {
-            decryptFile(transportSecurity);
-        }
-    }
-
     private void changeStatus(final int status) {
         this.mStatus = status;
         this.mXmppConnectionService.updateConversationUi();
@@ -253,7 +256,7 @@ public class HttpDownloadConnection implements Transferable {
         } else if (e instanceof FileWriterException) {
             mXmppConnectionService.showErrorToastInUi(
                     R.string.download_failed_could_not_write_file);
-        } else if (e instanceof InvalidFileException) {
+        } else if (e instanceof InvalidFileException | e instanceof InvalidCipherTextIOException) {
             mXmppConnectionService.showErrorToastInUi(R.string.download_failed_invalid_file);
         } else {
             mXmppConnectionService.showErrorToastInUi(R.string.download_failed_file_not_found);
@@ -417,8 +420,17 @@ public class HttpDownloadConnection implements Transferable {
         public void run() {
             try {
                 changeStatus(STATUS_DOWNLOADING);
-                download();
-                decryptIfNeeded();
+                final var partial =
+                        new FileBackend.Cache(mXmppConnectionService).partial(message.getUuid());
+                download(partial);
+                final var transportSecurity = HttpDownloadConnection.this.transportSecurity;
+                final File tmp;
+                if (transportSecurity != null) {
+                    tmp = decryptFile(partial, transportSecurity);
+                } else {
+                    tmp = partial;
+                }
+                FileBackend.move(tmp, HttpDownloadConnection.this.file);
                 if (message.getEncryption() == Message.ENCRYPTION_DECRYPTED) {
                     message.setEncryption(Message.ENCRYPTION_PGP);
                 }
@@ -445,10 +457,10 @@ public class HttpDownloadConnection implements Transferable {
             }
         }
 
-        private void download() throws Exception {
+        private void download(final File partial) throws Exception {
             final long expected = expectedSize;
-            final var fileExists = file.exists();
-            final var existingFileSize = fileExists ? file.length() : -1L;
+            final var fileExists = partial.exists();
+            final var existingFileSize = fileExists ? partial.length() : -1L;
 
             if (fileExists) {
                 if (expected > 0 && existingFileSize == expected) {
@@ -486,14 +498,11 @@ public class HttpDownloadConnection implements Transferable {
                                 && contentRange != null
                                 && contentRange.startsWith("bytes " + resumeSize + "-");
                 final var body = response.body();
-                if (body == null) {
-                    throw new IOException("response body was null");
-                }
                 final InputStream inputStream = body.byteStream();
                 if (tryResume && serverResumed) {
                     Log.d(Config.LOGTAG, "server resumed");
-                    final var offset = file.length();
-                    try (final OutputStream os = new FileOutputStream(file, true)) {
+                    final var offset = partial.length();
+                    try (final OutputStream os = new FileOutputStream(partial, true)) {
                         copy(inputStream, os, offset, expected);
                     }
                 } else {
@@ -513,15 +522,15 @@ public class HttpDownloadConnection implements Transferable {
                                     "Content-Length in GET response did not match expected size");
                         }
                     }
-                    final var directory = file.getParentFile();
+                    final var directory = partial.getParentFile();
                     if (directory != null && directory.mkdirs()) {
                         Log.d(Config.LOGTAG, "create directory " + directory.getAbsolutePath());
                     }
-                    Log.d(Config.LOGTAG, "creating file: " + file.getAbsolutePath());
-                    if (!file.exists() && !file.createNewFile()) {
-                        throw new FileWriterException(file);
+                    Log.d(Config.LOGTAG, "creating file: " + partial.getAbsolutePath());
+                    if (!partial.exists() && !partial.createNewFile()) {
+                        throw new FileWriterException(partial);
                     }
-                    try (final OutputStream os = new FileOutputStream(file)) {
+                    try (final OutputStream os = new FileOutputStream(partial)) {
                         copy(inputStream, os, 0, expected);
                     }
                 }
@@ -543,7 +552,7 @@ public class HttpDownloadConnection implements Transferable {
                 try {
                     outputStream.write(buffer, 0, count);
                 } catch (final IOException e) {
-                    throw new FileWriterException(file);
+                    throw new FileWriterException();
                 }
                 if (transmitted > expected) {
                     throw new InvalidFileException(

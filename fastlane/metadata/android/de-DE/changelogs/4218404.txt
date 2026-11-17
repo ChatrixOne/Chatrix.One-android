@@ -1,0 +1,3 @@
+* OAuth-Unterstützung hinzugefügt (zur Nutzung das Passwortfeld leer lassen)
+* Push-Benachrichtigungen in der Play-Variante korrigiert
+* Verschiedene kleinere Sicherheitskorrekturen, die von LLM-Modellen entdeckt und von Dritten an uns weitergeleitet wurden

@@ -36,8 +36,10 @@ import com.google.common.collect.Collections2;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Iterables;
 import com.google.common.io.ByteStreams;
+import com.google.common.io.Files;
 import com.google.common.util.concurrent.Futures;
 import com.google.common.util.concurrent.ListenableFuture;
+import de.gultsch.common.Patterns;
 import eu.siacs.conversations.AppSettings;
 import eu.siacs.conversations.Config;
 import eu.siacs.conversations.R;
@@ -397,6 +399,17 @@ public class FileBackend {
 
     public static void updateFileParams(Message message, String url, long size) {
         message.setBody(url + '|' + size);
+    }
+
+    public static void move(final File partial, final File file) throws IOException {
+        Log.d(
+                Config.LOGTAG,
+                "moving " + partial.getAbsolutePath() + " to " + file.getAbsolutePath());
+        final var directory = file.getParentFile();
+        if (directory != null && directory.mkdirs()) {
+            Log.d(Config.LOGTAG, "created directory " + directory.getAbsolutePath());
+        }
+        Files.move(partial, file);
     }
 
     public Bitmap getPreviewForUri(Attachment attachment, int size, boolean cacheOnly) {
@@ -1530,6 +1543,8 @@ public class FileBackend {
 
         private static final String DIRECTORY_CAMERA = "Camera";
         private static final String DIRECTORY_RECORDINGS = "Recordings";
+        private static final String DIRECTORY_PARTIAL = "partial";
+        private static final String DIRECTORY_DECRYPTED = "decrypted";
 
         private final Context context;
 
@@ -1542,9 +1557,7 @@ public class FileBackend {
                     String.format("IMG_%s.%s", TIMESTAMP_FORMATTER.format(Instant.now()), "jpg");
             final var cameraDirectory = new File(context.getCacheDir(), DIRECTORY_CAMERA);
             final var file = new File(cameraDirectory, filename);
-            if (cameraDirectory.mkdirs()) {
-                Log.d(Config.LOGTAG, "create directory " + cameraDirectory.getAbsolutePath());
-            }
+            this.mkdir(cameraDirectory);
             return file;
         }
 
@@ -1563,10 +1576,30 @@ public class FileBackend {
                             TIMESTAMP_FORMATTER.format(Instant.now()), extension);
             final var recordingsDirectory = new File(context.getCacheDir(), DIRECTORY_RECORDINGS);
             final var file = new File(recordingsDirectory, filename);
-            if (recordingsDirectory.mkdirs()) {
-                Log.d(Config.LOGTAG, "create directory " + recordingsDirectory.getAbsolutePath());
-            }
+            this.mkdir(recordingsDirectory);
             return file;
+        }
+
+        public File partial(final String uuid) {
+            Preconditions.checkArgument(Patterns.UUID.matcher(uuid).matches());
+            final var partialDirectory = new File(context.getCacheDir(), DIRECTORY_PARTIAL);
+            final var file = new File(partialDirectory, uuid);
+            this.mkdir(partialDirectory);
+            return file;
+        }
+
+        public File decrypted(final String uuid) {
+            Preconditions.checkArgument(Patterns.UUID.matcher(uuid).matches());
+            final var decryptedDirectory = new File(context.getCacheDir(), DIRECTORY_DECRYPTED);
+            final var file = new File(decryptedDirectory, uuid);
+            this.mkdir(decryptedDirectory);
+            return file;
+        }
+
+        private void mkdir(final File directory) {
+            if (directory.mkdirs()) {
+                Log.d(Config.LOGTAG, "create directory " + directory.getAbsolutePath());
+            }
         }
 
         public boolean isCachedFile(final File file) {
