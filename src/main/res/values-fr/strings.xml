@@ -1234,4 +1234,6 @@
     <string name="account_status_pending_oauth_authorization">Autorisation en attente</string>
     <string name="could_not_process_oauth_redirect">Impossible de suivre la redirection OAuth</string>
     <string name="could_not_redirect_to_identity_provider">Impossible de rediriger vers le fournisseur d\'identité</string>
+    <string name="pref_google_push">Utiliser Google push en dernier recours</string>
+    <string name="pref_google_push_summary">Réveille l\'app si le mode économie d’énergie agressif coupe la connexion en arrière-plan. Aucune donnée de message n\'est envoyé à Google.</string>
 </resources>
