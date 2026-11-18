@@ -1,0 +1,1 @@
+* Naprawienie szyfrowanego przez PGP przesyłania plików za pomocą Jingle’a
