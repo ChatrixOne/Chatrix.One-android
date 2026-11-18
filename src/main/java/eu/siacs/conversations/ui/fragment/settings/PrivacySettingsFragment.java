@@ -36,7 +36,10 @@ public class PrivacySettingsFragment extends XmppPreferenceFragment {
         final var enabled = new AppSettings(requireContext()).isGooglePush();
         if (enabled) {
             requireService().refreshAllFcmTokens();
+        } else {
+            requireService().disableAllFcmTokens();
         }
+        requireService().reconfigurePushMessageReceiver(enabled);
     }
 
     @Override

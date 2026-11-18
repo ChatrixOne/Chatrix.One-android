@@ -43,7 +43,8 @@ public class EasyOnboardingManager extends AbstractManager {
         if (optional.isPresent()) {
             final var future =
                     this.getManager(AdHocCommandsManager.class)
-                            .commandComplete(optional.get(), Namespace.EASY_ONBOARDING_INVITE);
+                            .commandCompleteExpectData(
+                                    optional.get(), Namespace.EASY_ONBOARDING_INVITE);
             final ListenableFuture<MiniUri.Http> asHttpUri =
                     Futures.transform(
                             future,
@@ -102,7 +103,7 @@ public class EasyOnboardingManager extends AbstractManager {
 
         final var future =
                 this.getManager(AdHocCommandsManager.class)
-                        .commandComplete(address, Namespace.EASY_ONBOARDING_INVITE);
+                        .commandCompleteExpectData(address, Namespace.EASY_ONBOARDING_INVITE);
         return Futures.transform(
                 future,
                 data -> {

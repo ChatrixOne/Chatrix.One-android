@@ -1083,6 +1083,7 @@ public class XmppConnectionService extends Service {
         final boolean hasEnabledAccounts = hasEnabledAccounts();
         toggleSetProfilePictureActivity(hasEnabledAccounts);
         reconfigurePushDistributor();
+        reconfigurePushMessageReceiver();
 
         if (CallIntegration.hasSystemFeature(this)) {
             CallIntegrationConnectionService.togglePhoneAccountsAsync(this, this.accounts);
@@ -2363,6 +2364,29 @@ public class XmppConnectionService extends Service {
 
     public boolean reconfigurePushDistributor() {
         return this.unifiedPushBroker.reconfigurePushDistributor();
+    }
+
+    public void reconfigurePushMessageReceiver() {
+        reconfigurePushMessageReceiver(new AppSettings(this).isGooglePush());
+    }
+
+    public void reconfigurePushMessageReceiver(final boolean enabled) {
+        final var packageManager = this.getPackageManager();
+        final var componentName =
+                new ComponentName(
+                        this.getApplicationContext(),
+                        eu.siacs.conversations.receiver.PushMessageReceiver.class);
+        if (enabled) {
+            packageManager.setComponentEnabledSetting(
+                    componentName,
+                    PackageManager.COMPONENT_ENABLED_STATE_ENABLED,
+                    PackageManager.DONT_KILL_APP);
+        } else {
+            packageManager.setComponentEnabledSetting(
+                    componentName,
+                    PackageManager.COMPONENT_ENABLED_STATE_DISABLED,
+                    PackageManager.DONT_KILL_APP);
+        }
     }
 
     private Optional<UnifiedPushBroker.Transport> renewUnifiedPushEndpoints(
@@ -3688,6 +3712,34 @@ public class XmppConnectionService extends Service {
             if (account.isConnectionEnabled()
                     && pushManagementService.isEnabledAvailable(account)) {
                 pushManagementService.registerPushTokenOnServer(account);
+            }
+        }
+    }
+
+    public void disableAllFcmTokens() {
+        for (final var account : getAccounts()) {
+            if (account.isConnectionEnabled()) {
+                final var future =
+                        account.getXmppConnection()
+                                .getManager(PushNotificationManager.class)
+                                .disableAndUnregister();
+                Futures.addCallback(
+                        future,
+                        new FutureCallback<>() {
+                            @Override
+                            public void onSuccess(Void result) {
+                                Log.d(
+                                        Config.LOGTAG,
+                                        account.getJid().asBareJid()
+                                                + ": successfully disabled push");
+                            }
+
+                            @Override
+                            public void onFailure(@NonNull Throwable t) {
+                                Log.d(Config.LOGTAG, "could not disable push", t);
+                            }
+                        },
+                        MoreExecutors.directExecutor());
             }
         }
     }
