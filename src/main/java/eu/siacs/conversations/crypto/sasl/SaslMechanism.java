@@ -129,16 +129,16 @@ public abstract class SaslMechanism {
                 return new ScramSha256(account);
             } else if (mechanisms.contains(ScramSha1.MECHANISM)) {
                 return new ScramSha1(account);
+            } else if (Strings.isNullOrEmpty(account.getPassword())
+                    && mechanisms.contains(OAuthBearer.MECHANISM)) {
+                return new OAuthBearer(account);
             } else if (mechanisms.contains(Plain.MECHANISM)) {
                 return new Plain(account);
             } else if (mechanisms.contains(DigestMd5.MECHANISM)) {
                 return new DigestMd5(account);
-            } else if (Strings.isNullOrEmpty(account.getPassword())) {
-                if (mechanisms.contains(OAuthBearer.MECHANISM)) {
-                    return new OAuthBearer(account);
-                } else if (mechanisms.contains(Anonymous.MECHANISM)) {
-                    return new Anonymous(account);
-                }
+            } else if (Strings.isNullOrEmpty(account.getPassword())
+                    && mechanisms.contains(Anonymous.MECHANISM)) {
+                return new Anonymous(account);
             }
             return null;
         }
