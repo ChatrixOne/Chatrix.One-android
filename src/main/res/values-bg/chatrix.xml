@@ -23,7 +23,7 @@
     <string name="chatrix_pref_update_check">Проверка за нова версия</string>
     <string name="chatrix_pref_update_check_summary">Веднъж дневно проверява в chatrix.eu за нова версия на Chatrix.One и показва известие. Нищо не се изтегля и инсталира и не се изпращат лични данни. Не се използва, ако приложението е инсталирано от F-Droid или друг магазин, или ако е включен Tor.</string>
     <string name="chatrix_update_channel">Нови версии</string>
-    <string name="chatrix_update_available">Налична е Chatrix.One %s</string>
+    <string name="chatrix_update_available">Налична е нова версия на Chatrix.One: %s</string>
     <string name="chatrix_update_tap">Докоснете, за да отворите страницата за изтегляне</string>
     <string name="chatrix_welcome_title">Добре дошли в Chatrix.One</string>
     <string name="chatrix_welcome_text">Безплатни и поверителни съобщения в chatrix.one или всеки друг XMPP сървър. Без реклами и проследяване.</string>

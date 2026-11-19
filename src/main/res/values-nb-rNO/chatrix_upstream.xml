@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Texts for upstream Conversations strings that this locale's strings.xml does not have yet.
+     Remove a line here once upstream translates it, or the build fails with a duplicate resource. -->
+<resources>
+    <string name="pref_title_interface">Grensesnitt</string>
+    <string name="notifications">Varsler</string>
+    <string name="pref_title_security">Sikkerhet</string>
+    <string name="backup_and_restore">Sikkerhetskopi og gjenoppretting</string>
+</resources>
