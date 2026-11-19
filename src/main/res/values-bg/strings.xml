@@ -103,7 +103,7 @@
     <string name="pref_general">Общи</string>
     <string name="pref_accept_files">Приемане на файлове</string>
     <string name="pref_accept_files_summary">Автоматично приемане на файлове с размер, по-малък от…</string>
-    <string name="pref_attachments">Притурки</string>
+    <string name="pref_attachments">Прикачени файлове</string>
     <string name="pref_notification_settings">Известие</string>
     <string name="pref_vibrate">Вибрация</string>
     <string name="pref_vibrate_summary">Вибриране при получаване на ново съобщение</string>
