@@ -837,10 +837,11 @@ public class XmppConnection implements Runnable {
             } catch (final InterruptedException
                     | TimeoutException
                     | ExecutionException oauthException) {
+                final var root = Throwables.getRootCause(oauthException);
                 Log.d(
                         Config.LOGTAG,
                         account.getJid().asBareJid() + ": could not prepare oauth authorization",
-                        oauthException);
+                        root);
                 throw new StateChangingException(Account.State.UNAUTHORIZED);
             }
         } catch (final SaslMechanism.AuthenticationException e) {
@@ -2965,6 +2966,18 @@ public class XmppConnection implements Runnable {
         final var account = this.account.getJid();
         final Jid from = stanza.getFrom();
         return from == null || from.asBareJid().equals(account.asBareJid());
+    }
+
+    public boolean isConnectedToInternet() {
+        final var socket = this.socket;
+        if (socket == null) {
+            return true;
+        }
+        final var address = socket.getInetAddress();
+        if (address == null) {
+            return true;
+        }
+        return !OAuthManager.DenyLocalDns.isLocalNetworkConnection(address);
     }
 
     public AxolotlService getAxolotlService() {

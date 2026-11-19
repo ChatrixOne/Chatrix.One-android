@@ -28,6 +28,7 @@ import eu.siacs.conversations.xmpp.XmppConnection;
 import im.conversations.android.json.Services;
 import java.io.IOException;
 import java.io.Reader;
+import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.nio.charset.StandardCharsets;
 import java.security.KeyManagementException;
@@ -383,7 +384,7 @@ public class OAuthManager extends AbstractManager {
     }
 
     private ListenableFuture<Reader> asFutureCharStream(final Request request) {
-        final OkHttpClient.Builder builder = OK_HTTP_CLIENT.newBuilder();
+        final OkHttpClient.Builder builder = HttpConnectionManager.OK_HTTP_CLIENT.newBuilder();
         try {
             final X509TrustManager trustManager = TrustManagers.createForAndroidVersion(context);
             final SSLSocketFactory socketFactory =
@@ -396,6 +397,10 @@ public class OAuthManager extends AbstractManager {
                 | IOException e) {
             return Futures.immediateFailedFuture(e);
         }
+        if (connection.isConnectedToInternet()) {
+            builder.dns(new DenyLocalDns());
+        }
+        builder.callTimeout(Duration.ofSeconds(3));
         final var okHttp = builder.build();
         final var future = SettableFuture.<Reader>create();
         final var call = okHttp.newCall(request);
@@ -403,7 +408,17 @@ public class OAuthManager extends AbstractManager {
                 new Callback() {
                     @Override
                     public void onFailure(@NonNull Call call, @NonNull IOException e) {
-                        future.setException(e);
+                        if (e instanceof UnknownHostException unknownHost) {
+                            final var io =
+                                    new IOException(
+                                            String.format(
+                                                    "Could not resolve host: %s",
+                                                    unknownHost.getMessage()));
+                            io.setStackTrace(unknownHost.getStackTrace());
+                            future.setException(io);
+                        } else {
+                            future.setException(e);
+                        }
                     }
 
                     @Override
@@ -430,6 +445,26 @@ public class OAuthManager extends AbstractManager {
     public static final class OAuthFailedException extends Exception {
         public OAuthFailedException(final String error, final String errorDescription) {
             super(String.format("OAuth failed with %s (%s)", error, errorDescription));
+        }
+    }
+
+    public static final class DenyLocalDns implements Dns {
+        @Override
+        @NonNull
+        public List<InetAddress> lookup(@NonNull String hostname) throws UnknownHostException {
+            final var addresses = Dns.SYSTEM.lookup(hostname);
+            for (final var address : addresses) {
+                if (isLocalNetworkConnection(address)) {
+                    throw new UnknownHostException("Not performing look ups on local addresses");
+                }
+            }
+            return addresses;
+        }
+
+        public static boolean isLocalNetworkConnection(final InetAddress address) {
+            return address.isLoopbackAddress()
+                    || address.isSiteLocalAddress()
+                    || address.isLinkLocalAddress();
         }
     }
 }
