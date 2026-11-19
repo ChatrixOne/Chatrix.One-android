@@ -713,7 +713,7 @@
     <string name="security_violation_not_attaching_file">Файлът е пропуснат поради нарушение на сигурността.</string>
     <string name="pref_video_compression">Качество на видеото</string>
     <string name="pref_video_compression_summary">По-ниското качество означава, че файловете ще са по-малки</string>
-    <string name="video_360p">Средно (360p)</string>
+    <string name="video_360p">Ниско (360p)</string>
     <string name="video_720p">Високо (720p)</string>
     <string name="cancelled">отказано</string>
     <string name="already_drafting_message">Вече пишете чернова на съобщение.</string>

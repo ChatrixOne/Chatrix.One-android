@@ -6,4 +6,361 @@
     <string name="notifications">Известия</string>
     <string name="pref_title_security">Сигурност</string>
     <string name="backup_and_restore">Резервни копия и възстановяване</string>
+
+    <!-- Chats, files and bookmarks -->
+    <string name="action_archive_chat">Архивиране на разговора</string>
+    <string name="title_activity_share_with">Споделяне с…</string>
+    <string name="title_activity_new_chat">Нов разговор</string>
+    <string name="remove_bookmark">Искате ли да премахнете отметката за %s?</string>
+    <string name="remove_bookmark_and_close">Искате ли да премахнете отметката за %s и да архивирате разговора?</string>
+    <string name="start_group_chat">Започване на групов разговор</string>
+    <string name="delete_file_dialog_shared">Този файл е споделен и в други разговори.</string>
+    <string name="delete_file_dialog_confirm">Наистина ли искате да изтриете този файл?</string>
+    <string name="delete_file_dialog_copies">Копията на файла, съхранени на други устройства или сървъри, няма да бъдат изтрити.</string>
+    <plurals name="delete_files_dialog">
+        <item quantity="one">Изтриване на файла</item>
+        <item quantity="other">Изтриване на %d файла</item>
+    </plurals>
+    <plurals name="delete_files_dialog_msg">
+        <item quantity="one">Наистина ли искате да изтриете този файл?</item>
+        <item quantity="other">Наистина ли искате да изтриете тези файлове?</item>
+    </plurals>
+    <string name="archive_this_chat">След това да се изтрие и разговорът</string>
+    <string name="send_encrypted_message">Изпращане на шифровано съобщение</string>
+    <string name="group_chats">Групови разговори</string>
+    <string name="pref_autojoin">Синхронизиране на отметките</string>
+    <string name="pref_autojoin_summary">Задаване на флага „autojoin“ при влизане в групов разговор или излизане от него и отчитане на промените, направени от други приложения.</string>
+    <string name="conference_technical_problems">Напуснахте този групов разговор поради технически причини</string>
+    <string name="hosted_on">на сървъра %s</string>
+    <string name="title_undo_swipe_out_chat">Разговорът е архивиран</string>
+    <string name="search_group_chats">Търсене на групови разговори</string>
+    <string name="corresponding_chats_closed">Съответните разговори са архивирани.</string>
+    <string name="delete_and_close">Изтриване и архивиране на разговора</string>
+    <string name="start_chat">Започване на разговор</string>
+    <string name="switch_to_chat">Превключване към разговора</string>
+    <string name="empty_conversations_list_hint">Когато започнете нов разговор, той ще се появи тук</string>
+    <string name="note_to_self">Моите бележки</string>
+    <string name="search_in_chats">Търсене в разговорите</string>
+    <string name="search_for_x_in_chats">Търсене на „%s“ в разговорите</string>
+
+    <!-- Account status -->
+    <string name="pref_send_crash_reports">Изпращане на доклади за сривове</string>
+    <string name="account_state_logged_out">Излязъл от профила</string>
+    <string name="account_status_pending_oauth_authorization">Изчаква упълномощаване</string>
+    <string name="account_status_airplane_mode">Самолетен режим</string>
+    <string name="account_status_connection_timeout">Времето за свързване изтече</string>
+    <string name="account_status_regis_invalid_captcha">Невалидна CAPTCHA</string>
+    <string name="account_status_tls_error_protocol">Слаба защита на връзката (няма TLS 1.3)</string>
+    <string name="account_status_tls_error_untrusted">Недоверен сертификат</string>
+    <string name="account_status_incompatible_client">Несъвместимо приложение</string>
+    <string name="account_status_channel_binding">Няма обвързване на канала (channel binding)</string>
+    <string name="account_status_temporary_auth_failure">Временна грешка при удостоверяване</string>
+    <string name="account_status_service_outage_scheduled">Планирано прекъсване</string>
+    <string name="account_status_service_outage_known">Услугата не работи (известен проблем)</string>
+    <string name="sos_scheduled_return">Услугата трябва да заработи отново в %s</string>
+    <string name="this_account_is_logged_out">Излязохте от този профил</string>
+    <string name="enable_account_to_delete">Този профил е изключен. Включете го, за да го изтриете от сървъра.</string>
+    <string name="account_registrations_are_not_supported">Регистрирането на профили не се поддържа</string>
+    <string name="no_xmpp_adddress_found">Не е открит XMPP адрес</string>
+    <string name="delete_from_server">Премахване на профила от сървъра</string>
+    <string name="could_not_delete_account_from_server">Профилът не може да бъде изтрит от сървъра</string>
+    <string name="log_out">Изход</string>
+    <string name="log_in">Вход</string>
+    <string name="no_certificate_selected">Не е избран клиентски сертификат!</string>
+    <string name="reconnect_on_other_host">Повторно свързване към друг сървър</string>
+    <string name="could_not_process_oauth_redirect">Пренасочването от OAuth не може да бъде обработено</string>
+    <string name="could_not_redirect_to_identity_provider">Не може да се пренасочи към доставчика на самоличност</string>
+
+    <!-- Server info -->
+    <string name="server_info_occupant_id">XEP-0421: Идентификатори на участниците</string>
+    <string name="server_info_moderated_message_retraction">XEP-0425: Модерирано оттегляне на съобщения</string>
+    <string name="server_info_bind2">XEP-0386: Bind 2</string>
+    <string name="server_info_sasl2">XEP-0388: Разширяем профил на SASL</string>
+    <string name="server_info_login_mechanism">Механизъм за вход</string>
+    <string name="server_info_stanzas_rx_tx">Щампи (получени/изпратени)</string>
+    <string name="server_info_stanzas_rx_tx_push">Щампи (получени/изпратени/push)</string>
+
+    <!-- Copy, links and file types -->
+    <string name="retry_with_p2p">Нов опит чрез P2P</string>
+    <string name="uri_copied_to_clipboard">URI адресът е копиран</string>
+    <string name="uri">URI</string>
+    <string name="multimedia_file">мултимедиен файл</string>
+    <string name="word_document">документ на Word</string>
+    <string name="sheet_music">ноти</string>
+    <string name="audiobook">Аудиокнига</string>
+    <string name="gpx_track">GPX маршрут</string>
+    <string name="mobile_ticket">Мобилен билет</string>
+    <string name="copy_URI">Копиране на URI</string>
+    <string name="copy_telephone_number">Копиране на телефонния номер</string>
+    <string name="copy_geo_uri">Копиране на местоположението</string>
+    <string name="copy_email_address">Копиране на имейл адреса</string>
+    <string name="copied_email_address">Имейл адресът е копиран</string>
+    <string name="copied_phone_number">Телефонният номер е копиран</string>
+    <string name="download_failed_could_not_establish_tls">Не може да се установи TLS връзка</string>
+    <string name="download_failed_invalid_file">Неуспешно сваляне: Невалиден файл</string>
+    <string name="invalid_contact">Контактът не може да бъде прочетен</string>
+
+    <!-- Contacts and presence -->
+    <string name="its_time_for_contact">При ^2 часът е ^1</string>
+    <string name="contact_has_paused_their_notifications">%s временно е спрял(а) известията си</string>
+    <string name="presence_offline">Извън линия</string>
+    <string name="last_seen">последно на линия %s</string>
+    <string name="save_to_contact">Запазване в контактите</string>
+    <string name="show_in_contacts">Показване в контактите</string>
+    <string name="contact_list_integration_not_available">Интеграцията със списъка с контакти не е налична</string>
+    <string name="show_to_contacts_only">Показване само на контактите</string>
+
+    <!-- Permissions, welcome, Quicksy -->
+    <string name="no_lan_permission">Разрешете на %1$s достъп до локалната мрежа (устройства наблизо).</string>
+    <string name="no_contacts_permission">%1$s се нуждае от достъп до контактите Ви</string>
+    <string name="missing_local_network_permission">Необходимо е разрешение за локалната мрежа</string>
+    <string name="no_permission_to_place_call">Няма разрешение за телефонно обаждане</string>
+    <string name="grant_permission">Даване на разрешение</string>
+    <string name="open_settings">Отваряне на настройките</string>
+    <string name="quicksy_wants_your_consent">Quicksy иска съгласието Ви, за да използва данните Ви</string>
+    <string name="welcome_header">Присъединете се към разговора</string>
+    <string name="welcome_header_quicksy">Добре дошли в Quicksy!</string>
+    <string name="continue_btn">Продължи</string>
+    <string name="privacy_policy">Декларация за поверителност</string>
+
+    <!-- OMEMO, QR codes, invitations -->
+    <string name="barcode_does_not_contain_fingerprints_for_this_chat">QR кодът не съдържа отпечатъци за този разговор.</string>
+    <string name="share_invitation">Споделяне на поканата</string>
+    <string name="verifying_omemo_keys_trusted_source_account">На път сте да потвърдите ключовете OMEMO на собствения си профил. Това е безопасно само ако сте отворили тази връзка от надежден източник, където само Вие бихте могли да я публикувате.</string>
+    <string name="restore_omemo_key">Възстановяване на ключовете OMEMO</string>
+    <string name="contact_uses_unverified_keys">Вашият контакт използва непотвърдени устройства. Сканирайте QR кода на контакта, за да ги потвърдите и да предотвратите активни атаки MITM.</string>
+    <string name="unverified_devices">Използвате непотвърдени устройства. Сканирайте QR кода на другите си устройства, за да ги потвърдите и да предотвратите активни атаки MITM.</string>
+    <string name="delete_pgp_key">Изтриване на ключа OpenPGP</string>
+    <string name="server_invite">Покана за сървъра</string>
+    <string name="qr_code_actions">Сканиране на QR, показване на QR, покана за сървъра</string>
+    <string name="qr_code_contains_link">Отваряне на уеб връзка?</string>
+    <string name="qr_code_contains_link_text">Този QR код води към уеб сайт. Моля, проверете адреса по-долу, преди да го отворите в браузъра:</string>
+    <string name="open_browser">Отваряне в браузъра</string>
+    <string name="publish_qr_code">Публикуване на QR кода</string>
+
+    <!-- Backup -->
+    <string name="restore_warning_continued">Възстановявайте само резервни копия, които сте създали лично Вие.</string>
+    <string name="outdated_backup_file_format">Опитвате се да внесете резервно копие в остарял формат</string>
+    <string name="non_quicksy_backup">Quicksy може да възстановява само резервни копия на профили в quicksy.im</string>
+    <string name="pref_backup_summary">Еднократно копие, редовно копиране, място за съхранение</string>
+    <string name="pref_create_backup_one_off_summary">Създаване на еднократно резервно копие</string>
+    <string name="pref_backup_recurring">Редовно резервно копиране</string>
+    <string name="pref_backup_location">Място на резервните копия</string>
+    <string name="pref_import_backup_summary">Изберете файл с резервно копие, за да възстановите данните си</string>
+    <string name="pref_category_backup_storage">Съхранение</string>
+
+    <!-- Calls -->
+    <string name="missed_calls_channel_name">Пропуснати обаждания</string>
+    <string name="rtp_state_content_add_video">Превключване към видеообаждане?</string>
+    <string name="rtp_state_content_add">Добавяне на още потоци?</string>
+    <string name="rtp_state_reconnecting">Повторно свързване</string>
+    <string name="rtp_state_contact_offline">Контактът не е на разположение</string>
+    <string name="rtp_state_no_internet">Няма връзка с интернет</string>
+    <string name="reconnecting_call">Повторно свързване на обаждането</string>
+    <string name="reconnecting_video_call">Повторно свързване на видеообаждането</string>
+    <string name="incoming_call_duration_timestamp">Входящо обаждане (%s) · %s</string>
+    <string name="outgoing_call_duration_timestamp">Изходящо обаждане (%s) · %s</string>
+    <string name="outgoing_call_timestamp">Изходящо обаждане · %s</string>
+    <plurals name="n_missed_calls_from_x">
+        <item quantity="one">%1$d пропуснато обаждане от %2$s</item>
+        <item quantity="other">%1$d пропуснати обаждания от %2$s</item>
+    </plurals>
+    <plurals name="n_missed_calls">
+        <item quantity="one">%d пропуснато обаждане</item>
+        <item quantity="other">%d пропуснати обаждания</item>
+    </plurals>
+    <plurals name="n_missed_calls_from_m_contacts">
+        <item quantity="one">%1$d пропуснати обаждания от %2$d контакт</item>
+        <item quantity="other">%1$d пропуснати обаждания от %2$d контакта</item>
+    </plurals>
+    <string name="could_not_switch_camera">Камерата не може да бъде сменена</string>
+    <string name="could_not_disable_video">Видеото не може да бъде изключено.</string>
+    <string name="audio_video_disabled_tor">Обажданията са изключени, когато се използва Тор</string>
+    <string name="switch_to_video">Превключване към видео</string>
+    <string name="reject_switch_to_video">Отхвърляне на превключването към видео</string>
+    <string name="decline">Отхвърляне</string>
+    <string name="call_integration_not_available">Интеграцията с обажданията не е налична!</string>
+    <string name="call_is_using_earpiece_tap_to_switch_to_speaker">Обаждането използва слушалката. Докоснете, за да превключите на високоговорителя.</string>
+    <string name="call_is_using_earpiece">Обаждането използва слушалката.</string>
+    <string name="call_is_using_wired_headset">Обаждането използва кабелни слушалки</string>
+    <string name="call_is_using_speaker_tap_to_switch_to_earpiece">Обаждането използва високоговорителя. Докоснете, за да превключите на слушалката.</string>
+    <string name="call_is_using_speaker">Обаждането използва високоговорителя.</string>
+    <string name="call_is_using_bluetooth">Обаждането използва Bluetooth.</string>
+    <string name="flip_camera">Обръщане на камерата</string>
+    <string name="video_is_enabled_tap_to_disable">Видеото е включено. Докоснете, за да го изключите.</string>
+    <string name="video_is_disabled_tap_to_enable">Видеото е изключено. Докоснете, за да го включите.</string>
+    <string name="could_not_modify_call">Обаждането не може да бъде променено</string>
+    <string name="clients_may_not_support_av">XMPP приложението на контакта Ви може да не поддържа аудио- и видеообаждания.</string>
+
+    <!-- Avatars -->
+    <string name="your_avatar_tap_to_select_new_avatar">Вашият аватар. Докоснете, за да изберете нов аватар от галерията.</string>
+    <string name="delete_avatar">Изтриване на аватара</string>
+    <string name="delete_avatar_message">Искате ли да изтриете аватара си? Някои приложения може да продължат да показват запазено копие на аватара Ви.</string>
+
+    <!-- Group chats and moderation -->
+    <plurals name="x_participants">
+        <item quantity="one">%1$d участник</item>
+        <item quantity="other">%1$d участници</item>
+    </plurals>
+    <string name="unsupported_operation">Неподдържано действие</string>
+    <string name="allow_private_messages">Разрешаване на лични съобщения</string>
+    <string name="edit_nick">Промяна на псевдонима</string>
+    <string name="edit_name_and_topic">Промяна на името и темата</string>
+    <string name="edit_configuration">Промяна на настройките</string>
+    <string name="change_notification_settings">Промяна на настройките за известия</string>
+    <string name="moderate_delete_dot_dot_dot">Изтриване като модератор…</string>
+    <string name="moderate_delete">Изтриване като модератор</string>
+    <string name="could_not_moderate_message">Съобщението не може да бъде модерирано</string>
+    <string name="delete_message">Изтриване на съобщението</string>
+    <string name="moderation_explained">Това съобщение ще бъде изтрито за Вас и за всички участници в този публичен канал.</string>
+    <string name="do_not_show_this_warning_again">Това предупреждение да не се показва повече.</string>
+    <string name="muc_user_ban_explainer">Този потребител вече няма да може да вижда новите съобщения и да участва в разговора.</string>
+    <string name="give_membership">Даване на членство</string>
+    <string name="remove_membership">Отнемане на членството</string>
+    <string name="make_admin">Назначаване за администратор</string>
+    <string name="dismiss_as_admin">Отнемане на правата на администратор</string>
+    <string name="make_owner">Назначаване за собственик</string>
+    <string name="dismiss_as_owner">Отнемане на правата на собственик</string>
+    <string name="report_spam">Докладване за спам</string>
+    <string name="report_spam_and_block">Докладване за спам и блокиране на подателя</string>
+
+    <!-- Reactions and messages -->
+    <string name="could_not_add_reaction">Реакцията не може да бъде добавена</string>
+    <string name="add_reaction">Добавяне на реакция…</string>
+    <string name="add_reaction_title">Добавяне на реакция</string>
+    <string name="more_reactions">Още реакции</string>
+    <string name="number_reactions_are_restricted">Достигнат е лимитът за реакции.</string>
+    <string name="this_reaction_isnt_allowed">Тази реакция не е разрешена.</string>
+    <string name="emoji_reactions">Реакции с емоджи</string>
+    <string name="send">Изпращане</string>
+    <string name="view_edit_history">Преглед на историята на редакциите</string>
+    <string name="edit_history">История на редакциите</string>
+    <string name="hide_notification">Скриване на известието</string>
+    <plurals name="delete_n_messages">
+        <item quantity="one">Изтриване на %d съобщение</item>
+        <item quantity="other">Изтриване на %d съобщения</item>
+    </plurals>
+
+    <!-- Attachments and media -->
+    <plurals name="attachments_saved">
+        <item quantity="one">%d мултимедиен файл е запазен</item>
+        <item quantity="other">%d мултимедийни файла са запазени</item>
+    </plurals>
+    <string name="could_not_save_files">Файловете не могат да бъдат запазени</string>
+    <string name="filter_type_images">Изображения</string>
+    <string name="filter_type_videos">Видеоклипове</string>
+    <string name="filter_type_audio">Аудио</string>
+    <string name="filter_type_documents">Документи</string>
+    <string name="filter_type_other">Други</string>
+    <string name="filter_media">Филтриране на медиите</string>
+    <string name="apply_filter">Прилагане</string>
+    <string name="select_all">Избиране на всички</string>
+    <string name="attachment_choice_gallery">Галерия</string>
+    <string name="attachment_choice_file">Файл</string>
+    <string name="attachment_choice_location">Местоположение</string>
+    <string name="attachment_choice_camera">Камера</string>
+    <string name="attachment_choice_video">Видео</string>
+    <string name="attachment_choice_recording">Запис</string>
+    <string name="attachment_choice_contact">Контакт</string>
+    <string name="add_attachment">Добавяне на притурка</string>
+    <string name="hide_attachment_options">Скриване на опциите за притурки</string>
+    <string name="show_attachment_options">Показване на опциите за притурки</string>
+    <string name="collapsed">Свито</string>
+    <string name="expanded">Разгънато</string>
+    <string name="open_keyboard">Отваряне на клавиатурата</string>
+
+    <!-- Video quality (video_360p is fixed in strings.xml: upstream now calls it Low) -->
+    <string name="video_480p">Средно (480p)</string>
+    <string name="video_1080p">Много високо (1080p)</string>
+
+    <!-- Channel discovery -->
+    <string name="channel_discover_opt_in_message">Откриването на канали използва външна услуга, наречена &lt;a href=&quot;https://search.jabber.network&quot;>search.jabber.network&lt;/a>.&lt;br>&lt;br>Използването на тази функция ще изпрати Вашия IP адрес и думите, които търсите, до тази услуга. Вижте тяхната &lt;a href=&quot;https://search.jabber.network/privacy&quot;>Декларация за поверителност&lt;/a> за повече информация.</string>
+
+    <!-- UnifiedPush (the name stays in English) -->
+    <string name="unified_push_distributor">Разпространител за UnifiedPush</string>
+    <string name="unified_push_summary">Препращане на известия за външни приложения, съвместими с UnifiedPush</string>
+    <string name="pref_up_push_account_title">XMPP профил</string>
+    <string name="pref_up_push_account_summary">Профилът, чрез който ще се получават push съобщенията.</string>
+    <string name="pref_up_push_server_title">Push сървър</string>
+    <string name="pref_up_long_summary">Когато работи като разпространител за UnifiedPush, постоянната, надеждна и пестяща батерията XMPP връзка се използва, за да събужда други приложения, съвместими с UnifiedPush, като Tusky, Ltt.rs, FluffyChat и други.</string>
+    <string name="no_account_deactivated">Няма (изключено)</string>
+
+    <!-- Settings: summaries on the main screen -->
+    <string name="pref_summary_appearance">Тема, цветове, екранни снимки, въвеждане</string>
+    <string name="pref_summary_security">Шифроване от край до край, сляпо доверие преди потвърждение, откриване на MITM</string>
+    <string name="pref_attachments_summary">Размер на файловете, компресиране на снимките, качество на видеото</string>
+    <string name="pref_notifications_summary">Период на пренебрегване, тон на звънене, вибрация, непознати</string>
+    <string name="pref_privacy_summary">Известия за писането, последно на линия, P2P релета</string>
+    <string name="pref_connection_summary">Сървър и порт, Тор</string>
+    <string name="pref_connection_summary_w_cd">Сървър и порт, Тор, откриване на канали</string>
+    <string name="pref_presence_settings_summary">Отсъстващ при заключване, синхронизиране с „Не безпокойте“</string>
+
+    <!-- Settings: categories -->
+    <string name="pref_category_sending">Изпращане</string>
+    <string name="pref_category_receiving">Получаване</string>
+    <string name="pref_category_e2ee">Шифроване от край до край</string>
+    <string name="pref_category_server_connection">Връзка със сървъра</string>
+    <string name="pref_category_operating_system">Операционна система</string>
+    <string name="pref_category_engagement_notifications">Известия за активност</string>
+    <string name="pref_category_application">Приложение</string>
+    <string name="pref_category_interaction">Взаимодействие</string>
+    <string name="pref_category_on_this_device">На устройството</string>
+    <string name="pref_category_avatars">Аватари</string>
+    <string name="peer_to_peer">Директни връзки (P2P)</string>
+
+    <!-- Settings: Interface -->
+    <string name="appearance">Външен вид</string>
+    <string name="pref_light_dark_mode">Светъл/тъмен режим</string>
+    <string name="pref_dynamic_colors">Динамични цветове</string>
+    <string name="pref_dynamic_colors_summary">Системни цветове (Material You)</string>
+    <string name="pref_allow_screenshots">Разрешаване на екранни снимки</string>
+    <string name="pref_allow_screenshots_summary">Показване на съдържанието в списъка с отворени приложения и разрешаване на екранни снимки</string>
+    <string name="pref_keyboard_options">Клавиатура</string>
+    <string name="pref_chat_bubbles">Балончета на съобщенията</string>
+    <string name="pref_chat_bubbles_summary">Цвят на фона, размер на шрифта, аватари</string>
+    <string name="pref_title_bubbles">Балончета на съобщенията</string>
+    <string name="pref_use_colorful_bubbles">Цветни балончета</string>
+    <string name="pref_use_colorful_bubbles_summary">Различни цветове на фона за изпратените и получените съобщения</string>
+    <string name="pref_large_font">Голям шрифт</string>
+    <string name="pref_large_font_summary">По-голям шрифт в балончетата на съобщенията</string>
+    <string name="pref_align_start">Съобщения отляво</string>
+    <string name="pref_align_start_summary">Всички съобщения, включително изпратените, се показват отляво за еднакъв изглед на разговора.</string>
+    <string name="pref_account_avatar">Профили</string>
+    <string name="pref_account_avatar_summary">Показване на аватара на профила в изпратените съобщения за лесно разпознаване.</string>
+    <string name="pref_show_11_chats">Разговори 1:1</string>
+    <string name="pref_show_11_chats_summary">Показване на аватари в разговорите 1:1. (В груповите разговори аватарите се показват винаги.)</string>
+    <string name="pref_show_11_sender_chats_summary">Показване на аватари в получените съобщения в разговорите 1:1. (В груповите разговори аватарите се показват винаги.)</string>
+    <string name="pref_auto_send_recording">Автоматично изпращане на записите</string>
+    <string name="pref_auto_send_recording_summary">Гласовите съобщения се изпращат автоматично, когато приключите записа.</string>
+
+    <!-- Settings: Security and connection -->
+    <string name="pref_title_trust_system_ca_store">Сертифициращи органи</string>
+    <string name="pref_title_trust_system_ca_store_summary">Доверяване на системните CA сертификати</string>
+    <string name="detect_mim">Изискване на обвързване на канала</string>
+    <string name="detect_mim_summary">Обвързването на канала може да открие някои атаки „човек по средата“</string>
+    <string name="strong_transport_security">Силна защита на връзката</string>
+    <string name="require_tls_v1_3">Изискване на TLS 1.3 (Transport Layer Security) за всички връзки</string>
+    <string name="pref_use_relays">Винаги през реле</string>
+    <string name="pref_use_relays_summary">Всички P2P връзки (обаждания и прехвърляне на файлове) минават през сървъра Ви, за да не се разкрива IP адресът Ви.</string>
+
+    <!-- Settings: notifications, presence, calls -->
+    <string name="pref_accept_invites_from_strangers">Покани от непознати</string>
+    <string name="pref_accept_invites_from_strangers_summary">Приемане на покани за групови разговори от непознати</string>
+    <string name="pref_fullscreen_notification">Известия на цял екран</string>
+    <string name="pref_fullscreen_notification_summary">Позволява на приложението да показва известия за входящи обаждания на цял екран, когато устройството е заключено.</string>
+    <string name="custom_notifications">Персонализирани известия</string>
+    <string name="custom_notifications_enable">Включване на персонализирани настройки за известия (важност, звук, вибрация) за този разговор?</string>
+    <string name="pref_call_integration">Интеграция с обажданията</string>
+    <string name="pref_call_integration_summary">Обажданията от това приложение си взаимодействат с обикновените телефонни обаждания, например едното приключва, когато започне другото.</string>
+    <string name="pref_entity_time">Споделяне на местния час</string>
+    <string name="pref_entity_time_summary">Споделяне на текущия Ви час с контактите, за да виждате и Вие техния местен час.</string>
+    <string name="pref_sync_system_dnd">Синхронизиране с „Не безпокойте“</string>
+    <string name="pref_sync_system_dnd_summary">Автоматично задаване на състояние „Не безпокойте“, когато е включен режимът „Не безпокойте“ на Android.</string>
+    <string name="pref_include_silent_modes">Включително тихите режими</string>
+    <string name="pref_include_silent_modes_summary">Състояние „Не безпокойте“ и когато известията са заглушени или телефонът е на вибрация.</string>
+
+    <!-- Settings: attachments -->
+    <string name="pref_automatic_download">Автоматично сваляне</string>
+    <string name="pref_save_to_gallery">Запазване в галерията</string>
+    <string name="pref_save_to_gallery_summary">Автоматично запазване на мултимедийните файлове в общите папки, за да се виждат в галерията и във файловия мениджър.</string>
 </resources>
