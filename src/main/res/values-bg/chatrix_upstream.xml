@@ -262,7 +262,7 @@
     <string name="attachment_choice_video">Видео</string>
     <string name="attachment_choice_recording">Запис</string>
     <string name="attachment_choice_contact">Контакт</string>
-    <string name="add_attachment">Добавяне на прикачен файл</string>
+    <string name="add_attachment">Прикачи файл</string>
     <string name="hide_attachment_options">Скриване на опциите за прикачени файлове</string>
     <string name="show_attachment_options">Показване на опциите за прикачени файлове</string>
     <string name="collapsed">Свито</string>
