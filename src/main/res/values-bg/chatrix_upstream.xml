@@ -26,7 +26,7 @@
         <item quantity="other">Наистина ли искате да изтриете тези файлове?</item>
     </plurals>
     <string name="archive_this_chat">След това да се изтрие и разговорът</string>
-    <string name="send_encrypted_message">Изпращане на криптирано съобщение</string>
+    <string name="send_encrypted_message">Изпрати крипт. съобщение</string>
     <string name="group_chats">Групови разговори</string>
     <string name="pref_autojoin">Синхронизиране на отметките</string>
     <string name="pref_autojoin_summary">Задаване на флага „autojoin“ при влизане в групов разговор или излизане от него и отчитане на промените, направени от други приложения.</string>
