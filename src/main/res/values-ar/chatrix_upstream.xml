@@ -6,4 +6,8 @@
     <string name="notifications">الإشعارات</string>
     <string name="pref_title_security">الأمان</string>
     <string name="backup_and_restore">النسخ الاحتياطي والاستعادة</string>
+
+    <!-- Since 2.21.4 -->
+    <string name="pref_google_push">استخدام إشعارات Google الفورية كخيار احتياطي</string>
+    <string name="pref_google_push_summary">يوقظ التطبيق إذا أوقف توفير البطارية الصارم الاتصال في الخلفية. لا تُرسل أي بيانات من الرسائل إلى Google.</string>
 </resources>

@@ -6,4 +6,8 @@
     <string name="notifications">Notifikasi</string>
     <string name="pref_title_security">Keamanan</string>
     <string name="backup_and_restore">Cadangkan &amp; Pulihkan</string>
+
+    <!-- Since 2.21.4 -->
+    <string name="pref_google_push">Gunakan push Google sebagai cadangan</string>
+    <string name="pref_google_push_summary">Membangunkan aplikasi jika penghemat baterai yang agresif memutus koneksi latar belakang. Tidak ada data pesan yang dikirim ke Google.</string>
 </resources>

@@ -6,4 +6,8 @@
     <string name="notifications">התראות</string>
     <string name="pref_title_security">אבטחה</string>
     <string name="backup_and_restore">גיבוי ושחזור</string>
+
+    <!-- Since 2.21.4 -->
+    <string name="pref_google_push">שימוש בדחיפה של Google כגיבוי</string>
+    <string name="pref_google_push_summary">מעיר את היישומון אם חיסכון סוללה אגרסיבי מנתק את החיבור ברקע. לא נשלחים ל־Google נתונים מההודעות.</string>
 </resources>

@@ -5,12 +5,18 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import com.google.common.base.Charsets;
 import com.google.common.base.Strings;
+import com.google.common.collect.Iterables;
+import com.google.common.hash.Hashing;
 import eu.siacs.conversations.Config;
 import eu.siacs.conversations.Conversations;
+import eu.siacs.conversations.persistance.DatabaseBackend;
 import eu.siacs.conversations.services.PushManagementService;
 import eu.siacs.conversations.services.XmppConnectionService;
 import eu.siacs.conversations.utils.Compatibility;
+import eu.siacs.conversations.utils.PhoneHelper;
+import eu.siacs.conversations.xmpp.Jid;
 
 public class PushMessageReceiver extends BroadcastReceiver {
 
@@ -32,9 +38,14 @@ public class PushMessageReceiver extends BroadcastReceiver {
     }
 
     private void onMessageReceived(final Context context, final Bundle extras) {
-        final var account = extras.getString("account");
-        if (Strings.isNullOrEmpty(account)) {
-            Log.d(Config.LOGTAG, "PushMessageReceiver received push w/o account");
+        final var hash = extras.getString("account");
+        if (Strings.isNullOrEmpty(hash)) {
+            Log.d(Config.LOGTAG, "PushMessageReceiver received push w/o account hash");
+            return;
+        }
+        final var androidId = PhoneHelper.getAndroidId(context);
+        if (Strings.isNullOrEmpty(androidId)) {
+            Log.d(Config.LOGTAG, "PushMessageReceiver could not access android id");
             return;
         }
         if (!Conversations.getInstance(context.getApplicationContext()).hasEnabledAccount()) {
@@ -43,15 +54,31 @@ public class PushMessageReceiver extends BroadcastReceiver {
                     "PushMessageReceiver ignored message because no accounts are enabled");
             return;
         }
-        Log.d(Config.LOGTAG, "PushMessageReceiver received push notification. waking up service");
-        final Intent intent = new Intent(context, XmppConnectionService.class);
-        intent.setAction(XmppConnectionService.ACTION_FCM_MESSAGE_RECEIVED);
-        intent.putExtra("account", account);
-        Compatibility.startService(context, intent);
+        final var accounts =
+                DatabaseBackend.AccountWithOptions.getAddresses(
+                        Conversations.getInstance(context).getAccounts());
+        final var account = Iterables.tryFind(accounts, a -> hash(a, androidId).equals(hash));
+        if (account.isPresent()) {
+            Log.d(
+                    Config.LOGTAG,
+                    "PushMessageReceiver received push notification. waking up service");
+            final Intent intent = new Intent(context, XmppConnectionService.class);
+            intent.setAction(XmppConnectionService.ACTION_FCM_MESSAGE_RECEIVED);
+            intent.putExtra("account", account.get().toString());
+            Compatibility.startService(context, intent);
+        } else {
+            Log.d(Config.LOGTAG, "PushMessageReceiver could not identify account");
+        }
+    }
+
+    private static String hash(final Jid jid, final String androidId) {
+        return Hashing.sha1()
+                .hashString(jid.toString() + "\00" + androidId, Charsets.UTF_8)
+                .toString();
     }
 
     private void onNewToken(final Context context, final Bundle extras) {
-        String registrationId = extras == null ? null : extras.getString("registration_id");
+        final var registrationId = extras == null ? null : extras.getString("registration_id");
         Log.d(Config.LOGTAG, "onNewToken(" + registrationId + ")");
 
         if (!Conversations.getInstance(context.getApplicationContext()).hasEnabledAccount()) {

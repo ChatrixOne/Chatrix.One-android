@@ -290,12 +290,15 @@ public class MemorizingTrustManager {
         final KeyStore ks;
         try {
             ks = KeyStore.getInstance(KeyStore.getDefaultType());
-        } catch (final KeyStoreException e) {
+            ks.load(null, null);
+        } catch (final KeyStoreException
+                | IOException
+                | NoSuchAlgorithmException
+                | CertificateException e) {
             LOGGER.log(Level.SEVERE, "getAppKeyStore()", e);
             return null;
         }
         try (final var fileInputStream = new FileInputStream(keyStoreFile)) {
-            ks.load(null, null);
             ks.load(fileInputStream, "MTM".toCharArray());
         } catch (final Exception e) {
             LOGGER.log(Level.SEVERE, "getAppKeyStore(" + keyStoreFile + ")", e);

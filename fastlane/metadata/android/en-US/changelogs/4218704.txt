@@ -1,0 +1,1 @@
+* Make Google push available in F-Droid build flavor (opt-in)

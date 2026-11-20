@@ -1270,4 +1270,6 @@
     <string name="account_status_pending_oauth_authorization">Ожидание авторизации</string>
     <string name="could_not_process_oauth_redirect">Невозможно обработать перенаправление OAuth</string>
     <string name="could_not_redirect_to_identity_provider">Невозможно перенаправить на провайдера идентификации</string>
+    <string name="pref_google_push">Google Push как запасной вариант</string>
+    <string name="pref_google_push_summary">Активирует приложение, если агрессивный режим энергосбережения отключает фоновое соединение. Данные сообщений в Google не отправляются.</string>
 </resources>

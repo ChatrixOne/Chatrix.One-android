@@ -3,4 +3,8 @@
      Remove a line here once upstream translates it, or the build fails with a duplicate resource. -->
 <resources>
     <string name="backup_and_restore">Biztonsági mentés és visszaállítás</string>
+
+    <!-- Since 2.21.4 -->
+    <string name="pref_google_push">Google push használata tartalékként</string>
+    <string name="pref_google_push_summary">Felébreszti az alkalmazást, ha az agresszív akkumulátorkímélés megszakítja a háttérkapcsolatot. Az üzenetek adatai nem kerülnek a Google-hoz.</string>
 </resources>

@@ -3,4 +3,8 @@
      Remove a line here once upstream translates it, or the build fails with a duplicate resource. -->
 <resources>
     <string name="backup_and_restore">Back-up en herstel</string>
+
+    <!-- Since 2.21.4 -->
+    <string name="pref_google_push">Google-push als terugvaloptie gebruiken</string>
+    <string name="pref_google_push_summary">Wekt de app als agressieve batterijbesparing de achtergrondverbinding verbreekt. Er worden geen berichtgegevens naar Google verzonden.</string>
 </resources>

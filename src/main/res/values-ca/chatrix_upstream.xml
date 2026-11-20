@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Texts for upstream Conversations strings that this locale's strings.xml does not have yet.
+     Remove a line here once upstream translates it, or the build fails with a duplicate resource. -->
+<resources>
+
+    <!-- Since 2.21.4 -->
+    <string name="pref_google_push">Utilitza Google Push com a alternativa</string>
+    <string name="pref_google_push_summary">Desperta l\'aplicació si l\'estalvi de bateria agressiu tanca la connexió en segon pla. No s\'envia cap dada dels missatges a Google.</string>
+</resources>

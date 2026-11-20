@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Texts for upstream Conversations strings that this locale's strings.xml does not have yet.
+     Remove a line here once upstream translates it, or the build fails with a duplicate resource. -->
+<resources>
+
+    <!-- Since 2.21.4 -->
+    <string name="pref_google_push">Brug Google push som reserve</string>
+    <string name="pref_google_push_summary">Vækker appen, hvis aggressiv batteribesparelse lukker baggrundsforbindelsen. Der sendes ingen beskeddata til Google.</string>
+</resources>

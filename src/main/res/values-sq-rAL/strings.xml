@@ -1221,4 +1221,6 @@
     <string name="expanded">E zgjeruar</string>
     <string name="could_not_process_oauth_redirect">S’u përpunua dot ridrejtim OAuth</string>
     <string name="could_not_redirect_to_identity_provider">S’u bë dot ridrejtimi për te shërbyes identitetesh</string>
+    <string name="pref_google_push">Si rrugëdalje përdor Google push</string>
+    <string name="pref_google_push_summary">Zgjon aplikacionin, nëse kursim agresiv i baterisë asgjëson lidhjen në prapaskenë. S’dërgohen të dhëna mesazhesh te Google.</string>
 </resources>

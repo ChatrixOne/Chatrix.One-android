@@ -6,4 +6,8 @@
     <string name="notifications">അറിയിപ്പുകൾ</string>
     <string name="pref_title_security">സുരക്ഷ</string>
     <string name="backup_and_restore">ബാക്കപ്പും പുനഃസ്ഥാപനവും</string>
+
+    <!-- Since 2.21.4 -->
+    <string name="pref_google_push">ബാക്കപ്പായി Google പുഷ് ഉപയോഗിക്കുക</string>
+    <string name="pref_google_push_summary">കടുത്ത ബാറ്ററി ലാഭിക്കൽ പശ്ചാത്തല കണക്ഷൻ നിർത്തിയാൽ ആപ്പിനെ ഉണർത്തുന്നു. സന്ദേശങ്ങളുടെ ഡാറ്റയൊന്നും Google-ലേക്ക് അയയ്ക്കില്ല.</string>
 </resources>

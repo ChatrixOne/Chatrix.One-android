@@ -93,7 +93,6 @@ import eu.siacs.conversations.utils.ConversationsFileObserver;
 import eu.siacs.conversations.utils.CryptoHelper;
 import eu.siacs.conversations.utils.MimeUtils;
 import eu.siacs.conversations.utils.NetworkManager;
-import eu.siacs.conversations.utils.PhoneHelper;
 import eu.siacs.conversations.utils.QuickLoader;
 import eu.siacs.conversations.utils.ReplacingSerialSingleThreadExecutor;
 import eu.siacs.conversations.utils.Resolver;
@@ -688,8 +687,20 @@ public class XmppConnectionService extends Service {
                 return START_NOT_STICKY;
         }
         final var extras = intent == null ? null : intent.getExtras();
+        final var accountExtra = extras == null ? null : extras.getString("account");
         try {
-            internalPingExecutor.execute(() -> manageAccountConnectionStates(action, extras));
+            internalPingExecutor.execute(() -> {
+                if (ACTION_FCM_MESSAGE_RECEIVED.equals(action) && accountExtra != null) {
+                    try {
+                        manageAccountConnectionStates(action, Jid.of(accountExtra));
+                        return;
+                    } catch (final IllegalArgumentException e) {
+                        Log.e(Config.LOGTAG, "push contained invalid account");
+                        return;
+                    }
+                }
+                manageAccountConnectionStates(action, null);
+            });
         } catch (final RejectedExecutionException e) {
             Log.e(Config.LOGTAG, "can not schedule connection states manager");
         }
@@ -748,8 +759,7 @@ public class XmppConnectionService extends Service {
     }
 
     private synchronized void manageAccountConnectionStates(
-            final String action, final Bundle extras) {
-        final String pushedAccountHash = extras == null ? null : extras.getString("account");
+            final String action, final Jid pushedAccount) {
         final boolean interactive = java.util.Objects.equals(ACTION_TRY_AGAIN, action);
         WakeLockHelper.acquire(wakeLock);
         boolean pingNow =
@@ -757,12 +767,9 @@ public class XmppConnectionService extends Service {
                         || (Config.POST_CONNECTIVITY_CHANGE_PING_INTERVAL > 0
                                 && ACTION_POST_CONNECTIVITY_CHANGE.equals(action));
         final HashSet<Account> pingCandidates = new HashSet<>();
-        final String androidId = pushedAccountHash == null ? null : PhoneHelper.getAndroidId(this);
         for (final Account account : accounts) {
             final boolean pushWasMeantForThisAccount =
-                    androidId != null
-                            && CryptoHelper.getAccountFingerprint(account, androidId)
-                                    .equals(pushedAccountHash);
+                    account.getJid().asBareJid().equals(pushedAccount);
             if (pushWasMeantForThisAccount) {
                 final var manager =
                         account.getXmppConnection().getManager(PushNotificationManager.class);
@@ -1095,6 +1102,7 @@ public class XmppConnectionService extends Service {
         final boolean hasEnabledAccounts = hasEnabledAccounts();
         toggleSetProfilePictureActivity(hasEnabledAccounts);
         reconfigurePushDistributor();
+        reconfigurePushMessageReceiver();
 
         if (CallIntegration.hasSystemFeature(this)) {
             CallIntegrationConnectionService.togglePhoneAccountsAsync(this, this.accounts);
@@ -2375,6 +2383,29 @@ public class XmppConnectionService extends Service {
 
     public boolean reconfigurePushDistributor() {
         return this.unifiedPushBroker.reconfigurePushDistributor();
+    }
+
+    public void reconfigurePushMessageReceiver() {
+        reconfigurePushMessageReceiver(new AppSettings(this).isGooglePush());
+    }
+
+    public void reconfigurePushMessageReceiver(final boolean enabled) {
+        final var packageManager = this.getPackageManager();
+        final var componentName =
+                new ComponentName(
+                        this.getApplicationContext(),
+                        eu.siacs.conversations.receiver.PushMessageReceiver.class);
+        if (enabled) {
+            packageManager.setComponentEnabledSetting(
+                    componentName,
+                    PackageManager.COMPONENT_ENABLED_STATE_ENABLED,
+                    PackageManager.DONT_KILL_APP);
+        } else {
+            packageManager.setComponentEnabledSetting(
+                    componentName,
+                    PackageManager.COMPONENT_ENABLED_STATE_DISABLED,
+                    PackageManager.DONT_KILL_APP);
+        }
     }
 
     private Optional<UnifiedPushBroker.Transport> renewUnifiedPushEndpoints(
@@ -3694,11 +3725,40 @@ public class XmppConnectionService extends Service {
         }
     }
 
-    private void refreshAllFcmTokens() {
+    public void refreshAllFcmTokens() {
         final var pushManagementService = new PushManagementService(this.getApplicationContext());
         for (final var account : getAccounts()) {
-            if (account.isConnectionEnabled() && pushManagementService.available(account)) {
+            if (account.isConnectionEnabled()
+                    && pushManagementService.isEnabledAvailable(account)) {
                 pushManagementService.registerPushTokenOnServer(account);
+            }
+        }
+    }
+
+    public void disableAllFcmTokens() {
+        for (final var account : getAccounts()) {
+            if (account.isConnectionEnabled()) {
+                final var future =
+                        account.getXmppConnection()
+                                .getManager(PushNotificationManager.class)
+                                .disableAndUnregister();
+                Futures.addCallback(
+                        future,
+                        new FutureCallback<>() {
+                            @Override
+                            public void onSuccess(Void result) {
+                                Log.d(
+                                        Config.LOGTAG,
+                                        account.getJid().asBareJid()
+                                                + ": successfully disabled push");
+                            }
+
+                            @Override
+                            public void onFailure(@NonNull Throwable t) {
+                                Log.d(Config.LOGTAG, "could not disable push", t);
+                            }
+                        },
+                        MoreExecutors.directExecutor());
             }
         }
     }

@@ -6,4 +6,8 @@
     <string name="notifications">اعلان‌ها</string>
     <string name="pref_title_security">امنیت</string>
     <string name="backup_and_restore">پشتیبان‌گیری و بازیابی</string>
+
+    <!-- Since 2.21.4 -->
+    <string name="pref_google_push">استفاده از پوش Google به‌عنوان جایگزین</string>
+    <string name="pref_google_push_summary">اگر صرفه‌جویی شدید باتری اتصال پس‌زمینه را قطع کند، برنامه را بیدار می‌کند. هیچ داده‌ای از پیام‌ها به Google فرستاده نمی‌شود.</string>
 </resources>

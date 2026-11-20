@@ -1496,17 +1496,16 @@ public class EditAccountActivity extends OmemoActivity
             }
             this.binding.loginMechanism.setText(Strings.nullToEmpty(features.loginMechanism()));
             final var stanzas = connection.getStanzaRxTx();
+            final var pushManagementService = new PushManagementService(this);
             final var pushManager = connection.getManager(PushNotificationManager.class);
             final var pushCount = pushManager.getPushNotificationCounter();
             final List<Integer> stanzaRxTxValues;
-            if (PushManagementService.isStub()
-                    || pushCount == 0
-                    || !new PushManagementService(this).available(mAccount)) {
-                this.binding.stanzaRxTxLabel.setText(R.string.server_info_stanzas_rx_tx);
-                stanzaRxTxValues = ImmutableList.of(stanzas.rx(), stanzas.tx());
-            } else {
+            if (pushManagementService.isEnabledAvailable(mAccount) && pushCount > 0) {
                 this.binding.stanzaRxTxLabel.setText(R.string.server_info_stanzas_rx_tx_push);
                 stanzaRxTxValues = ImmutableList.of(stanzas.rx(), stanzas.tx(), pushCount);
+            } else {
+                this.binding.stanzaRxTxLabel.setText(R.string.server_info_stanzas_rx_tx);
+                stanzaRxTxValues = ImmutableList.of(stanzas.rx(), stanzas.tx());
             }
             this.binding.stanzaRxTx.setText(Joiner.on('/').join(stanzaRxTxValues));
             if (connection.getManager(PepManager.class).isAvailable()) {
@@ -1535,16 +1534,15 @@ public class EditAccountActivity extends OmemoActivity
                 this.binding.serverInfoHttpUpload.setText(R.string.server_info_unavailable);
             }
 
-            if (PushManagementService.isStub()) {
-                this.binding.pushRow.setVisibility(View.GONE);
-            } else {
-                final var pushManagementService = new PushManagementService(this);
+            if (pushManagementService.isEnabled()) {
                 if (pushManagementService.available(mAccount)) {
                     this.binding.serverInfoPush.setText(R.string.server_info_available);
                 } else {
                     this.binding.serverInfoPush.setText(R.string.server_info_unavailable);
                 }
                 this.binding.pushRow.setVisibility(View.VISIBLE);
+            } else {
+                this.binding.pushRow.setVisibility(View.GONE);
             }
 
             final var pgpKeyId = this.mAccount.getPgpId();

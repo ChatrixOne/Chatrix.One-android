@@ -112,7 +112,7 @@ public class BindProcessor extends XmppConnection.Delegate implements Runnable {
         final var pushManagementService =
                 new PushManagementService(context.getApplicationContext());
 
-        if (pushManagementService.available(account)) {
+        if (pushManagementService.isEnabledAvailable(account)) {
             pushManagementService.registerPushTokenOnServer(account);
         }
         service.connectMultiModeConversations(account);

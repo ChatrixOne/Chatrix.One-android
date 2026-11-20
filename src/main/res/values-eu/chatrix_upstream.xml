@@ -6,4 +6,8 @@
     <string name="notifications">Jakinarazpenak</string>
     <string name="pref_title_security">Segurtasuna</string>
     <string name="backup_and_restore">Babes-kopiak egin eta berrezarri</string>
+
+    <!-- Since 2.21.4 -->
+    <string name="pref_google_push">Erabili Google push ordezko gisa</string>
+    <string name="pref_google_push_summary">Aplikazioa esnatzen du bateria-aurrezte oldarkorrak atzeko planoko konexioa ixten badu. Ez zaio mezuen daturik bidaltzen Googleri.</string>
 </resources>

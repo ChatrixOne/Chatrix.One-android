@@ -19,7 +19,9 @@ import com.google.common.util.concurrent.Futures;
 import com.google.common.util.concurrent.ListenableFuture;
 import com.google.common.util.concurrent.MoreExecutors;
 import com.google.common.util.concurrent.SettableFuture;
+import eu.siacs.conversations.AppSettings;
 import eu.siacs.conversations.Config;
+import eu.siacs.conversations.Conversations;
 import eu.siacs.conversations.R;
 import eu.siacs.conversations.entities.Account;
 import eu.siacs.conversations.utils.PhoneHelper;
@@ -110,25 +112,28 @@ public class PushManagementService {
         }
     }
 
-    public boolean available(final Account account) {
-        final XmppConnection connection = account.getXmppConnection();
-        return connection != null
-                && connection.getFeatures().sm()
-                && connection.getManager(PushNotificationManager.class).hasFeature()
-                && playServicesAvailable();
+    public boolean isEnabled() {
+        return new AppSettings(context).isGooglePush();
     }
 
-    private boolean playServicesAvailable() {
+    public boolean isEnabledAvailable(final Account account) {
+        return isEnabled() && available(account);
+    }
+
+    public boolean available(final Account account) {
+        final XmppConnection connection = account.getXmppConnection();
+        return connection.getFeatures().sm()
+                && connection.getManager(PushNotificationManager.class).hasFeature()
+                && Conversations.getInstance(context).isPlayServicesAvailable();
+    }
+
+    public static boolean playServicesAvailable(final Context context) {
         final var intent = new Intent(ACTION_REGISTER);
         intent.setPackage(PACKAGE_NAME_GMS);
         final var packageManager = context.getPackageManager();
         final var resolveInfo =
                 packageManager.resolveService(intent, PackageManager.GET_RESOLVED_FILTER);
         return resolveInfo != null;
-    }
-
-    public static boolean isStub() {
-        return false;
     }
 
     private static class RegistrationServiceConnection implements ServiceConnection {

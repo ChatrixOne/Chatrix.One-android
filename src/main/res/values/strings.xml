@@ -136,6 +136,8 @@
     <string name="pref_advanced_options">Advanced</string>
     <string name="pref_send_crash_reports">Send crash reports</string>
     <string name="pref_never_send_crash_summary">By sending in stack traces you are helping the development</string>
+    <string name="pref_google_push">Use Google push as fallback</string>
+    <string name="pref_google_push_summary">Wakes the app if aggressive battery saving kills the background connection. No message data is sent to Google.</string>
     <string name="pref_confirm_messages">Read receipts</string>
     <string name="pref_confirm_messages_summary">When enabled, your contacts will see when you’ve read their messages.</string>
     <string name="pref_prevent_screenshots">Prevent Screenshots</string>

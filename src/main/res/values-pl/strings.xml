@@ -1247,4 +1247,6 @@
     <string name="account_status_pending_oauth_authorization">Uwierzytelnienie w trakcie</string>
     <string name="could_not_process_oauth_redirect">Nie można przetworzyć przekierowania OAuth</string>
     <string name="could_not_redirect_to_identity_provider">Nie można przekierować do dostawcy tożsamości</string>
+    <string name="pref_google_push">Używaj powiadomień wypychanych od Google’a jako mechanizmu zastępczego</string>
+    <string name="pref_google_push_summary">Budzi aplikację jeśli agresywne oszczędzanie baterii rozłącza połączenie w tle. Żadne dane wiadomości nie są wysyłane do Google’a.</string>
 </resources>

@@ -7,10 +7,8 @@ import android.util.Base64;
 import android.util.Pair;
 import androidx.annotation.StringRes;
 import eu.siacs.conversations.R;
-import eu.siacs.conversations.entities.Account;
 import eu.siacs.conversations.entities.Message;
 import eu.siacs.conversations.xmpp.Jid;
-import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
@@ -231,23 +229,6 @@ public final class CryptoHelper {
         MessageDigest md = MessageDigest.getInstance("SHA-1");
         byte[] fingerprint = md.digest(input);
         return prettifyFingerprintCert(bytesToHex(fingerprint));
-    }
-
-    public static String getFingerprint(Jid jid, String androidId) {
-        return getFingerprint(jid.toString() + "\00" + androidId);
-    }
-
-    public static String getAccountFingerprint(Account account, String androidId) {
-        return getFingerprint(account.getJid().asBareJid(), androidId);
-    }
-
-    public static String getFingerprint(String value) {
-        try {
-            MessageDigest md = MessageDigest.getInstance("SHA-1");
-            return bytesToHex(md.digest(value.getBytes(StandardCharsets.UTF_8)));
-        } catch (Exception e) {
-            return "";
-        }
     }
 
     public static @StringRes int encryptionTypeToText(final int encryption) {

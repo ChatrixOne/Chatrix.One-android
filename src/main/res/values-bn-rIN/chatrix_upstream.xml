@@ -6,4 +6,8 @@
     <string name="notifications">বিজ্ঞপ্তি</string>
     <string name="pref_title_security">নিরাপত্তা</string>
     <string name="backup_and_restore">ব্যাকআপ ও পুনরুদ্ধার</string>
+
+    <!-- Since 2.21.4 -->
+    <string name="pref_google_push">বিকল্প হিসেবে Google পুশ ব্যবহার করুন</string>
+    <string name="pref_google_push_summary">আক্রমণাত্মক ব্যাটারি সাশ্রয় ব্যাকগ্রাউন্ড সংযোগ বন্ধ করে দিলে অ্যাপটিকে জাগিয়ে তোলে। Google-এ বার্তার কোনো ডেটা পাঠানো হয় না।</string>
 </resources>

@@ -6,4 +6,8 @@
     <string name="notifications">Powiadōmiynia</string>
     <string name="pref_title_security">Bezpieczyństwo</string>
     <string name="backup_and_restore">Kopijo i Prziwrocanie</string>
+
+    <!-- Since 2.21.4 -->
+    <string name="pref_google_push">Używej Google push za zapasowe rozwiōnzanie</string>
+    <string name="pref_google_push_summary">Budzi aplikacyjo, jak agresywne szporowanie bateryje przerwie połōnczynie w tle. Do Google niy sōm posyłane żodne dane wiadōmości.</string>
 </resources>

@@ -16,6 +16,8 @@ import android.os.ParcelFileDescriptor;
 import android.util.Log;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import com.google.common.base.Charsets;
+import com.google.common.hash.Hashing;
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.EncodeHintType;
 import com.google.zxing.WriterException;
@@ -24,7 +26,6 @@ import com.google.zxing.qrcode.QRCodeWriter;
 import com.google.zxing.qrcode.decoder.ErrorCorrectionLevel;
 import eu.siacs.conversations.Config;
 import eu.siacs.conversations.entities.Account;
-import eu.siacs.conversations.utils.CryptoHelper;
 import eu.siacs.conversations.xmpp.Jid;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -158,8 +159,11 @@ public class BarcodeProvider extends ContentProvider implements ServiceConnectio
                     Account account = mXmppConnectionService.findAccountByJid(Jid.of(jid));
                     if (account != null) {
                         final var shareableUri = account.getShareableUri().asUri().toString();
-                        String hash = CryptoHelper.getFingerprint(shareableUri);
-                        File file =
+                        final var hash =
+                                Hashing.sha256()
+                                        .hashString(shareableUri, Charsets.UTF_8)
+                                        .toString();
+                        final var file =
                                 new File(
                                         getContext().getCacheDir().getAbsolutePath()
                                                 + "/barcodes/"

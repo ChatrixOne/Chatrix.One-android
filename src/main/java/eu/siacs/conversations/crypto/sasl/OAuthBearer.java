@@ -69,6 +69,9 @@ public class OAuthBearer extends SaslMechanism {
         if (response.openIdConfiguration() == null) {
             throw new AuthenticationException("SASL response did not contain OpenId configuration");
         }
+        if (!response.openIdConfiguration().isHttps()) {
+            throw new AuthenticationException("OpenId config must be served on HTTPS");
+        }
         if (STATUS_INVALID_TOKEN.equals(response.status())) {
             throw new InvalidTokenException(response);
         } else {

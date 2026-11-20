@@ -6,4 +6,8 @@
     <string name="notifications">Thông báo</string>
     <string name="pref_title_security">Bảo mật</string>
     <string name="backup_and_restore">Sao lưu &amp; khôi phục</string>
+
+    <!-- Since 2.21.4 -->
+    <string name="pref_google_push">Dùng Google push làm phương án dự phòng</string>
+    <string name="pref_google_push_summary">Đánh thức ứng dụng nếu chế độ tiết kiệm pin quá mức ngắt kết nối nền. Không có dữ liệu tin nhắn nào được gửi tới Google.</string>
 </resources>

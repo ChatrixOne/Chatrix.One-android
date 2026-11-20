@@ -6,4 +6,8 @@
     <string name="notifications">Oznámenia</string>
     <string name="pref_title_security">Bezpečnosť</string>
     <string name="backup_and_restore">Zálohovanie a obnovenie</string>
+
+    <!-- Since 2.21.4 -->
+    <string name="pref_google_push">Použiť Google push ako zálohu</string>
+    <string name="pref_google_push_summary">Prebudí aplikáciu, ak agresívne šetrenie batérie ukončí pripojenie na pozadí. Do Googlu sa neodosielajú žiadne údaje zo správ.</string>
 </resources>

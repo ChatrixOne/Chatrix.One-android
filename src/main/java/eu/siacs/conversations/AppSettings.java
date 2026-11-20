@@ -77,6 +77,7 @@ public class AppSettings {
     public static final String AUTO_SEND_RECORDING = "auto_send_recording";
     public static final String USE_SHARED_STORAGE = "use_shared_storage";
     public static final String QUICK_ACTION = "quick_action_button";
+    public static final String GOOGLE_PUSH = "google_push";
 
     private static final String ACCEPT_INVITES_FROM_STRANGERS = "accept_invites_from_strangers";
     private static final String NOTIFICATIONS_FROM_STRANGERS = "notifications_from_strangers";
@@ -272,6 +273,10 @@ public class AppSettings {
 
     public boolean isDynamicColorsDesired() {
         return getBooleanPreference(AppSettings.DYNAMIC_COLORS, R.bool.dynamic_colors);
+    }
+
+    public boolean isGooglePush() {
+        return getBooleanPreference(AppSettings.GOOGLE_PUSH, R.bool.google_push);
     }
 
     public int getDesiredNightMode() {

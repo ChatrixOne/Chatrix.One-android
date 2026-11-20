@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Texts for upstream Conversations strings that this locale's strings.xml does not have yet.
+     Remove a line here once upstream translates it, or the build fails with a duplicate resource. -->
+<resources>
+
+    <!-- Since 2.21.4 -->
+    <string name="pref_google_push">予備として Google プッシュを使用</string>
+    <string name="pref_google_push_summary">強力なバッテリー節約によってバックグラウンド接続が切断された場合に、アプリを起動します。メッセージのデータが Google に送信されることはありません。</string>
+</resources>

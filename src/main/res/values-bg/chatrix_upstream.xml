@@ -363,4 +363,8 @@
     <string name="pref_automatic_download">Автоматично сваляне</string>
     <string name="pref_save_to_gallery">Запазване в галерията</string>
     <string name="pref_save_to_gallery_summary">Автоматично запазване на мултимедийните файлове в общите папки, за да се виждат в галерията и във файловия мениджър.</string>
+
+    <!-- Since 2.21.4 -->
+    <string name="pref_google_push">Използване на Google push като резервен вариант</string>
+    <string name="pref_google_push_summary">Събужда приложението, ако агресивното пестене на батерията прекъсне връзката във фонов режим. Към Google не се изпращат данни от съобщенията.</string>
 </resources>

@@ -66,6 +66,7 @@
     <queries>
         <package android:name="org.sufficientlysecure.keychain" />
         <package android:name="org.torproject.android" />
+        <package android:name="com.google.android.gms" />
 
         <intent>
             <action android:name="eu.siacs.conversations.location.request" />
@@ -85,6 +86,9 @@
         <intent>
             <action android:name="android.intent.action.PICK" />
             <data android:mimeType="vnd.android.cursor.dir/contact" />
+        </intent>
+        <intent>
+            <action android:name="com.google.android.c2dm.intent.REGISTER" />
         </intent>
     </queries>
 
@@ -147,6 +151,18 @@
                 <action android:name="android.intent.action.ACTION_SHUTDOWN" />
                 <action android:name="android.media.RINGER_MODE_CHANGED" />
                 <action android:name="android.intent.action.AIRPLANE_MODE_CHANGED" />
+            </intent-filter>
+        </receiver>
+
+        <receiver
+            android:name=".receiver.PushMessageReceiver"
+            android:exported="true"
+            android:permission="com.google.android.c2dm.permission.SEND">
+            <intent-filter>
+                <action android:name="com.google.android.c2dm.intent.RECEIVE" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="com.google.android.c2dm.intent.REGISTRATION" />
             </intent-filter>
         </receiver>
 

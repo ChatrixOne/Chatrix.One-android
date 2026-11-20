@@ -7,6 +7,7 @@ import com.google.common.collect.ImmutableMap;
 import com.google.common.util.concurrent.Futures;
 import com.google.common.util.concurrent.ListenableFuture;
 import com.google.common.util.concurrent.MoreExecutors;
+import eu.siacs.conversations.utils.PhoneHelper;
 import eu.siacs.conversations.xml.Namespace;
 import eu.siacs.conversations.xmpp.Jid;
 import eu.siacs.conversations.xmpp.XmppConnection;
@@ -19,9 +20,12 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 public class PushNotificationManager extends AbstractManager {
 
-    private static final String COMMAND_NODE = "register-push-fcm";
+    private static final String COMMAND_NODE_REGISTER = "register-push-fcm";
+    private static final String COMMAND_NODE_UNREGISTER = "unregister-push-fcm";
 
     private final AtomicInteger pushNotificationCounter = new AtomicInteger();
+
+    private Registration currentRegistration = null;
 
     public PushNotificationManager(final Context context, final XmppConnection connection) {
         super(context, connection);
@@ -33,7 +37,7 @@ public class PushNotificationManager extends AbstractManager {
                 ImmutableMap.of("token", fcmToken, "android-id", androidId);
         final var future =
                 getManager(AdHocCommandsManager.class)
-                        .commandComplete(appServer, COMMAND_NODE, parameter);
+                        .commandCompleteExpectData(appServer, COMMAND_NODE_REGISTER, parameter);
         return Futures.transform(
                 future,
                 result -> {
@@ -48,6 +52,12 @@ public class PushNotificationManager extends AbstractManager {
                 MoreExecutors.directExecutor());
     }
 
+    public ListenableFuture<Void> unregister(final Jid appServer, final String androidId) {
+        final Map<String, Object> parameter = ImmutableMap.of("android-id", androidId);
+        return getManager(AdHocCommandsManager.class)
+                .commandComplete(appServer, COMMAND_NODE_UNREGISTER, parameter);
+    }
+
     public ListenableFuture<Void> registerAndEnable(
             final Jid appServer, final String fmcToken, final String androidId) {
         final var future = register(appServer, fmcToken, androidId);
@@ -56,6 +66,32 @@ public class PushNotificationManager extends AbstractManager {
                 registration -> {
                     Preconditions.checkNotNull(registration);
                     return enable(registration);
+                },
+                MoreExecutors.directExecutor());
+    }
+
+    public ListenableFuture<Void> disableAndUnregister() {
+        final Registration registration;
+        synchronized (this) {
+            registration = this.currentRegistration;
+            this.currentRegistration = null;
+        }
+        if (registration == null) {
+            return Futures.immediateVoidFuture();
+        }
+        return disableAndUnregister(registration);
+    }
+
+    public ListenableFuture<Void> disableAndUnregister(final Registration registration) {
+        final var disableFuture = disable(registration.address(), registration.node());
+        return Futures.transformAsync(
+                disableFuture,
+                disable -> {
+                    final var androidId = PhoneHelper.getAndroidId(context);
+                    if (Strings.isNullOrEmpty(androidId)) {
+                        throw new IllegalStateException("Android Id not found");
+                    }
+                    return unregister(registration.address, androidId);
                 },
                 MoreExecutors.directExecutor());
     }
@@ -70,7 +106,12 @@ public class PushNotificationManager extends AbstractManager {
                         ImmutableMap.of("secret", registration.secret),
                         Namespace.PUB_SUB_PUBLISH_OPTIONS));
         return Futures.transform(
-                connection.sendIqPacket(iq), response -> null, MoreExecutors.directExecutor());
+                connection.sendIqPacket(iq),
+                response -> {
+                    this.currentRegistration = registration;
+                    return null;
+                },
+                MoreExecutors.directExecutor());
     }
 
     public ListenableFuture<Void> disable(final Jid appServer, final String node) {

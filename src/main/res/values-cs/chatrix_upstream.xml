@@ -3,4 +3,8 @@
      Remove a line here once upstream translates it, or the build fails with a duplicate resource. -->
 <resources>
     <string name="backup_and_restore">Záloha &amp; Obnova</string>
+
+    <!-- Since 2.21.4 -->
+    <string name="pref_google_push">Použít Google push jako zálohu</string>
+    <string name="pref_google_push_summary">Probudí aplikaci, pokud agresivní šetření baterie ukončí připojení na pozadí. Do Googlu se neodesílají žádná data zpráv.</string>
 </resources>

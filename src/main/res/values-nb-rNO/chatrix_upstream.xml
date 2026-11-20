@@ -6,4 +6,8 @@
     <string name="notifications">Varsler</string>
     <string name="pref_title_security">Sikkerhet</string>
     <string name="backup_and_restore">Sikkerhetskopi og gjenoppretting</string>
+
+    <!-- Since 2.21.4 -->
+    <string name="pref_google_push">Bruk Google push som reserve</string>
+    <string name="pref_google_push_summary">Vekker appen hvis aggressiv batterisparing stenger bakgrunnstilkoblingen. Ingen meldingsdata sendes til Google.</string>
 </resources>

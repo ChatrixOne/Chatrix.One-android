@@ -6,4 +6,8 @@
     <string name="notifications">Obavijesti</string>
     <string name="pref_title_security">Sigurnost</string>
     <string name="backup_and_restore">Sigurnosna kopija i vraćanje</string>
+
+    <!-- Since 2.21.4 -->
+    <string name="pref_google_push">Koristi Google push kao rezervu</string>
+    <string name="pref_google_push_summary">Budi aplikaciju ako agresivna ušteda baterije prekine vezu u pozadini. Googleu se ne šalju nikakvi podaci iz poruka.</string>
 </resources>

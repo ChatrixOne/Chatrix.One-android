@@ -1,0 +1,1 @@
+* Fehler bei PGP-verschlüsselten Jingle-Dateiübertragung behoben

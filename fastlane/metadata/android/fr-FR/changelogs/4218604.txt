@@ -1,0 +1,1 @@
+* Correction du chiffrement PGP lors du tranfert de fichier via jingle
