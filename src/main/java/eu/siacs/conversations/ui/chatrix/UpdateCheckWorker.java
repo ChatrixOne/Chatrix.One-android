@@ -27,14 +27,20 @@ import androidx.work.WorkManager;
 import androidx.work.Worker;
 import androidx.work.WorkerParameters;
 import com.google.common.collect.ImmutableSet;
+import com.google.common.io.ByteStreams;
 import eu.siacs.conversations.AppSettings;
 import eu.siacs.conversations.BuildConfig;
 import eu.siacs.conversations.Config;
 import eu.siacs.conversations.R;
+import java.io.IOException;
+import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
+import java.util.regex.Pattern;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 /**
@@ -53,6 +59,16 @@ public class UpdateCheckWorker extends Worker {
     private static final String WORK_NAME = "chatrix_update_check";
     private static final String CHANNEL_ID = "chatrix_updates";
     private static final int NOTIFICATION_ID = 0x0c4a7;
+
+    /** version.json is about 130 bytes: an answer this large is not ours. */
+    private static final int MAX_BYTES = 4 * 1024;
+
+    /** What our version names look like (2.21.4-cx1.1, 2.21.0-cx1-5). */
+    private static final Pattern VERSION_NAME =
+            Pattern.compile("\\d{1,3}(?:\\.\\d{1,3}){1,3}(?:-[A-Za-z0-9][A-Za-z0-9.-]{0,19})?");
+
+    /** The newest release as version.json describes it; {@code name} is null if it looks wrong. */
+    record Latest(long code, @Nullable String name) {}
 
     /** Installers that already keep the app up to date. */
     private static final Set<String> STORES =
@@ -111,32 +127,60 @@ public class UpdateCheckWorker extends Worker {
         }
         try {
             final OkHttpClient client =
-                    new OkHttpClient.Builder().callTimeout(30, TimeUnit.SECONDS).build();
+                    new OkHttpClient.Builder()
+                            .callTimeout(30, TimeUnit.SECONDS)
+                            // version.json never moves: a redirect could only send the request
+                            // somewhere else (another site, the home network)
+                            .followRedirects(false)
+                            .followSslRedirects(false)
+                            .build();
             final Request request =
                     new Request.Builder()
                             .url(BuildConfig.CHATRIX_UPDATE_URL)
                             .header("User-Agent", "Chatrix.One")
                             .build();
-            final String body;
+            final Latest latest;
             try (final var response = client.newCall(request).execute()) {
                 if (!response.isSuccessful()) {
                     return Result.success();
                 }
-                body = response.body().string();
+                latest = parse(response.body().byteStream());
             }
-            final JSONObject json = new JSONObject(body);
-            final long latest = json.getLong("versionCode");
-            final String latestName = json.optString("versionName", "");
+            if (latest == null) {
+                Log.d(Config.LOGTAG, "chatrix update check: version.json too large");
+                return Result.success();
+            }
             final long current = installedVersionCode(context);
-            if (latest > current && latest != prefs.getLong(PREF_LAST_NOTIFIED, 0)) {
-                if (notify(context, latestName)) {
-                    prefs.edit().putLong(PREF_LAST_NOTIFIED, latest).apply();
+            if (latest.code() > current && latest.code() != prefs.getLong(PREF_LAST_NOTIFIED, 0)) {
+                if (notify(context, latest.name())) {
+                    prefs.edit().putLong(PREF_LAST_NOTIFIED, latest.code()).apply();
                 }
             }
-        } catch (final Exception e) {
+        } catch (final IOException | JSONException | PackageManager.NameNotFoundException e) {
             Log.d(Config.LOGTAG, "chatrix update check failed: " + e.getMessage());
+        } catch (final RuntimeException e) {
+            if (BuildConfig.DEBUG) {
+                throw e; // most likely our own bug: WorkManager reports it with the stack trace
+            }
+            Log.w(Config.LOGTAG, "chatrix update check failed", e);
         }
         return Result.success();
+    }
+
+    /**
+     * Reads version.json; null if it is larger than {@link #MAX_BYTES}. The version name is kept
+     * only if it looks like one of ours, because it ends up in the notification.
+     */
+    @Nullable
+    static Latest parse(final InputStream in) throws IOException, JSONException {
+        final byte[] bytes = ByteStreams.toByteArray(ByteStreams.limit(in, MAX_BYTES + 1));
+        if (bytes.length > MAX_BYTES) {
+            return null;
+        }
+        final JSONObject json = new JSONObject(new String(bytes, StandardCharsets.UTF_8));
+        final String name = json.optString("versionName", "");
+        return new Latest(
+                json.getLong("versionCode"), VERSION_NAME.matcher(name).matches() ? name : null);
     }
 
     /** Base version code (per-ABI APKs add a two digit suffix to it). */
@@ -167,7 +211,7 @@ public class UpdateCheckWorker extends Worker {
     }
 
     @SuppressLint("MissingPermission") // checked at the start of the method
-    private static boolean notify(final Context context, final String versionName) {
+    private static boolean notify(final Context context, @Nullable final String versionName) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU
                 && ContextCompat.checkSelfPermission(
                                 context, Manifest.permission.POST_NOTIFICATIONS)
@@ -193,7 +237,10 @@ public class UpdateCheckWorker extends Worker {
                         .setSmallIcon(R.drawable.ic_app_icon_notification)
                         .setColor(ContextCompat.getColor(context, R.color.chatrix_logo))
                         .setContentTitle(
-                                context.getString(R.string.chatrix_update_available, versionName))
+                                versionName == null
+                                        ? context.getString(R.string.chatrix_update_channel)
+                                        : context.getString(
+                                                R.string.chatrix_update_available, versionName))
                         .setContentText(context.getString(R.string.chatrix_update_tap))
                         .setContentIntent(open)
                         .setAutoCancel(true)
