@@ -82,10 +82,10 @@
 \n<b>Внимание:</b> Това няма да изтрие съобщенията, които се съхраняват на други устройства или сървъри.</string>
     <string name="delete_file_dialog">Изтриване на файла</string>
     <string name="choose_presence">Изберете устройство</string>
-    <string name="send_unencrypted_message">Изпрати некрипт. съобщение</string>
+    <string name="send_unencrypted_message">Некриптирано съобщение</string>
     <string name="send_message">Изпрати съобщение</string>
     <string name="send_message_to_x">Изпращане на съобщение до %s</string>
-    <string name="send_omemo_x509_message">Изпрати крипт. съобщение (v\\OMEMO)</string>
+    <string name="send_omemo_x509_message">Криптирано съобщение (v\\OMEMO)</string>
     <string name="your_nick_has_been_changed">Новият псевдоним е зает</string>
     <string name="send_unencrypted">Изпращане некриптирано</string>
     <string name="decryption_failed">Неуспешно декриптиране. Възможно е да нямате правилния частен ключ.</string>

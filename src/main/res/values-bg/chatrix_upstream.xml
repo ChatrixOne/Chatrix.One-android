@@ -26,7 +26,7 @@
         <item quantity="other">Наистина ли искате да изтриете тези файлове?</item>
     </plurals>
     <string name="archive_this_chat">След това да се изтрие и разговорът</string>
-    <string name="send_encrypted_message">Изпрати крипт. съобщение</string>
+    <string name="send_encrypted_message">Криптирано съобщение</string>
     <string name="group_chats">Групови разговори</string>
     <string name="pref_autojoin">Синхронизиране на отметките</string>
     <string name="pref_autojoin_summary">Задаване на флага „autojoin“ при влизане в групов разговор или излизане от него и отчитане на промените, направени от други приложения.</string>
@@ -175,7 +175,7 @@
     </plurals>
     <string name="could_not_switch_camera">Камерата не може да бъде сменена</string>
     <string name="could_not_disable_video">Видеото не може да бъде изключено.</string>
-    <string name="audio_video_disabled_tor">Обажданията са изключени, когато се използва Тор</string>
+    <string name="audio_video_disabled_tor">Обажданията са изключени, когато се използва Tor</string>
     <string name="switch_to_video">Превключване към видео</string>
     <string name="reject_switch_to_video">Отхвърляне на превключването към видео</string>
     <string name="decline">Отхвърляне</string>
@@ -291,8 +291,8 @@
     <string name="pref_attachments_summary">Размер на файловете, компресиране на снимките, качество на видеото</string>
     <string name="pref_notifications_summary">Период на пренебрегване, тон на звънене, вибрация, непознати</string>
     <string name="pref_privacy_summary">Известия за писането, последно на линия, P2P релета</string>
-    <string name="pref_connection_summary">Сървър и порт, Тор</string>
-    <string name="pref_connection_summary_w_cd">Сървър и порт, Тор, откриване на канали</string>
+    <string name="pref_connection_summary">Сървър и порт, Tor</string>
+    <string name="pref_connection_summary_w_cd">Сървър и порт, Tor, откриване на канали</string>
     <string name="pref_presence_settings_summary">Отсъстващ при заключване, синхронизиране с „Не безпокойте“</string>
 
     <!-- Settings: categories -->
