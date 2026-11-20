@@ -1,6 +1,7 @@
 name: Watch Conversations releases
 
-# Opens an issue when Conversations publishes a release newer than the one this fork is based on.
+# Opens an issue when Conversations publishes a release newer than the one this fork is based on,
+# and closes its own issues again once the fork has merged that release.
 on:
   schedule:
     - cron: '0 6 * * 1'
@@ -21,6 +22,7 @@ jobs:
       - name: Compare with latest upstream tag
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_REPO: ${{ github.repository }}
         run: |
           base=$(sed -n "s/^ *versionName = '\([0-9.]*\)-cx.*/\1/p" build.gradle)
           latest=$(git ls-remote --tags --refs https://codeberg.org/iNPUTmice/Conversations.git \
@@ -29,6 +31,18 @@ jobs:
           if [ -z "$base" ] || [ -z "$latest" ]; then
             echo "could not determine versions"; exit 1
           fi
+          # Close this workflow's own reminders for releases the fork has merged since
+          # (only issues opened by github-actions, never anyone else's).
+          gh issue list --state open --search '"Merge Conversations" in:title' --json number,title,author \
+            --jq '.[] | select(.author.is_bot and .author.login == "app/github-actions") | "\(.number) \(.title)"' |
+          while read -r number _ _ version; do
+            [[ $version =~ ^[0-9]+(\.[0-9]+)+$ ]] || continue
+            if [ "$(printf '%s\n%s\n' "$version" "$base" | sort -V | tail -1)" = "$base" ]; then
+              gh issue close "$number" --reason completed \
+                --comment "Done: this fork is now based on Conversations $base."
+              echo "closed #$number (Conversations $version)"
+            fi
+          done
           if [ "$(printf '%s\n%s\n' "$base" "$latest" | sort -V | tail -1)" = "$base" ]; then
             echo "up to date"; exit 0
           fi
@@ -40,4 +54,4 @@ jobs:
 
           Changelog: https://codeberg.org/iNPUTmice/Conversations/src/tag/$latest/CHANGELOG.md
 
-          Steps: fetch the tag from upstream, merge it into \`chatrix\`, resolve conflicts, set the version to \`$latest-cx1\`, build, test on a phone, release."
+          Steps: fetch the tag from upstream, merge it into \`chatrix\`, resolve conflicts, set the version to \`$latest-cx1\` (\`$latest-cx1.1\` when own changes ship with it), build, test on a phone, release."
