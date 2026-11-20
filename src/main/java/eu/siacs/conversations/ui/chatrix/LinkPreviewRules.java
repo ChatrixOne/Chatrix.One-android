@@ -282,14 +282,8 @@ final class LinkPreviewRules {
                 sample *= 2;
             }
         }
-        // a long, narrow picture (a few KB can claim 383 x 1,000,000 pixels) would still be
-        // huge: shrink it further until the decoded picture fits the budget
-        final long w = width;
-        final long h = height;
-        while (((w + sample - 1) / sample) * ((h + sample - 1) / sample) > MAX_DECODED_PIXELS) {
-            sample *= 2;
-        }
-        return sample;
+        // a long, narrow picture would still be huge: shrink it further to fit the budget
+        return ImageBudget.fit(width, height, sample, MAX_DECODED_PIXELS);
     }
 
     static String shorten(final String title) {

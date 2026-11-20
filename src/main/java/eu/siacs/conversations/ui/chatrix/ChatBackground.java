@@ -39,6 +39,12 @@ public final class ChatBackground {
 
     private static final String FILE_NAME = "chatrix_chat_background.jpg";
 
+    /**
+     * A background is at most this big (32 MB decoded): a long screenshot is shrunk to fit.
+     * Android refuses to draw bitmaps over 100 MB, which would crash every time the chat shows.
+     */
+    private static final long MAX_PIXELS = 8L * 1024 * 1024;
+
     private ChatBackground() {}
 
     public static String mode(final Context context) {
@@ -114,6 +120,7 @@ public final class ChatBackground {
             while (Math.min(bounds.outWidth, bounds.outHeight) / (sample * 2) >= targetSize / 2) {
                 sample *= 2;
             }
+            sample = ImageBudget.fit(bounds.outWidth, bounds.outHeight, sample, MAX_PIXELS);
             final BitmapFactory.Options options = new BitmapFactory.Options();
             options.inSampleSize = sample;
             Bitmap bitmap;
@@ -142,7 +149,8 @@ public final class ChatBackground {
                 bitmap.compress(Bitmap.CompressFormat.JPEG, 88, out);
             }
             return tmp.renameTo(target);
-        } catch (final IOException | SecurityException | OutOfMemoryError e) {
+        } catch (final IOException | RuntimeException | OutOfMemoryError e) {
+            // runs on its own thread: an odd picture must not take the app down
             Log.w(Config.LOGTAG, "could not save chat background", e);
             return false;
         }
@@ -160,7 +168,14 @@ public final class ChatBackground {
                 return cached;
             }
             try {
-                cached = BitmapFactory.decodeFile(path);
+                // pictures saved before the size limit can be far too big to draw
+                final BitmapFactory.Options bounds = new BitmapFactory.Options();
+                bounds.inJustDecodeBounds = true;
+                BitmapFactory.decodeFile(path, bounds);
+                final BitmapFactory.Options options = new BitmapFactory.Options();
+                options.inSampleSize =
+                        ImageBudget.fit(bounds.outWidth, bounds.outHeight, 1, MAX_PIXELS);
+                cached = BitmapFactory.decodeFile(path, options);
                 cachedStamp = stamp;
                 cachedPath = path;
                 return cached;

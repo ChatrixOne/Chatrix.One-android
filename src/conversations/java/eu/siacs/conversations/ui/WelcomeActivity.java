@@ -148,8 +148,10 @@ public class WelcomeActivity extends QrCodeProcessingActivity
                 || !"login".equals(data.getHost())) {
             return;
         }
-        final String jid = data.getQueryParameter("jid");
-        if (jid == null || jid.length() > 256 || !jid.matches("[^\\s@/]+@[^\\s@/]+")) {
+        // only chatrix.one addresses: any web page can open this link
+        final String jid =
+                eu.siacs.conversations.ui.chatrix.LoginLink.jid(data.getQueryParameter("jid"));
+        if (jid == null) {
             return;
         }
         final Intent login = new Intent(this, EditAccountActivity.class);

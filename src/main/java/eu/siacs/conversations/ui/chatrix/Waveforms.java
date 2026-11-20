@@ -9,13 +9,17 @@ import android.os.Looper;
 import android.util.Log;
 import android.util.LruCache;
 import androidx.annotation.Nullable;
+import com.google.common.hash.Hashing;
 import eu.siacs.conversations.Config;
 import java.io.File;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.nio.ShortBuffer;
+import java.nio.charset.StandardCharsets;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
  * Chatrix.One: loudness levels of a voice message for {@link WaveformSeekBar}. The audio file is
@@ -36,6 +40,14 @@ public final class Waveforms {
 
     private static final long TIMEOUT_US = 10_000;
 
+    /** No file gets more decoding time than this, whatever it claims or contains. */
+    private static final long MAX_DECODE_NANOS = TimeUnit.SECONDS.toNanos(10);
+
+    /** v2: cache files named by SHA-256 (the old 32-bit hash could collide). */
+    private static final String CACHE_DIR = "chatrix_waveforms_v2";
+
+    private static final AtomicBoolean OLD_CACHE_REMOVED = new AtomicBoolean(false);
+
     private static final LruCache<String, float[]> MEMORY = new LruCache<>(256);
     private static final ExecutorService EXECUTOR = Executors.newSingleThreadExecutor();
     private static final Handler MAIN = new Handler(Looper.getMainLooper());
@@ -44,7 +56,22 @@ public final class Waveforms {
 
     /** Calls back on the main thread; immediately if already known. Null if not decodable. */
     public static void get(final Context context, final File file, final Callback callback) {
-        final File cacheDir = new File(context.getCacheDir(), "chatrix_waveforms");
+        final File cacheDir = new File(context.getCacheDir(), CACHE_DIR);
+        if (OLD_CACHE_REMOVED.compareAndSet(false, true)) {
+            final File old = new File(context.getCacheDir(), "chatrix_waveforms");
+            EXECUTOR.execute(
+                    () -> {
+                        final File[] files = old.listFiles();
+                        if (files != null) {
+                            for (final File f : files) {
+                                //noinspection ResultOfMethodCallIgnored
+                                f.delete();
+                            }
+                        }
+                        //noinspection ResultOfMethodCallIgnored
+                        old.delete();
+                    });
+        }
         final String key = key(file);
         final float[] cached = MEMORY.get(key);
         if (cached != null) {
@@ -80,7 +107,7 @@ public final class Waveforms {
         if (!dir.isDirectory() && !dir.mkdirs()) {
             return null;
         }
-        return new File(dir, Integer.toHexString(key.hashCode()) + ".wf");
+        return new File(dir, Hashing.sha256().hashString(key, StandardCharsets.UTF_8) + ".wf");
     }
 
     @Nullable
@@ -149,11 +176,13 @@ public final class Waveforms {
             codec.start();
 
             final float[] peaks = new float[BINS];
+            // the declared duration is only a claim: stop a second after it, or at the time limit
+            final long deadline = System.nanoTime() + MAX_DECODE_NANOS;
             final MediaCodec.BufferInfo info = new MediaCodec.BufferInfo();
             boolean inputDone = false;
             boolean outputDone = false;
             int idle = 0;
-            while (!outputDone && idle < 500) {
+            while (!outputDone && idle < 500 && System.nanoTime() < deadline) {
                 if (!inputDone) {
                     final int in = codec.dequeueInputBuffer(TIMEOUT_US);
                     if (in >= 0) {
@@ -197,7 +226,8 @@ public final class Waveforms {
                         }
                     }
                     codec.releaseOutputBuffer(out, false);
-                    if ((info.flags & MediaCodec.BUFFER_FLAG_END_OF_STREAM) != 0) {
+                    if ((info.flags & MediaCodec.BUFFER_FLAG_END_OF_STREAM) != 0
+                            || info.presentationTimeUs > durationUs + 1_000_000) {
                         outputDone = true;
                     }
                 } else {

@@ -94,7 +94,9 @@ public class ShareUtil {
     }
 
     public static void copyToClipboard(final XmppActivity activity, final Message message) {
-        if (activity.copyTextToClipboard(message.getBody(), R.string.message)
+        // Chatrix.One: message text is marked sensitive (hidden in previews and clipboard history)
+        if (eu.siacs.conversations.ui.chatrix.QuickActions.copySensitive(
+                        activity, activity.getString(R.string.message), message.getBody())
                 && Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU) {
             Toast.makeText(activity, R.string.message_copied_to_clipboard, Toast.LENGTH_SHORT)
                     .show();

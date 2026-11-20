@@ -266,4 +266,25 @@ public final class QuickActions {
             return PixelFormat.TRANSLUCENT;
         }
     }
+
+    /**
+     * Copies text marked as sensitive (Android 13+): the system clipboard preview hides it and
+     * keyboards with a clipboard history are asked not to keep it. False if there is no clipboard.
+     */
+    public static boolean copySensitive(
+            final Context context, final CharSequence label, final String text) {
+        final android.content.ClipboardManager clipboard =
+                context.getSystemService(android.content.ClipboardManager.class);
+        if (clipboard == null) {
+            return false;
+        }
+        final android.content.ClipData clip = android.content.ClipData.newPlainText(label, text);
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.TIRAMISU) {
+            final android.os.PersistableBundle extras = new android.os.PersistableBundle();
+            extras.putBoolean(android.content.ClipDescription.EXTRA_IS_SENSITIVE, true);
+            clip.getDescription().setExtras(extras);
+        }
+        clipboard.setPrimaryClip(clip);
+        return true;
+    }
 }
