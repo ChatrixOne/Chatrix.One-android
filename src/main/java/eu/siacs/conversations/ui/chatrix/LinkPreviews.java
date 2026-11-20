@@ -22,12 +22,15 @@ import androidx.annotation.Nullable;
 import androidx.core.graphics.ColorUtils;
 import androidx.core.text.HtmlCompat;
 import com.google.common.base.Strings;
+import com.google.common.base.Throwables;
+import com.google.common.collect.Iterables;
 import com.google.common.hash.Hashing;
 import com.google.common.io.ByteStreams;
 import com.google.common.io.Files;
 import de.gultsch.common.Linkify;
 import de.gultsch.common.MiniUri;
 import eu.siacs.conversations.AppSettings;
+import eu.siacs.conversations.BuildConfig;
 import eu.siacs.conversations.Config;
 import eu.siacs.conversations.R;
 import eu.siacs.conversations.entities.Message;
@@ -37,6 +40,12 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.InetAddress;
+import java.net.InetSocketAddress;
+import java.net.Proxy;
+import java.net.ProxySelector;
+import java.net.Socket;
+import java.net.SocketAddress;
+import java.net.SocketException;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
@@ -50,6 +59,8 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import javax.net.SocketFactory;
+import okhttp3.ConnectionPool;
 import okhttp3.HttpUrl;
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
@@ -63,9 +74,12 @@ import org.json.JSONObject;
  * Chatrix.One: link preview card (title, website, small picture) under a text message.
  *
  * <p>Off by default (Settings > Privacy). Only for our own messages and messages from people in
- * the contact list, also in group chats; never with Tor. Only the first web link of a message.
- * The page is read once (at most {@link #MAX_HTML_BYTES}), the result is kept in memory and in
- * the private app cache, so each link is fetched only once.
+ * the contact list, also in group chats; never with Tor or a proxy. Only the first https link of
+ * a message, only over https and only to public addresses: never the home network, a VPN or the
+ * phone itself. The website line always names the host of the link a tap opens, so a page cannot
+ * pose as another site. The page is read once (at most {@link #MAX_HTML_BYTES}), the result is
+ * kept in memory and in the private app cache, so each link is fetched only once; the cache is
+ * deleted when previews are turned off.
  */
 public final class LinkPreviews {
 
@@ -91,22 +105,39 @@ public final class LinkPreviews {
     private static final float WIDE_MAX_RATIO = 2.0f;
     private static final int MAX_TITLE_CHARS = 200;
 
-    /** v3: wide pictures are stored uncropped and larger for the large card. */
-    private static final String CACHE_DIR = "chatrix_link_previews_v3";
+    /** A title from the page is cut to this before it is read as HTML. */
+    private static final int MAX_RAW_CHARS = 2048;
+
+    /** A decoded picture stays below this (16 MB), whatever size the file claims. */
+    private static final long MAX_DECODED_PIXELS = 4L * 1024 * 1024;
+
+    /** v4: the website line is always the host of the link itself. */
+    private static final String CACHE_DIR = "chatrix_link_previews_v4";
 
     private static final String[] OLD_CACHE_DIRS = {
-        "chatrix_link_previews", "chatrix_link_previews_v2"
+        "chatrix_link_previews", "chatrix_link_previews_v2", "chatrix_link_previews_v3"
     };
 
     private static final String NONE = "\u0000none";
 
-    private static final Pattern META = Pattern.compile("<meta\\s[^>]*>", Pattern.CASE_INSENSITIVE);
+    /** IPv6 prefixes that carry an IPv4 address in the last four bytes. */
+    private static final byte[] V4_MAPPED = {
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, (byte) 0xff, (byte) 0xff
+    };
+
+    private static final byte[] NAT64 = {0, 0x64, (byte) 0xff, (byte) 0x9b, 0, 0, 0, 0, 0, 0, 0, 0};
+
+    // A hostile page must not keep the phone busy: tags longer than 2048 characters are skipped,
+    // and possessive quantifiers plus "a name starts only after a non-name character" keep the
+    // attribute search linear (the old patterns needed minutes for one long tag).
+    private static final Pattern META =
+            Pattern.compile("<meta\\s[^>]{0,2048}+>", Pattern.CASE_INSENSITIVE);
+    private static final Pattern LINK =
+            Pattern.compile("<link\\s[^>]{0,2048}+>", Pattern.CASE_INSENSITIVE);
     private static final Pattern ATTR =
             Pattern.compile(
-                    "([a-zA-Z_:-]+)\\s*=\\s*(?:\"([^\"]*)\"|'([^']*)'|([^\\s\"'>]+))");
-    private static final Pattern LINK = Pattern.compile("<link\\s[^>]*>", Pattern.CASE_INSENSITIVE);
-    private static final Pattern TITLE =
-            Pattern.compile("<title[^>]*>(.*?)</title>", Pattern.CASE_INSENSITIVE | Pattern.DOTALL);
+                    "(?<![a-zA-Z_:-])([a-zA-Z_:-]++)\\s*+=\\s*+"
+                            + "(?:\"([^\"]*+)\"|'([^']*+)'|([^\\s\"'>]++))");
     private static final Pattern CHARSET =
             Pattern.compile("charset\\s*=\\s*[\"']?([a-zA-Z0-9_-]+)", Pattern.CASE_INSENSITIVE);
 
@@ -121,6 +152,7 @@ public final class LinkPreviews {
 
     private static final Preview MISSING = new Preview("", "", "", null);
     private static final AtomicBoolean OLD_CACHE_REMOVED = new AtomicBoolean(false);
+    private static final AtomicBoolean CACHE_CLEARED = new AtomicBoolean(false);
     private static final Map<String, List<Callback>> PENDING = new HashMap<>();
     private static final ExecutorService EXECUTOR = Executors.newFixedThreadPool(2);
     private static final Handler MAIN = new Handler(Looper.getMainLooper());
@@ -131,6 +163,22 @@ public final class LinkPreviews {
                     .connectTimeout(10, TimeUnit.SECONDS)
                     .readTimeout(10, TimeUnit.SECONDS)
                     .callTimeout(20, TimeUnit.SECONDS)
+                    // every connection is checked before it is made (also after a redirect),
+                    // so none may come from the pool the rest of the app shares
+                    .connectionPool(new ConnectionPool())
+                    .socketFactory(new PublicOnlySockets())
+                    // an https page may not send us on to plain http
+                    .followSslRedirects(false)
+                    // a refused address is final, not a reason to try again
+                    .retryOnConnectionFailure(false)
+                    // the app's name, but not its version
+                    .addInterceptor(
+                            chain ->
+                                    chain.proceed(
+                                            chain.request()
+                                                    .newBuilder()
+                                                    .header("User-Agent", BuildConfig.APP_NAME)
+                                                    .build()))
                     .build();
 
     private LinkPreviews() {}
@@ -153,7 +201,12 @@ public final class LinkPreviews {
         hide(card);
         final Context context = card.getContext();
         final AppSettings settings = new AppSettings(context);
-        if (!settings.isLinkPreviews() || settings.isUseTor()) {
+        if (!settings.isLinkPreviews()) {
+            clearCache(context);
+            return;
+        }
+        CACHE_CLEARED.set(false);
+        if (settings.isUseTor()) {
             return;
         }
         final String[] link = eligibleLink(message);
@@ -195,7 +248,8 @@ public final class LinkPreviews {
         }
         for (final MiniUri link : Linkify.getLinks(body)) {
             final String scheme = Strings.nullToEmpty(link.getScheme()).toLowerCase(Locale.ROOT);
-            if (scheme.equals("http") || scheme.equals("https")) {
+            // plain http could be read and changed on the way: no preview for it
+            if (scheme.equals("https")) {
                 final HttpUrl url = HttpUrl.parse(link.getRaw());
                 return url == null || isLocal(url.host())
                         ? null
@@ -217,25 +271,142 @@ public final class LinkPreviews {
         }
     }
 
-    /** Never reach into the user's own network (router pages, printers, ...). */
+    /** Previews are off: forget every stored title and picture (once per switch). */
+    private static void clearCache(final Context context) {
+        if (CACHE_CLEARED.compareAndSet(false, true)) {
+            MEMORY.evictAll();
+            final File base = context.getCacheDir();
+            EXECUTOR.execute(
+                    () -> {
+                        deleteRecursively(new File(base, CACHE_DIR));
+                        for (final String old : OLD_CACHE_DIRS) {
+                            deleteRecursively(new File(base, old));
+                        }
+                    });
+        }
+    }
+
+    /**
+     * Quick check of the address as written, before any lookup. The real guard is {@link
+     * PublicOnlySockets}, which checks every address a connection actually goes to.
+     */
     private static boolean isLocal(final String host) {
         final String h = host.toLowerCase(Locale.ROOT);
-        if (h.equals("localhost") || h.endsWith(".local") || h.endsWith(".lan") || !h.contains(".") && !h.contains(":")) {
+        if (h.equals("localhost")
+                || h.endsWith(".local")
+                || h.endsWith(".lan")
+                || !h.contains(".") && !h.contains(":")) {
             return true;
         }
         if (!h.matches("[0-9.]+") && !h.contains(":")) {
             return false; // a name, not an address literal
         }
         try {
-            final InetAddress address = InetAddress.getByName(h); // literal: no DNS lookup
-            return address.isLoopbackAddress()
-                    || address.isSiteLocalAddress()
-                    || address.isLinkLocalAddress()
-                    || address.isAnyLocalAddress()
-                    || h.startsWith("fc")
-                    || h.startsWith("fd");
+            return !isPublic(InetAddress.getByName(h)); // literal: no DNS lookup
         } catch (final IOException e) {
             return true;
+        }
+    }
+
+    /**
+     * False for the phone itself, the home network, VPN ranges (100.64.0.0/10, e.g. Tailscale),
+     * link-local, multicast and reserved addresses.
+     */
+    private static boolean isPublic(final InetAddress address) {
+        final byte[] b = address.getAddress();
+        if (b.length == 4) {
+            return isPublicV4(b, 0);
+        }
+        if (address.isAnyLocalAddress()
+                || address.isLoopbackAddress()
+                || address.isLinkLocalAddress()
+                || address.isSiteLocalAddress()
+                || address.isMulticastAddress()
+                || (b[0] & 0xfe) == 0xfc) { // fc00::/7, unique local
+            return false;
+        }
+        // an IPv4 address inside IPv6 (::ffff:a.b.c.d, NAT64 64:ff9b::a.b.c.d)
+        if (startsWith(b, V4_MAPPED) || startsWith(b, NAT64)) {
+            return isPublicV4(b, 12);
+        }
+        return true;
+    }
+
+    private static boolean isPublicV4(final byte[] b, final int i) {
+        final int x = b[i] & 0xff;
+        final int y = b[i + 1] & 0xff;
+        return x != 0 // "this network"
+                && x != 10 // private
+                && x != 127 // the phone itself
+                && !(x == 100 && y >= 64 && y <= 127) // carrier NAT, Tailscale
+                && !(x == 169 && y == 254) // link-local
+                && !(x == 172 && y >= 16 && y <= 31) // private
+                && !(x == 192 && y == 168) // private
+                && x < 224; // multicast, reserved, broadcast
+    }
+
+    private static boolean startsWith(final byte[] b, final byte[] prefix) {
+        for (int i = 0; i < prefix.length; i++) {
+            if (b[i] != prefix[i]) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    /** The link leads to an address that is not public: not fetched, and remembered as such. */
+    private static final class NotPublic extends IOException {
+        NotPublic(@Nullable final InetAddress address) {
+            super("not a public address: " + address);
+        }
+    }
+
+    /** Refuses every connection to an address that is not public, before it is made. */
+    private static final class PublicOnlySockets extends SocketFactory {
+
+        @Override
+        public Socket createSocket() {
+            return new Socket() {
+                @Override
+                public void connect(final SocketAddress endpoint, final int timeout)
+                        throws IOException {
+                    final InetAddress address =
+                            endpoint instanceof InetSocketAddress a ? a.getAddress() : null;
+                    if (address == null || !isPublic(address)) {
+                        throw new NotPublic(address);
+                    }
+                    super.connect(endpoint, timeout);
+                }
+            };
+        }
+
+        // OkHttp only uses createSocket() above
+
+        @Override
+        public Socket createSocket(final String host, final int port) throws IOException {
+            throw new SocketException("not supported");
+        }
+
+        @Override
+        public Socket createSocket(
+                final String host, final int port, final InetAddress local, final int localPort)
+                throws IOException {
+            throw new SocketException("not supported");
+        }
+
+        @Override
+        public Socket createSocket(final InetAddress host, final int port) throws IOException {
+            throw new SocketException("not supported");
+        }
+
+        @Override
+        public Socket createSocket(
+                final InetAddress host,
+                final int port,
+                final InetAddress local,
+                final int localPort)
+                throws IOException {
+            throw new SocketException("not supported");
         }
     }
 
@@ -388,12 +559,19 @@ public final class LinkPreviews {
     /** Null on a network error (offline, timeout): not cached, so it is tried again later. */
     @Nullable
     private static Preview fetchAndStore(final File dir, final String url) {
-        final Preview preview;
+        Preview preview;
         try {
             preview = fetch(url);
         } catch (final IOException e) {
-            Log.d(Config.LOGTAG, "link preview failed: " + e.getMessage());
-            return null;
+            if (!Iterables.any(Throwables.getCausalChain(e), NotPublic.class::isInstance)) {
+                Log.d(Config.LOGTAG, "link preview failed: " + e.getMessage());
+                return null;
+            }
+            preview = MISSING; // leads to an address that is not public: never again
+        } catch (final RuntimeException | OutOfMemoryError | StackOverflowError e) {
+            // a broken or hostile page must never take the app down: no preview for this link
+            Log.d(Config.LOGTAG, "link preview failed", e);
+            preview = MISSING;
         }
         if (!dir.isDirectory() && !dir.mkdirs()) {
             return preview;
@@ -419,6 +597,16 @@ public final class LinkPreviews {
 
     private static Preview fetch(final String url) throws IOException {
         final HttpUrl original = HttpUrl.get(url);
+        // through a proxy we cannot see where a request really goes: no preview (tried again
+        // later, when no proxy is set)
+        final ProxySelector proxies = ProxySelector.getDefault();
+        if (proxies != null) {
+            for (final Proxy proxy : proxies.select(original.uri())) {
+                if (proxy.type() != Proxy.Type.DIRECT) {
+                    throw new IOException("proxy in use");
+                }
+            }
+        }
         // Sites that build their pages with JavaScript (YouTube) offer oEmbed for apps instead
         final HttpUrl knownOEmbed = knownOEmbed(original);
         if (knownOEmbed != null) {
@@ -457,8 +645,7 @@ public final class LinkPreviews {
                     return fromOEmbed;
                 }
             }
-            final Matcher m = TITLE.matcher(html);
-            title = m.find() ? m.group(1) : null;
+            title = pageTitle(html);
         }
         title = clean(title);
         if (title == null || title.startsWith("- ")) {
@@ -470,7 +657,8 @@ public final class LinkPreviews {
                 imageRef == null
                         ? null
                         : finalUrl.resolve(HtmlCompat.fromHtml(imageRef, 0).toString().trim());
-        return new Preview(url, shorten(title), siteName(finalUrl), loadImage(imageUrl));
+        // the website line names the link a tap opens, not where the page redirected us
+        return new Preview(url, shorten(title), siteName(original), loadImage(imageUrl));
     }
 
     private static String siteName(final HttpUrl url) {
@@ -479,14 +667,20 @@ public final class LinkPreviews {
     }
 
     private static String shorten(final String title) {
-        return title.length() > MAX_TITLE_CHARS
-                ? title.substring(0, MAX_TITLE_CHARS) + "…"
-                : title;
+        return title.length() > MAX_TITLE_CHARS ? cut(title, MAX_TITLE_CHARS) + "…" : title;
+    }
+
+    /** The first {@code max} characters, without splitting an emoji or other surrogate pair. */
+    private static String cut(final String text, final int max) {
+        if (text.length() <= max) {
+            return text;
+        }
+        return text.substring(0, Character.isHighSurrogate(text.charAt(max - 1)) ? max - 1 : max);
     }
 
     @Nullable
     private static Bitmap loadImage(@Nullable final HttpUrl imageUrl) {
-        if (imageUrl == null || isLocal(imageUrl.host())) {
+        if (imageUrl == null || !imageUrl.isHttps() || isLocal(imageUrl.host())) {
             return null;
         }
         try {
@@ -540,7 +734,7 @@ public final class LinkPreviews {
             if ("application/json+oembed".equals(type) && href != null) {
                 final HttpUrl url =
                         base.resolve(HtmlCompat.fromHtml(href, 0).toString().trim());
-                if (url != null && !isLocal(url.host())) {
+                if (url != null && url.isHttps() && !isLocal(url.host())) {
                     return url;
                 }
             }
@@ -572,19 +766,10 @@ public final class LinkPreviews {
         if (title == null) {
             return null;
         }
-        final String author = clean(json.optString("author_name", null));
-        final String provider = clean(json.optString("provider_name", null));
-        final String site;
-        if (author != null && provider != null) {
-            site = author + " · " + provider;
-        } else if (provider != null) {
-            site = provider;
-        } else {
-            site = siteName(endpoint);
-        }
         final String thumbnail = json.optString("thumbnail_url", null);
         final HttpUrl imageUrl = thumbnail == null ? null : HttpUrl.parse(thumbnail);
-        return new Preview(url, shorten(title), site, loadImage(imageUrl));
+        // the website line names the link itself, never the provider's own words
+        return new Preview(url, shorten(title), siteName(HttpUrl.get(url)), loadImage(imageUrl));
     }
 
     @Nullable
@@ -621,6 +806,14 @@ public final class LinkPreviews {
             while (Math.min(bounds.outWidth, bounds.outHeight) / (sample * 2) >= THUMB_PX) {
                 sample *= 2;
             }
+        }
+        // a long, narrow picture (a few KB can claim 383 x 1,000,000 pixels) would still be
+        // huge: shrink it further until the decoded picture fits the budget
+        final long width = bounds.outWidth;
+        final long height = bounds.outHeight;
+        while (((width + sample - 1) / sample) * ((height + sample - 1) / sample)
+                > MAX_DECODED_PIXELS) {
+            sample *= 2;
         }
         final BitmapFactory.Options options = new BitmapFactory.Options();
         options.inSampleSize = sample;
@@ -713,6 +906,25 @@ public final class LinkPreviews {
         return result;
     }
 
+    /** Text of the first {@code <title>} element, or null; a plain search, no regex. */
+    @Nullable
+    private static String pageTitle(final String html) {
+        final int tag = indexOfTag(html, "<title", 0);
+        final int start = tag < 0 ? -1 : html.indexOf('>', tag);
+        final int end = start < 0 ? -1 : indexOfTag(html, "</title", start);
+        return end < 0 ? null : html.substring(start + 1, end);
+    }
+
+    /** Where {@code tag} (lower case) starts at or after {@code from}, case ignored; or -1. */
+    private static int indexOfTag(final String html, final String tag, final int from) {
+        for (int i = html.indexOf('<', from); i >= 0; i = html.indexOf('<', i + 1)) {
+            if (html.regionMatches(true, i, tag, 0, tag.length())) {
+                return i;
+            }
+        }
+        return -1;
+    }
+
     @Nullable
     private static String first(final String... values) {
         for (final String v : values) {
@@ -729,7 +941,7 @@ public final class LinkPreviews {
             return null;
         }
         final String text =
-                HtmlCompat.fromHtml(raw, HtmlCompat.FROM_HTML_MODE_LEGACY)
+                HtmlCompat.fromHtml(cut(raw, MAX_RAW_CHARS), HtmlCompat.FROM_HTML_MODE_LEGACY)
                         .toString()
                         .replaceAll("\\s+", " ")
                         .trim();

@@ -48,6 +48,6 @@
     <string name="chatrix_reactions_channel_description">Кто-то отреагировал на ваше сообщение</string>
     <string name="chatrix_server_select_text">XMPP — это независимая от провайдера сеть обмена мгновенными сообщениями. Это приложение можно использовать с любым XMPP-сервером на ваш выбор.</string>
     <string name="chatrix_pref_link_previews">Предпросмотр ссылок</string>
-    <string name="chatrix_pref_link_previews_summary">Показывать заголовок и картинку для ссылок от ваших контактов. Для этого приложение открывает ссылку, поэтому сайт может увидеть ваш IP-адрес. Выключено, когда включён Tor.</string>
+    <string name="chatrix_pref_link_previews_summary">Показывать заголовок и картинку для ссылок от ваших контактов. Для этого приложение открывает ссылку, поэтому сайт может увидеть ваш IP-адрес и то, когда вы открываете чат. Выключено, когда включён Tor.</string>
     <string name="chatrix_voice_speed">Скорость воспроизведения</string>
 </resources>

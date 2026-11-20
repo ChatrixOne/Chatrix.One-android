@@ -48,6 +48,6 @@
     <string name="chatrix_reactions_channel_description">Nogen reagerede på din besked</string>
     <string name="chatrix_server_select_text">XMPP er et udbyderuafhængigt netværk til onlinebeskeder. Du kan bruge denne app med en hvilken som helst XMPP-server, du vælger.</string>
     <string name="chatrix_pref_link_previews">Linkforhåndsvisning</string>
-    <string name="chatrix_pref_link_previews_summary">Vis en titel og et billede for links fra dine kontakter. For at hente dem åbner appen linket, så hjemmesiden kan se din IP-adresse. Slået fra, når Tor er slået til.</string>
+    <string name="chatrix_pref_link_previews_summary">Vis en titel og et billede for links fra dine kontakter. For at hente dem åbner appen linket, så hjemmesiden kan se din IP-adresse, og hvornår du åbner chatten. Slået fra, når Tor er slået til.</string>
     <string name="chatrix_voice_speed">Afspilningshastighed</string>
 </resources>
