@@ -26,7 +26,7 @@
         <item quantity="other">Наистина ли искате да изтриете тези файлове?</item>
     </plurals>
     <string name="archive_this_chat">След това да се изтрие и разговорът</string>
-    <string name="send_encrypted_message">Изпращане на шифровано съобщение</string>
+    <string name="send_encrypted_message">Изпращане на криптирано съобщение</string>
     <string name="group_chats">Групови разговори</string>
     <string name="pref_autojoin">Синхронизиране на отметките</string>
     <string name="pref_autojoin_summary">Задаване на флага „autojoin“ при влизане в групов разговор или излизане от него и отчитане на промените, направени от други приложения.</string>
@@ -287,7 +287,7 @@
 
     <!-- Settings: summaries on the main screen -->
     <string name="pref_summary_appearance">Тема, цветове, екранни снимки, въвеждане</string>
-    <string name="pref_summary_security">Шифроване от край до край, сляпо доверие преди потвърждение, откриване на MITM</string>
+    <string name="pref_summary_security">Криптиране от край до край, сляпо доверие преди потвърждение, откриване на MITM</string>
     <string name="pref_attachments_summary">Размер на файловете, компресиране на снимките, качество на видеото</string>
     <string name="pref_notifications_summary">Период на пренебрегване, тон на звънене, вибрация, непознати</string>
     <string name="pref_privacy_summary">Известия за писането, последно на линия, P2P релета</string>
@@ -298,7 +298,7 @@
     <!-- Settings: categories -->
     <string name="pref_category_sending">Изпращане</string>
     <string name="pref_category_receiving">Получаване</string>
-    <string name="pref_category_e2ee">Шифроване от край до край</string>
+    <string name="pref_category_e2ee">Криптиране от край до край</string>
     <string name="pref_category_server_connection">Връзка със сървъра</string>
     <string name="pref_category_operating_system">Операционна система</string>
     <string name="pref_category_engagement_notifications">Известия за активност</string>

@@ -29,8 +29,8 @@
         <item quantity="other">%d непрочетени разговора</item>
     </plurals>
     <string name="sending">изпращане…</string>
-    <string name="message_decrypting">Дешифроване на съобщението. Моля, изчакайте…</string>
-    <string name="pgp_message">Съобщение, шифр. чрез OpenPGP</string>
+    <string name="message_decrypting">Декриптиране на съобщението. Моля, изчакайте…</string>
+    <string name="pgp_message">Съобщение, крипт. чрез OpenPGP</string>
     <string name="nick_in_use">Псевдонимът е зает</string>
     <string name="invalid_muc_nick">Неправилен псевдоним</string>
     <string name="admin">Администратор</string>
@@ -82,24 +82,24 @@
 \n<b>Внимание:</b> Това няма да изтрие съобщенията, които се съхраняват на други устройства или сървъри.</string>
     <string name="delete_file_dialog">Изтриване на файла</string>
     <string name="choose_presence">Изберете устройство</string>
-    <string name="send_unencrypted_message">Изпр. на нешифр. съобщение</string>
+    <string name="send_unencrypted_message">Изпр. на некрипт. съобщение</string>
     <string name="send_message">Изпращане на съобщение</string>
     <string name="send_message_to_x">Изпращане на съобщение до %s</string>
-    <string name="send_omemo_x509_message">Изпр. на съобщение, шифр. чрез v\\OMEMO</string>
+    <string name="send_omemo_x509_message">Изпр. на съобщение, крипт. чрез v\\OMEMO</string>
     <string name="your_nick_has_been_changed">Новият псевдоним е зает</string>
-    <string name="send_unencrypted">Изпращане нешифровано</string>
-    <string name="decryption_failed">Неуспешно дешифроване. Възможно е да нямате правилния частен ключ.</string>
+    <string name="send_unencrypted">Изпращане некриптирано</string>
+    <string name="decryption_failed">Неуспешно декриптиране. Възможно е да нямате правилния частен ключ.</string>
     <string name="openkeychain_required">OpenKeychain</string>
-    <string name="openkeychain_required_long"><![CDATA[%1$s използва <b>OpenKeychain</b>, за да шифрова и дешифрова съобщенията и да управлява публичните Ви ключове. <br><br> OpenKeychain е под лиценза GPLv3+ и може се свали от F-Droid и Google Play.<br><br><small>(Моля, рестартирайте %1$s след това.)</small>]]></string>
+    <string name="openkeychain_required_long"><![CDATA[%1$s използва <b>OpenKeychain</b>, за да криптира и декриптира съобщенията и да управлява публичните Ви ключове. <br><br> OpenKeychain е под лиценза GPLv3+ и може се свали от F-Droid и Google Play.<br><br><small>(Моля, рестартирайте %1$s след това.)</small>]]></string>
     <string name="restart">Рестартиране</string>
     <string name="install">Инсталиране</string>
     <string name="openkeychain_not_installed">Моля, инсталирайте OpenKeychain</string>
     <string name="offering">предлагане…</string>
     <string name="waiting">изчакване…</string>
     <string name="no_pgp_key">Не е открит OpenPGP ключ</string>
-    <string name="contact_has_no_pgp_key">Съобщението Ви не може да се шифрова, тъй като контактът Ви не е обявил публичния си ключ.\n\n<small>Моля, помолете го да инсталира и настрои OpenPGP.</small></string>
+    <string name="contact_has_no_pgp_key">Съобщението Ви не може да се криптира, тъй като контактът Ви не е обявил публичния си ключ.\n\n<small>Моля, помолете го да инсталира и настрои OpenPGP.</small></string>
     <string name="no_pgp_keys">Не са открити OpenPGP ключове</string>
-    <string name="contacts_have_no_pgp_keys">Съобщението Ви не може да се шифрова, тъй като контактите Ви не са обявили публичните си ключове.\n\n<small>Моля, помолете ги да инсталират и настроят OpenPGP.</small></string>
+    <string name="contacts_have_no_pgp_keys">Съобщението Ви не може да се криптира, тъй като контактите Ви не са обявили публичните си ключове.\n\n<small>Моля, помолете ги да инсталират и настроят OpenPGP.</small></string>
     <string name="pref_general">Общи</string>
     <string name="pref_accept_files">Приемане на файлове</string>
     <string name="pref_accept_files_summary">Автоматично приемане на файлове с размер, по-малък от…</string>
@@ -123,7 +123,7 @@
     <string name="pref_prevent_screenshots_summary">Скриване на съдържанието на приложенията от превключвателя на приложения и блокиране на снимките на екрана</string>
     <string name="pref_ui_options">Потр. интерфейс</string>
     <string name="openpgp_error">Възникна грешка в OpenKeychain.</string>
-    <string name="bad_key_for_encryption">Неправилен ключ за шифроване.</string>
+    <string name="bad_key_for_encryption">Неправилен ключ за криптиране.</string>
     <string name="accept">Приемане</string>
     <string name="error">Възникна грешка</string>
     <string name="recording_error">Грешка</string>
@@ -157,7 +157,7 @@
     <string name="account_status_incompatible_server">Несъвместим сървър</string>
     <string name="account_status_stream_error">Поточна грешка</string>
     <string name="account_status_stream_opening_error">Проблем при отварянето на потока</string>
-    <string name="encryption_choice_unencrypted">Нешифровано</string>
+    <string name="encryption_choice_unencrypted">Некриптирано</string>
     <string name="encryption_choice_otr">OTR</string>
     <string name="encryption_choice_pgp">OpenPGP</string>
     <string name="encryption_choice_omemo">OMEMO</string>
@@ -166,7 +166,7 @@
     <string name="mgmt_account_publish_avatar">Публикуване на аватар</string>
     <string name="mgmt_account_publish_pgp">Публикуване на публичния OpenPGP ключ</string>
     <string name="unpublish_pgp">Премахване на публичния OpenPGP ключ</string>
-    <string name="unpublish_pgp_message">Наистина ли искате да премахнете своя публичен OpenPGP ключ от известяването си за присъствие?\nКонтактите Ви вече няма да могат да Ви изпращат съобщение, шифровани чрез OpenPGP.</string>
+    <string name="unpublish_pgp_message">Наистина ли искате да премахнете своя публичен OpenPGP ключ от известяването си за присъствие?\nКонтактите Ви вече няма да могат да Ви изпращат съобщения, криптирани чрез OpenPGP.</string>
     <string name="openpgp_has_been_published">Публичният OpenPGP ключ е публикуван.</string>
     <string name="mgmt_account_enable">Активиране на профила</string>
     <string name="mgmt_account_delete_confirm_text">Изтриването на профила Ви ще изтрие и цялата история на разговорите Ви</string>
@@ -191,8 +191,8 @@
     <string name="server_info_available">налично</string>
     <string name="server_info_unavailable">не е налично</string>
     <string name="missing_public_keys">Липсват обявления за публичен ключ</string>
-    <string name="install_openkeychain">Шифровано съобщение. Моля, инсталирайте OpenKeychain, за да го дешифровате.</string>
-    <string name="openpgp_messages_found">Открити са нови съобщения, шифровани чрез OpenPGP</string>
+    <string name="install_openkeychain">Криптирано съобщение. Моля, инсталирайте OpenKeychain, за да го декриптирате.</string>
+    <string name="openpgp_messages_found">Открити са нови съобщения, криптирани чрез OpenPGP</string>
     <string name="openpgp_key_id">Ид. на OpenPGP ключа</string>
     <string name="omemo_fingerprint">Отпечатък OMEMO</string>
     <string name="omemo_fingerprint_x509">Отпечатък v\\OMEMO</string>
@@ -202,7 +202,7 @@
     <string name="trust_omemo_fingerprints">Доверяване на отпечатъци OMEMO</string>
     <string name="fetching_keys">Изтегляне на ключове…</string>
     <string name="done">Готово</string>
-    <string name="decrypt">Дешифроване</string>
+    <string name="decrypt">Декриптиране</string>
     <string name="search">Търсене</string>
     <string name="enter_contact">Въведете контакт</string>
     <string name="delete_contact">Изтриване на контакта</string>
@@ -599,7 +599,7 @@
     </plurals>
     <string name="pref_automatically_delete_messages">Автоматично изтриване на съобщенията</string>
     <string name="pref_automatically_delete_messages_description">Автоматично изтриване на съобщенията от това устройство, които са по-стари от зададеното време.</string>
-    <string name="encrypting_message">Шифроване на съобщението</string>
+    <string name="encrypting_message">Криптиране на съобщението</string>
     <string name="not_fetching_history_retention_period">Съобщенията не се изтеглят поради местния период на задържане.</string>
     <string name="transcoding_video">Компресиране на видеото</string>
     <string name="contact_blocked_past_tense">Контактът е блокиран.</string>
@@ -609,7 +609,7 @@
     <string name="block_stranger">Блокиране на непознатия</string>
     <string name="block_entire_domain">Блокиране на целия домейн</string>
     <string name="online_right_now">на линия в момента</string>
-    <string name="retry_decryption">Повторен опит за дешифроване</string>
+    <string name="retry_decryption">Повторен опит за декриптиране</string>
     <string name="session_failure">Грешка в сесията</string>
     <string name="sasl_downgrade">Механизмът на SASL е понижен</string>
     <string name="account_status_regis_web">Сървърът изисква регистриране чрез уеб сайт</string>
@@ -639,24 +639,24 @@
     <string name="pref_scroll_to_bottom_summary">Превъртане надолу след изпращане на съобщение</string>
     <string name="edit_status_message_title">Редактиране на съобщението за състоянието</string>
     <string name="edit_status_message">Редактиране на съобщението за състоянието</string>
-    <string name="disable_encryption">Изключване на шифроването</string>
-    <string name="error_trustkey_general">%1$s не може да изпраща шифровани съобщения до %2$s. Възможно е Вашият контакт да използва остарял сървър или клиент, който не може да работи с OMEMO.</string>
+    <string name="disable_encryption">Изключване на криптирането</string>
+    <string name="error_trustkey_general">%1$s не може да изпраща криптирани съобщения до %2$s. Възможно е Вашият контакт да използва остарял сървър или клиент, който не може да работи с OMEMO.</string>
     <string name="error_trustkey_device_list">Неуспешно получаване на списъка с устройства</string>
-    <string name="error_trustkey_bundle">Неуспешно получаване на ключове за шифроване</string>
+    <string name="error_trustkey_bundle">Неуспешно получаване на ключове за криптиране</string>
     <string name="error_trustkey_hint_mutual">Съвет: В някои случаи това може да се оправи, ако се добавите един друг в списъците си с контакти.</string>
-    <string name="disable_encryption_message">Наистина ли искате да изключите шифроването чрез OMEMO за този разговор?
+    <string name="disable_encryption_message">Наистина ли искате да изключите криптирането чрез OMEMO за този разговор?
 \nТова ще позволи на администратора Ви да чете съобщенията Ви, но пък най-вероятно е единственият начин за общуване с хората, използващи стари клиенти.</string>
     <string name="disable_now">Изключване сега</string>
     <string name="draft">Чернова:</string>
-    <string name="pref_omemo_setting">Шифроване OMEMO</string>
+    <string name="pref_omemo_setting">Криптиране OMEMO</string>
     <string name="pref_omemo_setting_summary_always">OMEMO ще се използва винаги за частни групови разговори и такива с един събеседник.</string>
     <string name="pref_omemo_setting_summary_default_on">OMEMO ще се използва по подразбиране за новите разговори.</string>
     <string name="pref_omemo_setting_summary_default_off">OMEMO ще трябва да се включва изрично за новите разговори.</string>
     <string name="create_shortcut">Създаване на пряк път</string>
     <string name="default_on">ВКЛ по подразбиране</string>
     <string name="default_off">ИЗКЛ по подразбиране</string>
-    <string name="not_encrypted_for_this_device">Съобщението не е било шифровано за това устройство.</string>
-    <string name="omemo_decryption_failed">Съобщението OMEMO не може да бъде дешифровано.</string>
+    <string name="not_encrypted_for_this_device">Съобщението не е било криптирано за това устройство.</string>
+    <string name="omemo_decryption_failed">Съобщението OMEMO не може да бъде декриптирано.</string>
     <string name="undo">отмяна</string>
     <string name="location_disabled">Споделянето на местоположението е изключено</string>
     <string name="action_fix_to_location">Фиксиране на позицията</string>
@@ -778,7 +778,7 @@
     <string name="enter_password_to_restore">Въведете паролата си за профила %s, за да направите възстановяване от резервно копие.</string>
     <string name="restore_warning">Не използвайте възможността за възстановяване от резервно копие, за да клонирате (да изпълнявате едновременно) инсталацията. Възстановяването от резервно копие е предназначено за мигриране или в случай, че сте загубили устройството си.</string>
     <string name="unable_to_restore_backup">Не може да се извърши възстановяване от резервно копие.</string>
-    <string name="unable_to_decrypt_backup">Резервното копие не може да бъде дешифрирано. Правилна ли е паролата?</string>
+    <string name="unable_to_decrypt_backup">Резервното копие не може да бъде декриптирано. Правилна ли е паролата?</string>
     <string name="backup_channel_name">Резервни копия и възстановяване</string>
     <string name="enter_jabber_id">Въведете XMPP адрес</string>
     <string name="create_group_chat">Създаване на групов разговор</string>
@@ -871,9 +871,9 @@
     <string name="could_not_correct_message">Съобщението не може да бъде поправено</string>
     <string name="your_avatar">Вашият аватар</string>
     <string name="avatar_for_x">Аватар за %s</string>
-    <string name="encrypted_with_omemo">Шифровано с OMEMO</string>
-    <string name="encrypted_with_openpgp">Шифровано с OpenPGP</string>
-    <string name="not_encrypted">Нешифровано</string>
+    <string name="encrypted_with_omemo">Криптирано с OMEMO</string>
+    <string name="encrypted_with_openpgp">Криптирано с OpenPGP</string>
+    <string name="not_encrypted">Некриптирано</string>
     <string name="exit">Изход</string>
     <string name="record_voice_mail">Запис на гласова поща</string>
     <string name="play_audio">Възпроизвеждане на звука</string>
