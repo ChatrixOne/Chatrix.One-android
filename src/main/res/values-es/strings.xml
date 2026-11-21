@@ -1232,4 +1232,6 @@
     <string name="account_status_pending_oauth_authorization">Autorización pendiente</string>
     <string name="could_not_redirect_to_identity_provider">No se pudo redirigir al proveedor de identidad</string>
     <string name="could_not_process_oauth_redirect">No se pudo procesar la redirección OAuth</string>
+    <string name="pref_google_push">Usar Google Push como alternativa</string>
+    <string name="pref_google_push_summary">Reactiva la aplicación si el ahorro de batería interrumpe la conexión en segundo plano. Tus mensajes no se envían a Google.</string>
 </resources>
