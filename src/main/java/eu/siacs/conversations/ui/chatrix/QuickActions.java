@@ -20,6 +20,7 @@ import eu.siacs.conversations.entities.Conversational;
 import eu.siacs.conversations.entities.Message;
 import eu.siacs.conversations.entities.Transferable;
 import eu.siacs.conversations.utils.MessageUtils;
+import im.conversations.android.xmpp.model.reactions.Restrictions;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.LinkedHashSet;
@@ -140,7 +141,8 @@ public final class QuickActions {
         return !showError && !MessageUtils.prepareQuote(m).isEmpty();
     }
 
-    public static boolean canReact(final Message m) {
+    /** Reactions are possible on this message at all (adding or removing). */
+    private static boolean reactionConditions(final Message m) {
         if (!baseConditions(m)) {
             return false;
         }
@@ -151,6 +153,21 @@ public final class QuickActions {
                 c.getMode() == Conversational.MODE_SINGLE
                         || (c.getMucOptions().occupantId() && c.getMucOptions().participating());
         return m.getStatus() != Message.STATUS_SEND_FAILED && !m.isDeleted() && singleOrOccupantId;
+    }
+
+    /**
+     * Same conditions as "Add reaction" in the context menu: a new reaction is possible, also
+     * within the group's limit of reactions per person.
+     */
+    public static boolean canReact(final Message m) {
+        return reactionConditions(m) && Restrictions.reactionsPerUserRemaining(m);
+    }
+
+    /** The quick reaction toggles: adding needs room under the group's limit, removing never. */
+    public static boolean canToggle(final Message m, final String emoji) {
+        return canReact(m)
+                || (reactionConditions(m)
+                        && m.getAggregatedReactions().ourReactions.contains(emoji));
     }
 
     /** Same conditions as "Correct message" in the context menu: our own, correctable message. */
@@ -190,10 +207,10 @@ public final class QuickActions {
                 && t == null;
     }
 
-    public static boolean isAllowed(final Action action, final Message m) {
+    public static boolean isAllowed(final Context context, final Action action, final Message m) {
         return switch (action) {
             case QUOTE -> canQuote(m);
-            case REACT -> canReact(m);
+            case REACT -> canToggle(m, quickEmoji(context));
             case COPY -> canCopy(m);
             case EDIT -> canEdit(m);
             case SHARE -> canShare(m);

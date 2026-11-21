@@ -97,6 +97,7 @@ public class Conversations extends Application {
         ExceptionHelper.init(getApplicationContext());
         SettingsUtils.applyThemeSettings(this);
         eu.siacs.conversations.ui.chatrix.UpdateCheckWorker.schedule(this); // Chatrix.One
+        eu.siacs.conversations.ui.chatrix.ChatBackground.sweepLater(this); // Chatrix.One
     }
 
     private static void installSecurityProvider() {

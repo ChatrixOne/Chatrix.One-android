@@ -115,6 +115,8 @@ public class BindProcessor extends XmppConnection.Delegate implements Runnable {
         if (pushManagementService.isEnabledAvailable(account)) {
             pushManagementService.registerPushTokenOnServer(account);
         }
+        // Chatrix.One: stop pushes through p2.siacs.eu for anyone who turned them on in 2.21.4-cx1.1
+        eu.siacs.conversations.ui.chatrix.GooglePushOff.onBind(context, connection, account);
         service.connectMultiModeConversations(account);
         getManager(RosterManager.class).syncDirtyContacts();
 

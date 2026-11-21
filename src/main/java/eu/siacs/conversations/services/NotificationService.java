@@ -909,7 +909,10 @@ public class NotificationService {
         String preview =
                 UIHelper.getMessagePreview(mXmppConnectionService, message).first.toString();
         if (preview.length() > 80) {
-            preview = preview.substring(0, 79).trim() + "…";
+            // Chatrix.One: never cut an emoji in half
+            preview =
+                    eu.siacs.conversations.ui.chatrix.LinkPreviewRules.cut(preview, 79).trim()
+                            + "…";
         }
         final String name = Strings.isNullOrEmpty(from) ? conversation.getName().toString() : from;
         final CharSequence line =

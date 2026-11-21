@@ -1123,7 +1123,7 @@ public class XmppConnection implements Runnable {
             // Chatrix.One: "account disabled" means payment required only on conversations.im;
             // everywhere else (e.g. a ban on chatrix.one) say that the account is suspended
             final boolean paymentServer =
-                    "conversations.im".equals(account.getJid().getDomain().toString());
+                    Config.UPSTREAM_DOMAIN.equals(account.getJid().getDomain().toString());
             final Account.State disabledState =
                     paymentServer ? Account.State.PAYMENT_REQUIRED : Account.State.ACCOUNT_SUSPENDED;
             if (Strings.isNullOrEmpty(text)) {

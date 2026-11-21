@@ -2564,7 +2564,7 @@ public class ConversationFragment extends XmppFragment
     }
 
     private boolean performQuickAction(final QuickActions.Action action, final Message message) {
-        if (message == null || !QuickActions.isAllowed(action, message)) {
+        if (message == null || !QuickActions.isAllowed(requireContext(), action, message)) {
             return false;
         }
         switch (action) {
@@ -2671,7 +2671,7 @@ public class ConversationFragment extends XmppFragment
                 return null;
             }
             final var action = actionFor(direction);
-            if (!QuickActions.isAllowed(action, messageAt(position))) {
+            if (!QuickActions.isAllowed(requireContext(), action, messageAt(position))) {
                 return null;
             }
             return QuickActions.icon(requireContext(), action);

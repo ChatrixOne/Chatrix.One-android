@@ -137,9 +137,9 @@ public class Conversation extends AbstractEntity
     }
 
     private static boolean suitableForOmemoByDefault(final Conversation conversation) {
-        if (conversation.getAddress().asBareJid().equals(Config.BUG_REPORTS)) {
-            return false;
-        }
+        // Chatrix.One: no OMEMO exemption for Config.BUG_REPORTS. Upstream's address is a bot; ours
+        // (admin@chatrix.one) is a person people chat with. Crash reports stay unencrypted anyway:
+        // ExceptionHelper sends them with ENCRYPTION_NONE.
         if (conversation.getContact().isOwnServer()) {
             return false;
         }

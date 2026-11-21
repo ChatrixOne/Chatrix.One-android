@@ -19,6 +19,8 @@ public class PrivacySettingsFragment extends XmppPreferenceFragment {
         }
         googlePushPreference.setEnabled(
                 Conversations.getInstance(requireContext()).isPlayServicesAvailable());
+        // Chatrix.One: Google push is always off in this app (see AppSettings.isGooglePush)
+        googlePushPreference.setVisible(false);
         // Chatrix.One: the update notice only exists for website installs
         final var updateCheck = findPreference(UpdateCheckWorker.PREF_KEY);
         if (updateCheck != null) {

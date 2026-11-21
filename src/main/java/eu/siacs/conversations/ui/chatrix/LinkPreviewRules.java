@@ -21,7 +21,7 @@ import javax.net.SocketFactory;
  * addresses may be contacted, how a page is read, how large a picture may be decoded and how long
  * a title may be. Plain Java without Android, so unit tests can check every rule.
  */
-final class LinkPreviewRules {
+public final class LinkPreviewRules {
 
     /** Square pictures (compact card). */
     static final int THUMB_PX = 192;
@@ -290,8 +290,11 @@ final class LinkPreviewRules {
         return title.length() > MAX_TITLE_CHARS ? cut(title, MAX_TITLE_CHARS) + "…" : title;
     }
 
-    /** The first {@code max} characters, without splitting an emoji or other surrogate pair. */
-    static String cut(final String text, final int max) {
+    /**
+     * The first {@code max} characters, without splitting an emoji or other surrogate pair. Also
+     * used for the reaction notification text (NotificationService.pushReaction).
+     */
+    public static String cut(final String text, final int max) {
         if (text.length() <= max) {
             return text;
         }

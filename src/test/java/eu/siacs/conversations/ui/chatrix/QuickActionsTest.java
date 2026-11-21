@@ -60,7 +60,7 @@ public class QuickActionsTest {
     @Test
     public void nothingIsAllowedForMissingMessage() {
         for (final QuickActions.Action action : QuickActions.Action.values()) {
-            Assert.assertFalse(QuickActions.isAllowed(action, null));
+            Assert.assertFalse(QuickActions.isAllowed(context, action, null));
         }
     }
 }

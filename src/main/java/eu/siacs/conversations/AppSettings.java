@@ -98,6 +98,8 @@ public class AppSettings {
         if (Objects.nonNull(Config.MAGIC_CREATE_DOMAIN)) {
             builder.add(Jid.ofDomain(Config.MAGIC_CREATE_DOMAIN));
         }
+        // Chatrix.One: keep upstream's TLS 1.3 + channel binding rule for conversations.im accounts
+        builder.add(Jid.ofDomain(Config.UPSTREAM_DOMAIN));
         if (Objects.nonNull(Config.QUICKSY_DOMAIN)) {
             builder.add(Config.QUICKSY_DOMAIN);
         }
@@ -276,7 +278,9 @@ public class AppSettings {
     }
 
     public boolean isGooglePush() {
-        return getBooleanPreference(AppSettings.GOOGLE_PUSH, R.bool.google_push);
+        // Chatrix.One: always off. It would register with the Conversations push server
+        // (p2.siacs.eu) and send it the device ID; see ui/chatrix/GooglePushOff
+        return false;
     }
 
     public int getDesiredNightMode() {

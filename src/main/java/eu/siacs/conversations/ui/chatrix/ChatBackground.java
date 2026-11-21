@@ -20,9 +20,11 @@ import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
 import androidx.exifinterface.media.ExifInterface;
 import androidx.preference.PreferenceManager;
+import eu.siacs.conversations.BuildConfig;
 import eu.siacs.conversations.Config;
 import eu.siacs.conversations.R;
 import eu.siacs.conversations.entities.Conversation;
+import eu.siacs.conversations.persistance.DatabaseBackend;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -58,7 +60,54 @@ public final class ChatBackground {
         if (conversationUuid == null) {
             return new File(context.getFilesDir(), FILE_NAME);
         }
-        return new File(context.getFilesDir(), "chatrix_chat_background_" + conversationUuid + ".jpg");
+        return new File(context.getFilesDir(), ChatBackgroundFiles.name(conversationUuid));
+    }
+
+    /**
+     * Once per app start, off the main thread: deletes per-chat pictures whose chat is gone (its
+     * account was deleted). A database error stops the clean-up, it never deletes more.
+     */
+    public static void sweepLater(final Context context) {
+        final Context app = context.getApplicationContext();
+        final Thread thread =
+                new Thread(
+                        () -> {
+                            try {
+                                final int deleted =
+                                        ChatBackgroundFiles.sweep(
+                                                app.getFilesDir(),
+                                                uuid -> chatExists(app, uuid),
+                                                System.currentTimeMillis());
+                                if (deleted > 0) {
+                                    Log.d(Config.LOGTAG, "deleted " + deleted + " chat backgrounds");
+                                }
+                            } catch (final RuntimeException e) {
+                                if (BuildConfig.DEBUG) {
+                                    throw e; // most likely our own bug: crash loudly while developing
+                                }
+                                Log.w(Config.LOGTAG, "chat background clean-up failed", e);
+                            }
+                        },
+                        "chatrix-background-sweep");
+        thread.setPriority(Thread.MIN_PRIORITY);
+        thread.start();
+    }
+
+    /** True if the conversations table has this uuid (also archived chats and invalid addresses). */
+    private static boolean chatExists(final Context context, final String uuid) {
+        try (final var cursor =
+                DatabaseBackend.getInstance(context)
+                        .getReadableDatabase()
+                        .query(
+                                Conversation.TABLENAME,
+                                new String[] {Conversation.UUID},
+                                Conversation.UUID + "=?",
+                                new String[] {uuid},
+                                null,
+                                null,
+                                null)) {
+            return cursor.getCount() > 0;
+        }
     }
 
     /** Returns the drawable for the default setting, or null for the plain theme background. */

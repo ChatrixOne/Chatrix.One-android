@@ -222,7 +222,7 @@ public class AudioPlayer
             AudioPlayer.player.setOnCompletionListener(this);
             AudioPlayer.player.prepare();
             AudioPlayer.player.start();
-            applySpeed(AudioPlayer.player, speed(viewHolder.speed.getContext()));
+            applySpeed(AudioPlayer.player, speed(viewHolder.playPause.getContext()));
             messageAdapter.flagScreenOn();
             acquireProximityWakeLock();
             viewHolder.progress.setEnabled(true);

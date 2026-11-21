@@ -16,6 +16,9 @@ public final class Config {
     public static final String BUG_REPORTS_EMAIL = "admin@chatrix.one"; // Chatrix.One
     public static final Uri HELP = Uri.parse("https://docs.chatrix.one/en"); // Chatrix.One
     public static final String MAGIC_CREATE_DOMAIN = "chatrix.one"; // Chatrix.One
+    // Chatrix.One: upstream's own server (was MAGIC_CREATE_DOMAIN there): payment-required
+    // logins and the strict TLS rules upstream applies to it
+    public static final String UPSTREAM_DOMAIN = "conversations.im";
     public static final Jid QUICKSY_DOMAIN = Jid.of("quicksy.im");
 
     public static final String CHANNEL_DISCOVERY = "https://search.jabber.network";
