@@ -1,0 +1,1 @@
+* Gör Google Push tillgängligt i F-Droid-versionen (valfritt)
