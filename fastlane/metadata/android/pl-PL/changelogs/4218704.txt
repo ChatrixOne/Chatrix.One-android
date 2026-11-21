@@ -1,0 +1,1 @@
+* Obsługa mechanizmu powiadomień wypychanych od Google’a również w wersji dla F-Droida (opcjonalna)
