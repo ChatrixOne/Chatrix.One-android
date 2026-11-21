@@ -49,14 +49,13 @@
                     android:layout_height="wrap_content">
 
                     <!-- Chatrix.One: voice message speed chip, shown only for voice messages
-                         (AudioPlayer); at the start of the bottom line, as on our own bubbles;
-                         AudioPlayer moves the time to the end while it is shown -->
+                         (AudioPlayer); on the free side of the bottom line -->
                     <TextView
                         android:id="@+id/speed"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="start|center_vertical"
-                        android:layout_marginStart="66dp"
+                        android:layout_gravity="end|center_vertical"
+                        android:layout_marginEnd="26dp"
                         android:background="?attr/selectableItemBackgroundBorderless"
                         android:clickable="true"
                         android:focusable="true"
@@ -70,7 +69,6 @@
                         tools:text="1.5×" />
 
                     <LinearLayout
-                        android:id="@+id/bottom_info"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="start"

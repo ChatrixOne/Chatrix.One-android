@@ -534,10 +534,6 @@ public class AudioPlayer
      * is shown (voice messages are wide anyway). Otherwise it keeps its natural width: a
      * full-width row does not count when the bubble works out its width, so a short message
      * would squeeze the time and the edit/received icons into a narrow column.
-     *
-     * <p>Voice messages show the chip at the start and the time at the end, in received bubbles
-     * too (the user's choice): there the time moves to the end while the chip is shown and back to
-     * the layout's own side otherwise, because the views are reused for other messages.
      */
     public static void showSpeedChip(final View chip, final boolean show) {
         chip.setVisibility(show ? View.VISIBLE : View.GONE);
@@ -551,25 +547,11 @@ public class AudioPlayer
             params.width = width;
             row.setLayoutParams(params);
         }
-        final View info = row.findViewById(R.id.bottom_info);
-        if (info != null
-                && info.getLayoutParams()
-                        instanceof android.widget.FrameLayout.LayoutParams infoParams) {
-            if (!(info.getTag(R.id.bottom_info) instanceof Integer)) {
-                info.setTag(R.id.bottom_info, infoParams.gravity); // the layout's own side
-            }
-            final int gravity =
-                    show ? android.view.Gravity.END : (Integer) info.getTag(R.id.bottom_info);
-            if (infoParams.gravity != gravity) {
-                infoParams.gravity = gravity;
-                info.setLayoutParams(infoParams);
-            }
-        }
     }
 
     /**
-     * The chip is at the start of the bottom line (own and received bubbles): line it up with
-     * where the waveform starts.
+     * On our own bubbles the chip is at the start of the bottom line: line it up with where the
+     * waveform starts. (Received bubbles have it at the end, a fixed distance from the edge.)
      */
     private static void alignWithWaveform(final ViewHolder viewHolder) {
         final TextView chip = viewHolder.speed;
