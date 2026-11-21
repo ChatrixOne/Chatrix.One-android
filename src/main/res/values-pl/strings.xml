@@ -299,7 +299,7 @@
     <string name="url_copied_to_clipboard">Skopiowano URL do schowka</string>
     <string name="jabber_id_copied_to_clipboard">Skopiowano adres XMPP do schowka</string>
     <string name="error_message_copied_to_clipboard">Skopiowano komunikat błędu do schowka</string>
-    <string name="web_address">adres URL</string>
+    <string name="web_address">adres internetowy</string>
     <string name="scan_qr_code">Zeskanuj kod QR</string>
     <string name="show_qr_code">Pokaż kod QR</string>
     <string name="show_block_list">Wyświetl listę banów</string>
@@ -430,7 +430,7 @@
     <string name="download_failed_could_not_connect">Pobieranie nieudane: nie można połączyć z hostem</string>
     <string name="download_failed_could_not_write_file">Pobieranie nieudane: nie można zapisać pliku</string>
     <string name="download_failed_invalid_file">Pobieranie nieudane: nieprawidłowy plik</string>
-    <string name="account_status_tor_unavailable">Sieć TOR jest niedostepna</string>
+    <string name="account_status_tor_unavailable">Sieć Tor jest niedostępna</string>
     <string name="account_status_bind_failure">Błąd przywiązania kanału (zasobu)</string>
     <string name="account_status_host_unknown">Nie odpowiada za domenę</string>
     <string name="server_info_broken">Zepsute</string>
@@ -455,8 +455,8 @@
     <string name="verified_omemo_key_with_certificate">Zweryfikowano klucz OMEMO z certyfikatem!</string>
     <string name="device_does_not_support_certificates">Twoje urządzenie nie wspiera wyboru certyfikatów klienckich!</string>
     <string name="pref_connection_options">Połączenie</string>
-    <string name="pref_use_tor">Połącz przez sieć TOR</string>
-    <string name="pref_use_tor_summary">Tuneluj wszystkie połączenia przez sieć TOR. Wymaga zainstalowania aplikacji \"Orbot\"</string>
+    <string name="pref_use_tor">Połącz przez sieć Tor</string>
+    <string name="pref_use_tor_summary">Tuneluj wszystkie połączenia przez sieć Tor. Wymaga Orbota</string>
     <string name="account_settings_hostname">Nazwa hosta</string>
     <string name="account_settings_port">Port</string>
     <string name="hostname_or_onion">Adres serwera lub adres \".onion\"</string>
@@ -698,7 +698,7 @@
     <string name="view_conversation">Pokaż rozmowę</string>
     <string name="pref_use_share_location_plugin">Wtyczka Udostępniania Lokalizacji</string>
     <string name="pref_use_share_location_plugin_summary">Użyj Wtyczki Udostępniania Lokalizacji zamiast wbudowanej mapy</string>
-    <string name="copy_link">Skopiuj URL</string>
+    <string name="copy_link">Skopiuj adres internetowy</string>
     <string name="copy_jabber_id">Skopiuj adres XMPP</string>
     <string name="p1_s3_filetransfer">Udostępnianie plików przez HTTP S3</string>
     <string name="pref_start_search">Wyszukiwanie bezpośrednie</string>
@@ -747,7 +747,7 @@
     <string name="phone_number">numer telefonu</string>
     <string name="verify_your_phone_number">Zweryfikuj swój numer telefonu</string>
     <string name="enter_country_code_and_phone_number">Quicksy wyśle wiadomość SMS (operator może naliczyć opłatę) aby zweryfikować numer telefonu. Wpisz kod kraju i numer telefonu:</string>
-    <string name="we_will_be_verifying"><![CDATA[Zweryfikujemy numer telefonu <br/><br/><b>%s</b><br/><br/>Czy wszystko się zgadza czy też chciałbyś zmienić numer?]]></string>
+    <string name="we_will_be_verifying"><![CDATA[Zweryfikujemy numer telefonu <br><br><b>%s</b><br><br>Czy wszystko się zgadza, czy też chciałbyś zmienić numer?]]></string>
     <string name="not_a_valid_phone_number">%s nie jest prawidłowym numerem telefonu.</string>
     <string name="please_enter_your_phone_number">Proszę wpisać swój numer telefonu.</string>
     <string name="search_countries">Przeszukaj kraje</string>
