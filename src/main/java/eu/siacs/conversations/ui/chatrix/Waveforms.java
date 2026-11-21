@@ -11,7 +11,10 @@ import android.util.LruCache;
 import androidx.annotation.Nullable;
 import com.google.common.hash.Hashing;
 import eu.siacs.conversations.Config;
+import java.io.DataInputStream;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.nio.ShortBuffer;
@@ -45,6 +48,8 @@ public final class Waveforms {
 
     /** v2: cache files named by SHA-256 (the old 32-bit hash could collide). */
     private static final String CACHE_DIR = "chatrix_waveforms_v2";
+    /** At most 2000 waveforms (8 MB in 4 KB blocks); the ones used longest ago go first. */
+    private static final CacheLimit CACHE_LIMIT = new CacheLimit(8L * 1024 * 1024, 2000, 50);
 
     private static final AtomicBoolean OLD_CACHE_REMOVED = new AtomicBoolean(false);
 
@@ -117,11 +122,16 @@ public final class Waveforms {
             return null;
         }
         try {
-            final byte[] bytes = java.nio.file.Files.readAllBytes(file.toPath());
+            // java.io, not java.nio.file: that only exists from Android 8 (S4-7, minSdk is 23)
+            final byte[] bytes = new byte[BINS];
+            try (final DataInputStream in = new DataInputStream(new FileInputStream(file))) {
+                in.readFully(bytes);
+            }
             final float[] levels = new float[BINS];
             for (int i = 0; i < BINS; ++i) {
                 levels[i] = (bytes[i] & 0xff) / 255f;
             }
+            CacheLimit.touch(file); // used now: removed last when the cache is full
             return levels;
         } catch (final Exception e) {
             return null;
@@ -138,7 +148,10 @@ public final class Waveforms {
             bytes[i] = (byte) Math.round(Math.max(0f, Math.min(1f, levels[i])) * 255f);
         }
         try {
-            java.nio.file.Files.write(file.toPath(), bytes);
+            try (final FileOutputStream out = new FileOutputStream(file)) {
+                out.write(bytes);
+            }
+            CACHE_LIMIT.afterWrite(dir);
         } catch (final Exception e) {
             Log.d(Config.LOGTAG, "could not cache waveform", e);
         }

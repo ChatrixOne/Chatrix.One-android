@@ -421,9 +421,14 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="eu.siacs.conversations.ui.activity.SettingsActivity" />
         </activity>
+        <!-- Chatrix.One (security review S7-1): the cropper library exports this activity, so any
+             app could make us read and write pictures with our permissions. We only start it
+             ourselves. -->
         <activity
             android:name="com.canhub.cropper.CropImageActivity"
-            android:theme="@style/Base.Theme.AppCompat" />
+            android:exported="false"
+            android:theme="@style/Base.Theme.AppCompat"
+            tools:replace="android:exported" />
         <activity android:name=".ui.MemorizingActivity" />
 
         <activity

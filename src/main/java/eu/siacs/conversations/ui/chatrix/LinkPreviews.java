@@ -89,6 +89,8 @@ public final class LinkPreviews {
     private static final int MAX_OEMBED_BYTES = 64 * 1024;
     /** v4: the website line is always the host of the link itself. */
     private static final String CACHE_DIR = "chatrix_link_previews_v4";
+    /** At most 30 MB and 2000 links on disk; the ones used longest ago go first. */
+    private static final CacheLimit CACHE_LIMIT = new CacheLimit(30L * 1024 * 1024, 2000, 50);
 
     private static final String[] OLD_CACHE_DIRS = {
         "chatrix_link_previews", "chatrix_link_previews_v2", "chatrix_link_previews_v3"
@@ -382,6 +384,7 @@ public final class LinkPreviews {
         }
         try {
             final String content = Files.asCharSource(text, StandardCharsets.UTF_8).read();
+            CacheLimit.touch(text); // used now: removed last when the cache is full
             if (content.startsWith(NONE)) {
                 return NO_PREVIEW;
             }
@@ -426,6 +429,7 @@ public final class LinkPreviews {
                 return preview; // previews were turned off meanwhile: store nothing
             }
             store(dir, url, preview);
+            CACHE_LIMIT.afterWrite(dir);
         }
         return preview;
     }

@@ -1484,8 +1484,8 @@ public class MultiUserChatManager extends AbstractManager {
         final var occupant = state.occupantId() ? message.getOnlyExtension(OccupantId.class) : null;
         final var occupantId = occupant == null ? null : occupant.getId();
         if (query != null) {
-            final var mucUser = message.getExtension(MucUser.class);
-            final var item = mucUser == null ? null : mucUser.getItem();
+            // Chatrix.One (S7-2): only a single item can be trusted, a member may have added one
+            final var item = eu.siacs.conversations.ui.chatrix.ArchivedSender.onlyItem(message);
             if (item != null) {
                 return itemToUser(
                         state.getConversation(), item, from, occupantId, Collections.emptySet());
