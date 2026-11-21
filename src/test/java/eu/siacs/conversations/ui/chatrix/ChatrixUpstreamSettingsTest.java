@@ -12,6 +12,7 @@ import eu.siacs.conversations.entities.Conversation;
 import eu.siacs.conversations.entities.Conversational;
 import eu.siacs.conversations.entities.Message;
 import eu.siacs.conversations.xmpp.Jid;
+import java.lang.reflect.Field;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
@@ -28,19 +29,23 @@ public class ChatrixUpstreamSettingsTest {
 
     private Context context;
     private SharedPreferences prefs;
+    private boolean savedAlways;
+    private int savedEncryption;
 
     @Before
-    public void setUp() {
+    public void setUp() throws Exception {
         context = RuntimeEnvironment.getApplication();
         prefs = PreferenceManager.getDefaultSharedPreferences(context);
         prefs.edit().clear().commit();
-        OmemoSetting.load(context);
+        savedAlways = OmemoSetting.isAlways();
+        savedEncryption = OmemoSetting.getEncryption();
+        setOmemo(false, Message.ENCRYPTION_AXOLOTL); // the default: "on by default"
     }
 
     @After
-    public void tearDown() {
+    public void tearDown() throws Exception {
         prefs.edit().clear().commit();
-        OmemoSetting.load(context); // OmemoSetting is global: back to the default
+        setOmemo(savedAlways, savedEncryption); // OmemoSetting is global
     }
 
     /** S5-1: admin@chatrix.one is a person, so chats with it get OMEMO like any other. */
@@ -54,9 +59,8 @@ public class ChatrixUpstreamSettingsTest {
     }
 
     @Test
-    public void chatWithTheAdminIsEncryptedWithOmemoAlways() {
-        prefs.edit().putString(AppSettings.OMEMO, "always").commit();
-        OmemoSetting.load(context);
+    public void chatWithTheAdminIsEncryptedWithOmemoAlways() throws Exception {
+        setOmemo(true, Message.ENCRYPTION_AXOLOTL); // what OmemoSetting.load() sets for "always"
         Assert.assertTrue(OmemoSetting.isAlways());
         Assert.assertEquals(
                 Message.ENCRYPTION_AXOLOTL, chatWith(Config.BUG_REPORTS).getNextEncryption());
@@ -84,6 +88,19 @@ public class ChatrixUpstreamSettingsTest {
         GooglePushOff.markDone(prefs, "account-1");
         Assert.assertFalse(GooglePushOff.needed(prefs, "account-1"));
         Assert.assertTrue(GooglePushOff.needed(prefs, "account-2"));
+    }
+
+    /**
+     * OmemoSetting.load() reads its default from the app's resources, which these unit tests do
+     * not have (Resources$NotFoundException), so the two fields it sets are set directly.
+     */
+    private static void setOmemo(final boolean always, final int encryption) throws Exception {
+        final Field alwaysField = OmemoSetting.class.getDeclaredField("always");
+        alwaysField.setAccessible(true);
+        alwaysField.setBoolean(null, always);
+        final Field encryptionField = OmemoSetting.class.getDeclaredField("encryption");
+        encryptionField.setAccessible(true);
+        encryptionField.setInt(null, encryption);
     }
 
     /** A one-on-one chat without the XMPP service: the contact is made here, not by the roster. */
