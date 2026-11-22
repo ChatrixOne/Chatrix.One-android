@@ -238,7 +238,7 @@
     <string name="contacts_and_n_more_have_read_up_to_this_point">%1$s + %2$d han leído hasta aquí</string>
     <string name="everyone_has_read_up_to_this_point">Todos han leído hasta aquí</string>
     <string name="publish">Publicar</string>
-    <string name="touch_to_choose_picture">Toque el avatar para seleccionar una imagen de la galería</string>
+    <string name="touch_to_choose_picture">Toca el avatar para seleccionar una imagen de la galería</string>
     <string name="publishing">Publicando…</string>
     <string name="error_publish_avatar_server_reject">El servidor rechazó la publicación</string>
     <string name="error_publish_avatar_converting">No se ha podido convertir su imagen</string>
@@ -487,7 +487,7 @@
     <string name="large_images_only">Solo imágenes de gran tamaño</string>
     <string name="battery_optimizations_enabled">Optimizaciones de batería activadas</string>
     <string name="battery_optimizations_enabled_explained">Tu dispositivo está empleando severas optimizaciones del uso de batería por parte de %1$s, lo cual puede hacer que las notificaciones se retrasen o incluso que los mensajes se pierdan.\nEs recomendable deshabilitarlas.</string>
-    <string name="battery_optimizations_enabled_dialog">Tu dispositivo está empleando severas optimizaciones del uso de batería por parte de %1$s, lo cual puede hacer que las notificaciones se retrasen o incluso que los mensajes se pierdan.\n\nA continuación se te preguntará si quiere deshabilitarlas.</string>
+    <string name="battery_optimizations_enabled_dialog">Tu dispositivo está empleando severas optimizaciones del uso de batería por parte de %1$s, lo cual puede hacer que las notificaciones se retrasen o incluso que los mensajes se pierdan.\n\nA continuación se te preguntará si quieres deshabilitarlas.</string>
     <string name="disable">Desactivar</string>
     <string name="selection_too_large">El área seleccionada es demasiado grande</string>
     <string name="no_accounts">(No hay cuentas activas)</string>
@@ -500,8 +500,7 @@
     <string name="no_application_to_share_uri">No se ha encontrado ninguna aplicación para compartir la URI</string>
     <string name="share_uri_with">Compartir URI con…</string>
     <string name="agree_and_continue">Aceptar y continuar</string>
-    <string name="magic_create_text">Una guía te ayudará en el proceso de creación de la cuenta en conversations.im.
-\nCuando selecciones conversations.im como proveedor podrás comunicarte con usuarios de otros servidores proporcionándoles tu dirección XMPP completa.</string>
+    <string name="magic_create_text">Una guía te ayudará en el proceso de creación de la cuenta en conversations.im. \nAl seleccionar conversations.im como proveedor podrás comunicarte con usuarios de otros servidores proporcionándoles tu dirección XMPP completa.</string>
     <string name="your_full_jid_will_be">Tu dirección XMPP completa será: %s</string>
     <string name="create_account">Crear cuenta</string>
     <string name="use_own_provider">Usar otro proveedor de mi elección</string>
@@ -525,7 +524,7 @@
     <string name="gp_short">Corto</string>
     <string name="gp_medium">Medio</string>
     <string name="gp_long">Largo</string>
-    <string name="pref_broadcast_last_activity">Mostrar última conexión</string>
+    <string name="pref_broadcast_last_activity">Mostrar último uso</string>
     <string name="pref_broadcast_last_activity_summary">Permitir que tus contactos vean la última vez que estuviste activo en la app</string>
     <string name="pref_privacy">Privacidad</string>
     <string name="pref_theme_options">Tema</string>
@@ -988,7 +987,7 @@
     <string name="title_activity_new_chat">Chat nuevo</string>
     <string name="archive_this_chat">Eliminar este chat después</string>
     <string name="title_undo_swipe_out_chat">Chat guardado</string>
-    <string name="welcome_header">Unirse a Conversation</string>
+    <string name="welcome_header">Unirse a Conversations</string>
     <string name="pref_use_colorful_bubbles">Burbujas de chat de colores</string>
     <string name="pref_use_colorful_bubbles_summary">Colores de fondo distintos para mensajes enviados y recibidos</string>
     <string name="barcode_does_not_contain_fingerprints_for_this_chat">El código QR no contiene huellas digitales para este chat.</string>
