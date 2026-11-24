@@ -24,6 +24,10 @@ public class MucUser extends Extension {
     }
 
     public Item getItem() {
+        // we can not use getOnlyExtension here as prosody sends multiple for all connected
+        // resources
+        // TODO we can likely construct ourself a virtual Item that collapses the connected
+        // resources
         return this.getExtension(Item.class);
     }
 

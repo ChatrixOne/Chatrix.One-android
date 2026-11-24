@@ -30,6 +30,10 @@ public class Extension extends Element {
         return Iterables.any(this.children, clazz::isInstance);
     }
 
+    public <E extends Extension> boolean hasSingleExtension(final Class<E> clazz) {
+        return Iterables.size(Iterables.filter(this.children, clazz::isInstance)) == 1;
+    }
+
     public <E extends Extension> E getExtension(final Class<E> clazz) {
         final var extension = Iterables.find(this.children, clazz::isInstance, null);
         if (extension == null) {

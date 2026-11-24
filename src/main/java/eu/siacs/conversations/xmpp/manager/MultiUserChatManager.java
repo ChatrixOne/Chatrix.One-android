@@ -399,7 +399,7 @@ public class MultiUserChatManager extends AbstractManager {
 
     private void handleAvailablePresence(final Presence presence) {
         final var from = presence.getFrom();
-        final var mucUser = presence.getExtension(MucUser.class);
+        final var mucUser = presence.getOnlyExtension(MucUser.class);
         final var vCardUpdate = presence.getExtension(VCardUpdate.class);
         final var item = mucUser == null ? null : mucUser.getItem();
 
@@ -493,7 +493,7 @@ public class MultiUserChatManager extends AbstractManager {
 
     private void handleUnavailablePresence(final Presence presence) {
         final var from = presence.getFrom();
-        final var x = presence.getExtension(MucUser.class);
+        final var x = presence.getOnlyExtension(MucUser.class);
         Preconditions.checkArgument(from.isFullJid(), "from should be a full jid");
         Preconditions.checkNotNull(x, "only presences with muc#user element are handled here");
 
@@ -669,7 +669,7 @@ public class MultiUserChatManager extends AbstractManager {
     public boolean handleMediatedInvite(final Message message) {
         // mediated invites are only valid from the bare jid of the room and type normal
         final var from = Jid.Invalid.getNullForInvalid(message.getFrom());
-        final var mucUser = message.getExtension(MucUser.class);
+        final var mucUser = message.getOnlyExtension(MucUser.class);
         if (from == null || from.isFullJid() || mucUser == null) {
             return false;
         }
@@ -694,7 +694,7 @@ public class MultiUserChatManager extends AbstractManager {
 
     public boolean handleStatusMessage(final Message message) {
         final var from = Jid.Invalid.getNullForInvalid(message.getFrom());
-        final var mucUser = message.getExtension(MucUser.class);
+        final var mucUser = message.getOnlyExtension(MucUser.class);
         if (from == null || from.isFullJid() || mucUser == null) {
             return false;
         }
@@ -1484,7 +1484,7 @@ public class MultiUserChatManager extends AbstractManager {
         final var occupant = state.occupantId() ? message.getOnlyExtension(OccupantId.class) : null;
         final var occupantId = occupant == null ? null : occupant.getId();
         if (query != null) {
-            final var mucUser = message.getExtension(MucUser.class);
+            final var mucUser = message.getOnlyExtension(MucUser.class);
             final var item = mucUser == null ? null : mucUser.getItem();
             if (item != null) {
                 return itemToUser(
