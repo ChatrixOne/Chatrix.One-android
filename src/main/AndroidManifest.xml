@@ -423,7 +423,9 @@
         </activity>
         <activity
             android:name="com.canhub.cropper.CropImageActivity"
-            android:theme="@style/Base.Theme.AppCompat" />
+            android:exported="false"
+            android:theme="@style/Base.Theme.AppCompat"
+            tools:replace="android:exported" />
         <activity android:name=".ui.MemorizingActivity" />
 
         <activity
