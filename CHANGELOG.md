@@ -1,5 +1,9 @@
 # Changelog
 
+### Version 2.21.5
+
+* minor security fixes
+
 ### Version 2.21.4
 
 * Make Google push available in F-Droid build flavor (opt-in)
