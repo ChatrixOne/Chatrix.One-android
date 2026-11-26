@@ -1,0 +1,3 @@
+• Añadido soporte para OAuth (deja la contraseña en blanco para usarlo)
+• Corregidas las notificaciones push en la versión de Google Play
+• Varias correcciones menores de seguridad detectadas por modelos de IA (LLM) y reportadas por terceros

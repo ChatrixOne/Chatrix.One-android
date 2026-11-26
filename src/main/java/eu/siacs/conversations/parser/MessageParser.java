@@ -346,7 +346,7 @@ public class MessageParser extends AbstractParser
             }
         }
 
-        if (original.hasExtension(MucUser.class)) {
+        if (original.hasSingleExtension(MucUser.class)) {
             if (getManager(MultiUserChatManager.class).handleStatusMessage(original)) {
                 return;
             }

@@ -1,0 +1,1 @@
+* Google Push in der F-Droid-Build-Variante verfügbar (Opt-in)

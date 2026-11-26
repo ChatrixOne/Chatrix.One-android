@@ -21,8 +21,11 @@ public class OAuthBearer extends SaslMechanism {
 
     public static final String MECHANISM = "OAUTHBEARER";
 
+    private final String oauthAccessToken;
+
     protected OAuthBearer(final Account account) {
         super(account);
+        this.oauthAccessToken = this.account.getOauthAccessToken();
     }
 
     @Override
@@ -40,9 +43,7 @@ public class OAuthBearer extends SaslMechanism {
         Preconditions.checkState(
                 this.state == State.INITIAL, "Calling getClientFirstMessage from invalid state");
         this.state = State.AUTH_TEXT_SENT;
-        final var oauthAccessToken = this.account.getOauthAccessToken();
         final var a = CryptoHelper.saslEscape(CryptoHelper.saslPrep(account.getUsername()));
-
         final String message;
         if (Strings.isNullOrEmpty(oauthAccessToken)) {
             message = String.format("n,a=%s,\1auth=\1\1", a);
@@ -57,6 +58,9 @@ public class OAuthBearer extends SaslMechanism {
             throws AuthenticationException {
         checkState(State.AUTH_TEXT_SENT);
         if (challenge.length == 0) {
+            if (Strings.isNullOrEmpty(this.oauthAccessToken)) {
+                throw new AuthenticationException("Not accepting success after empty token");
+            }
             this.state = State.VALID_SERVER_RESPONSE;
             return new byte[0];
         }

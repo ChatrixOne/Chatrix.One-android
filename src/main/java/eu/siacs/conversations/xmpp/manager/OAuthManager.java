@@ -89,7 +89,9 @@ public class OAuthManager extends AbstractManager {
 
     private record ClientRegistration(
             @SerializedName("client_name") String clientName,
+            @SerializedName("software_version") String softwareVersion,
             @SerializedName("client_uri") HttpUrl clientUri,
+            @SerializedName("logo_uri") HttpUrl logoUri,
             @SerializedName("application_type") String applicationType,
             @SerializedName("redirect_uris") ImmutableSet<String> redirectUris) {}
 
@@ -127,32 +129,21 @@ public class OAuthManager extends AbstractManager {
             String scope,
             @SerializedName("id_token") String idToken) {}
 
+    private static final HttpUrl CLIENT_URI =
+            new HttpUrl.Builder().scheme("https").host(Config.MAGIC_CREATE_DOMAIN).build();
+    private static final HttpUrl LOGO_URI =
+            CLIENT_URI.newBuilder().addPathSegment("logo.png").build();
+
     private static final ClientRegistration DEFAULT_CLIENT_REGISTRATION =
             new ClientRegistration(
                     BuildConfig.APP_NAME,
-                    new HttpUrl.Builder().scheme("https").host(Config.MAGIC_CREATE_DOMAIN).build(),
+                    BuildConfig.VERSION_NAME,
+                    CLIENT_URI,
+                    LOGO_URI,
                     "native",
                     ImmutableSet.of(
                             String.format(
                                     "%s://%s", BuildConfig.APPLICATION_ID, OAUTH_REDIRECT_HOST)));
-
-    private static final OkHttpClient OK_HTTP_CLIENT =
-            HttpConnectionManager.OK_HTTP_CLIENT
-                    .newBuilder()
-                    .dns(hostname -> {
-                        final var addresses = Dns.SYSTEM.lookup(hostname);
-                        for (final var address : addresses) {
-                            if (address.isLoopbackAddress()
-                                    || address.isSiteLocalAddress()
-                                    || address.isLinkLocalAddress()) {
-                                throw new UnknownHostException(
-                                        "Not performing look ups on local addresses");
-                            }
-                        }
-                        return addresses;
-                    })
-                    .callTimeout(Duration.ofSeconds(3))
-                    .build();
 
     private final Map<String, PendingAuthorization> pendingAuthorizations = new HashMap<>();
 

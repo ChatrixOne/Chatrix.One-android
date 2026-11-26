@@ -1,0 +1,1 @@
+* Corregida la transferencia de archivos Jingle cifrados con PGP

@@ -1269,6 +1269,6 @@
     <string name="account_status_pending_oauth_authorization">Очікується авторизація</string>
     <string name="could_not_process_oauth_redirect">Не вдалося обробити перенаправлення OAuth</string>
     <string name="could_not_redirect_to_identity_provider">Не вдалося перенаправити до постачальника ідентифікації</string>
-    <string name="pref_google_push">Google push як запасний варіант</string>
+    <string name="pref_google_push">Google Push як запасний варіант</string>
     <string name="pref_google_push_summary">Активує застосунок, якщо режим інтенсивного енергозбереження перериває фонове з’єднання. Дані повідомлень не надсилаються до Google.</string>
 </resources>

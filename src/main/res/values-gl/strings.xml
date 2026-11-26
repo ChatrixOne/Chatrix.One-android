@@ -1210,4 +1210,9 @@
     <string name="show_attachment_options">Mostrar as opcións do anexo</string>
     <string name="collapsed">Pregado</string>
     <string name="expanded">Despregado</string>
+    <string name="pref_google_push">Usar sistema push de Google como apoio</string>
+    <string name="pref_google_push_summary">Esperta a app se as optimizacións da batería fechan a conexión en segundo plano. Non se envían datos da mensaxe a Google.</string>
+    <string name="account_status_pending_oauth_authorization">Autorización pendente</string>
+    <string name="could_not_process_oauth_redirect">Non se procesou a redirección OAuth</string>
+    <string name="could_not_redirect_to_identity_provider">Non se puido redirixir ao provedor de identidade</string>
 </resources>
