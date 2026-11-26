@@ -20,6 +20,11 @@ jobs:
         with:
           persist-credentials: false
 
+      # Before Gradle: after an upstream merge, a name in both our res/values*/chatrix*.xml and
+      # upstream's files fails the build with "Duplicate resources"; this names each one and the fix.
+      - name: Resource names shared with upstream
+        run: python3 -I .github/scripts/check-resource-names.py
+
       - uses: actions/setup-java@d1374f8ac74474200d16ef8ecee22c7ae7a51880 # v6.3.0
         with:
           distribution: temurin
