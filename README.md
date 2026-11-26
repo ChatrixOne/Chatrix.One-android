@@ -51,6 +51,13 @@ when you create a new account.
 * Crash reports are never sent automatically. After a crash the app asks, and you can send the
   report via XMPP or by email to the Chatrix.One team, or switch the question off.
 * Optional "new version available" notice for installs from the website, see below.
+* No Google push. Conversations can wake itself up through Google's Firebase push (FCM) via the
+  Conversations push server when the background connection is lost; since 2.21.4 this is an
+  opt-in setting in its F-Droid version too. Chatrix.One keeps it switched off and hides the
+  setting, so neither Google nor that push server learns about your device. Messages arrive over
+  the permanent connection only: if your phone's battery saving stops apps in the background,
+  allow Chatrix.One to run without restrictions. If you had switched it on in 2.21.4-cx1.1, the
+  app asks your own server once after login to stop sending to that push server.
 
 **Installation**
 
@@ -60,7 +67,8 @@ when you create a new account.
 
 ## Privacy
 
-Chatrix.One contains no trackers, no analytics and no advertising, and uses no Google services.
+Chatrix.One contains no trackers, no analytics and no advertising, and uses no Google services
+(also no Google push, see above).
 
 The only network request the app makes on its own, apart from your XMPP server, is the optional
 update check: once a day it downloads the public file `https://chatrix.eu/download/version.json`
