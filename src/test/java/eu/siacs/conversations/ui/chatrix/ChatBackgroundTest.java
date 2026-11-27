@@ -38,6 +38,8 @@ public class ChatBackgroundTest {
 
     private static final String CHAT_A = "0b1c2d3e-4f50-4617-8293-a4b5c6d7e8f9";
     private static final String CHAT_B = "1c2d3e4f-5061-4728-93a4-b5c6d7e8f9a0";
+    private static final int WINDOW_BG = 0xff101820;
+    private static final int ACCENT = 0xff2ecc71;
 
     private final List<Runnable> decodes = new ArrayList<>();
     private Context context;
@@ -66,6 +68,11 @@ public class ChatBackgroundTest {
         return file;
     }
 
+    /** Unit tests have no app resources: the colours come from here, not from R.color. */
+    private static void apply(final View view, final String uuid, final String own) {
+        ChatBackground.apply(view, uuid, own, WINDOW_BG, ACCENT);
+    }
+
     /** Runs the waiting decodes, then what they posted to the main thread. */
     private void finishDecodes() {
         final List<Runnable> now = new ArrayList<>(decodes);
@@ -83,9 +90,10 @@ public class ChatBackgroundTest {
     public void aNewPictureShowsTheColourFirstThenThePicture() throws IOException {
         picture(CHAT_A);
         final View view = new View(context);
-        ChatBackground.apply(view, CHAT_A, ChatBackground.CUSTOM);
+        apply(view, CHAT_A, ChatBackground.CUSTOM);
         Assert.assertTrue(
                 "plain colour while decoding", view.getBackground() instanceof ColorDrawable);
+        Assert.assertEquals(WINDOW_BG, ((ColorDrawable) view.getBackground()).getColor());
         Assert.assertEquals("decoded off the main thread", 1, decodes.size());
         finishDecodes();
         Assert.assertEquals("PictureDrawable", kind(view));
@@ -95,10 +103,10 @@ public class ChatBackgroundTest {
     public void aCachedPictureShowsAtOnce() throws IOException {
         picture(CHAT_A);
         final View view = new View(context);
-        ChatBackground.apply(view, CHAT_A, ChatBackground.CUSTOM);
+        apply(view, CHAT_A, ChatBackground.CUSTOM);
         finishDecodes();
-        ChatBackground.apply(view, CHAT_B, ChatBackground.GLOW); // another chat
-        ChatBackground.apply(view, CHAT_A, ChatBackground.CUSTOM); // and back
+        apply(view, CHAT_B, ChatBackground.GLOW); // another chat
+        apply(view, CHAT_A, ChatBackground.CUSTOM); // and back
         Assert.assertEquals("PictureDrawable", kind(view));
         Assert.assertTrue("no second decode", decodes.isEmpty());
     }
@@ -107,11 +115,11 @@ public class ChatBackgroundTest {
     public void aNewPictureUnderTheSameNameIsDecodedAgain() throws IOException {
         final File file = picture(CHAT_A);
         final View view = new View(context);
-        ChatBackground.apply(view, CHAT_A, ChatBackground.CUSTOM);
+        apply(view, CHAT_A, ChatBackground.CUSTOM);
         finishDecodes();
         picture(CHAT_A);
         Assert.assertTrue(file.setLastModified(file.lastModified() + 10_000));
-        ChatBackground.apply(view, CHAT_A, ChatBackground.CUSTOM);
+        apply(view, CHAT_A, ChatBackground.CUSTOM);
         Assert.assertEquals(1, decodes.size());
         Assert.assertTrue(view.getBackground() instanceof ColorDrawable);
         finishDecodes();
@@ -122,8 +130,8 @@ public class ChatBackgroundTest {
     public void aQuickSwitchKeepsTheNewChatsBackground() throws IOException {
         picture(CHAT_A);
         final View view = new View(context);
-        ChatBackground.apply(view, CHAT_A, ChatBackground.CUSTOM);
-        ChatBackground.apply(view, CHAT_B, ChatBackground.GLOW); // before A's picture is ready
+        apply(view, CHAT_A, ChatBackground.CUSTOM);
+        apply(view, CHAT_B, ChatBackground.GLOW); // before A's picture is ready
         finishDecodes();
         Assert.assertEquals("GlowDrawable", kind(view));
     }
@@ -133,8 +141,8 @@ public class ChatBackgroundTest {
         picture(CHAT_A);
         final View one = new View(context);
         final View two = new View(context);
-        ChatBackground.apply(one, CHAT_A, ChatBackground.CUSTOM);
-        ChatBackground.apply(two, CHAT_B, ChatBackground.PLAIN);
+        apply(one, CHAT_A, ChatBackground.CUSTOM);
+        apply(two, CHAT_B, ChatBackground.PLAIN);
         finishDecodes();
         Assert.assertEquals("PictureDrawable", kind(one));
         Assert.assertEquals("none", kind(two));
@@ -143,11 +151,11 @@ public class ChatBackgroundTest {
     @Test
     public void aMissingOrBrokenPictureFallsBackToTheGlow() throws IOException {
         final View view = new View(context);
-        ChatBackground.apply(view, CHAT_A, ChatBackground.CUSTOM); // no file
+        apply(view, CHAT_A, ChatBackground.CUSTOM); // no file
         Assert.assertEquals("GlowDrawable", kind(view));
         Assert.assertTrue(decodes.isEmpty());
         Files.write(ChatBackground.file(context, CHAT_B).toPath(), new byte[0]);
-        ChatBackground.apply(view, CHAT_B, ChatBackground.CUSTOM); // empty file
+        apply(view, CHAT_B, ChatBackground.CUSTOM); // empty file
         finishDecodes();
         Assert.assertEquals("GlowDrawable", kind(view));
     }

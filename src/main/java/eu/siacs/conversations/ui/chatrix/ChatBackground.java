@@ -20,6 +20,7 @@ import android.util.DisplayMetrics;
 import android.util.Log;
 import android.util.LruCache;
 import android.view.View;
+import androidx.annotation.ColorInt;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.VisibleForTesting;
@@ -126,10 +127,13 @@ public final class ChatBackground {
      * default from settings. Main thread only.
      */
     public static void apply(final View container, @Nullable final Conversation conversation) {
+        final Context context = container.getContext();
         apply(
                 container,
                 conversation == null ? null : conversation.getUuid(),
-                conversation == null ? null : conversation.getChatrixBackground());
+                conversation == null ? null : conversation.getChatrixBackground(),
+                ContextCompat.getColor(context, R.color.chatrix_window_bg),
+                ContextCompat.getColor(context, R.color.chatrix_logo));
     }
 
     /**
@@ -139,15 +143,18 @@ public final class ChatBackground {
      * window colour shows, and is set only if the view still waits for it, so a quick switch
      * never puts one chat's picture behind another.
      */
+    @VisibleForTesting
     static void apply(
-            final View container, @Nullable final String uuid, @Nullable final String own) {
+            final View container,
+            @Nullable final String uuid,
+            @Nullable final String own,
+            @ColorInt final int windowBg,
+            @ColorInt final int accent) {
         final Context context = container.getContext();
         final Object token = new Object();
         WAITING.put(container, token);
         final boolean perChat = own != null;
         final String mode = perChat ? own : mode(context);
-        final int windowBg = ContextCompat.getColor(context, R.color.chatrix_window_bg);
-        final int accent = ContextCompat.getColor(context, R.color.chatrix_logo);
         if (PLAIN.equals(mode)) {
             container.setBackground(null);
             return;
