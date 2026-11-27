@@ -21,6 +21,7 @@ import android.media.AudioManager;
 import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Build;
+import android.os.SystemClock;
 import android.preference.PreferenceManager;
 import android.provider.Settings;
 import android.text.SpannableString;
@@ -61,6 +62,7 @@ import eu.siacs.conversations.persistance.FileBackend;
 import eu.siacs.conversations.ui.ConversationsActivity;
 import eu.siacs.conversations.ui.EditAccountActivity;
 import eu.siacs.conversations.ui.RtpSessionActivity;
+import eu.siacs.conversations.ui.chatrix.ReactionBurst;
 import eu.siacs.conversations.utils.AccountUtils;
 import eu.siacs.conversations.utils.Compatibility;
 import eu.siacs.conversations.utils.GeoHelper;
@@ -133,6 +135,8 @@ public class NotificationService {
     private static final String REACTIONS_GROUP = "one.chatrix.reactions";
     private static final int MAX_REACTION_LINES = 5;
     private final Map<String, List<CharSequence>> reactionLines = new HashMap<>();
+    // Chatrix.One: one post per chat and one sound per burst of reactions
+    private final ReactionBurst reactionBurst = new ReactionBurst(SystemClock::elapsedRealtime);
     // message uuid + sender + emoji that already notified (in memory, newest 1000)
     private final Set<String> notifiedReactions =
             Collections.newSetFromMap(
@@ -900,12 +904,6 @@ public class NotificationService {
         if (this.mIsInForeground && !isScreenLocked && this.mOpenConversation == conversation) {
             return;
         }
-        final var account = conversation.getAccount();
-        final var connection = account.getXmppConnection();
-        final boolean gracePeriod =
-                connection != null
-                        && connection.getManager(ActivityManager.class).isInGracePeriod();
-        final boolean sound = appSettings.isReactionSound() && !gracePeriod;
         String preview =
                 UIHelper.getMessagePreview(mXmppConnectionService, message).first.toString();
         if (preview.length() > 80) {
@@ -918,7 +916,6 @@ public class NotificationService {
         final CharSequence line =
                 mXmppConnectionService.getString(
                         R.string.chatrix_reacted_to, name, Joiner.on(' ').join(added), preview);
-        final List<CharSequence> lines;
         synchronized (reactionLines) {
             final var list =
                     reactionLines.computeIfAbsent(conversation.getUuid(), k -> new ArrayList<>());
@@ -926,8 +923,48 @@ public class NotificationService {
             while (list.size() > MAX_REACTION_LINES) {
                 list.remove(0);
             }
+        }
+        if (reactionBurst.add(conversation.getUuid())) {
+            ReactionBurst.later(() -> postReactions(conversation), ReactionBurst.QUIET_MS);
+        }
+    }
+
+    // Chatrix.One: the scheduled check from pushReaction; posts the chat's reaction lines
+    private void postReactions(final Conversation conversation) {
+        try {
+            final var check = reactionBurst.check(conversation.getUuid());
+            if (check == null) {
+                return;
+            }
+            if (!check.postNow()) {
+                ReactionBurst.later(() -> postReactions(conversation), check.waitMs());
+                return;
+            }
+            postReactions(conversation, check.sound());
+        } catch (final RuntimeException e) {
+            Log.e(Config.LOGTAG, "could not post reaction notification", e);
+        }
+    }
+
+    private void postReactions(final Conversation conversation, final boolean burstSound) {
+        final List<CharSequence> lines;
+        synchronized (reactionLines) {
+            final var list = reactionLines.get(conversation.getUuid());
+            if (list == null || list.isEmpty()) {
+                return; // read or dismissed in the meantime
+            }
             lines = ImmutableList.copyOf(list);
         }
+        final CharSequence line = lines.get(lines.size() - 1);
+        final var connection = conversation.getAccount().getXmppConnection();
+        final boolean gracePeriod =
+                connection != null
+                        && connection.getManager(ActivityManager.class).isInGracePeriod();
+        final boolean sound =
+                burstSound
+                        && new AppSettings(mXmppConnectionService.getApplicationContext())
+                                .isReactionSound()
+                        && !gracePeriod;
         final Builder builder =
                 new Builder(
                         mXmppConnectionService,
@@ -996,6 +1033,7 @@ public class NotificationService {
             had = reactionLines.remove(conversation.getUuid()) != null;
             none = reactionLines.isEmpty();
         }
+        reactionBurst.forget(conversation.getUuid());
         if (had) {
             cancel(conversation.getUuid(), REACTION_NOTIFICATION_ID);
             if (none) {
