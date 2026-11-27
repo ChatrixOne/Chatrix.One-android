@@ -171,6 +171,107 @@ public class LinkPreviewRulesTest {
         }
     }
 
+    /**
+     * Ultrareview 2026-11-26: a server error, overload or bot wall was cached as "this page has
+     * no preview" for good.
+     */
+    @Test
+    public void temporaryServerAnswersAreAskedAgain() {
+        for (final int code : new int[] {408, 425, 429, 500, 502, 503, 504, 520, 599}) {
+            Assert.assertEquals(
+                    String.valueOf(code),
+                    LinkPreviewRules.RETRY_SOON_MS,
+                    LinkPreviewRules.retryAfterMillis(code));
+        }
+        Assert.assertEquals(LinkPreviewRules.RETRY_LATER_MS, LinkPreviewRules.retryAfterMillis(403));
+        for (final int code : new int[] {300, 304, 400, 401, 404, 405, 410, 451, 499, 600, 0, -1}) {
+            Assert.assertEquals(String.valueOf(code), 0, LinkPreviewRules.retryAfterMillis(code));
+        }
+    }
+
+    @Test
+    public void aRetryEntryHoldsUntilItsTime() {
+        final long now = 1_800_000_000_000L;
+        for (final long wait :
+                new long[] {LinkPreviewRules.RETRY_SOON_MS, LinkPreviewRules.RETRY_LATER_MS}) {
+            final String entry = LinkPreviewRules.retryEntry(now + wait);
+            Assert.assertTrue(LinkPreviewRules.retryPending(entry, now));
+            Assert.assertTrue(LinkPreviewRules.retryPending(entry, now + wait - 1));
+            Assert.assertFalse(LinkPreviewRules.retryPending(entry, now + wait));
+            Assert.assertFalse(LinkPreviewRules.retryPending(entry, now + wait + 1));
+        }
+    }
+
+    /** Broken entries and a clock set back expire: a link can never get stuck without a preview. */
+    @Test
+    public void brokenOrFarRetryEntriesHaveExpired() {
+        final long now = 1_800_000_000_000L;
+        final String prefix = LinkPreviewRules.RETRY_PREFIX;
+        for (final String entry :
+                new String[] {
+                    prefix,
+                    prefix + "soon",
+                    prefix + "-5",
+                    prefix + "1e15",
+                    prefix + "99999999999999999999",
+                    prefix + (now + LinkPreviewRules.RETRY_LATER_MS + 1), // clock set back
+                    prefix + Long.MAX_VALUE,
+                    prefix + Long.MIN_VALUE,
+                    "\u0000none", // the old "no preview" entry is not a retry entry
+                    "retry " + (now + 1000),
+                    ""
+                }) {
+            Assert.assertFalse(entry, LinkPreviewRules.retryPending(entry, now));
+        }
+    }
+
+    @Test
+    public void randomRetryEntriesNeverBreakAndOnlyHoldWithinTheLongestWait() {
+        final Random random = new Random(20261127L);
+        final String alphabet = "0123456789- +.e";
+        final long now = 1_800_000_000_000L;
+        for (int i = 0; i < 100_000; i++) {
+            final String entry;
+            if (random.nextBoolean()) {
+                final StringBuilder b = new StringBuilder(LinkPreviewRules.RETRY_PREFIX);
+                final int length = random.nextInt(24);
+                for (int j = 0; j < length; j++) {
+                    b.append(alphabet.charAt(random.nextInt(alphabet.length())));
+                }
+                entry = b.toString();
+            } else {
+                entry = LinkPreviewRules.retryEntry(now + random.nextLong() % (3 * 86_400_000L));
+            }
+            if (LinkPreviewRules.retryPending(entry, now)) {
+                final long until =
+                        Long.parseLong(
+                                entry.substring(LinkPreviewRules.RETRY_PREFIX.length()).trim());
+                Assert.assertTrue(entry, until > now);
+                Assert.assertTrue(entry, until - now <= LinkPreviewRules.RETRY_LATER_MS);
+            }
+        }
+    }
+
+    /** The fetch uses the table, and a cached retry entry is read as such. */
+    @Test
+    public void linkPreviewsUseTheRetryRules() throws Exception {
+        final File file =
+                new File(
+                        System.getProperty("user.dir"),
+                        "src/main/java/eu/siacs/conversations/ui/chatrix/LinkPreviews.java");
+        Assert.assertTrue("source not found at " + file, file.isFile());
+        final String source = new String(Files.readAllBytes(file.toPath()), StandardCharsets.UTF_8);
+        for (final String use :
+                new String[] {
+                    "LinkPreviewRules.retryAfterMillis(response.code())",
+                    "LinkPreviewRules.retryPending(content, System.currentTimeMillis())",
+                    "LinkPreviewRules.retryEntry(untilMillis)",
+                    "catch (final LinkPreviewRules.TryAgainLater e)"
+                }) {
+            Assert.assertTrue(use, source.contains(use));
+        }
+    }
+
     /** Independent reference: exactly four decimal parts 0-255, no leading zeros. */
     private static Integer strictIpv4(final String host) {
         final String[] parts = host.split("\\.", -1);

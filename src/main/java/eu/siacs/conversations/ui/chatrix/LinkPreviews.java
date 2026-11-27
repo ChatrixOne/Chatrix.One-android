@@ -111,6 +111,9 @@ public final class LinkPreviews {
             };
 
     private static final Preview NO_PREVIEW = new Preview("", "", "", null);
+
+    /** The server failed for now and the wait is not over: no preview, not kept in memory. */
+    private static final Preview NOT_YET = new Preview("", "", "", null);
     private static final AtomicBoolean OLD_CACHE_REMOVED = new AtomicBoolean(false);
     private static final AtomicBoolean CACHE_CLEARED = new AtomicBoolean(false);
 
@@ -353,10 +356,10 @@ public final class LinkPreviews {
             if (preview == null) {
                 preview = fetchAndStore(cacheDir, url, generation);
             }
-            if (preview != null && generation == GENERATION.get()) {
+            if (preview != null && preview != NOT_YET && generation == GENERATION.get()) {
                 MEMORY.put(url, preview);
             }
-            final Preview result = preview == NO_PREVIEW ? null : preview;
+            final Preview result = preview == NO_PREVIEW || preview == NOT_YET ? null : preview;
             final List<Callback> callbacks;
             synchronized (PENDING) {
                 callbacks = PENDING.remove(url);
@@ -375,7 +378,10 @@ public final class LinkPreviews {
         return Hashing.sha256().hashString(url, StandardCharsets.UTF_8).toString();
     }
 
-    /** Null if not on disk yet; {@link #NO_PREVIEW} if we already know there is no preview. */
+    /**
+     * Null if not on disk yet (or the wait after a server failure is over); {@link #NO_PREVIEW} if
+     * we already know there is no preview; {@link #NOT_YET} while the wait is not over.
+     */
     @Nullable
     private static Preview readDisk(final File dir, final String url) {
         final File text = new File(dir, key(url) + ".txt");
@@ -385,6 +391,11 @@ public final class LinkPreviews {
         try {
             final String content = Files.asCharSource(text, StandardCharsets.UTF_8).read();
             CacheLimit.touch(text); // used now: removed last when the cache is full
+            if (content.startsWith(LinkPreviewRules.RETRY_PREFIX)) {
+                return LinkPreviewRules.retryPending(content, System.currentTimeMillis())
+                        ? NOT_YET
+                        : null;
+            }
             if (content.startsWith(NONE)) {
                 return NO_PREVIEW;
             }
@@ -409,6 +420,15 @@ public final class LinkPreviews {
         Preview preview;
         try {
             preview = fetch(url);
+        } catch (final LinkPreviewRules.TryAgainLater e) {
+            Log.d(Config.LOGTAG, "link preview: " + e.getMessage());
+            synchronized (DISK) {
+                if (generation == GENERATION.get()) {
+                    storeRetry(dir, url, System.currentTimeMillis() + e.retryMillis);
+                    CACHE_LIMIT.afterWrite(dir);
+                }
+            }
+            return NOT_YET;
         } catch (final IOException e) {
             if (!Iterables.any(
                     Throwables.getCausalChain(e), LinkPreviewRules.NotPublic.class::isInstance)) {
@@ -456,6 +476,18 @@ public final class LinkPreviews {
         }
     }
 
+    private static void storeRetry(final File dir, final String url, final long untilMillis) {
+        if (!dir.isDirectory() && !dir.mkdirs()) {
+            return;
+        }
+        try {
+            Files.asCharSink(new File(dir, key(url) + ".txt"), StandardCharsets.UTF_8)
+                    .write(LinkPreviewRules.retryEntry(untilMillis));
+        } catch (final IOException e) {
+            Log.d(Config.LOGTAG, "could not cache link preview", e);
+        }
+    }
+
     private static Preview fetch(final String url) throws IOException {
         final HttpUrl original = HttpUrl.get(url);
         // through a proxy we cannot see where a request really goes: no preview (tried again
@@ -486,9 +518,14 @@ public final class LinkPreviews {
         try (Response response = CLIENT.newCall(request).execute()) {
             final ResponseBody body = response.body();
             final MediaType type = body.contentType();
-            if (!response.isSuccessful()
-                    || type == null
-                    || !type.subtype().toLowerCase(Locale.ROOT).contains("html")) {
+            if (!response.isSuccessful()) {
+                final long retry = LinkPreviewRules.retryAfterMillis(response.code());
+                if (retry > 0) {
+                    throw new LinkPreviewRules.TryAgainLater(response.code(), retry);
+                }
+                return NO_PREVIEW;
+            }
+            if (type == null || !type.subtype().toLowerCase(Locale.ROOT).contains("html")) {
                 return NO_PREVIEW;
             }
             finalUrl = response.request().url();

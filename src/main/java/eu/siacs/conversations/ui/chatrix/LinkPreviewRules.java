@@ -150,6 +150,62 @@ public final class LinkPreviewRules {
         }
     }
 
+    /** A server error, overload or timeout (408, 425, 429, 5xx): asked again after an hour. */
+    static final long RETRY_SOON_MS = 60L * 60 * 1000;
+
+    /** Refused (403, often a bot wall): rarely lifted soon, asked again after a day. */
+    static final long RETRY_LATER_MS = 24L * 60 * 60 * 1000;
+
+    /** Cache entry of a link whose server failed for now; the time follows (epoch ms). */
+    static final String RETRY_PREFIX = "\u0000retry ";
+
+    /**
+     * How long to wait before asking again after this unsuccessful HTTP answer; 0 if the answer
+     * is final (404, 410, 401, ...) and the link is remembered as having no preview.
+     *
+     * <p>Ultrareview 2026-11-26: every unsuccessful answer used to be final, so a site that was
+     * down for a moment never got a preview for that link.
+     */
+    static long retryAfterMillis(final int httpCode) {
+        if (httpCode == 408 || httpCode == 425 || httpCode == 429 || httpCode / 100 == 5) {
+            return RETRY_SOON_MS;
+        }
+        return httpCode == 403 ? RETRY_LATER_MS : 0;
+    }
+
+    static String retryEntry(final long untilMillis) {
+        return RETRY_PREFIX + untilMillis;
+    }
+
+    /**
+     * True while a cache entry from {@link #retryEntry} still says "not yet". A broken entry, or
+     * one further away than the longest wait (the clock was set back), has expired: the link is
+     * fetched again, so it can never get stuck.
+     */
+    static boolean retryPending(final String entry, final long nowMillis) {
+        if (!entry.startsWith(RETRY_PREFIX)
+                || entry.length() > RETRY_PREFIX.length() + 19) { // longer than any long
+            return false;
+        }
+        final long until;
+        try {
+            until = Long.parseLong(entry.substring(RETRY_PREFIX.length()).trim());
+        } catch (final NumberFormatException e) {
+            return false;
+        }
+        return until > nowMillis && until - nowMillis <= RETRY_LATER_MS;
+    }
+
+    /** The server failed for now ({@link #retryAfterMillis} > 0): no preview yet, nothing final. */
+    static final class TryAgainLater extends IOException {
+        final long retryMillis;
+
+        TryAgainLater(final int httpCode, final long retryMillis) {
+            super("HTTP " + httpCode + ", trying again later");
+            this.retryMillis = retryMillis;
+        }
+    }
+
     /** Refuses every connection to an address that is not public, before it is made. */
     static final class PublicOnlySockets extends SocketFactory {
 
