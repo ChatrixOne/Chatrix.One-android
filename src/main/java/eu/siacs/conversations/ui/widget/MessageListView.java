@@ -60,6 +60,8 @@ public class MessageListView extends ListView {
     private float downX;
     private float downY;
     private int downPosition = INVALID_POSITION;
+    // the message under the finger at ACTION_DOWN: the list may be rebuilt during a swipe
+    private Object downItem;
     private boolean candidate;
     private boolean swiping;
     private boolean thresholdReached;
@@ -152,9 +154,12 @@ public class MessageListView extends ListView {
                 downX = ev.getX();
                 downY = ev.getY();
                 downPosition = pointToPosition((int) downX, (int) downY);
+                downItem =
+                        downPosition == INVALID_POSITION ? null : getItemAtPosition(downPosition);
                 final float edge = EDGE_EXCLUSION_DP * density;
                 candidate =
                         downPosition != INVALID_POSITION
+                                && downItem != null
                                 && downX > edge
                                 && downX < getWidth() - edge;
             }
@@ -178,9 +183,10 @@ public class MessageListView extends ListView {
                 if (swiping) {
                     final boolean trigger = thresholdReached;
                     final Direction dir = direction;
-                    final int position = downPosition;
+                    final int position = touchedPosition();
                     resetSwipe(true);
-                    if (trigger) {
+                    downItem = null;
+                    if (trigger && position != INVALID_POSITION) {
                         gestureListener.onSwipe(position, dir);
                     }
                     return true;
@@ -196,9 +202,21 @@ public class MessageListView extends ListView {
         return super.dispatchTouchEvent(ev);
     }
 
+    /** Where the touched message is now, or INVALID_POSITION if it left the list. */
+    private int touchedPosition() {
+        return eu.siacs.conversations.ui.chatrix.SwipeTarget.find(
+                getCount(), this::getItemAtPosition, downPosition, downItem);
+    }
+
     private void startSwipe(final Direction direction, final MotionEvent ev) {
-        final Drawable icon = gestureListener.getSwipeIcon(downPosition, direction);
-        final View view = getChildAt(downPosition - getFirstVisiblePosition());
+        final int position = touchedPosition();
+        if (position == INVALID_POSITION) {
+            candidate = false;
+            return;
+        }
+        downPosition = position;
+        final Drawable icon = gestureListener.getSwipeIcon(position, direction);
+        final View view = getChildAt(position - getFirstVisiblePosition());
         if (icon == null || view == null) {
             candidate = false;
             return;
