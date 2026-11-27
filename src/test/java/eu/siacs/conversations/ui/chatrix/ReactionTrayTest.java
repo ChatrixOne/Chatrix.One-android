@@ -3,6 +3,7 @@ package eu.siacs.conversations.ui.chatrix;
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.content.Context;
+import androidx.core.app.NotificationCompat;
 import java.io.File;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
@@ -40,7 +41,7 @@ public class ReactionTrayTest {
 
     private void show(final String tag, final int id, final String group, final boolean summary) {
         final Notification notification =
-                new Notification.Builder(context, "test")
+                new NotificationCompat.Builder(context, "test")
                         .setSmallIcon(android.R.drawable.ic_dialog_info)
                         .setContentTitle(tag)
                         .setGroup(group)
