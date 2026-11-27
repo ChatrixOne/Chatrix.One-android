@@ -159,6 +159,22 @@ public final class LinkPreviews {
     }
 
     /**
+     * Marks the card as shown for this bind: a new token every time, also for the same link.
+     * Ultrareview 2026-11-26: the card only remembered the link, so the callback of a message
+     * that had left the reused row still applied (and hid the text of the new one).
+     */
+    static Object claim(final View card) {
+        final Object token = new Object();
+        card.setTag(token);
+        return token;
+    }
+
+    /** The row still shows the message this token was claimed for. */
+    static boolean stillShows(final View card, final Object token) {
+        return card.getTag() == token;
+    }
+
+    /**
      * Shows the card for the first web link of {@code message} if previews are on and the sender
      * may get one. The card stays hidden until the preview has loaded.
      */
@@ -185,7 +201,7 @@ public final class LinkPreviews {
         final String url = link[0];
         // a message that is only the link shows just the card, without the address
         final boolean linkOnly = message.getBody().trim().equals(link[1]);
-        card.setTag(url);
+        final Object token = claim(card);
         final File cacheDir = new File(context.getCacheDir(), CACHE_DIR);
         if (OLD_CACHE_REMOVED.compareAndSet(false, true)) {
             final File base = context.getCacheDir();
@@ -196,7 +212,7 @@ public final class LinkPreviews {
             });
         }
         get(cacheDir, url, preview -> {
-            if (preview != null && url.equals(card.getTag())) {
+            if (preview != null && stillShows(card, token)) {
                 show(card, body, preview, textColor, linkOnly);
             }
         });
