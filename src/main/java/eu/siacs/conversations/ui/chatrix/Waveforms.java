@@ -43,6 +43,9 @@ public final class Waveforms {
 
     private static final long TIMEOUT_US = 10_000;
 
+    /** Rounds without output (about 5 s at TIMEOUT_US) after which the decoder counts as quiet. */
+    private static final int MAX_IDLE_ROUNDS = 500;
+
     /** No file gets more decoding time than this, whatever it claims or contains. */
     private static final long MAX_DECODE_NANOS = TimeUnit.SECONDS.toNanos(10);
 
@@ -90,9 +93,12 @@ public final class Waveforms {
                         levels = readDiskCache(cacheDir, key);
                     }
                     if (levels == null && file.exists()) {
-                        levels = decode(file);
-                        if (levels != null) {
-                            writeDiskCache(cacheDir, key, levels);
+                        final Decoded decoded = decode(file);
+                        if (decoded != null) {
+                            levels = decoded.levels();
+                            if (decoded.finished()) { // a cut-short one is tried again next start
+                                writeDiskCache(cacheDir, key, levels);
+                            }
                         }
                     }
                     if (levels != null) {
@@ -157,9 +163,27 @@ public final class Waveforms {
         }
     }
 
+    /** Peak level per bin; {@code finished} false if decoding stopped before the end. */
+    private record Decoded(float[] levels, boolean finished) {}
+
+    /**
+     * Whether the decoder got through the whole file, so the waveform may be cached for good.
+     * Ultrareview 2026-11-26: one cut short by the time limit was cached as if complete, and a
+     * long voice message kept a waveform that turns flat (looks silent) partway through.
+     *
+     * @param outputDone the decoder reported the end (or passed the declared duration)
+     * @param inputDone all of the file was handed to the decoder
+     * @param outOfTime the time limit stopped it; otherwise the decoder went quiet (idle limit),
+     *     which after the last input is the end on decoders that never send the end flag
+     */
+    static boolean finished(
+            final boolean outputDone, final boolean inputDone, final boolean outOfTime) {
+        return outputDone || inputDone && !outOfTime;
+    }
+
     /** Peak level per bin, scaled so the loudest bin is 1. */
     @Nullable
-    private static float[] decode(final File file) {
+    private static Decoded decode(final File file) {
         final MediaExtractor extractor = new MediaExtractor();
         MediaCodec codec = null;
         try {
@@ -195,7 +219,7 @@ public final class Waveforms {
             boolean inputDone = false;
             boolean outputDone = false;
             int idle = 0;
-            while (!outputDone && idle < 500 && System.nanoTime() < deadline) {
+            while (!outputDone && idle < MAX_IDLE_ROUNDS && System.nanoTime() < deadline) {
                 if (!inputDone) {
                     final int in = codec.dequeueInputBuffer(TIMEOUT_US);
                     if (in >= 0) {
@@ -258,7 +282,9 @@ public final class Waveforms {
                 // square root keeps quiet parts visible next to loud ones
                 peaks[i] = (float) Math.sqrt(peaks[i] / max);
             }
-            return peaks;
+            // the loop ends at the end, at the idle limit, or else at the time limit
+            final boolean outOfTime = !outputDone && idle < MAX_IDLE_ROUNDS;
+            return new Decoded(peaks, finished(outputDone, inputDone, outOfTime));
         } catch (final Exception e) {
             Log.d(Config.LOGTAG, "could not decode waveform of " + file, e);
             return null;
