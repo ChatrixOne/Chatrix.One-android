@@ -25,6 +25,13 @@ import im.conversations.android.xmpp.IqErrorException;
  *
  * <p>Only the user's own server is contacted, never the push server itself: telling it to
  * unregister would send it the device ID again, also for people who never registered.
+ *
+ * <p>Known side effect, accepted (ultrareview 2026-11-26): without a node the server also drops
+ * the registrations of the account's other devices with that push server, e.g. Conversations
+ * with Google push on another phone. That phone gets no push wake-ups until its next login, when
+ * it registers again (upstream does that on every bind). Our own node is not known: upstream
+ * keeps it only in memory, and asking the push server for it would send it the device ID. Sent
+ * once per account, and only to people who switched Google push on in 2.21.4-cx1.1.
  */
 public final class GooglePushOff {
 
