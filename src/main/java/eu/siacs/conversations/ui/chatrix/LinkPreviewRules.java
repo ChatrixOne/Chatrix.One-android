@@ -156,8 +156,27 @@ public final class LinkPreviewRules {
     /** Refused (403, often a bot wall): rarely lifted soon, asked again after a day. */
     static final long RETRY_LATER_MS = 24L * 60 * 60 * 1000;
 
-    /** Cache entry of a link whose server failed for now; the time follows (epoch ms). */
+    /**
+     * Cache entry of a link that is not fetched again yet; the time follows (epoch ms). After a
+     * failure on the way ({@link #networkRetryEntry}) a space and the number of failures in a row
+     * follow too.
+     */
     static final String RETRY_PREFIX = "\u0000retry ";
+
+    /**
+     * After a failure on the way (the name does not resolve, TLS fails, timeout, reset): the first
+     * wait; it doubles with each failure in a row, up to {@link #NETWORK_MAX_WAIT_MS}.
+     *
+     * <p>Ultrareview 2026-11-27: nothing was stored after such a failure, so every redraw of the
+     * chat (each typing notice or receipt) fetched the dead link again. The wait is on disk, so an
+     * app restart does not end it; a fetch only ever starts when the message is on screen.
+     */
+    static final long NETWORK_FIRST_WAIT_MS = 5L * 60 * 1000;
+
+    static final long NETWORK_MAX_WAIT_MS = 60L * 60 * 1000;
+
+    /** Failures in a row are counted up to this; the wait reached its maximum long before. */
+    static final int MAX_FAILURES = 99;
 
     /**
      * How long to wait before asking again after this unsuccessful HTTP answer; 0 if the answer
@@ -173,27 +192,77 @@ public final class LinkPreviewRules {
         return httpCode == 403 ? RETRY_LATER_MS : 0;
     }
 
+    /** A server's "not now" ({@link #retryAfterMillis}). */
     static String retryEntry(final long untilMillis) {
         return RETRY_PREFIX + untilMillis;
     }
 
+    /** The wait after this many failures on the way in a row: 5, 10, 20, 40, 60, 60... minutes. */
+    static long networkWaitMillis(final int failures) {
+        // clamped first, so no count overflows; the cap is reached after 4 doublings
+        final int doublings = Math.max(1, Math.min(failures, 6)) - 1;
+        return Math.min(NETWORK_FIRST_WAIT_MS << doublings, NETWORK_MAX_WAIT_MS);
+    }
+
+    /** A failure on the way; {@code failures} counts this one too. */
+    static String networkRetryEntry(final long untilMillis, final int failures) {
+        return RETRY_PREFIX + untilMillis + ' ' + Math.max(1, Math.min(failures, MAX_FAILURES));
+    }
+
     /**
-     * True while a cache entry from {@link #retryEntry} still says "not yet". A broken entry, or
-     * one further away than the longest wait (the clock was set back), has expired: the link is
-     * fetched again, so it can never get stuck.
+     * The failures on the way in a row an entry has counted, also once its wait is over; 0 for
+     * any other entry (a preview, "no preview", a server's wait, a broken one).
+     */
+    static int networkFailures(@Nullable final String entry) {
+        final long[] parsed = parseRetry(entry);
+        return parsed == null ? 0 : (int) parsed[1];
+    }
+
+    /**
+     * True while a cache entry from {@link #retryEntry} or {@link #networkRetryEntry} still says
+     * "not yet". A broken entry, or one further away than its longest wait (the clock was set
+     * back), has expired: the link is fetched again, so it can never get stuck.
      */
     static boolean retryPending(final String entry, final long nowMillis) {
-        if (!entry.startsWith(RETRY_PREFIX)
-                || entry.length() > RETRY_PREFIX.length() + 19) { // longer than any long
+        final long[] parsed = parseRetry(entry);
+        if (parsed == null) {
             return false;
         }
-        final long until;
+        final long until = parsed[0];
+        final long longest = parsed[1] > 0 ? NETWORK_MAX_WAIT_MS : RETRY_LATER_MS;
+        return until > nowMillis && until - nowMillis <= longest;
+    }
+
+    /** {until, failures on the way (0: a server's wait)}, or null if not a valid retry entry. */
+    @Nullable
+    private static long[] parseRetry(@Nullable final String entry) {
+        if (entry == null
+                || !entry.startsWith(RETRY_PREFIX)
+                // longer than any long, a space and the largest count
+                || entry.length() > RETRY_PREFIX.length() + 19 + 1 + 2) {
+            return null;
+        }
+        final String rest = entry.substring(RETRY_PREFIX.length()).trim();
+        final int space = rest.indexOf(' ');
         try {
-            until = Long.parseLong(entry.substring(RETRY_PREFIX.length()).trim());
+            if (space < 0) {
+                return new long[] {Long.parseLong(rest), 0};
+            }
+            final String count = rest.substring(space + 1);
+            // ASCII digits only: Character.isDigit and parseInt also take other scripts' digits
+            if (count.isEmpty()
+                    || count.length() > 2
+                    || !count.chars().allMatch(c -> c >= '0' && c <= '9')) {
+                return null;
+            }
+            final int failures = Integer.parseInt(count);
+            if (failures < 1) {
+                return null;
+            }
+            return new long[] {Long.parseLong(rest.substring(0, space)), failures};
         } catch (final NumberFormatException e) {
-            return false;
+            return null;
         }
-        return until > nowMillis && until - nowMillis <= RETRY_LATER_MS;
     }
 
     /** The server failed for now ({@link #retryAfterMillis} > 0): no preview yet, nothing final. */

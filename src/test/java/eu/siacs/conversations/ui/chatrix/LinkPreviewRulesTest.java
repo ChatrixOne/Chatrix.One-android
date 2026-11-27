@@ -243,13 +243,96 @@ public class LinkPreviewRulesTest {
                 entry = LinkPreviewRules.retryEntry(now + random.nextLong() % (3 * 86_400_000L));
             }
             if (LinkPreviewRules.retryPending(entry, now)) {
-                final long until =
-                        Long.parseLong(
-                                entry.substring(LinkPreviewRules.RETRY_PREFIX.length()).trim());
+                final String[] parts =
+                        entry.substring(LinkPreviewRules.RETRY_PREFIX.length()).trim().split(" ");
+                final long until = Long.parseLong(parts[0]);
                 Assert.assertTrue(entry, until > now);
                 Assert.assertTrue(entry, until - now <= LinkPreviewRules.RETRY_LATER_MS);
+                if (parts.length > 1) {
+                    Assert.assertEquals(entry, 2, parts.length);
+                    Assert.assertTrue(entry, until - now <= LinkPreviewRules.NETWORK_MAX_WAIT_MS);
+                    final int failures = Integer.parseInt(parts[1]);
+                    Assert.assertTrue(entry, failures >= 1 && failures <= 99);
+                }
             }
         }
+    }
+
+    /** Ultrareview 2026-11-27: a failure on the way (DNS, TLS, timeout) waits, longer each time. */
+    @Test
+    public void networkWaitsDoubleUpToOneHour() {
+        final long min = 60_000;
+        Assert.assertEquals(5 * min, LinkPreviewRules.networkWaitMillis(1));
+        Assert.assertEquals(10 * min, LinkPreviewRules.networkWaitMillis(2));
+        Assert.assertEquals(20 * min, LinkPreviewRules.networkWaitMillis(3));
+        Assert.assertEquals(40 * min, LinkPreviewRules.networkWaitMillis(4));
+        Assert.assertEquals(60 * min, LinkPreviewRules.networkWaitMillis(5));
+        Assert.assertEquals(60 * min, LinkPreviewRules.networkWaitMillis(99));
+        Assert.assertEquals("no overflow", 60 * min, LinkPreviewRules.networkWaitMillis(64));
+        Assert.assertEquals(60 * min, LinkPreviewRules.networkWaitMillis(Integer.MAX_VALUE));
+        Assert.assertEquals(
+                "a broken count: the shortest", 5 * min, LinkPreviewRules.networkWaitMillis(0));
+        Assert.assertEquals(5 * min, LinkPreviewRules.networkWaitMillis(Integer.MIN_VALUE));
+    }
+
+    /** The entry holds until its time and keeps the count after that, for the next wait. */
+    @Test
+    public void aNetworkEntryHoldsAndCountsTheFailures() {
+        final long now = 1_800_000_000_000L;
+        for (int failures = 1; failures <= 6; failures++) {
+            final long wait = LinkPreviewRules.networkWaitMillis(failures);
+            final String entry = LinkPreviewRules.networkRetryEntry(now + wait, failures);
+            Assert.assertTrue(entry, LinkPreviewRules.retryPending(entry, now));
+            Assert.assertTrue(LinkPreviewRules.retryPending(entry, now + wait - 1));
+            Assert.assertFalse(
+                    "over: fetched again", LinkPreviewRules.retryPending(entry, now + wait));
+            Assert.assertEquals(failures, LinkPreviewRules.networkFailures(entry));
+        }
+        Assert.assertEquals(
+                "counted up to 99",
+                99,
+                LinkPreviewRules.networkFailures(LinkPreviewRules.networkRetryEntry(now, 1000)));
+        Assert.assertEquals(
+                1, LinkPreviewRules.networkFailures(LinkPreviewRules.networkRetryEntry(now, 0)));
+        for (final String other :
+                new String[] {
+                    LinkPreviewRules.retryEntry(now + 1000), // a server's wait starts over
+                    "\u0000none",
+                    "example.org\nA title",
+                    "",
+                    null
+                }) {
+            Assert.assertEquals(String.valueOf(other), 0, LinkPreviewRules.networkFailures(other));
+        }
+    }
+
+    /** Broken network entries, and one an hour away after the clock was set back, have expired. */
+    @Test
+    public void brokenOrFarNetworkEntriesHaveExpired() {
+        final long now = 1_800_000_000_000L;
+        final String prefix = LinkPreviewRules.RETRY_PREFIX;
+        final long soon = now + 1000;
+        for (final String entry :
+                new String[] {
+                    prefix + soon + " 0",
+                    prefix + soon + " 100",
+                    prefix + soon + " -1",
+                    prefix + soon + " +1",
+                    prefix + soon + " 1 2",
+                    prefix + soon + "  3",
+                    prefix + soon + " \u0663", // ARABIC-INDIC DIGIT THREE
+                    prefix + soon + " x",
+                    prefix + " 3",
+                    prefix + "soon 3",
+                    // the clock was set back
+                    prefix + (now + LinkPreviewRules.NETWORK_MAX_WAIT_MS + 1) + " 5",
+                    prefix + Long.MAX_VALUE + " 99",
+                }) {
+            Assert.assertFalse(entry, LinkPreviewRules.retryPending(entry, now));
+        }
+        Assert.assertTrue(
+                "the trailing space is trimmed",
+                LinkPreviewRules.retryPending(prefix + soon + " 3 ", now));
     }
 
     /** The fetch uses the table, and a cached retry entry is read as such. */
@@ -270,6 +353,51 @@ public class LinkPreviewRulesTest {
                 }) {
             Assert.assertTrue(use, source.contains(use));
         }
+    }
+
+    /**
+     * Ultrareview 2026-11-27: a failure on the way stores its wait (nothing was stored, so every
+     * redraw fetched the link again), the count comes from the entry before, and nothing is
+     * fetched offline.
+     */
+    @Test
+    public void linkPreviewsStoreTheNetworkWait() throws Exception {
+        final File file =
+                new File(
+                        System.getProperty("user.dir"),
+                        "src/main/java/eu/siacs/conversations/ui/chatrix/LinkPreviews.java");
+        Assert.assertTrue("source not found at " + file, file.isFile());
+        final String source = new String(Files.readAllBytes(file.toPath()), StandardCharsets.UTF_8);
+        final String fetchAndStore = part(source, "private static Preview fetchAndStore(");
+        final int io = fetchAndStore.indexOf("catch (final IOException e)");
+        final int store =
+                fetchAndStore.indexOf("storeNetworkRetry(dir, url, System.currentTimeMillis());");
+        final int notYet = fetchAndStore.indexOf("return NOT_YET;", io);
+        Assert.assertTrue(
+                "a failure on the way is stored", io >= 0 && store > io && notYet > store);
+        Assert.assertFalse("never forgotten at once", fetchAndStore.contains("return null;"));
+        final String network = part(source, "private static void storeNetworkRetry(");
+        Assert.assertTrue(network.contains("LinkPreviewRules.networkFailures(before) + 1"));
+        Assert.assertTrue(
+                network.contains(
+                        "nowMillis + LinkPreviewRules.networkWaitMillis(failures), failures"));
+        Assert.assertTrue("a bounded read", network.contains("text.length() <= 64"));
+        final String get = part(source, "private static void get(");
+        Assert.assertTrue(
+                "offline: no fetch",
+                get.contains(
+                        "online(context) ? fetchAndStore(cacheDir, url, generation) : NOT_YET;"));
+        Assert.assertEquals(1, source.split("fetchAndStore\\(cacheDir", -1).length - 1);
+        Assert.assertTrue(
+                part(source, "private static boolean online(")
+                        .contains("getHint() == NetworkManager.Hint.ACTIVE"));
+    }
+
+    private static String part(final String source, final String start) {
+        final int from = source.indexOf(start);
+        final int to = source.indexOf("\n    }\n", from);
+        Assert.assertTrue(start + " not found", from >= 0 && to > from);
+        return source.substring(from, to);
     }
 
     /** Independent reference: exactly four decimal parts 0-255, no leading zeros. */

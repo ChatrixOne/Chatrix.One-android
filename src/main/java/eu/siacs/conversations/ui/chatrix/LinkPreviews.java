@@ -35,6 +35,7 @@ import eu.siacs.conversations.Config;
 import eu.siacs.conversations.R;
 import eu.siacs.conversations.entities.Message;
 import eu.siacs.conversations.http.HttpConnectionManager;
+import eu.siacs.conversations.utils.NetworkManager;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -76,7 +77,8 @@ import org.json.JSONObject;
  * phone itself. The website line always names the host of the link a tap opens, so a page cannot
  * pose as another site. The page is read once (at most {@link #MAX_HTML_BYTES}), the result is
  * kept in memory and in the private app cache, so each link is fetched only once; the cache is
- * deleted when previews are turned off.
+ * deleted when previews are turned off. Nothing is fetched while the phone is offline, and after
+ * a failure the link waits before the next try (a fetch only starts when the message is shown).
  */
 public final class LinkPreviews {
 
@@ -213,7 +215,7 @@ public final class LinkPreviews {
                 }
             });
         }
-        get(cacheDir, url, preview -> {
+        get(context.getApplicationContext(), cacheDir, url, preview -> {
             if (preview != null && stillShows(card, token)) {
                 show(card, body, preview, textColor, linkOnly);
             }
@@ -371,7 +373,11 @@ public final class LinkPreviews {
         }
     }
 
-    private static void get(final File cacheDir, final String url, final Callback callback) {
+    private static void get(
+            final Context context,
+            final File cacheDir,
+            final String url,
+            final Callback callback) {
         final Preview cached = MEMORY.get(url);
         if (cached != null) {
             callback.onPreview(cached == NO_PREVIEW ? null : cached);
@@ -391,7 +397,8 @@ public final class LinkPreviews {
         EXECUTOR.execute(() -> {
             Preview preview = readDisk(cacheDir, url);
             if (preview == null) {
-                preview = fetchAndStore(cacheDir, url, generation);
+                // offline: no fetch, and nothing counts as failed; cached previews still show
+                preview = online(context) ? fetchAndStore(cacheDir, url, generation) : NOT_YET;
             }
             if (preview != null && preview != NOT_YET && generation == GENERATION.get()) {
                 MEMORY.put(url, preview);
@@ -411,12 +418,16 @@ public final class LinkPreviews {
         });
     }
 
+    private static boolean online(final Context context) {
+        return new NetworkManager(context).getHint() == NetworkManager.Hint.ACTIVE;
+    }
+
     private static String key(final String url) {
         return Hashing.sha256().hashString(url, StandardCharsets.UTF_8).toString();
     }
 
     /**
-     * Null if not on disk yet (or the wait after a server failure is over); {@link #NO_PREVIEW} if
+     * Null if not on disk yet (or the wait after a failure is over); {@link #NO_PREVIEW} if
      * we already know there is no preview; {@link #NOT_YET} while the wait is not over.
      */
     @Nullable
@@ -451,8 +462,11 @@ public final class LinkPreviews {
         }
     }
 
-    /** Null on a network error (offline, timeout): not cached, so it is tried again later. */
-    @Nullable
+    /**
+     * {@link #NOT_YET} after a failure: on the way (DNS, TLS, timeout), or the server's "not now".
+     * Both are kept on disk with their wait, so neither a redraw nor an app restart fetches the
+     * link again before the wait is over.
+     */
     private static Preview fetchAndStore(final File dir, final String url, final int generation) {
         Preview preview;
         try {
@@ -470,7 +484,13 @@ public final class LinkPreviews {
             if (!Iterables.any(
                     Throwables.getCausalChain(e), LinkPreviewRules.NotPublic.class::isInstance)) {
                 Log.d(Config.LOGTAG, "link preview failed: " + e.getMessage());
-                return null;
+                synchronized (DISK) {
+                    if (generation == GENERATION.get()) {
+                        storeNetworkRetry(dir, url, System.currentTimeMillis());
+                        CACHE_LIMIT.afterWrite(dir);
+                    }
+                }
+                return NOT_YET;
             }
             preview = NO_PREVIEW; // leads to an address that is not public: never again
         } catch (final RuntimeException | OutOfMemoryError | StackOverflowError e) {
@@ -514,12 +534,36 @@ public final class LinkPreviews {
     }
 
     private static void storeRetry(final File dir, final String url, final long untilMillis) {
+        writeEntry(dir, url, LinkPreviewRules.retryEntry(untilMillis));
+    }
+
+    /** One more failure on the way in a row: the wait is longer than the last one. */
+    private static void storeNetworkRetry(final File dir, final String url, final long nowMillis) {
+        final File text = new File(dir, key(url) + ".txt");
+        String before = null;
+        // our own small entry; anything longer is not a retry entry and counts as none
+        if (text.isFile() && text.length() <= 64) {
+            try {
+                before = Files.asCharSource(text, StandardCharsets.UTF_8).read();
+            } catch (final IOException e) {
+                Log.d(Config.LOGTAG, "could not read link preview entry", e);
+            }
+        }
+        final int failures = LinkPreviewRules.networkFailures(before) + 1;
+        writeEntry(
+                dir,
+                url,
+                LinkPreviewRules.networkRetryEntry(
+                        nowMillis + LinkPreviewRules.networkWaitMillis(failures), failures));
+    }
+
+    private static void writeEntry(final File dir, final String url, final String entry) {
         if (!dir.isDirectory() && !dir.mkdirs()) {
             return;
         }
         try {
             Files.asCharSink(new File(dir, key(url) + ".txt"), StandardCharsets.UTF_8)
-                    .write(LinkPreviewRules.retryEntry(untilMillis));
+                    .write(entry);
         } catch (final IOException e) {
             Log.d(Config.LOGTAG, "could not cache link preview", e);
         }
