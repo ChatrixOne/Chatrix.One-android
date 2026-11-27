@@ -63,6 +63,7 @@ import eu.siacs.conversations.ui.ConversationsActivity;
 import eu.siacs.conversations.ui.EditAccountActivity;
 import eu.siacs.conversations.ui.RtpSessionActivity;
 import eu.siacs.conversations.ui.chatrix.ReactionBurst;
+import eu.siacs.conversations.ui.chatrix.ReactionTray;
 import eu.siacs.conversations.utils.AccountUtils;
 import eu.siacs.conversations.utils.Compatibility;
 import eu.siacs.conversations.utils.GeoHelper;
@@ -1026,19 +1027,23 @@ public class NotificationService {
         return summary.build();
     }
 
+    // Chatrix.One: cancels by what the tray shows, not only by memory: after Android killed the
+    // app its notifications are still there, and cancelling the summary removes the whole group.
     public void clearReactions(final Conversation conversation) {
-        final boolean had;
         final boolean none;
         synchronized (reactionLines) {
-            had = reactionLines.remove(conversation.getUuid()) != null;
+            reactionLines.remove(conversation.getUuid());
             none = reactionLines.isEmpty();
         }
         reactionBurst.forget(conversation.getUuid());
-        if (had) {
-            cancel(conversation.getUuid(), REACTION_NOTIFICATION_ID);
-            if (none) {
-                cancel(REACTION_SUMMARY_NOTIFICATION_ID);
-            }
+        cancel(conversation.getUuid(), REACTION_NOTIFICATION_ID);
+        if (none
+                && !ReactionTray.showsOthers(
+                        mXmppConnectionService,
+                        REACTIONS_GROUP,
+                        conversation.getUuid(),
+                        REACTION_NOTIFICATION_ID)) {
+            cancel(REACTION_SUMMARY_NOTIFICATION_ID);
         }
     }
 
