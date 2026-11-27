@@ -11,6 +11,8 @@ import android.graphics.Paint;
 import android.net.Uri;
 import android.os.Handler;
 import android.os.Looper;
+import android.text.Spanned;
+import android.text.style.URLSpan;
 import android.util.Log;
 import android.util.LruCache;
 import android.view.View;
@@ -27,8 +29,6 @@ import com.google.common.collect.Iterables;
 import com.google.common.hash.Hashing;
 import com.google.common.io.ByteStreams;
 import com.google.common.io.Files;
-import de.gultsch.common.Linkify;
-import de.gultsch.common.MiniUri;
 import eu.siacs.conversations.AppSettings;
 import eu.siacs.conversations.BuildConfig;
 import eu.siacs.conversations.Config;
@@ -44,6 +44,8 @@ import java.net.ProxySelector;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
@@ -194,13 +196,13 @@ public final class LinkPreviews {
         if (settings.isUseTor()) {
             return;
         }
-        final String[] link = eligibleLink(message);
+        final ShownLink link = eligibleLink(message, body.getText());
         if (link == null) {
             return;
         }
-        final String url = link[0];
+        final String url = link.url();
         // a message that is only the link shows just the card, without the address
-        final boolean linkOnly = message.getBody().trim().equals(link[1]);
+        final boolean linkOnly = link.only();
         final Object token = claim(card);
         final File cacheDir = new File(context.getCacheDir(), CACHE_DIR);
         if (OLD_CACHE_REMOVED.compareAndSet(false, true)) {
@@ -218,27 +220,46 @@ public final class LinkPreviews {
         });
     }
 
-    /** {normalised url, url as written in the message}, or null. */
+    /** A link the bubble shows: the normalised url, and whether it is the whole text. */
+    record ShownLink(String url, boolean only) {}
+
     @Nullable
-    private static String[] eligibleLink(final Message message) {
+    private static ShownLink eligibleLink(final Message message, final CharSequence shown) {
         if (message.getStatus() == Message.STATUS_RECEIVED) {
             final var contact = message.getContact();
             if (contact == null || !contact.showInContactList()) {
                 return null;
             }
         }
-        final String body = message.getBody();
-        if (Strings.isNullOrEmpty(body)) {
+        return firstShownLink(shown);
+    }
+
+    /**
+     * The first https link of the text the bubble shows, as MessageAdapter linkified it
+     * (ultrareview 2026-11-26: scanning the whole stored body, up to 2 MB, on every bind made long
+     * messages jerky to scroll, and a link past the shown 4096 characters got a card). Reading the
+     * link spans costs no second scan, stays within upstream's display limit, and gives a card
+     * only for a link the user can see. The first https link decides: a local one means no card.
+     */
+    @Nullable
+    static ShownLink firstShownLink(@Nullable final CharSequence shown) {
+        if (!(shown instanceof Spanned spanned) || spanned.length() == 0) {
             return null;
         }
-        for (final MiniUri link : Linkify.getLinks(body)) {
-            final String scheme = Strings.nullToEmpty(link.getScheme()).toLowerCase(Locale.ROOT);
+        final URLSpan[] spans = spanned.getSpans(0, spanned.length(), URLSpan.class);
+        Arrays.sort(spans, Comparator.comparingInt(spanned::getSpanStart));
+        for (final URLSpan span : spans) {
+            final String raw = span.getURL();
             // plain http could be read and changed on the way: no preview for it
-            if (scheme.equals("https")) {
-                final HttpUrl url = HttpUrl.parse(link.getRaw());
-                return url == null || LinkPreviewRules.looksLocal(url.host())
-                        ? null
-                        : new String[] {url.toString(), link.getRaw()};
+            if (raw != null && raw.regionMatches(true, 0, "https:", 0, 6)) {
+                final HttpUrl url = HttpUrl.parse(raw);
+                if (url == null || LinkPreviewRules.looksLocal(url.host())) {
+                    return null;
+                }
+                final boolean only =
+                        spanned.getSpanStart(span) == 0
+                                && spanned.getSpanEnd(span) == spanned.length();
+                return new ShownLink(url.toString(), only);
             }
         }
         return null;
