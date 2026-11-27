@@ -1849,7 +1849,8 @@ public class ConversationFragment extends XmppFragment
                             new androidx.activity.result.contract.ActivityResultContracts
                                     .PickVisualMedia(),
                             this::onChatBackgroundPicked);
-    private Conversation chatBackgroundTarget;
+    private final eu.siacs.conversations.ui.chatrix.ChatBackgroundPick chatBackgroundPick =
+            new eu.siacs.conversations.ui.chatrix.ChatBackgroundPick();
 
     private void applyChatBackground() {
         if (binding == null) {
@@ -1892,7 +1893,7 @@ public class ConversationFragment extends XmppFragment
                             dialog.dismiss();
                             if (eu.siacs.conversations.ui.chatrix.ChatBackground.CUSTOM.equals(
                                     values[which])) {
-                                chatBackgroundTarget = c;
+                                chatBackgroundPick.picking(c.getUuid());
                                 pickChatBackground.launch(
                                         new androidx.activity.result.PickVisualMediaRequest
                                                         .Builder()
@@ -1924,9 +1925,8 @@ public class ConversationFragment extends XmppFragment
     }
 
     private void onChatBackgroundPicked(@Nullable final Uri uri) {
-        final var c = this.chatBackgroundTarget;
-        this.chatBackgroundTarget = null;
-        if (uri == null || c == null) {
+        final String uuid = chatBackgroundPick.takePicked();
+        if (uri == null || uuid == null) {
             return;
         }
         final var context = requireContext().getApplicationContext();
@@ -1937,7 +1937,7 @@ public class ConversationFragment extends XmppFragment
                                             context,
                                             uri,
                                             eu.siacs.conversations.ui.chatrix.ChatBackground.file(
-                                                    context, c.getUuid()));
+                                                    context, uuid));
                             final var activity = getActivity();
                             if (activity == null) {
                                 return;
@@ -1951,14 +1951,27 @@ public class ConversationFragment extends XmppFragment
                                                             Toast.LENGTH_LONG)
                                                     .show();
                                         } else if (isAdded()) {
-                                            setChatBackground(
-                                                    c,
-                                                    eu.siacs.conversations.ui.chatrix
-                                                            .ChatBackground.CUSTOM);
+                                            useSavedChatBackground(uuid);
                                         }
                                     });
                         })
                 .start();
+    }
+
+    /** The picture of this chat is saved: make it the chat's background, now or once connected. */
+    private void useSavedChatBackground(final String uuid) {
+        final var service = requireXmppActivity().xmppConnectionService;
+        if (service == null) {
+            chatBackgroundPick.waitForService(uuid);
+            return;
+        }
+        final var c = service.findConversationByUuid(uuid);
+        if (c == null) { // the chat was closed meanwhile: no stray file
+            //noinspection ResultOfMethodCallIgnored
+            eu.siacs.conversations.ui.chatrix.ChatBackground.file(requireContext(), uuid).delete();
+            return;
+        }
+        setChatBackground(c, eu.siacs.conversations.ui.chatrix.ChatBackground.CUSTOM);
     }
 
     // Chatrix.One: per-chat reaction notifications
@@ -3056,12 +3069,14 @@ public class ConversationFragment extends XmppFragment
                 outState.putParcelableArrayList(STATE_MEDIA_PREVIEWS, attachments);
             }
         }
+        chatBackgroundPick.save(outState);
         outState.putBoolean(
                 STATE_ATTACHMENT_CHOICE_SHOWING,
                 this.binding.attachmentChoices.getVisibility() == View.VISIBLE);
     }
 
     private void processSavedInstanceState(@NonNull final Bundle savedInstanceState) {
+        chatBackgroundPick.restore(savedInstanceState);
         final var uuid = savedInstanceState.getString(STATE_CONVERSATION_UUID);
         final ArrayList<Attachment> attachments =
                 savedInstanceState.getParcelableArrayList(STATE_MEDIA_PREVIEWS);
@@ -4328,6 +4343,10 @@ public class ConversationFragment extends XmppFragment
     @Override
     public void onBackendConnected() {
         Log.d(Config.LOGTAG, "ConversationFragment.onBackendConnected()");
+        final String chatBackgroundWaiting = chatBackgroundPick.takeWaiting();
+        if (chatBackgroundWaiting != null) {
+            useSavedChatBackground(chatBackgroundWaiting);
+        }
         String uuid = pendingConversationsUuid.pop();
         if (uuid != null) {
             if (!findAndReInitByUuidOrArchive(uuid)) {
