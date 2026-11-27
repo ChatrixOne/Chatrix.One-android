@@ -11,12 +11,18 @@ import android.graphics.PixelFormat;
 import android.graphics.RadialGradient;
 import android.graphics.Rect;
 import android.graphics.Shader;
+import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
+import android.os.Handler;
+import android.os.Looper;
 import android.util.DisplayMetrics;
 import android.util.Log;
+import android.util.LruCache;
+import android.view.View;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.VisibleForTesting;
 import androidx.core.content.ContextCompat;
 import androidx.exifinterface.media.ExifInterface;
 import androidx.preference.PreferenceManager;
@@ -30,6 +36,11 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.Map;
+import java.util.WeakHashMap;
+import java.util.concurrent.Executor;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 /** Chatrix.One: background behind the chat (soft green glow, plain, or the user's own picture). */
 public final class ChatBackground {
@@ -110,35 +121,68 @@ public final class ChatBackground {
         }
     }
 
-    /** Returns the drawable for the default setting, or null for the plain theme background. */
-    @Nullable
-    public static Drawable create(final Context context) {
-        return create(context, null);
+    /**
+     * Sets the background of this chat on its view: its own choice if it has one, otherwise the
+     * default from settings. Main thread only.
+     */
+    public static void apply(final View container, @Nullable final Conversation conversation) {
+        apply(
+                container,
+                conversation == null ? null : conversation.getUuid(),
+                conversation == null ? null : conversation.getChatrixBackground());
     }
 
     /**
-     * Returns the drawable for this chat: its own choice if it has one, otherwise the default
-     * from settings. Null means the plain theme background.
+     * A picture is never decoded on the main thread (ultrareview 2026-11-26: switching between
+     * two chats with their own pictures decoded a full-screen JPEG on every switch). A picture in
+     * {@link #PICTURES} is set at once; any other is decoded in the background while the plain
+     * window colour shows, and is set only if the view still waits for it, so a quick switch
+     * never puts one chat's picture behind another.
      */
-    @Nullable
-    public static Drawable create(final Context context, @Nullable final Conversation conversation) {
-        final String own = conversation == null ? null : conversation.getChatrixBackground();
+    static void apply(
+            final View container, @Nullable final String uuid, @Nullable final String own) {
+        final Context context = container.getContext();
+        final Object token = new Object();
+        WAITING.put(container, token);
         final boolean perChat = own != null;
         final String mode = perChat ? own : mode(context);
         final int windowBg = ContextCompat.getColor(context, R.color.chatrix_window_bg);
         final int accent = ContextCompat.getColor(context, R.color.chatrix_logo);
-        if (CUSTOM.equals(mode)) {
-            final Bitmap bitmap =
-                    load(file(context, perChat ? conversation.getUuid() : null));
-            if (bitmap != null) {
-                return new PictureDrawable(bitmap, windowBg, isNight(context));
-            }
-            return new GlowDrawable(windowBg, accent);
-        } else if (PLAIN.equals(mode)) {
-            return null;
-        } else {
-            return new GlowDrawable(windowBg, accent);
+        if (PLAIN.equals(mode)) {
+            container.setBackground(null);
+            return;
         }
+        final File file = file(context, perChat ? uuid : null);
+        if (!CUSTOM.equals(mode) || !file.isFile()) {
+            container.setBackground(new GlowDrawable(windowBg, accent));
+            return;
+        }
+        final boolean night = isNight(context);
+        final String path = file.getAbsolutePath();
+        final long stamp = file.lastModified();
+        final Picture cached = PICTURES.get(path);
+        if (cached != null && cached.stamp() == stamp) {
+            container.setBackground(new PictureDrawable(cached.bitmap(), windowBg, night));
+            return;
+        }
+        container.setBackground(new ColorDrawable(windowBg));
+        decoder.execute(
+                () -> {
+                    final Bitmap bitmap = decode(path, stamp);
+                    new Handler(Looper.getMainLooper())
+                            .post(
+                                    () -> {
+                                        if (WAITING.get(container) != token) {
+                                            return; // the view shows another chat by now
+                                        }
+                                        WAITING.remove(container);
+                                        container.setBackground(
+                                                bitmap != null
+                                                        ? new PictureDrawable(
+                                                                bitmap, windowBg, night)
+                                                        : new GlowDrawable(windowBg, accent));
+                                    });
+                });
     }
 
     private static boolean isNight(final Context context) {
@@ -205,38 +249,75 @@ public final class ChatBackground {
         }
     }
 
+    /** Decodes a saved picture and keeps it in {@link #PICTURES}. Null if it cannot be read. */
     @Nullable
-    private static Bitmap load(final File file) {
-        if (!file.exists()) {
-            return null;
+    private static Bitmap decode(final String path, final long stamp) {
+        final Picture cached = PICTURES.get(path);
+        if (cached != null && cached.stamp() == stamp) {
+            return cached.bitmap(); // decoded meanwhile for another view
         }
-        final long stamp = file.lastModified();
-        final String path = file.getAbsolutePath();
-        synchronized (ChatBackground.class) {
-            if (cached != null && cachedStamp == stamp && path.equals(cachedPath)) {
-                return cached;
-            }
-            try {
-                // pictures saved before the size limit can be far too big to draw
-                final BitmapFactory.Options bounds = new BitmapFactory.Options();
-                bounds.inJustDecodeBounds = true;
-                BitmapFactory.decodeFile(path, bounds);
-                final BitmapFactory.Options options = new BitmapFactory.Options();
-                options.inSampleSize =
-                        ImageBudget.fit(bounds.outWidth, bounds.outHeight, 1, MAX_PIXELS);
-                cached = BitmapFactory.decodeFile(path, options);
-                cachedStamp = stamp;
-                cachedPath = path;
-                return cached;
-            } catch (final OutOfMemoryError e) {
+        try {
+            // pictures saved before the size limit can be far too big to draw
+            final BitmapFactory.Options bounds = new BitmapFactory.Options();
+            bounds.inJustDecodeBounds = true;
+            BitmapFactory.decodeFile(path, bounds);
+            if (bounds.outWidth <= 0 || bounds.outHeight <= 0) {
                 return null;
             }
+            final BitmapFactory.Options options = new BitmapFactory.Options();
+            options.inSampleSize =
+                    ImageBudget.fit(bounds.outWidth, bounds.outHeight, 1, MAX_PIXELS);
+            final Bitmap bitmap = BitmapFactory.decodeFile(path, options);
+            if (bitmap != null) {
+                PICTURES.put(path, new Picture(stamp, bitmap));
+            }
+            return bitmap;
+        } catch (final OutOfMemoryError e) {
+            Log.w(Config.LOGTAG, "chat background too big to show", e);
+            return null;
+        } catch (final RuntimeException e) {
+            if (BuildConfig.DEBUG) {
+                throw e; // most likely our own bug: crash loudly while developing
+            }
+            Log.w(Config.LOGTAG, "could not show chat background", e);
+            return null;
         }
     }
 
-    private static Bitmap cached;
-    private static long cachedStamp;
-    private static String cachedPath;
+    private record Picture(long stamp, Bitmap bitmap) {}
+
+    /**
+     * Decoded pictures by file path, checked against the file's time (a new picture under the
+     * same name is decoded again). At most 1/8 of the app's memory and 64 MB: about 3 to 6
+     * screen-sized pictures.
+     */
+    private static final LruCache<String, Picture> PICTURES =
+            new LruCache<>((int) Math.min(Runtime.getRuntime().maxMemory() / 8, 64L << 20)) {
+                @Override
+                protected int sizeOf(final String path, final Picture picture) {
+                    return picture.bitmap().getAllocationByteCount();
+                }
+            };
+
+    /** The latest apply() per view: a decode that finishes after a newer apply is dropped. */
+    private static final Map<View, Object> WAITING = new WeakHashMap<>();
+
+    private static final ExecutorService DECODER =
+            Executors.newSingleThreadExecutor(
+                    r -> {
+                        final Thread t = new Thread(r, "chatrix-background-decode");
+                        t.setDaemon(true);
+                        return t;
+                    });
+
+    /** Where pictures are decoded; tests replace it. */
+    @VisibleForTesting static Executor decoder = DECODER;
+
+    @VisibleForTesting
+    static void forgetPictures() {
+        PICTURES.evictAll();
+        WAITING.clear();
+    }
 
     /** Soft emerald glow, like the chat mock-up on chatrix.one. */
     private static final class GlowDrawable extends Drawable {

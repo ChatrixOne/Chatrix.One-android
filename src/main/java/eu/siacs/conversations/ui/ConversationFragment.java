@@ -1856,9 +1856,8 @@ public class ConversationFragment extends XmppFragment
         if (binding == null) {
             return;
         }
-        binding.chatContainer.setBackground(
-                eu.siacs.conversations.ui.chatrix.ChatBackground.create(
-                        requireContext(), conversation));
+        eu.siacs.conversations.ui.chatrix.ChatBackground.apply(
+                binding.chatContainer, conversation);
     }
 
     private void chooseChatBackground() {
