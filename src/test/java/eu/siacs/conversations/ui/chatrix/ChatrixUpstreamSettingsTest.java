@@ -82,12 +82,15 @@ public class ChatrixUpstreamSettingsTest {
 
     @Test
     public void googlePushIsTurnedOffOncePerAccountAndOnlyIfItWasOn() {
-        Assert.assertFalse(GooglePushOff.needed(prefs, "account-1"));
+        // with the real SharedPreferences; the rules themselves: GooglePushGateTest
+        final var phone = java.util.List.of("a@example.org", "b@example.org");
+        Assert.assertFalse(GooglePushGate.needed(prefs, "account-1", "a@example.org", () -> phone));
         prefs.edit().putBoolean(AppSettings.GOOGLE_PUSH, true).commit();
-        Assert.assertTrue(GooglePushOff.needed(prefs, "account-1"));
-        GooglePushOff.markDone(prefs, "account-1");
-        Assert.assertFalse(GooglePushOff.needed(prefs, "account-1"));
-        Assert.assertTrue(GooglePushOff.needed(prefs, "account-2"));
+        Assert.assertTrue(GooglePushGate.needed(prefs, "account-1", "a@example.org", () -> phone));
+        GooglePushGate.markDone(prefs, "account-1", "a@example.org");
+        Assert.assertFalse(GooglePushGate.needed(prefs, "account-1", "a@example.org", () -> phone));
+        Assert.assertTrue(GooglePushGate.needed(prefs, "account-2", "b@example.org", () -> phone));
+        Assert.assertFalse(GooglePushGate.needed(prefs, "account-3", "c@example.org", () -> phone));
     }
 
     /**
