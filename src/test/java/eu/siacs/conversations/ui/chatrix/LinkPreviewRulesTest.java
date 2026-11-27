@@ -1,6 +1,9 @@
 package eu.siacs.conversations.ui.chatrix;
 
+import java.io.File;
 import java.net.InetAddress;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
 import java.net.InetSocketAddress;
 import java.net.Socket;
 import java.net.SocketException;
@@ -107,6 +110,85 @@ public class LinkPreviewRulesTest {
                 }) {
             Assert.assertFalse(host, LinkPreviewRules.looksLocal(host));
         }
+    }
+
+    /**
+     * Ultrareview 2026-11-26: Android reads only a.b.c.d as an address literal and sent these to
+     * DNS on the UI thread (NetworkOnMainThreadException, a crash whenever the chat was opened).
+     * Desktop Java reads "1.2.3" as 1.2.0.3, so the old code fails here too.
+     */
+    @Test
+    public void digitsAndDotsThatAreNoStrictAddressGetNoPreview() {
+        for (final String host :
+                new String[] {
+                    "1.2.3", "127.1", "8.8.8", "300.1.1.1", "1.2.3.4.5", "1.2.3.", ".1.2.3.4",
+                    "1..2.3", "08.8.8.8", "8.8.8.08", "1.2.3.256", "9999999999.1.1.1",
+                    "fe80::1%wlan0", "::ffff:1.2.3", "1:2:3"
+                }) {
+            Assert.assertTrue(host, LinkPreviewRules.looksLocal(host));
+        }
+    }
+
+    @Test
+    public void randomDigitsAndDotsMatchAStrictReading() {
+        final Random random = new Random(20261127);
+        final String alphabet = "0123456789.";
+        for (int i = 0; i < 200_000; i++) {
+            final StringBuilder host = new StringBuilder();
+            if (random.nextBoolean()) {
+                final int length = 1 + random.nextInt(18);
+                for (int j = 0; j < length; j++) {
+                    host.append(alphabet.charAt(random.nextInt(alphabet.length())));
+                }
+            } else { // address-like: 3 to 5 parts, sometimes too large or with a leading zero
+                final int parts = 3 + random.nextInt(3);
+                for (int j = 0; j < parts; j++) {
+                    host.append(j == 0 ? "" : ".").append(random.nextInt(8) == 0 ? "0" : "");
+                    host.append(random.nextInt(random.nextInt(8) == 0 ? 1000 : 256));
+                }
+            }
+            final Integer ip = strictIpv4(host.toString());
+            final boolean expected = ip == null || blocked(ip);
+            Assert.assertEquals(host.toString(), expected, LinkPreviewRules.looksLocal(host.toString()));
+        }
+    }
+
+    /** It runs on the UI thread: no way to a lookup, whatever the input. */
+    @Test
+    public void looksLocalNeverLooksAnythingUp() throws Exception {
+        final File file =
+                new File(
+                        System.getProperty("user.dir"),
+                        "src/main/java/eu/siacs/conversations/ui/chatrix/LinkPreviewRules.java");
+        Assert.assertTrue("source not found at " + file, file.isFile());
+        final String source = new String(Files.readAllBytes(file.toPath()), StandardCharsets.UTF_8);
+        final int start = source.indexOf("static boolean looksLocal(");
+        final int end = source.indexOf("static boolean isPublic(", start);
+        Assert.assertTrue("looksLocal not found", start >= 0 && end > start);
+        final String body = source.substring(start, end);
+        for (final String lookup : new String[] {"getByName", "getAllByName", "Dns", "resolve"}) {
+            Assert.assertFalse(lookup + " in looksLocal", body.contains(lookup));
+        }
+    }
+
+    /** Independent reference: exactly four decimal parts 0-255, no leading zeros. */
+    private static Integer strictIpv4(final String host) {
+        final String[] parts = host.split("\\.", -1);
+        if (parts.length != 4) {
+            return null;
+        }
+        int ip = 0;
+        for (final String part : parts) {
+            if (part.isEmpty() || part.length() > 3 || part.length() > 1 && part.charAt(0) == '0') {
+                return null;
+            }
+            final int value = Integer.parseInt(part);
+            if (value > 255) {
+                return null;
+            }
+            ip = ip << 8 | value;
+        }
+        return ip;
     }
 
     @Test

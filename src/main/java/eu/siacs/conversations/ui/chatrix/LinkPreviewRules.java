@@ -1,6 +1,7 @@
 package eu.siacs.conversations.ui.chatrix;
 
 import androidx.annotation.Nullable;
+import com.google.common.net.InetAddresses;
 import java.io.IOException;
 import java.net.InetAddress;
 import java.net.InetSocketAddress;
@@ -68,6 +69,12 @@ public final class LinkPreviewRules {
      * Quick check of the address as written, before any lookup: obvious local names and address
      * literals. Names such as fritz.box pass; {@link PublicOnlySockets} checks the address every
      * connection really goes to.
+     *
+     * <p>Runs on the UI thread (message list), so it must never look anything up. Not
+     * InetAddress.getByName: Android takes only a.b.c.d as a literal and sends "1.2.3", "127.1" or
+     * "300.1.1.1" to DNS, which throws NetworkOnMainThreadException (a crash on every opening of
+     * the chat). Guava's InetAddresses.forString never does a lookup (documented) and accepts only
+     * strict literals; anything else made of digits and dots gets no preview.
      */
     static boolean looksLocal(final String host) {
         final String h = host.toLowerCase(Locale.ROOT);
@@ -80,10 +87,13 @@ public final class LinkPreviewRules {
         if (!h.matches("[0-9.]+") && !h.contains(":")) {
             return false; // a name, not an address literal
         }
+        if (h.contains("%")) {
+            return true; // IPv6 with a scope (fe80::1%wlan0): only for the local network
+        }
         try {
-            return !isPublic(InetAddress.getByName(h)); // literal: no DNS lookup
-        } catch (final IOException e) {
-            return true;
+            return !isPublic(InetAddresses.forString(h));
+        } catch (final IllegalArgumentException e) {
+            return true; // not a strict literal: no preview, and no lookup
         }
     }
 
